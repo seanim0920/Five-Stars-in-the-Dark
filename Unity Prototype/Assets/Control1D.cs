@@ -52,7 +52,7 @@ public class Control1D : MonoBehaviour
         float viewxpos = Camera.main.WorldToViewportPoint(transform.position).x;
         if (Input.GetKey("left"))
         {
-            transform.position += Mathf.Min(movementSpeed, 0.07f) * new Vector3(-0.5f, 0, 0);
+            transform.position += Mathf.Max(movementSpeed, 0.3f) * new Vector3(-0.5f, 0, 0);
             if (viewxpos < 0)
             {
                 print("ahhhh");
@@ -61,7 +61,7 @@ public class Control1D : MonoBehaviour
         }
         if (Input.GetKey("right"))
         {
-            transform.position += Mathf.Max(movementSpeed, 0.07f) * new Vector3(0.5f, 0, 0);
+            transform.position += Mathf.Max(movementSpeed, 0.3f) * new Vector3(0.5f, 0, 0);
             if (viewxpos > 1)
             {
                 transform.position = new Vector3(Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x, transform.position.y, transform.position.z);
@@ -73,8 +73,8 @@ public class Control1D : MonoBehaviour
     {
         if (movementSpeed < neutralSpeed)
         {
-            movementSpeed *= 0.95f;
-            engineSound.pitch *= 0.95f;
+            movementSpeed *= 0.93f;
+            engineSound.pitch *= 0.93f;
         }
         else
         {

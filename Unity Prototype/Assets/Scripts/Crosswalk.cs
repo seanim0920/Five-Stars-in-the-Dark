@@ -9,9 +9,9 @@ public class Crosswalk : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        audioData = GetComponent<AudioSource>();
+        audioData = transform.GetChild(0).GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
-        StartCoroutine("PlayRepeating");
+        StartCoroutine(PlayRepeating());
     }
 
     IEnumerator PlayRepeating()
@@ -19,13 +19,13 @@ public class Crosswalk : MonoBehaviour
         // Start function WaitAndPrint as a coroutine
         while (true)
         {
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(15f);
+            tag = "Stop";
             sprite.color = new Color(1f, 0f, 0f, 0.5f);
-            //Debug.Log("new color is " + sprite.color);
             audioData.Play();
             yield return new WaitForSeconds(audioData.clip.length);
+            tag = "Go";
             sprite.color = new Color(0f, 1f, 0f, 0.5f);
-            yield return new WaitForSeconds(10f);
         }
     }
 

@@ -18,6 +18,7 @@ public class Audio1D : MonoBehaviour
     void Update()
     {
         if (!GetComponent<SpriteRenderer>().isVisible) { soundObj.volume = 0; return; }
+
         Vector3 viewPos = viewport.WorldToViewportPoint(transform.position);
         float xpos = (viewPos.x * 2f) - 1f;
         //print(viewPos.x);
@@ -26,7 +27,7 @@ public class Audio1D : MonoBehaviour
         float ypos = viewPos.y;
         //ranges from 1 (top of screen) to 0 (bottom of screen)
 
-        soundObj.panStereo = 1.5f*xpos*(1f-Mathf.Pow((ypos),4));
+        soundObj.panStereo = 2.5f*xpos*(1f-Mathf.Pow((ypos),4));
         if (ypos <= 0.25f)
         {
             soundObj.volume = (-(Mathf.Pow(4*ypos - 1, 4))) + 1;

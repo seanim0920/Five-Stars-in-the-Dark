@@ -10,7 +10,6 @@ public class Stoplight : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        NPC = Resources.Load<GameObject>("NPC");
         audioData = GetComponent<AudioSource>();
         StartCoroutine(PlayRepeating());
         //StartCoroutine("SpawnCar");

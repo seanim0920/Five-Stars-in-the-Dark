@@ -57,7 +57,7 @@ public class Reroute : MonoBehaviour
     }
     IEnumerator SpawnCars(Transform playerTransform)
     {
-        for (int i = 0; i < 4 - streets * 2; i++)
+        for (int i = 0; i < 4 - streets; i++)
         {
             float xpos = 4;
             int lane = Random.Range(0, 2);

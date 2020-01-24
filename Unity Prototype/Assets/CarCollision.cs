@@ -6,6 +6,7 @@ public class CarCollision : MonoBehaviour
 {
     private Rigidbody2D body;
     public AudioClip bump;
+    public GameObject hitsound;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +22,17 @@ public class CarCollision : MonoBehaviour
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Car")
-            AudioSource.PlayClipAtPoint(bump, col.gameObject.transform.position);
+        {
+            hitsound.transform.position = transform.position;
+            hitsound.GetComponent<AudioSource>().Play();
+        }
     }
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.tag == "Car")
-            AudioSource.PlayClipAtPoint(bump, col.gameObject.transform.position);
+        {
+            hitsound.transform.position = transform.position;
+            hitsound.GetComponent<AudioSource>().Play();
+        }
     }
 }

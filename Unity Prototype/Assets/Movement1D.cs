@@ -19,8 +19,8 @@ public class Movement1D : MonoBehaviour
     {
         if (SeesObstacle())
         {
-            movementSpeed *= 0.95f;
-            engineSound.pitch *= 0.95f;
+            movementSpeed *= 0.92f;
+            engineSound.pitch *= 0.92f;
         }
         else
         {
