@@ -21,8 +21,7 @@ public class ErrorTrigger : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        Debug.Log("color is " + sprite.color);
-        if (other.gameObject.tag == "Player" && sprite.color.r > 0) //checks color of object
+        if (other.gameObject.tag == "Stop")
         {
             errorSource.Play();
             CheckErrors.IncrementErrorsAndUpdateDisplay();
