@@ -5,7 +5,7 @@ using UnityEngine;
 public class CarCollision : MonoBehaviour
 {
     private Rigidbody2D body;
-    public AudioClip bump;
+    private AudioClip bump;
     public GameObject hitsound;
     // Start is called before the first frame update
     void Start()

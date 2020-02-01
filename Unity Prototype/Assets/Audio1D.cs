@@ -24,7 +24,7 @@ public class Audio1D : MonoBehaviour
         //print(viewPos.x);
         //ranges from -1 (left of screen) to +1 (right of screen)
         //we will also want to add depth in the future (how long the sound lasts before leaving to the left or right)
-        float ypos = viewPos.y;
+        float ypos = -Vector3.Distance(transform.position, viewport.gameObject.transform.position)/5 + 1;
         //ranges from 1 (top of screen) to 0 (bottom of screen)
 
         soundObj.panStereo = 2.5f*xpos*(1f-Mathf.Pow((ypos),4));

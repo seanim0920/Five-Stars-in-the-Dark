@@ -19,7 +19,7 @@ public class OnTriggerEnter : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (tag == "Stop")
+        if (tag == "Stop" && other.gameObject.tag == "Player")
         {
             warning.Play();
         }

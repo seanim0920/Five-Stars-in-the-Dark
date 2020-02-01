@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Movement1D : MonoBehaviour
 {
-    private float movementSpeed = 0.03f;
+    private float movementSpeed = 0.05f;
     private float maxSpeed = 0.1f;
-    private float neutralSpeed = 0.03f;
+    private float neutralSpeed = 0.05f;
     private float acceleration = 0.001f;
     private AudioSource engineSound;
     private float eyesight = 3;
@@ -21,15 +21,19 @@ public class Movement1D : MonoBehaviour
         {
             movementSpeed *= 0.92f;
             engineSound.pitch *= 0.92f;
+            if (engineSound.pitch < 0.1f)
+            {
+                engineSound.pitch = 0.1f;
+            }
         }
         else
         {
-            if (neutralSpeed - movementSpeed > 0.002f)
+            if (neutralSpeed > movementSpeed)
             {
                 movementSpeed += acceleration;
                 engineSound.pitch += acceleration / neutralSpeed;
             }
-            else if (neutralSpeed - movementSpeed < -0.002f)
+            else if (neutralSpeed < movementSpeed)
             {
                 movementSpeed -= acceleration;
                 engineSound.pitch -= acceleration / neutralSpeed;
@@ -37,7 +41,7 @@ public class Movement1D : MonoBehaviour
             else
             {
                 movementSpeed = neutralSpeed;
-                engineSound.pitch = 0.8f;
+                engineSound.pitch = 1f;
             }
         }
 

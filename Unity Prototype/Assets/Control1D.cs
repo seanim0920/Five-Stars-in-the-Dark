@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Control1D : MonoBehaviour
 {
-    private float movementSpeed = 0.03f;
+    private float movementSpeed = 0f;
     private float maxSpeed = 0.1f;
     private float neutralSpeed = 0.05f;
     private float acceleration = 0.001f;
@@ -34,11 +34,11 @@ public class Control1D : MonoBehaviour
         }
         else
         {
-            if (neutralSpeed - movementSpeed > 0.002f)
+            if (neutralSpeed > movementSpeed)
             {
                 speedUp();
             }
-            else if (movementSpeed - neutralSpeed > 0.002f)
+            else if (movementSpeed > neutralSpeed)
             {
                 slowDown();
             }
@@ -52,7 +52,7 @@ public class Control1D : MonoBehaviour
         float viewxpos = Camera.main.WorldToViewportPoint(transform.position).x;
         if (Input.GetKey("left"))
         {
-            transform.position += Mathf.Max(movementSpeed, 0.3f) * new Vector3(-0.5f, 0, 0);
+            transform.position += Mathf.Min(movementSpeed, 0.1f) * new Vector3(-0.5f, 0, 0);
             if (viewxpos < 0)
             {
                 print("ahhhh");
@@ -61,7 +61,7 @@ public class Control1D : MonoBehaviour
         }
         if (Input.GetKey("right"))
         {
-            transform.position += Mathf.Max(movementSpeed, 0.3f) * new Vector3(0.5f, 0, 0);
+            transform.position += Mathf.Min(movementSpeed, 0.1f) * new Vector3(0.5f, 0, 0);
             if (viewxpos > 1)
             {
                 transform.position = new Vector3(Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x, transform.position.y, transform.position.z);
