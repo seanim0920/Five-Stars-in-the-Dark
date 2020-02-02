@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class CheckErrors : MonoBehaviour
 {
-    public AudioClip errorInit;
-    public static AudioClip errorSound;
+    //public AudioClip errorInit;
+    //public static AudioClip errorSound;
     public static Transform player;
     public static Text errorText;
     private static GameObject lastCheckpoint;
@@ -17,20 +17,25 @@ public class CheckErrors : MonoBehaviour
     public static void IncrementErrorsAndUpdateDisplay()
     {
         errors++;
-        errorText.text = "Error(s): " + errors.ToString();
+        updateDisplay();
         //AudioSource.PlayClipAtPoint(errorSound, player.position);
     }
     // Start is called before the first frame update
     void Start()
     {
-        errorSound = errorInit;
+        //errorSound = errorInit;
         errors = 0;
         errorText = GameObject.Find("ErrorText").GetComponent<Text>();
-        errorText.text = "Error(s): " + errors.ToString();
+        updateDisplay();
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+    private static void updateDisplay()
+    {
+        errorText.text = "Number of Errors: " + errors.ToString();
     }
 }

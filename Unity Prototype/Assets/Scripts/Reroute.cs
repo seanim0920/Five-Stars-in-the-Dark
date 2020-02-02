@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Reroute : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Reroute : MonoBehaviour
     GameObject NPC;
     private AudioClip finish;
     private AudioClip wrong;
+    public static Text levelEndText;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,7 @@ public class Reroute : MonoBehaviour
         wrong = Resources.Load<AudioClip>("Audio/gpsrecalculating");
         audioData = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
+        levelEndText = GameObject.Find("LevelEndText").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -37,6 +40,7 @@ public class Reroute : MonoBehaviour
                 if (streets <= 0) {
                     audioData.clip = finish;
                     audioData.Play();
+                    levelEndText.text = "Level Complete\nNumber of Stars:";
                 }
                 streets -= 1;
                 print(streets);
@@ -47,7 +51,7 @@ public class Reroute : MonoBehaviour
                 audioData.Play();
             }
             TurnWarning.tag = "Left";
-            int direction = Random.Range(0, 2);
+            int direction = Random.Range(0, 3);
             if (direction == 1)
             {
                 TurnWarning.tag = "Right";

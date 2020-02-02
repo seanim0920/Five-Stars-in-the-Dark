@@ -25,6 +25,7 @@ public class CarCollision : MonoBehaviour
         {
             hitsound.transform.position = transform.position;
             hitsound.GetComponent<AudioSource>().Play();
+            CheckErrors.IncrementErrorsAndUpdateDisplay();
         }
     }
     void OnTriggerExit2D(Collider2D col)
