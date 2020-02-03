@@ -8,11 +8,8 @@ public class CheckErrors : MonoBehaviour
     //public AudioClip errorInit;
     //public static AudioClip errorSound;
     public static Transform player;
-    public static Text errorText;
-    private static GameObject lastCheckpoint;
-    private static string nextTurn;
+    private static Text errorText;
     private static int errors;
-    private Vector3 newPos;
 
     public static void IncrementErrorsAndUpdateDisplay()
     {
@@ -25,7 +22,7 @@ public class CheckErrors : MonoBehaviour
     {
         //errorSound = errorInit;
         errors = 0;
-        errorText = GameObject.Find("ErrorText").GetComponent<Text>();
+        errorText = GetComponent<Text>();
         updateDisplay();
     }
 

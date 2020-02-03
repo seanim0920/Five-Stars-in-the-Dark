@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Proximity : MonoBehaviour
 {
-    private float eyesight = 2;
+    private float eyesight = 2.5f;
     private float lastrecordeddistance = 2;
     public AudioSource beep;
     // Start is called before the first frame update

@@ -23,7 +23,7 @@ public class Control1D : MonoBehaviour
         transform.position += transform.up * movementSpeed;
         //print(movementSpeed);
 
-        print(neutralSpeed - movementSpeed);
+        //print(neutralSpeed - movementSpeed);
         if ((Input.GetKey("up")))
         {
             speedUp();
