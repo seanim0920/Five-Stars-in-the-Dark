@@ -12129,6 +12129,7 @@ GameObject:
   - component: {fileID: 760569810}
   - component: {fileID: 760569811}
   - component: {fileID: 760569813}
+  - component: {fileID: 760569815}
   m_Layer: 0
   m_Name: Car
   m_TagString: Player
@@ -12143,7 +12144,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 760569808}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c19bc8fdcbe485f4cae0c53e332843ec, type: 3}
   m_Name: 
@@ -12317,6 +12318,14 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!81 &760569815
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760569808}
+  m_Enabled: 1
 --- !u!212 &760569817
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12488,7 +12497,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 822172710}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &822172712
 Camera:
   m_ObjectHideFlags: 0
