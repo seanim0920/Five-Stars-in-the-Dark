@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Audio1D : MonoBehaviour
 {
+    private AudioMixer mixer;
+    //public AudioMixerGroup mixerGroup;
     private AudioSource soundObj;
     private Camera viewport;
     private float hearingDistance = 6;
@@ -13,32 +16,13 @@ public class Audio1D : MonoBehaviour
     {
         viewport = Camera.main;
         soundObj = GetComponent<AudioSource>();
+        mixer = Instantiate(soundObj.outputAudioMixerGroup.audioMixer);
+        //soundObj.outputAudioMixerGroup.audioMixer = mixer;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!GetComponent<SpriteRenderer>().isVisible) { soundObj.volume = 0; return; }
-
-        Vector3 viewPos = viewport.WorldToViewportPoint(transform.position);
-        float xpos = (viewPos.x * 2f) - 1f;
-        //print(viewPos.x);
-        //ranges from -1 (left of screen) to +1 (right of screen)
-        //we will also want to add depth in the future (how long the sound lasts before leaving to the left or right)
-        float ypos = -Vector3.Distance(transform.position, viewport.gameObject.transform.position)/hearingDistance + 1;
-        //ranges from 1 (top of screen) to 0 (bottom of screen)
-
-        soundObj.panStereo = 2.5f*xpos*(1f-Mathf.Pow((ypos),4));
-        if (ypos <= 0.25f)
-        {
-            soundObj.volume = (-(Mathf.Pow(4*ypos - 1, 4))) + 1;
-        }
-        else
-        {
-            soundObj.volume = -1.75f*(Mathf.Pow(ypos - 0.13f, 4)) + 1;
-        }
-        soundObj.volume += (-0.01f*Mathf.Pow(xpos, 20f));
-        //soundObj.volume = (-Mathf.Pow(xpos, 8f) + 0.3f*(Mathf.Pow(Mathf.Abs(ypos-1) - (ypos-1), 2)));
-        //if you wanted fadeout at the sides
+        mixer.SetFloat("PitchShift", ((1/(1+Mathf.Exp(3*(-transform.position.x+6))))+1) / soundObj.pitch);
     }
 }

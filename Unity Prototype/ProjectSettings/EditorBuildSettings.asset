@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/5th prototype.unity
     guid: 238dad49fc48c5f47830317b72d5129c
+  - enabled: 1
+    path: Assets/Scenes/EndScreen.unity
+    guid: 65a93b18106b8724c8d881c97bac8a87
   m_configObjects: {}

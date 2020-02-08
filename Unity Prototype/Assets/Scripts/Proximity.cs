@@ -15,16 +15,32 @@ public class Proximity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RaycastHit2D frontSight = Physics2D.Raycast(transform.position, transform.up, eyesight);
-        //Debug.DrawRay(transform.position, transform.up * eyesight, Color.green);
-        //print(hit.collider);
         beep.volume = 0;
+
+        float distance = eyesight;
+        RaycastHit2D frontSight = Physics2D.Raycast(transform.position, transform.up, eyesight);
         if (frontSight.collider && frontSight.collider.gameObject.tag == "Car")
         {
-            float distance = frontSight.collider.gameObject.transform.position.y - transform.position.y;
+            distance = frontSight.collider.gameObject.transform.position.y - transform.position.y;
+        }
+        RaycastHit2D rightSight = Physics2D.Raycast(transform.position + new Vector3(0.5f, 0, 0), transform.up, eyesight);
+        if (rightSight.collider && rightSight.collider.gameObject.tag == "Car")
+        {
+            float rightDistance = rightSight.collider.gameObject.transform.position.y - transform.position.y;
+            if (rightDistance < distance)
+                distance = rightDistance;
+        }
+        RaycastHit2D leftSight = Physics2D.Raycast(transform.position + new Vector3(-0.5f, 0, 0), transform.up, eyesight);
+        if (leftSight.collider && leftSight.collider.gameObject.tag == "Car")
+        {
+            float leftDistance = leftSight.collider.gameObject.transform.position.y - transform.position.y;
+            if (leftDistance < distance)
+                distance = leftDistance;
+        }
+        if (distance < eyesight)
+        {
             beep.volume = 1;
-            beep.pitch = 0.33f*Mathf.Pow(distance-3, 2) + 1f;
-            //beep.pitch = -(3/eyesight)*distance + 3 + 1;
+            beep.pitch = 0.33f * Mathf.Pow(distance - 3, 2) + 1f;
         }
     }
 

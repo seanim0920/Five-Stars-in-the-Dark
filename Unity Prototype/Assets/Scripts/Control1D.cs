@@ -53,18 +53,17 @@ public class Control1D : MonoBehaviour
         if (Input.GetKey("left"))
         {
             transform.position += Mathf.Min(movementSpeed, 0.1f) * new Vector3(-0.5f, 0, 0);
-            if (viewxpos < 0)
+            if (transform.position.x < 3.5f)
             {
-                print("ahhhh");
-                transform.position = new Vector3(Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x, transform.position.y, transform.position.z);
+                transform.position = new Vector3(3.5f, transform.position.y, transform.position.z);
             }
         }
         if (Input.GetKey("right"))
         {
             transform.position += Mathf.Min(movementSpeed, 0.1f) * new Vector3(0.5f, 0, 0);
-            if (viewxpos > 1)
+            if (transform.position.x > 8.5f)
             {
-                transform.position = new Vector3(Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x, transform.position.y, transform.position.z);
+                transform.position = new Vector3(8.5f, transform.position.y, transform.position.z);
             }
         }
     }

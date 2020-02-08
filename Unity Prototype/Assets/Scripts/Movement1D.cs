@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Movement1D : MonoBehaviour
 {
-    private float movementSpeed = 0.05f;
+    public float movementSpeed = 0.05f;
     private float maxSpeed = 0.1f;
     private float neutralSpeed = 0.05f;
     private float acceleration = 0.001f;
@@ -14,6 +14,7 @@ public class Movement1D : MonoBehaviour
     {
         engineSound = GetComponent<AudioSource>();
         StartCoroutine(SwitchLanes());
+        StartCoroutine(SpeedUp());
     }
     void Update()
     {
@@ -21,19 +22,15 @@ public class Movement1D : MonoBehaviour
         {
             movementSpeed *= 0.92f;
             engineSound.pitch *= 0.92f;
-            if (engineSound.pitch < 0.1f)
-            {
-                engineSound.pitch = 0.1f;
-            }
         }
         else
         {
-            if (neutralSpeed > movementSpeed)
+            if (neutralSpeed > movementSpeed + 0.02f)
             {
                 movementSpeed += acceleration;
                 engineSound.pitch += acceleration / neutralSpeed;
             }
-            else if (neutralSpeed < movementSpeed)
+            else if (neutralSpeed < movementSpeed - 0.02f)
             {
                 movementSpeed -= acceleration;
                 engineSound.pitch -= acceleration / neutralSpeed;
@@ -69,23 +66,53 @@ public class Movement1D : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(1.0f, 25.0f));
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, (new Vector3(5,transform.position.y + 1,0)) - transform.position, eyesight + 1);
+            int direction = Random.Range(0, 3);
+            int goal = 6;
+
+            if (direction == 0)
+            {
+                goal = 4;
+            }
+            if (direction == 1)
+            {
+                goal = 5;
+            }
+            if (direction == 2)
+            {
+                goal = 6;
+            }
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector3(goal, transform.position.y + movementSpeed, 0) - transform.position, eyesight + 1);
             if (hit.collider == null || (hit.collider.gameObject.tag == "Curb"))
             {
-                if (transform.position.x < 5)
+                while (goal - transform.position.x > 0.02f)
                 {
-                    while (transform.position.x < 6)
+                    RaycastHit2D check = Physics2D.Raycast(transform.position, new Vector3(goal, transform.position.y + movementSpeed, 0) - transform.position, eyesight + 1);
+                    if (check.collider == null || (check.collider.gameObject.tag == "Curb"))
                     {
-                        transform.position += new Vector3(0.05f, 0, 0);
-                        yield return new WaitForSeconds(0);
+                        transform.position += new Vector3(((goal - transform.position.x)/Mathf.Abs(goal - transform.position.x))*0.02f, 0, 0);
                     }
-                } else
+                    yield return null;
+                }
+            }
+
+            yield return new WaitForSeconds(Random.Range(0.0f, 3.0f));
+
+        }
+    }
+
+    IEnumerator SpeedUp()
+    {
+        //speed up at random
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(1.0f, 25.0f));
+
+            if (!SeesObstacle())
+            {
+                for (int i = 0; i < 120; i++)
                 {
-                    while (transform.position.x > 4)
-                    {
-                        transform.position -= new Vector3(0.05f, 0, 0);
-                        yield return new WaitForSeconds(0);
-                    }
+                    movementSpeed += acceleration;
+                    engineSound.pitch += acceleration / neutralSpeed;
                 }
             }
 

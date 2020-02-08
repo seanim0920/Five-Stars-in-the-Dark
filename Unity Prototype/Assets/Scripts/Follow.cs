@@ -16,6 +16,6 @@ public class Follow : MonoBehaviour
     {
         float xpos = 5;
 
-        transform.position = new Vector3(xpos, focus.position.y + 3, -0.3f);
+        transform.position = new Vector3(6, focus.position.y + 3, -0.3f);
     }
 }

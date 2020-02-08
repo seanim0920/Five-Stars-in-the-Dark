@@ -7,10 +7,10 @@ public class ProgressBar : MonoBehaviour
 {
     Slider scoreBar;
     // Start is called before the first frame update
-    float shakeAmount = 20;
+    float shakeAmount = 10;
     float shakeOffset = 0;
     float duration = 1f;
-    float score = 1f;
+    float score = Mathf.Exp(-CheckErrors.errors/3);
     float lerpTime = 0;
     RectTransform rect;
     void Start()
@@ -24,7 +24,7 @@ public class ProgressBar : MonoBehaviour
     void Update()
     {
         Debug.Log(lerpTime);
-        scoreBar.value = lerpTime;
+        scoreBar.value = lerpTime * score;
 
         Vector2 displacement = Quaternion.Euler(0, 0, Random.Range(0, 360)) * Vector2.right * shakeOffset;
         rect.anchoredPosition = Vector2.zero + displacement;
@@ -38,7 +38,7 @@ public class ProgressBar : MonoBehaviour
             //float lerpTime = Mathf.PingPong(Time.time, duration) / duration;
             //Debug.Log(lerpTime);
             //smooth interpolation dependso n smothness of time change
-            shakeOffset = Mathf.Lerp(shakeAmount, 0, scoreBar.value / score);
+            shakeOffset = Mathf.Lerp(shakeAmount, 0, lerpTime);
             yield return new WaitForSeconds(0);
         }
     }
