@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Reroute : MonoBehaviour
 {
     public GameObject TurnWarning;
-    public int streets = 0;
+    public int streets;
     AudioSource audioData;
     SpriteRenderer sprite;
     GameObject NPC;
     private AudioClip finish;
     private AudioClip wrong;
-    public static Text levelEndText;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +21,6 @@ public class Reroute : MonoBehaviour
         wrong = Resources.Load<AudioClip>("Audio/gpsrecalculating");
         audioData = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
-        levelEndText = GameObject.Find("LevelEndText").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -40,7 +39,9 @@ public class Reroute : MonoBehaviour
                 if (streets <= 0) {
                     audioData.clip = finish;
                     audioData.Play();
-                    levelEndText.text = "Level Complete\nNumber of Stars:";
+
+                    SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+                    SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
                 }
                 streets -= 1;
                 print(streets);
@@ -51,7 +52,7 @@ public class Reroute : MonoBehaviour
                 audioData.Play();
             }
             TurnWarning.tag = "Left";
-            int direction = Random.Range(0, 3);
+            int direction = Random.Range(0, 2);
             if (direction == 1)
             {
                 TurnWarning.tag = "Right";
@@ -61,15 +62,18 @@ public class Reroute : MonoBehaviour
     }
     IEnumerator SpawnCars(Transform playerTransform)
     {
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 2; i++)
         {
             float xpos = 4;
-            int lane = Random.Range(0, 2);
+            int lane = Random.Range(0, 3);
             if (lane == 1)
             {
                 xpos = 6;
+            } else if (lane == 2)
+            {
+                xpos = 8;
             }
-            GameObject car = Instantiate(NPC, new Vector3(xpos, playerTransform.position.y + 6, 0), Quaternion.identity);
+            GameObject car = Instantiate(NPC, new Vector3(xpos, playerTransform.position.y + Random.Range(6, 14), 0), Quaternion.identity);
             car.GetComponent<Movement1D>().setSpeed(Random.Range(0.01f, 0.1f));
             yield return new WaitForSeconds(Random.Range(0.1f, 3.0f));
         }

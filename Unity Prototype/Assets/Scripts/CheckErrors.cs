@@ -2,22 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CheckErrors : MonoBehaviour
 {
     //public AudioClip errorInit;
     //public static AudioClip errorSound;
     public static Transform player;
-    public static Text errorText;
-    private static GameObject lastCheckpoint;
-    private static string nextTurn;
-    private static int errors;
-    private Vector3 newPos;
+    private static Text errorText;
+    private static int maxErrors = 10;
+
+    public static int errors { get; set; }
 
     public static void IncrementErrorsAndUpdateDisplay()
     {
         errors++;
         updateDisplay();
+        if (errors > maxErrors)
+        {
+            SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        }
         //AudioSource.PlayClipAtPoint(errorSound, player.position);
     }
     // Start is called before the first frame update
@@ -25,7 +30,7 @@ public class CheckErrors : MonoBehaviour
     {
         //errorSound = errorInit;
         errors = 0;
-        errorText = GameObject.Find("ErrorText").GetComponent<Text>();
+        errorText = GetComponent<Text>();
         updateDisplay();
     }
 

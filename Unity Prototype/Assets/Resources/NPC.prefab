@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 7795314220772641599}
   - component: {fileID: 7795314220772641598}
   - component: {fileID: 7795314220772641597}
-  - component: {fileID: 7795314220772641596}
   - component: {fileID: 7795314220772641595}
   - component: {fileID: 7795314220772641569}
-  - component: {fileID: 7795314220772641568}
+  - component: {fileID: 126514374544957839}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Car
@@ -111,18 +110,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7795314220772641596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7795314220772641594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c19bc8fdcbe485f4cae0c53e332843ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &7795314220772641595
 AudioSource:
   m_ObjectHideFlags: 0
@@ -132,17 +119,18 @@ AudioSource:
   m_GameObject: {fileID: 7795314220772641594}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 0ebc35c83d499274fa65808db4662e1a,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: a9e71558c1af3ee43a481ce55f52f19a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 1
   Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
+  Spatialize: 1
+  SpatializePostEffects: 1
   Priority: 192
-  DopplerLevel: 1
+  DopplerLevel: 5
   MinDistance: 3
   MaxDistance: 6
   Pan2D: 0
@@ -179,7 +167,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -240,7 +228,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &7795314220772641568
+--- !u!114 &126514374544957839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -252,3 +240,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 505f10efd6d2afa409898c47b6d17932, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementSpeed: 0.05
