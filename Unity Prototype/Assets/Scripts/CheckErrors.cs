@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+<<<<<<< HEAD
 using UnityEngine;
+=======
+>>>>>>> origin/Ben
 using UnityEngine.SceneManagement;
 
 public class CheckErrors : MonoBehaviour

@@ -10,7 +10,11 @@ public class ProgressBar : MonoBehaviour
     float shakeAmount = 10;
     float shakeOffset = 0;
     float duration = 1f;
+<<<<<<< HEAD
     float score = Mathf.Exp(-CheckErrors.errors/3);
+=======
+    float score = Mathf.Exp(-CheckErrors.errors / 3);
+>>>>>>> origin/Ben
     float lerpTime = 0;
     RectTransform rect;
     void Start()
@@ -18,6 +22,20 @@ public class ProgressBar : MonoBehaviour
         scoreBar = GetComponentInChildren<Slider>();
         rect = GetComponent<RectTransform>();
         StartCoroutine(IncrementProgress());
+<<<<<<< HEAD
+=======
+        float scoreBonus = 0;
+        if (score > .6)
+        {
+            score = .6f;
+            scoreBonus = Mathf.Exp((-CountdownTimer.currentTime) / 6);
+            if(scoreBonus > .4)
+            {
+                scoreBonus = .4f;
+            }
+        }
+        score += scoreBonus;
+>>>>>>> origin/Ben
     }
 
     // Update is called once per frame
