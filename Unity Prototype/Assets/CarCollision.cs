@@ -11,6 +11,7 @@ public class CarCollision : MonoBehaviour
     void Start()
     {
         bump = Resources.Load<AudioClip>("Audio/hit");
+        // this is a test
     }
 
     // Update is called once per frame
