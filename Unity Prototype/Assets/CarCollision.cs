@@ -49,7 +49,7 @@ public class CarCollision : MonoBehaviour
             hitsound.GetComponent<AudioSource>().Play();
         }
 
-        PlayCollisionAudio(collision.gameObject.tag);
+        PlayCollisionAudio(col.gameObject.tag);
     }
     void OnTriggerExit2D(Collider2D col)
     {
