@@ -16,7 +16,7 @@ public class CharacterOnObjectCollision : MonoBehaviour
     void Start()
     {
         //gets the sounds from whatever gameobject this script is attached to
-        characterSounds = GetComponent<AudioSource>();
+        characterSounds = GetComponents<AudioSource>();
 
         //checks to see if there are at least 3 audio sources
         if(characterSounds.Length < 3)
@@ -45,6 +45,10 @@ public class CharacterOnObjectCollision : MonoBehaviour
         {
             //.Play() is the method that actually plays the sound. Most everything else will be done in editor.
             case "Pedestrain":
+                charOnPed.Play();
+                break;
+
+            case "Stop":
                 charOnPed.Play();
                 break;
 
