@@ -4,20 +4,14 @@ using UnityEngine;
 
 public class Stoplight : MonoBehaviour
 {
-    private AudioSource audioData;
-    private GameObject NPC;
-
     // Start is called before the first frame update
     void Start()
     {
-        audioData = GetComponent<AudioSource>();
         StartCoroutine(PlayRepeating());
-        //StartCoroutine("SpawnCar");
     }
 
     IEnumerator PlayRepeating()
     {
-        // Start function WaitAndPrint as a coroutine
         while (true)
         {
             tag = "Stop";
@@ -45,18 +39,6 @@ public class Stoplight : MonoBehaviour
             yield return new WaitForSeconds(4f);
         }
     }
-    //IEnumerator SpawnCar()
-    //{
-    //    // Start function WaitAndPrint as a coroutine
-    //    while (true)
-    //    {
-    //        GameObject car = Instantiate(NPC, transform.position + transform.up * 2, Quaternion.Euler(0, 0, 90));
-    //        car.GetComponent<Movement1D>().setSpeed(Random.Range(0.1f, 0.2f));
-    //        Destroy(car, 1.5f);
-    //        yield return new WaitForSeconds(Random.Range(1.0f, 2.0f));
-    //    }
-    //}
-
     // Update is called once per frame
     void Update()
     {

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7795314220772641597}
   - component: {fileID: 7795314220772641595}
   - component: {fileID: 7795314220772641569}
-  - component: {fileID: 126514374544957839}
+  - component: {fileID: 2142269955482109388}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Car
@@ -130,18 +130,9 @@ AudioSource:
   Spatialize: 1
   SpatializePostEffects: 1
   Priority: 192
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> origin/Ben
-  DopplerLevel: 5
-  MinDistance: 3
-  MaxDistance: 6
-=======
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 20
->>>>>>> origin/Thomas
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -237,7 +228,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &126514374544957839
+--- !u!114 &2142269955482109388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,7 +237,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7795314220772641594}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 505f10efd6d2afa409898c47b6d17932, type: 3}
+  m_Script: {fileID: 11500000, guid: de2de6031f65f904aa851e4b07d22f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 0.05
+  movementSpeed: 0.065

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class CountdownTimer : MonoBehaviour
 {
     private static Text timerText;
-    private static float levelCompleteTime = 120f;
+    private static float levelCompleteTime = 360f;
 
     public static float currentTime { get; set; }
     // Start is called before the first frame update

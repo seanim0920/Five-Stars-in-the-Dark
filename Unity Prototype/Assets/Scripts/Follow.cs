@@ -14,8 +14,6 @@ public class Follow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float xpos = 5;
-
         transform.position = new Vector3(6, focus.position.y + 3, -0.3f);
     }
 }

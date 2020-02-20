@@ -11,64 +11,40 @@ public class Control1D : MonoBehaviour
     private AudioSource engineSound;
     private Rigidbody2D body;
     private AudioClip bump;
+    private Vector3 movementDirection;
+    private int invalidDirection = 0;
     void Start()
     {
         engineSound = GetComponent<AudioSource>();
         body = GetComponent<Rigidbody2D>();
         bump = Resources.Load<AudioClip>("Audio/bumpend");
+        movementDirection = transform.up;
     }
     void Update()
     {
         // Discrete turn l/r 
-        transform.position += transform.up * movementSpeed;
+        transform.position += movementDirection * movementSpeed;
         //print(movementSpeed);
+    }
 
-        //print(neutralSpeed - movementSpeed);
-        if ((Input.GetKey("up")))
+    public void returnToNeutralSpeed()
+    {
+        if (neutralSpeed > movementSpeed)
         {
             speedUp();
         }
-        else if (Input.GetKey("down"))
+        else if (movementSpeed > neutralSpeed)
         {
             slowDown();
         }
         else
         {
-            if (neutralSpeed > movementSpeed)
-            {
-                speedUp();
-            }
-            else if (movementSpeed > neutralSpeed)
-            {
-                slowDown();
-            }
-            else
-            {
-                movementSpeed = neutralSpeed;
-                engineSound.pitch = 1;
-            }
-        }
-
-        float viewxpos = Camera.main.WorldToViewportPoint(transform.position).x;
-        if (Input.GetKey("left"))
-        {
-            transform.position += Mathf.Min(movementSpeed, 0.1f) * new Vector3(-0.5f, 0, 0);
-            if (transform.position.x < 3.5f)
-            {
-                transform.position = new Vector3(3.5f, transform.position.y, transform.position.z);
-            }
-        }
-        if (Input.GetKey("right"))
-        {
-            transform.position += Mathf.Min(movementSpeed, 0.1f) * new Vector3(0.5f, 0, 0);
-            if (transform.position.x > 8.5f)
-            {
-                transform.position = new Vector3(8.5f, transform.position.y, transform.position.z);
-            }
+            movementSpeed = neutralSpeed;
+            engineSound.pitch = 1;
         }
     }
 
-    void slowDown()
+    public void slowDown()
     {
         if (movementSpeed < neutralSpeed)
         {
@@ -81,16 +57,28 @@ public class Control1D : MonoBehaviour
             engineSound.pitch -= 0.005f;
         }
     }
-    void speedUp()
+    public void speedUp()
     {
         if (movementSpeed < maxSpeed)
         {
+            print("IT'S GOING");
             movementSpeed += acceleration;
             if (movementSpeed < neutralSpeed)
                 engineSound.pitch += acceleration / neutralSpeed;
             else
                 engineSound.pitch += 0.005f;
         }
+    }
+    public void blockDirection(int direction)
+    {
+        invalidDirection = direction;
+    }
+    public void strafe(float amount) //amount varies between -1 (steering wheel to the left) and 1 (steering wheel to the right)
+    {
+        //float objectSize = transform.localScale.magnitude / 2f;
+        //0.1 is how close it can get to the curb before autostop
+        if (invalidDirection / amount > 0) return;
+        transform.position += amount * 2 * movementSpeed * transform.right;
     }
     void OnTriggerEnter2D(Collider2D col)
     {
