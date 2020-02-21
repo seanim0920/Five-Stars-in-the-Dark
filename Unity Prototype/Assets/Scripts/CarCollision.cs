@@ -8,11 +8,12 @@ public class CarCollision : MonoBehaviour
     private AudioClip bump;
     public GameObject hitsound;
     private Control1D controlFunctions;
+
     // Start is called before the first frame update
     void Start()
     {
-        bump = Resources.Load<AudioClip>("Audio/hit");
         controlFunctions = GetComponent<Control1D>();
+        bump = Resources.Load<AudioClip>("Audio/hit");
     }
 
     // Update is called once per frame
@@ -29,7 +30,7 @@ public class CarCollision : MonoBehaviour
             hitsound.GetComponent<AudioSource>().Play();
             CheckErrors.IncrementErrorsAndUpdateDisplay();
         }
-        if (col.gameObject.tag == "Curb")
+        if (col.gameObject.tag == "Guardrail")
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 1f);
             if (hit.collider != null && hit.collider.gameObject.tag == "Curb")
@@ -49,7 +50,7 @@ public class CarCollision : MonoBehaviour
             hitsound.transform.position = transform.position;
             hitsound.GetComponent<AudioSource>().Play();
         }
-        if (col.gameObject.tag == "Curb")
+        if (col.gameObject.tag == "Guardrail")
         {
             controlFunctions.blockDirection(0);
         }
