@@ -18916,12 +18916,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4ba86515ddd983489a4a601c65fc266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &780354621 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5335357752361650033, guid: 474f5f86004cd3a4c89a3a8e8f0947ca,
-    type: 3}
-  m_PrefabInstance: {fileID: 715817246}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &822172710
 GameObject:
   m_ObjectHideFlags: 0
@@ -19604,7 +19598,6 @@ GameObject:
   - component: {fileID: 1520062715}
   - component: {fileID: 1520062714}
   - component: {fileID: 1520062713}
-  - component: {fileID: 1520062712}
   - component: {fileID: 1520062717}
   m_Layer: 0
   m_Name: Exit
@@ -19613,20 +19606,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1520062712
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1520062711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f90829487a7bd5b4494c07ed2e8ba3f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TurnWarning: {fileID: 780354621}
-  streets: 3
 --- !u!82 &1520062713
 AudioSource:
   m_ObjectHideFlags: 0
