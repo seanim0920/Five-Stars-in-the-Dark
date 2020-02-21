@@ -13,6 +13,7 @@ public class Control1D : MonoBehaviour
     private AudioClip bump;
     private Vector3 movementDirection;
     private int invalidDirection = 0;
+    private float waitTime = 30.0f;
     void Start()
     {
         engineSound = GetComponent<AudioSource>();
@@ -23,7 +24,14 @@ public class Control1D : MonoBehaviour
     void Update()
     {
         // Discrete turn l/r 
-        transform.position += movementDirection * movementSpeed;
+        if(waitTime > 0.0f)
+        {
+            waitTime -= 1 * Time.deltaTime;
+        }
+        else
+        {
+            transform.position += movementDirection * movementSpeed;
+        }
         //print(movementSpeed);
     }
 
