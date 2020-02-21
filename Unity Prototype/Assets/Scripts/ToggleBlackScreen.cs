@@ -4,7 +4,7 @@ public class ToggleBlackScreen : MonoBehaviour
 {
     [SerializeField]
     private GameObject blackScreen;
-    private bool isBlack = true;
+    private bool isBlack = false;
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.B))

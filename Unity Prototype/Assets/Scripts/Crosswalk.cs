@@ -10,7 +10,7 @@ public class Crosswalk : MonoBehaviour
     void Start()
     {
         audioData = transform.GetChild(0).GetComponent<AudioSource>();
-        sprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        sprite = GetComponent<SpriteRenderer>();
         StartCoroutine(PlayRepeating());
     }
 
@@ -19,14 +19,13 @@ public class Crosswalk : MonoBehaviour
         // Start function WaitAndPrint as a coroutine
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(5.0f, 12.0f));
+            yield return new WaitForSeconds(15f);
             tag = "Stop";
             sprite.color = new Color(1f, 0f, 0f, 0.5f);
             audioData.Play();
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(audioData.clip.length);
             tag = "Go";
             sprite.color = new Color(0f, 1f, 0f, 0.5f);
-            audioData.Stop();
         }
     }
 

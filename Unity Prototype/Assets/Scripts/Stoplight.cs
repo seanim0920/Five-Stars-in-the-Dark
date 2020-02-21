@@ -15,27 +15,25 @@ public class Stoplight : MonoBehaviour
         while (true)
         {
             tag = "Stop";
-            transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
-            transform.GetChild(1).GetComponent<AudioSource>().Stop();
-
-            transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = true;
-            transform.GetChild(2).GetComponent<AudioSource>().Play();
-            print("STOP NOW");
-            yield return new WaitForSeconds(7f);
-            print("GO NOW");
-            tag = "Go";
             transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
             transform.GetChild(2).GetComponent<AudioSource>().Stop();
 
             transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
             transform.GetChild(0).GetComponent<AudioSource>().Play();
-
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(8f);
+            tag = "Go";
             transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
             transform.GetChild(0).GetComponent<AudioSource>().Stop();
 
             transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
             transform.GetChild(1).GetComponent<AudioSource>().Play();
+
+            yield return new WaitForSeconds(5f);
+            transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+            transform.GetChild(1).GetComponent<AudioSource>().Stop();
+
+            transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = true;
+            transform.GetChild(2).GetComponent<AudioSource>().Play();
             yield return new WaitForSeconds(4f);
         }
     }
