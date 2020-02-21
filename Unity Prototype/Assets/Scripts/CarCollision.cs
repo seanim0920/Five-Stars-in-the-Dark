@@ -33,7 +33,7 @@ public class CarCollision : MonoBehaviour
         if (col.gameObject.tag == "Guardrail")
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 1f);
-            if (hit.collider != null && hit.collider.gameObject.tag == "Curb")
+            if (hit.collider != null && hit.collider.gameObject.tag == col.gameObject.tag)
             {
                 controlFunctions.blockDirection(1);
             } else

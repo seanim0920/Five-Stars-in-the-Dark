@@ -13,8 +13,8 @@ TagManager:
   - Right
   - Middle
   - Left
-  - Pedestrain
-  - Gaurdrail
+  - Guardrail
+  - Pedestrian
   layers:
   - Default
   - TransparentFX

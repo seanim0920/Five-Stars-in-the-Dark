@@ -66,7 +66,7 @@ public class Reroute : MonoBehaviour
                 xpos = 6;
             }
             GameObject car = Instantiate(NPC, new Vector3(xpos, playerTransform.position.y + 6, 0), Quaternion.identity);
-            car.GetComponent<Movement1D>().setSpeed(Random.Range(0.01f, 0.1f));
+            car.GetComponent<NPCMovement>().setSpeed(Random.Range(0.01f, 0.1f));
             yield return new WaitForSeconds(Random.Range(0.1f, 3.0f));
         }
     }
