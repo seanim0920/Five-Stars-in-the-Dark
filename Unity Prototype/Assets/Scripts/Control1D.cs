@@ -85,7 +85,7 @@ public class Control1D : MonoBehaviour
     {
         //float objectSize = transform.localScale.magnitude / 2f;
         //0.1 is how close it can get to the curb before autostop
-        if (invalidDirection / amount > 0) return;
+        if (invalidDirection / amount > 0 || waitTime > 0.0f) return;
         transform.position += amount * 2 * movementSpeed * transform.right;
     }
     void OnTriggerEnter2D(Collider2D col)

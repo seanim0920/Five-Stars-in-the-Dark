@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Reroute : MonoBehaviour
 {
     public GameObject TurnWarning;
-    public int streets = 0;
+    public int streets = 1;
     AudioSource audioData;
     SpriteRenderer sprite;
     GameObject NPC;
@@ -28,7 +29,7 @@ public class Reroute : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D col)
     {
-        col.gameObject.transform.position -= new Vector3(0, 90, 0);
+        col.gameObject.transform.position -= new Vector3(0, 180, 0);
         if (col.gameObject.tag == "Player")
         {
             if ((col.gameObject.transform.position.x < transform.position.x && TurnWarning.tag == "Left") ||
@@ -37,6 +38,8 @@ public class Reroute : MonoBehaviour
                 if (streets <= 0) {
                     audioData.clip = finish;
                     audioData.Play();
+                    SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+                    SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
                 }
                 streets -= 1;
                 print(streets);
@@ -52,10 +55,10 @@ public class Reroute : MonoBehaviour
             {
                 TurnWarning.tag = "Right";
             }
-            StartCoroutine(SpawnCars(col.gameObject.transform));
+            //StartCoroutine(SpawnCars(col.gameObject.transform));
         }
     }
-    IEnumerator SpawnCars(Transform playerTransform)
+    /*IEnumerator SpawnCars(Transform playerTransform)
     {
         for (int i = 0; i < 1; i++)
         {
@@ -69,5 +72,5 @@ public class Reroute : MonoBehaviour
             car.GetComponent<NPCMovement>().setSpeed(Random.Range(0.01f, 0.1f));
             yield return new WaitForSeconds(Random.Range(0.1f, 3.0f));
         }
-    }
+    }*/
 }
