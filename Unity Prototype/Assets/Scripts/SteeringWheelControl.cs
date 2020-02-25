@@ -48,7 +48,7 @@ public class SteeringWheelControl : MonoBehaviour
                 controlFunctions.returnToNeutralSpeed();
             }
 
-            controlFunctions.strafe(rec.lX/32768f);
+            controlFunctions.strafe(Mathf.Round((int)(500 * (rec.lX / 7000f))) / 500);
         }
         else if (!LogitechGSDK.LogiIsConnected(0))
         {
@@ -58,6 +58,15 @@ public class SteeringWheelControl : MonoBehaviour
         {
             actualState = "THIS WINDOW NEEDS TO BE IN FOREGROUND IN ORDER FOR THE SDK TO WORK PROPERLY";
         }
+    }
+    public void PlaySoftstopForce(int useableRange)
+    {
+        LogitechGSDK.LogiPlaySoftstopForce(0, useableRange);
+    }
+
+    public void StopSoftstopForce()
+    {
+        LogitechGSDK.LogiStopSoftstopForce(0);
     }
 
     void OnApplicationQuit()

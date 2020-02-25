@@ -13,12 +13,23 @@ public class Control1D : MonoBehaviour
     private AudioClip bump;
     private Vector3 movementDirection;
     private int invalidDirection = 0;
+    private float lastRecordedStrafe = 0;
+
+    public AudioSource wheelSound;
+    private AudioClip leftTurn;
+    private AudioClip rightTurn;
+
+    private SteeringWheelControl wheelFunctions;
     void Start()
     {
         engineSound = GetComponent<AudioSource>();
         body = GetComponent<Rigidbody2D>();
         bump = Resources.Load<AudioClip>("Audio/bumpend");
+        leftTurn = Resources.Load<AudioClip>("Audio/lowSqueak");
+        rightTurn = Resources.Load<AudioClip>("Audio/highSqueak");
         movementDirection = transform.up;
+
+        wheelFunctions = GetComponent<SteeringWheelControl>();
     }
     void Update()
     {
@@ -29,9 +40,10 @@ public class Control1D : MonoBehaviour
 
     public void returnToNeutralSpeed()
     {
-        if (neutralSpeed > movementSpeed)
+        if (Mathf.Abs(neutralSpeed - movementSpeed) < 0.01f)
         {
-            speedUp();
+            movementSpeed = neutralSpeed;
+            engineSound.pitch = 1;
         }
         else if (movementSpeed > neutralSpeed)
         {
@@ -39,8 +51,7 @@ public class Control1D : MonoBehaviour
         }
         else
         {
-            movementSpeed = neutralSpeed;
-            engineSound.pitch = 1;
+            speedUp();
         }
     }
 
@@ -61,7 +72,6 @@ public class Control1D : MonoBehaviour
     {
         if (movementSpeed < maxSpeed)
         {
-            print("IT'S GOING");
             movementSpeed += acceleration;
             if (movementSpeed < neutralSpeed)
                 engineSound.pitch += acceleration / neutralSpeed;
@@ -75,10 +85,43 @@ public class Control1D : MonoBehaviour
     }
     public void strafe(float amount) //amount varies between -1 (steering wheel to the left) and 1 (steering wheel to the right)
     {
-        //float objectSize = transform.localScale.magnitude / 2f;
-        //0.1 is how close it can get to the curb before autostop
-        if (invalidDirection / amount > 0) return;
-        transform.position += amount * 2 * movementSpeed * transform.right;
+        //plays squeaky noise when wheel turns left/right
+        if (amount < lastRecordedStrafe && !wheelSound.isPlaying)
+        {
+            wheelSound.clip = leftTurn;
+            wheelSound.Play();
+        }
+        else if (amount > lastRecordedStrafe && !wheelSound.isPlaying)
+        {
+            wheelSound.clip = rightTurn;
+            wheelSound.Play();
+        }
+        else
+        {
+            wheelSound.Stop();
+        }
+
+        //changes music depending on how far wheel is turned
+        //print(amount);
+        //engineSound.outputAudioMixerGroup.audioMixer.SetFloat("LowF", 19500*amount + 20000);
+        //engineSound.outputAudioMixerGroup.audioMixer.SetFloat("HighF", 1700 * amount);
+        engineSound.outputAudioMixerGroup.audioMixer.SetFloat("LowF", 20000*Mathf.Exp(3.689f*amount));
+        engineSound.outputAudioMixerGroup.audioMixer.SetFloat("HighF", 1*Mathf.Exp(7.438f*amount));
+
+        //wheelFunctions.PlaySoftstopForce(5);
+        //stops car from going too far left/right
+        if (invalidDirection / amount > 0)
+        {
+            print("HITTING RAIL" + amount);
+            wheelFunctions.PlaySoftstopForce(1);
+            return;
+        }
+        else { wheelFunctions.StopSoftstopForce(); }
+
+        //moves car left/right
+        transform.position += amount * movementSpeed * transform.right;
+
+        lastRecordedStrafe = amount;
     }
     void OnTriggerEnter2D(Collider2D col)
     {
