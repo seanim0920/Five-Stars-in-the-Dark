@@ -14,6 +14,7 @@ public class Control1D : MonoBehaviour
     private Vector3 movementDirection;
     private int invalidDirection = 0;
     private float lastRecordedStrafe = 0;
+    private float waitTime = 30.0f;
 
     public AudioSource wheelSound;
     private AudioClip leftTurn;
@@ -34,7 +35,14 @@ public class Control1D : MonoBehaviour
     void Update()
     {
         // Discrete turn l/r 
-        transform.position += movementDirection * movementSpeed;
+        if(waitTime > 0.0f)
+        {
+            waitTime -= 1 * Time.deltaTime;
+        }
+        else
+        {
+            transform.position += movementDirection * movementSpeed;
+        }
         //print(movementSpeed);
     }
 
@@ -122,6 +130,8 @@ public class Control1D : MonoBehaviour
         transform.position += amount * movementSpeed * transform.right;
 
         lastRecordedStrafe = amount;
+        if (invalidDirection / amount > 0 || waitTime > 0.0f) return;
+        transform.position += amount * 2 * movementSpeed * transform.right;
     }
     void OnTriggerEnter2D(Collider2D col)
     {

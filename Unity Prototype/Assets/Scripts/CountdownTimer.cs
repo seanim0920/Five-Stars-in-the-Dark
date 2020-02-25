@@ -8,6 +8,7 @@ public class CountdownTimer : MonoBehaviour
 {
     private static Text timerText;
     private static float levelCompleteTime = 360f;
+    private static float waitTime = 30.0f;
 
     public static float currentTime { get; set; }
     // Start is called before the first frame update
@@ -20,12 +21,21 @@ public class CountdownTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentTime -= 1 * Time.deltaTime;
         updateDisplay();
-        if (currentTime <= 0)
+        float time = 30.0f;
+        if(waitTime > 0.0f)
         {
-            SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
-            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+            waitTime -= 1 * Time.deltaTime;
+        }
+        else
+        {
+            currentTime -= 1 * Time.deltaTime;
+            updateDisplay();
+            if (currentTime <= 0)
+            {
+                SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+                SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+            }
         }
     }
 
