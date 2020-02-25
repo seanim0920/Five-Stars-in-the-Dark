@@ -93,6 +93,7 @@ public class Control1D : MonoBehaviour
     }
     public void strafe(float amount) //amount varies between -1 (steering wheel to the left) and 1 (steering wheel to the right)
     {
+        print(amount);
         //plays squeaky noise when wheel turns left/right
         if (amount < lastRecordedStrafe && !wheelSound.isPlaying)
         {
@@ -108,6 +109,8 @@ public class Control1D : MonoBehaviour
         {
             wheelSound.Stop();
         }
+        //print(lastRecordedStrafe);
+        lastRecordedStrafe = amount;
 
         //changes music depending on how far wheel is turned
         //print(amount);
@@ -120,7 +123,7 @@ public class Control1D : MonoBehaviour
         //stops car from going too far left/right
         if (invalidDirection / amount > 0)
         {
-            print("HITTING RAIL" + amount);
+            //print("HITTING RAIL" + amount);
             wheelFunctions.PlaySoftstopForce(1);
             return;
         }
@@ -129,9 +132,13 @@ public class Control1D : MonoBehaviour
         //moves car left/right
         transform.position += amount * movementSpeed * transform.right;
 
-        lastRecordedStrafe = amount;
         if (invalidDirection / amount > 0 || waitTime > 0.0f) return;
         transform.position += amount * 2 * movementSpeed * transform.right;
+    }
+
+    public float GetWheelAngle()
+    {
+        return lastRecordedStrafe * -442;
     }
     void OnTriggerEnter2D(Collider2D col)
     {

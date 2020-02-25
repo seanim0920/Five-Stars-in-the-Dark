@@ -11,8 +11,10 @@ public class CheckErrors : MonoBehaviour
     public static Text errorText;
     private static GameObject lastCheckpoint;
     private static string nextTurn;
-    private static int errors;
     private Vector3 newPos;
+
+    //set to public so it can be accessed from the end screen
+    public static int errors;
 
     public static void IncrementErrorsAndUpdateDisplay()
     {

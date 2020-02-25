@@ -22,42 +22,30 @@ public class SteeringWheelControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //All the test functions are called on the first device plugged in(index = 0)
-        if (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0))
+        //coefficientPercentage : specify the slope of the effect strength increase relative to the amount of deflection from the center of the condition. Higher values mean that the saturation level is reached sooner. Valid ranges are -100 to 100. Any value outside the valid range is silently clamped. -100 simulates a very slippery effect, +100 makes the wheel/joystick very hard to move, simulating the car at a stop or in mud.
+        //LogitechGSDK.LogiPlayDamperForce(0, 100);
+        //CONTROLLER STATE
+        actualState = "Steering wheel current state : \n\n";
+        LogitechGSDK.DIJOYSTATE2ENGINES rec;
+        rec = LogitechGSDK.LogiGetStateUnity(0);
+
+        actualState += "x-axis position :" + rec.lX + "\n";
+        actualState += "z-axis rotation :" + rec.lRz + "\n";
+        actualState += "extra axes positions 1 :" + rec.rglSlider[0] + "\n";
+
+        if (rec.lY < 0)
         {
-            //coefficientPercentage : specify the slope of the effect strength increase relative to the amount of deflection from the center of the condition. Higher values mean that the saturation level is reached sooner. Valid ranges are -100 to 100. Any value outside the valid range is silently clamped. -100 simulates a very slippery effect, +100 makes the wheel/joystick very hard to move, simulating the car at a stop or in mud.
-            LogitechGSDK.LogiPlayDamperForce(0, 100);
-            //CONTROLLER STATE
-            actualState = "Steering wheel current state : \n\n";
-            LogitechGSDK.DIJOYSTATE2ENGINES rec;
-            rec = LogitechGSDK.LogiGetStateUnity(0);
-
-            actualState += "x-axis position :" + rec.lX + "\n";
-            actualState += "z-axis rotation :" + rec.lRz + "\n";
-            actualState += "extra axes positions 1 :" + rec.rglSlider[0] + "\n";
-
-            if (rec.lY < 0)
-            {
-                controlFunctions.speedUp();
-            } else if (rec.lRz < 0)
-            {
-                controlFunctions.slowDown();
-            }
-            else
-            {
-                controlFunctions.returnToNeutralSpeed();
-            }
-
-            controlFunctions.strafe(Mathf.Round((int)(500 * (rec.lX / 7000f))) / 500);
-        }
-        else if (!LogitechGSDK.LogiIsConnected(0))
+            controlFunctions.speedUp();
+        } else if (rec.lRz < 0)
         {
-            actualState = "PLEASE PLUG IN A STEERING WHEEL OR A FORCE FEEDBACK CONTROLLER";
+            controlFunctions.slowDown();
         }
         else
         {
-            actualState = "THIS WINDOW NEEDS TO BE IN FOREGROUND IN ORDER FOR THE SDK TO WORK PROPERLY";
+            controlFunctions.returnToNeutralSpeed();
         }
+
+        controlFunctions.strafe(rec.lX / 32768f);
     }
     public void PlaySoftstopForce(int useableRange)
     {
