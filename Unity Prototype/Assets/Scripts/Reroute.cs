@@ -32,8 +32,8 @@ public class Reroute : MonoBehaviour
         col.gameObject.transform.position -= new Vector3(0, 180, 0);
         if (col.gameObject.tag == "Player")
         {
-            if ((col.gameObject.transform.position.x < transform.position.x && TurnWarning.tag == "Left") ||
-                (col.gameObject.transform.position.x >= transform.position.x && TurnWarning.tag == "Right")) {
+            //if ((col.gameObject.transform.position.x < transform.position.x && TurnWarning.tag == "Left") ||
+                //(col.gameObject.transform.position.x >= transform.position.x && TurnWarning.tag == "Right")) {
                 print("right trun");
                 if (streets <= 0) {
                     audioData.clip = finish;
@@ -43,12 +43,12 @@ public class Reroute : MonoBehaviour
                 }
                 streets -= 1;
                 print(streets);
-            } else
+            /*} else
             {
                 print("wrong trun");
                 audioData.clip = wrong;
                 audioData.Play();
-            }
+            }*/
             TurnWarning.tag = "Left";
             int direction = Random.Range(0, 2);
             if (direction == 1)
