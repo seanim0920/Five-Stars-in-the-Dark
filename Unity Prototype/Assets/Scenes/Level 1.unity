@@ -18527,6 +18527,11 @@ PrefabInstance:
       propertyPath: hitsound
       value: 
       objectReference: {fileID: 453158000}
+    - target: {fileID: 7463166643250568402, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: hitSoundObject
+      value: 
+      objectReference: {fileID: 453158000}
     - target: {fileID: 7463166643250568409, guid: f74e867e465b4404aae99e5cf594e41e,
         type: 3}
       propertyPath: m_Enabled
