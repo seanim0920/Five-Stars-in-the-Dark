@@ -22,7 +22,7 @@ public class Proximity : MonoBehaviour
         if (frontSight.collider && frontSight.collider.gameObject.tag == "Car")
         {
             float distance = frontSight.collider.gameObject.transform.position.y - transform.position.y;
-            beep.volume = 1;
+            beep.volume = 1 - (Mathf.Pow(distance/eyesight, 4));
             beep.pitch = 0.333f*Mathf.Pow(distance-3, 2) + 1;
             //beep.pitch = -(3/eyesight)*distance + 3 + 1;
         }

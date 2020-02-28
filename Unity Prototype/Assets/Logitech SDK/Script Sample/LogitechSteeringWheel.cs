@@ -12,7 +12,6 @@ public class LogitechSteeringWheel : MonoBehaviour
     private string buttonStatus;
     private string forcesLabel;
     string[] activeForceAndEffect;
-    private Control1D controlFunctions;
 
     // Use this for initialization
     void Start()

@@ -11,13 +11,14 @@ public class SteeringWheelControl : MonoBehaviour
     private string propertiesEdit;
     private string buttonStatus;
     private string forcesLabel;
-    private Control1D controlFunctions;
+    private PlayerControls controlFunctions;
     private KeyboardControl keyboardScript;
     string[] activeForceAndEffect;
     // Start is called before the first frame update
     void Start()
     {
-        controlFunctions = GetComponent<Control1D>();
+        LogitechGSDK.LogiSteeringInitialize(false);
+        controlFunctions = GetComponent<PlayerControls>();
         keyboardScript = GetComponent<KeyboardControl>();
     }
 
@@ -26,6 +27,7 @@ public class SteeringWheelControl : MonoBehaviour
     {
         if (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0))
         {
+            LogitechGSDK.LogiPlayDamperForce(0, 30);
             keyboardScript.enabled = false;
             //coefficientPercentage : specify the slope of the effect strength increase relative to the amount of deflection from the center of the condition. Higher values mean that the saturation level is reached sooner. Valid ranges are -100 to 100. Any value outside the valid range is silently clamped. -100 simulates a very slippery effect, +100 makes the wheel/joystick very hard to move, simulating the car at a stop or in mud.
             //LogitechGSDK.LogiPlayDamperForce(0, 100);

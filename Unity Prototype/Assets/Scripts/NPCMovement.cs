@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class NPCMovement : MonoBehaviour
 {
-    public float movementSpeed = 0.05f;
+    private float movementSpeed = 0f;
     private float maxSpeed = 0.1f;
-    private float neutralSpeed = 0.05f;
+    public float neutralSpeed = 0.05f;
     private float acceleration = 0.001f;
     private AudioSource engineSound;
     private float eyesight = 3;
@@ -15,11 +15,11 @@ public class NPCMovement : MonoBehaviour
     {
         engineSound = GetComponent<AudioSource>();
         StartCoroutine(SwitchLanes());
-        movementDirection = transform.up;
     }
     void Update()
     {
-        if (SeesObstacle(transform.up))
+        movementDirection = transform.up;
+        if (SeesObstacle(movementDirection))
         {
             movementSpeed *= 0.92f;
             engineSound.pitch *= 0.92f;

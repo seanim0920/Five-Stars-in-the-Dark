@@ -15,6 +15,7 @@ TagManager:
   - Left
   - Guardrail
   - Pedestrian
+  - Zone
   layers:
   - Default
   - TransparentFX

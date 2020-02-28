@@ -5,15 +5,14 @@ using UnityEngine;
 public class CarCollision : MonoBehaviour
 {
     private Rigidbody2D body;
-    private AudioClip bump;
     public GameObject hitsound;
-    private Control1D controlFunctions;
+    private PlayerControls controlFunctions;
+    public AudioSource guardAudio;
 
     // Start is called before the first frame update
     void Start()
     {
-        controlFunctions = GetComponent<Control1D>();
-        bump = Resources.Load<AudioClip>("Audio/hit");
+        controlFunctions = GetComponent<PlayerControls>();
     }
 
     // Update is called once per frame
@@ -26,20 +25,22 @@ public class CarCollision : MonoBehaviour
     {
         if (col.gameObject.tag == "Car")
         {
-            hitsound.transform.position = transform.position;
+            hitsound.transform.position = col.gameObject.transform.position;
             hitsound.GetComponent<AudioSource>().Play();
             CheckErrors.IncrementErrorsAndUpdateDisplay();
         }
         if (col.gameObject.tag == "Guardrail")
         {
+            guardAudio.Play();
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 1f);
             if (hit.collider != null && hit.collider.gameObject.tag == col.gameObject.tag)
             {
                 controlFunctions.blockDirection(1);
+                guardAudio.panStereo = 1;
             } else
             {
-                print("else");
                 controlFunctions.blockDirection(-1);
+                guardAudio.panStereo = -1;
             }
         }
     }
@@ -53,6 +54,7 @@ public class CarCollision : MonoBehaviour
         if (col.gameObject.tag == "Guardrail")
         {
             controlFunctions.blockDirection(0);
+            guardAudio.Stop();
         }
     }
 }

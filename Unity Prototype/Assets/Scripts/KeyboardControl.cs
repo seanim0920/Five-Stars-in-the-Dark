@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class KeyboardControl : MonoBehaviour
 {
-    private Control1D controlFunctions;
+    private PlayerControls controlFunctions;
     private float strafeAmount = 0;
     // Start is called before the first frame update
     void Start()
     {
-        controlFunctions = GetComponent<Control1D>();
+        controlFunctions = GetComponent<PlayerControls>();
     }
 
     // Update is called once per frame
@@ -29,6 +29,7 @@ public class KeyboardControl : MonoBehaviour
             controlFunctions.returnToNeutralSpeed();
         }
 
+        strafeAmount *= 0.97f;
         controlFunctions.strafe(strafeAmount);
 
         if (Input.GetKey("left") && strafeAmount > -0.98f)
