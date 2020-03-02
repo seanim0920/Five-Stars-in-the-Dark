@@ -1,16 +1,16 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DisplayScore : MonoBehaviour
+public class ProgressBar : MonoBehaviour
 {
     Slider scoreBar;
     // Start is called before the first frame update
     float shakeAmount = 10;
     float shakeOffset = 0;
     float duration = 1f;
-    float score = Mathf.Exp(-CheckErrors.errors / 3);
+    public static float score = Mathf.Exp(-CheckErrors.errors/3);
     float lerpTime = 0;
     RectTransform rect;
     void Start()
@@ -24,7 +24,7 @@ public class DisplayScore : MonoBehaviour
         {
             score = .6f;
             scoreBonus = Mathf.Exp((-CountdownTimer.currentTime) / 6);
-            if (scoreBonus > .4)
+            if(scoreBonus > .4)
             {
                 scoreBonus = .4f;
             }
