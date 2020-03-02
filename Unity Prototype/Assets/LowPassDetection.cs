@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class LowPassDetection : MonoBehaviour
 {
-    public AudioSource leftSource;
-    public AudioSource rightSource;
+    public AudioMixer leftSource;
+    public AudioMixer rightSource;
     private float maxFrequency = 20000;
     private float minFrequency = 400;
     private float hearingDistance = 2f;
@@ -22,12 +23,10 @@ public class LowPassDetection : MonoBehaviour
     void Update()
     {
         //set neutral parameters
-        rightSource.outputAudioMixerGroup.audioMixer.SetFloat("LowF", maxFrequency);
-        rightSource.outputAudioMixerGroup.audioMixer.SetFloat("HighF", 0);
-        rightSource.outputAudioMixerGroup.audioMixer.SetFloat("Volume", 0);
-        leftSource.outputAudioMixerGroup.audioMixer.SetFloat("LowF", maxFrequency);
-        leftSource.outputAudioMixerGroup.audioMixer.SetFloat("HighF", 0);
-        leftSource.outputAudioMixerGroup.audioMixer.SetFloat("Volume", 0);
+        rightSource.SetFloat("LowF", maxFrequency);
+        rightSource.SetFloat("Volume", 0);
+        leftSource.SetFloat("LowF", maxFrequency);
+        leftSource.SetFloat("Volume", 0);
 
         RaycastHit2D leftEar = Physics2D.Raycast(transform.position, -transform.right, hearingDistance);
         RaycastHit2D rightEar = Physics2D.Raycast(transform.position, transform.right, hearingDistance);
@@ -35,17 +34,17 @@ public class LowPassDetection : MonoBehaviour
         {
             float distance = (leftEar.point - (Vector2)transform.position).magnitude;
             print(distance);
-            leftSource.outputAudioMixerGroup.audioMixer.SetFloat("LowF", (minFrequency + (((maxFrequency-minFrequency)/(Mathf.Pow((hearingDistance - minDistance), sharpness)))*Mathf.Pow((distance-minDistance), sharpness))));
-            leftSource.outputAudioMixerGroup.audioMixer.SetFloat("Volume", maxVolume+(-maxVolume/Mathf.Pow(hearingDistance, 2))*Mathf.Pow(distance, 2));
-            rightSource.outputAudioMixerGroup.audioMixer.SetFloat("HighF", (minFrequency*3) + ((-minFrequency*3) / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
+            leftSource.SetFloat("LowF", (minFrequency + (((maxFrequency-minFrequency)/(Mathf.Pow((hearingDistance - minDistance), sharpness)))*Mathf.Pow((distance-minDistance), sharpness))));
+            leftSource.SetFloat("Volume", maxVolume+(-maxVolume/Mathf.Pow(hearingDistance, 2))*Mathf.Pow(distance, 2));
+            rightSource.SetFloat("HighF", (minFrequency*3) + ((-minFrequency*3) / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
         }
         if (rightEar.collider && rightEar.collider.gameObject.tag != "Zone")
         {
             float distance = (rightEar.point - (Vector2)transform.position).magnitude;
             print(distance);
-            rightSource.outputAudioMixerGroup.audioMixer.SetFloat("LowF", (minFrequency + (((maxFrequency - minFrequency) / (Mathf.Pow((hearingDistance - minDistance), sharpness))) * Mathf.Pow((distance - minDistance), sharpness))));
-            rightSource.outputAudioMixerGroup.audioMixer.SetFloat("Volume", maxVolume + (-maxVolume / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
-            leftSource.outputAudioMixerGroup.audioMixer.SetFloat("HighF", (minFrequency * 3) + ((-minFrequency * 3) / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
+            rightSource.SetFloat("LowF", (minFrequency + (((maxFrequency - minFrequency) / (Mathf.Pow((hearingDistance - minDistance), sharpness))) * Mathf.Pow((distance - minDistance), sharpness))));
+            rightSource.SetFloat("Volume", maxVolume + (-maxVolume / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
+            leftSource.SetFloat("HighF", (minFrequency * 3) + ((-minFrequency * 3) / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
         }
     }
 }

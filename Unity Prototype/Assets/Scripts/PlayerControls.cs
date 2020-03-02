@@ -24,6 +24,8 @@ public class PlayerControls : MonoBehaviour
     public AudioMixer radio;
 
     private SteeringWheelControl wheelFunctions;
+    public AudioMixer slowinstruments;
+
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
@@ -46,6 +48,8 @@ public class PlayerControls : MonoBehaviour
             transform.position += movementDirection * movementSpeed;
         }
         //print(movementSpeed);
+
+//        slowinstruments.SetFloat("DrumsVolume", movementSpeed/maxSpeed);
     }
 
     public void returnToNeutralSpeed()
