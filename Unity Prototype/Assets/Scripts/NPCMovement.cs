@@ -22,29 +22,29 @@ public class NPCMovement : MonoBehaviour
         if (SeesObstacle(movementDirection))
         {
             movementSpeed *= 0.92f;
-            engineSound.pitch *= 0.92f;
+            //engineSound.pitch *= 0.92f;
         }
         else if (SeesObstacle(transform.right))
         {
             movementSpeed += acceleration;
-            engineSound.pitch += acceleration / neutralSpeed;
+            //engineSound.pitch += acceleration / neutralSpeed;
         }
         else
         {
             if (neutralSpeed > movementSpeed + 0.02f)
             {
                 movementSpeed += acceleration;
-                engineSound.pitch += acceleration / neutralSpeed;
+                //engineSound.pitch += acceleration / neutralSpeed;
             }
             else if (neutralSpeed < movementSpeed - 0.02f)
             {
                 movementSpeed -= acceleration;
-                engineSound.pitch -= acceleration / neutralSpeed;
+                //engineSound.pitch -= acceleration / neutralSpeed;
             }
             else
             {
                 movementSpeed = neutralSpeed;
-                engineSound.pitch = 1f;
+                //engineSound.pitch = 1f;
             }
         }
 

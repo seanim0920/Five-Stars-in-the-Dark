@@ -1,27 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!244 &-4146273781908510234
-AudioMixerEffectController:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_EffectID: 729f152c58ec9a64ba9eeb37d3cb9891
-  m_EffectName: Compressor
-  m_MixLevel: f55c9cdfb6f0bf14a896eb6caf567104
-  m_Parameters:
-  - m_ParameterName: Threshold
-    m_GUID: 4ef3929f6916cb14a81dd31b03a95321
-  - m_ParameterName: Attack
-    m_GUID: 4f158d321916b5145976d48da7cc729f
-  - m_ParameterName: Release
-    m_GUID: cfb1b585cd0439e47b4653082a5fbe85
-  - m_ParameterName: Make up gain
-    m_GUID: 8412f47fa1d0685478d4f891eb9dfd52
-  m_SendTarget: {fileID: 0}
-  m_EnableWetMix: 0
-  m_Bypass: 1
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -29,7 +7,7 @@ AudioMixerController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LeftEar
-  m_OutputGroup: {fileID: 0}
+  m_OutputGroup: {fileID: 24300002, guid: 961766320f41ea048aaec203f1dc0330, type: 2}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
   - {fileID: 24500006}
@@ -67,7 +45,6 @@ AudioMixerGroupController:
   - {fileID: 24400004}
   - {fileID: 4965796286688778468}
   - {fileID: 1066645338190132504}
-  - {fileID: -4146273781908510234}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -102,6 +79,7 @@ AudioMixerSnapshotController:
     dce13d7245b95744d903e53acf08b958: 1
     0b3b44b2a38d0cd46b8d5ca3f0bfab59: 16
     7118f8d29d48d444fa37133e1681dd66: 1
+    3991a50333ed6c14bb2c6a9db4b8312b: 0.819
     cfb1b585cd0439e47b4653082a5fbe85: 50
     21eebaa56da484544a7ddc1a93de9b0c: 0
     c0f3c5565f6b7c744ae5c20056e6943d: 22000

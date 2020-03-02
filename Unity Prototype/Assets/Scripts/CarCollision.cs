@@ -6,18 +6,21 @@ public class CarCollision : MonoBehaviour
 {
     private Rigidbody2D body;
     private PlayerControls controlFunctions;
+    private SteeringWheelControl wheelFunctions;
 
     public GameObject hitSoundObject;
     //collision sounds
     AudioSource[] characterSounds;
     AudioSource charOnPed;
     AudioSource charOnGuard;
-    AudioSource charOnCar;
+    public AudioSource charOnCar;
+    string[] obstacleTags = { "Curb", "Guardrail", "Pedestrian", "Stop" };
 
     // Start is called before the first frame update
     void Start()
     {
         controlFunctions = GetComponent<PlayerControls>();
+        wheelFunctions = GetComponent<SteeringWheelControl>();
 
         //gets the sounds from whatever gameobject this script is attached to
         characterSounds = GetComponents<AudioSource>();
@@ -31,7 +34,7 @@ public class CarCollision : MonoBehaviour
         //Remember to ask Sound to start all collision audio with CoX, where X is C, G, or P depending on what is being crashed into
         charOnPed = ComponentAudioSearch('P');
         charOnGuard = ComponentAudioSearch('G');
-        charOnCar = ComponentAudioSearch('C');
+        //charOnCar = ComponentAudioSearch('C');
     }
 
     // Update is called once per frame
@@ -42,11 +45,15 @@ public class CarCollision : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
+        if (System.Array.IndexOf(obstacleTags, col.gameObject.tag) != -1)
+        {
+            CheckErrors.IncrementErrorsAndUpdateDisplay();
+        }
         if (col.gameObject.tag == "Car")
         {
             hitSoundObject.transform.position = col.gameObject.transform.position;
-            charOnCar.Play();
-            CheckErrors.IncrementErrorsAndUpdateDisplay();
+            hitSoundObject.GetComponent<AudioSource>().Play();
+            wheelFunctions.PlayFrontCollisionForce();
         }
         if (col.gameObject.tag == "Pedestrian" || col.gameObject.tag == "Stop")
         {
@@ -71,12 +78,16 @@ public class CarCollision : MonoBehaviour
     {
         if (col.gameObject.tag == "Car")
         {
-            charOnCar.Play();
+            //charOnCar.Play();
         }
         if (col.gameObject.tag == "Guardrail")
         {
             controlFunctions.blockDirection(0);
             charOnGuard.Stop();
+        }
+        if (col.gameObject.tag == "Stop")
+        {
+            CheckErrors.IncrementErrorsAndUpdateDisplay();
         }
     }
 
