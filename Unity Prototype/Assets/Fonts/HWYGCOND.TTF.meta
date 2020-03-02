@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b79ba55f003001d45a26b82803bfb92b
+guid: aaf4e516eaf23c146a0334c8e9f950c1
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -11,7 +11,8 @@ TrueTypeFontImporter:
   fontName: Highway Gothic Condensed
   fontNames:
   - Highway Gothic Condensed
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b79ba55f003001d45a26b82803bfb92b, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

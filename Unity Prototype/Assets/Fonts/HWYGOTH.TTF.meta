@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: eeae21996f8ff9e42a4bb994abb8ed80
+guid: 7f887ad700e1fd14a9f0714b85fa21b9
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -11,7 +11,8 @@ TrueTypeFontImporter:
   fontName: Highway Gothic
   fontNames:
   - Highway Gothic
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: eeae21996f8ff9e42a4bb994abb8ed80, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1
