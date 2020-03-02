@@ -21,8 +21,8 @@ public class TimeSpent : MonoBehaviour
     {
 		remainder = CountdownTimer.currentTime;
         if(((120 - remainder)%60) > 9)		
-			time.text = "TIME: 0" + Mathf.Floor(((120 - remainder)/60)) + ":" + ((120 - remainder)%60);
+			time.text = "TIME: 0" + Mathf.Floor(((120 - remainder)/60)) + ":" + Mathf.Floor(((120 - remainder)%60));
 		else
-			time.text = "TIME: 0" + Mathf.Floor(((120 - remainder)/60)) + ":0" + ((120 - remainder)%60);
+			time.text = "TIME: 0" + Mathf.Floor(((120 - remainder)/60)) + ":0" + Mathf.Floor(((120 - remainder)%60));
     }
 }

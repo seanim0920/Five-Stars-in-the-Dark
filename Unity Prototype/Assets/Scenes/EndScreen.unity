@@ -828,7 +828,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Friendliness       '
+  m_Text: THANKS FOR PLAYING
 --- !u!222 &218626617
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1000,7 +1000,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &285138139
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1369,7 +1369,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &432480587
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1864,7 +1864,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &556029922
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2213,7 +2213,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -108.8, y: -94.8}
+  m_AnchoredPosition: {x: -108.8, y: -64.6}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &599035873
@@ -4074,7 +4074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1451953850
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4692,7 +4692,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1782652965
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5264,6 +5264,7 @@ GameObject:
   - component: {fileID: 1999682702}
   - component: {fileID: 1999682704}
   - component: {fileID: 1999682703}
+  - component: {fileID: 1999682705}
   m_Layer: 5
   m_Name: Stat2
   m_TagString: Untagged
@@ -5321,7 +5322,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Time Bonus
+  m_Text: 'FINAL SCORE: 5/5'
 --- !u!222 &1999682704
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5330,6 +5331,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999682701}
   m_CullTransparentMesh: 0
+--- !u!114 &1999682705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999682701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9613e7faf61aef140a9908c8eb76241d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2014019021
 GameObject:
   m_ObjectHideFlags: 0
@@ -5347,7 +5360,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2014019022
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5471,7 +5484,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Low Violations '
+  m_Text: FIVE STARS IN THE DARK
 --- !u!222 &2022313718
 CanvasRenderer:
   m_ObjectHideFlags: 0
