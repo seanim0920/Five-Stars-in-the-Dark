@@ -3024,6 +3024,7 @@ GameObject:
   - component: {fileID: 738527298}
   - component: {fileID: 738527297}
   - component: {fileID: 738527299}
+  - component: {fileID: 738527300}
   m_Layer: 5
   m_Name: Instructions Panel
   m_TagString: Untagged
@@ -3112,6 +3113,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &738527300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738527295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82615f14681f9d64cbbec4dc19f5ff57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboardControls: {fileID: 364496932}
+  wheelControls: {fileID: 1143312368}
 --- !u!1 &765225440
 GameObject:
   m_ObjectHideFlags: 0
@@ -5043,6 +5058,7 @@ GameObject:
   - component: {fileID: 1119972358}
   - component: {fileID: 1119972357}
   - component: {fileID: 1119972360}
+  - component: {fileID: 1119972361}
   m_Layer: 5
   m_Name: Button_Play
   m_TagString: Untagged
@@ -5202,6 +5218,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1119972361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119972355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fda190f077dfae4292033d2fc5a4d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instructionsButton: {fileID: 1119972357}
+  playButton: {fileID: 234589278}
+  state: 0
 --- !u!1 &1143312368
 GameObject:
   m_ObjectHideFlags: 0

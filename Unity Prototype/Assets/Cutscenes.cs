@@ -25,6 +25,8 @@ public class Cutscenes : MonoBehaviour
     {
         controls = GetComponent<PlayerControls>();
         StartCoroutine(startLevel());
+        //each phase of dialogue plays a different section of music
+        loopInstruments(0);
     }
 
     IEnumerator startLevel()
@@ -43,7 +45,7 @@ public class Cutscenes : MonoBehaviour
         StartCoroutine(wheelRumble());
 
         yield return new WaitForSeconds(1);
-        changeInstrumentVolume(maxVol, "all");
+        //changeInstrumentVolume(maxVol, "all");
         yield return new WaitForSeconds(5);
         part1.time = 5;
         part1.Play();
@@ -63,16 +65,17 @@ public class Cutscenes : MonoBehaviour
 
     IEnumerator wheelRumble()
     {
-        for (int loop = 0; loop < 60; loop++)
+        for (int loop = 0; loop < 25; loop++)
+        {
+            wheelFunctions.PlayDirtRoadForce(loop * 2);
+            yield return new WaitForSeconds(0);
+        }
+        for (int loop = 50; loop > 10; loop--)
         {
             wheelFunctions.PlayDirtRoadForce(loop);
             yield return new WaitForSeconds(0);
         }
-        for (int loop = 60; loop > 15; loop--)
-        {
-            wheelFunctions.PlayDirtRoadForce(loop);
-            yield return new WaitForSeconds(0);
-        }
+        wheelFunctions.StopDirtRoadForce();
     }
 
     public void changeInstrumentVolume(float vol, string name)
@@ -86,6 +89,25 @@ public class Cutscenes : MonoBehaviour
         {
             if (child.name == name || name == "all")
                 child.gameObject.GetComponent<AudioSource>().volume = maxVol;
+        }
+    }
+
+    void loopInstruments(int state)
+    {
+        foreach (Transform child in leftSpeaker)
+        {
+            AudioSource instrument = child.gameObject.GetComponent<AudioSource>();
+            if (instrument.time >= 70.5) {
+                instrument.time = 16;
+            }
+        }
+        foreach (Transform child in rightSpeaker)
+        {
+            AudioSource instrument = child.gameObject.GetComponent<AudioSource>();
+            if (instrument.time >= 70.5)
+            {
+                instrument.time = 16;
+            }
         }
     }
 

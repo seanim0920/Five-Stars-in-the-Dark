@@ -5,8 +5,10 @@ using UnityEngine.Audio;
 
 public class PlayerControls : MonoBehaviour
 {
+    public AudioSource engineSound;
+    public AudioSource tireSound;
     private float movementSpeed = 0f;
-    private float maxSpeed = 0.1f;
+    private float maxSpeed = 0.08f;
     private float neutralSpeed = 0.05f;
     private float acceleration = 0.001f;
     private Rigidbody2D body;
@@ -37,7 +39,9 @@ public class PlayerControls : MonoBehaviour
     }
     void Update()
     {
-        wheelFunctions.PlayDirtRoadForce((int)((movementSpeed/maxSpeed) * 15));
+        engineSound.volume = -Mathf.Pow((movementSpeed / maxSpeed), 2) + 1;
+        tireSound.volume = Mathf.Pow((movementSpeed / maxSpeed), 2);
+        wheelFunctions.PlayDirtRoadForce((int)(Mathf.Pow((movementSpeed/maxSpeed),2) * 16));
         // Discrete turn l/r 
         transform.position += movementDirection * movementSpeed;
         //print(movementSpeed);
@@ -87,6 +91,7 @@ public class PlayerControls : MonoBehaviour
         else if (amount > 0) strafingDirection = 1;
         else amount = 0;
 
+        tireSound.panStereo = amount;
         strafeSound.volume = Mathf.Abs(amount)*3;
         //strafeSound.volume = Mathf.Pow(Mathf.Abs(amount), 2);
         //strafeSound.panStereo = -strafeSound.volume;
