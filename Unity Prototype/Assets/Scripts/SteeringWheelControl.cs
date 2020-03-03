@@ -25,6 +25,7 @@ public class SteeringWheelControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        keyboardScript.enabled = true;
         if (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0))
         {
             LogitechGSDK.LogiPlaySpringForce(0, 0, 80, 10);
@@ -54,11 +55,14 @@ public class SteeringWheelControl : MonoBehaviour
             }
 
             controlFunctions.strafe(rec.lX / 32768f);
-        } else
-        {
-            keyboardScript.enabled = true;
         }
     }
+
+    public void PlayDirtRoadForce(int useableRange)
+    {
+        LogitechGSDK.LogiPlayDirtRoadEffect(0, useableRange);
+    }
+
     public void PlaySoftstopForce(int useableRange)
     {
         LogitechGSDK.LogiPlaySoftstopForce(0, useableRange);

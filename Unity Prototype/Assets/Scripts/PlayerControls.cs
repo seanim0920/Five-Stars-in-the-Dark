@@ -15,7 +15,6 @@ public class PlayerControls : MonoBehaviour
     private int blockedSide = 0;
     private float lastRecordedStrafe = 0;
     private int strafingDirection = -1;
-    public float introWaitTime = 30.0f;
 
     public AudioSource strafeSound;
     private AudioClip leftStrafe;
@@ -38,15 +37,9 @@ public class PlayerControls : MonoBehaviour
     }
     void Update()
     {
+        wheelFunctions.PlayDirtRoadForce((int)((movementSpeed/maxSpeed) * 15));
         // Discrete turn l/r 
-        if(introWaitTime > 0.0f)
-        {
-            introWaitTime -= 1 * Time.deltaTime;
-        }
-        else
-        {
-            transform.position += movementDirection * movementSpeed;
-        }
+        transform.position += movementDirection * movementSpeed;
         //print(movementSpeed);
 
 //        slowinstruments.SetFloat("DrumsVolume", movementSpeed/maxSpeed);
@@ -88,7 +81,6 @@ public class PlayerControls : MonoBehaviour
     }
     public void strafe(float amount) //amount varies between -1 (steering wheel to the left) and 1 (steering wheel to the right)
     {
-        if (introWaitTime > 0.0f) return;
         print(amount);
 
         if (amount < 0) strafingDirection = -1;

@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 
 public class Proximity : MonoBehaviour
 {
-    private float eyesight = 2.5f;
+    private float eyesight = 3f;
     public AudioSource leftnoise;
     public AudioSource rightnoise;
     public AudioMixer radio;
