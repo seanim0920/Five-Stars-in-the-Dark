@@ -15,12 +15,12 @@ public class CheckController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        keyboardControls.SetActive(true);
-        wheelControls.SetActive(false);
-        if (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0))
-        {
-            keyboardControls.SetActive(false);
-            wheelControls.SetActive(true);
-        }
+        //keyboardControls.SetActive(true);
+        //wheelControls.SetActive(false);
+        //if (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0))
+        //{
+        //    keyboardControls.SetActive(false);
+        //    wheelControls.SetActive(true);
+        //}
     }
 }

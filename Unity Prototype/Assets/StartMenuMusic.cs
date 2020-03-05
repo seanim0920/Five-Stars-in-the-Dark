@@ -9,8 +9,8 @@ public class StartMenuMusic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lead.time = 10;
-        bass.time = 10;
+        //lead.time = 10;
+        //bass.time = 10;
     }
 
     // Update is called once per frame

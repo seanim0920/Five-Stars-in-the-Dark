@@ -9,10 +9,10 @@ public class LowPassDetection : MonoBehaviour
     public AudioMixer rightSource;
     private float maxFrequency = 20000;
     private float minFrequency = 400;
-    private float hearingDistance = 2f;
+    private float hearingDistance = 2.3f;
     private float minDistance = 0.41f;
     private float sharpness = 10;
-    private float maxVolume = 17;
+    private float maxVolume = 20;
 
     // Start is called before the first frame update
     void Start()
@@ -33,18 +33,18 @@ public class LowPassDetection : MonoBehaviour
         if (leftEar.collider && leftEar.collider.gameObject.tag != "Zone")
         {
             float distance = (leftEar.point - (Vector2)transform.position).magnitude;
-            print(distance);
+            //print(distance);
             leftSource.SetFloat("LowF", (minFrequency + (((maxFrequency-minFrequency)/(Mathf.Pow((hearingDistance - minDistance), sharpness)))*Mathf.Pow((distance-minDistance), sharpness))));
             leftSource.SetFloat("Volume", maxVolume+(-maxVolume/Mathf.Pow(hearingDistance, 2))*Mathf.Pow(distance, 2));
-            rightSource.SetFloat("HighF", (minFrequency*3) + ((-minFrequency*3) / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
+            //rightSource.SetFloat("HighF", (minFrequency*3) + ((-minFrequency*3) / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
         }
         if (rightEar.collider && rightEar.collider.gameObject.tag != "Zone")
         {
             float distance = (rightEar.point - (Vector2)transform.position).magnitude;
-            print(distance);
+            //print(distance);
             rightSource.SetFloat("LowF", (minFrequency + (((maxFrequency - minFrequency) / (Mathf.Pow((hearingDistance - minDistance), sharpness))) * Mathf.Pow((distance - minDistance), sharpness))));
             rightSource.SetFloat("Volume", maxVolume + (-maxVolume / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
-            leftSource.SetFloat("HighF", (minFrequency * 3) + ((-minFrequency * 3) / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
+            //leftSource.SetFloat("HighF", (minFrequency * 3) + ((-minFrequency * 3) / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
         }
     }
 }

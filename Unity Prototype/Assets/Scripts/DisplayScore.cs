@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProgressBar : MonoBehaviour
+public class DisplayScore : MonoBehaviour
 {
+    private float startTime;
     Slider scoreBar;
     // Start is called before the first frame update
     float shakeAmount = 10;
@@ -15,6 +16,7 @@ public class ProgressBar : MonoBehaviour
     RectTransform rect;
     void Start()
     {
+        startTime = Time.time;
         scoreBar = GetComponentInChildren<Slider>();
         rect = GetComponent<RectTransform>();
         StartCoroutine(IncrementProgress());
@@ -46,7 +48,7 @@ public class ProgressBar : MonoBehaviour
     {
         while (lerpTime < 0.99f)
         {
-            lerpTime = Mathf.Sin(Time.time);
+            lerpTime = Mathf.Sin(Time.time - startTime);
             //float lerpTime = Mathf.PingPong(Time.time, duration) / duration;
             //Debug.Log(lerpTime);
             //smooth interpolation dependso n smothness of time change

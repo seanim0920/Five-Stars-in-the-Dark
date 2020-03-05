@@ -46,11 +46,11 @@ public class KeyboardControl : MonoBehaviour
         }
         if (Input.GetKey("left") && strafeAmount > -0.98f)
         {
-            strafeAmount -= 0.02f;
+            strafeAmount -= 0.01f;
         }
         if (Input.GetKey("right") && strafeAmount < 0.98f)
         {
-            strafeAmount += 0.02f;
+            strafeAmount += 0.01f;
         }
     }
 }

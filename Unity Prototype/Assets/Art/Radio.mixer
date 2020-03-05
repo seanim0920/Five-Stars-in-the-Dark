@@ -56,10 +56,8 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
-  - guid: 42aa1ba35f6ea504b94f45d4a6ef00b8
-    name: Speed
-  - guid: 8fb01a19d20b87b44a3f9230c7ede64d
-    name: Pitch
+  - guid: cdbae48be57ac064c9d3d2254d6afc1d
+    name: Volume
   m_AudioMixerGroupViews:
   - guids:
     - cde8274528b8c46428108bd3d7b3df5f

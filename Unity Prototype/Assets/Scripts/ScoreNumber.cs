@@ -18,7 +18,7 @@ public class ScoreNumber : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		score = ProgressBar.score;
+		score = DisplayScore.score;
 		if((score*100)%20 != 0)
 			scoreText.text = "FINAL SCORE: " + ((score*100)/20).ToString("F2") + "/5";
 		else

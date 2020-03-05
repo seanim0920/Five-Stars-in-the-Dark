@@ -8,7 +8,9 @@ public class CarCollision : MonoBehaviour
     private PlayerControls controlFunctions;
     private SteeringWheelControl wheelFunctions;
 
+    public Cutscenes cutsceneScript;
     public GameObject hitSoundObject;
+    public GameObject situationalDialogues;
     //collision sounds
     AudioSource[] characterSounds;
     AudioSource charOnPed;
@@ -47,6 +49,11 @@ public class CarCollision : MonoBehaviour
     {
         if (System.Array.IndexOf(obstacleTags, col.gameObject.tag) != -1)
         {
+            if (!cutsceneScript.isSpeaking) {
+                int randomChildIdx = Random.Range(0, situationalDialogues.transform.childCount);
+                Transform randomChild = situationalDialogues.transform.GetChild(randomChildIdx);
+                randomChild.GetComponent<AudioSource>().Play();
+            }
             CheckErrors.IncrementErrorsAndUpdateDisplay();
         }
         if (col.gameObject.tag == "Car")

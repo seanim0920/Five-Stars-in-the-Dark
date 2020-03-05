@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class NPCMovement : MonoBehaviour
 {
+    public AudioSource honk;
     private float movementSpeed = 0f;
     private float maxSpeed = 0.1f;
     public float neutralSpeed = 0.05f;
@@ -21,6 +22,10 @@ public class NPCMovement : MonoBehaviour
         movementDirection = transform.up;
         if (SeesObstacle(movementDirection))
         {
+            if (SeesPlayer(movementDirection) && !honk.isPlaying)
+            {
+                honk.Play();
+            }
             movementSpeed *= 0.92f;
             //engineSound.pitch *= 0.92f;
         }
@@ -55,6 +60,19 @@ public class NPCMovement : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
         if (hit.collider != null && (hit.collider.gameObject.tag == "Stop" || hit.collider.gameObject.tag == "Car" || hit.collider.gameObject.tag == "Player"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    bool SeesPlayer(Vector3 direction)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
+        if (hit.collider != null && (hit.collider.gameObject.tag == "Player"))
         {
             return true;
         }

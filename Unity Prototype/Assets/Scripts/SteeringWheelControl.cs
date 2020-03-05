@@ -28,8 +28,8 @@ public class SteeringWheelControl : MonoBehaviour
         keyboardScript.enabled = true;
         if (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0))
         {
-            LogitechGSDK.LogiPlaySpringForce(0, 0, 70, 25);
             keyboardScript.enabled = false;
+            LogitechGSDK.LogiPlaySpringForce(0, 0, 70, 25);
             //coefficientPercentage : specify the slope of the effect strength increase relative to the amount of deflection from the center of the condition. Higher values mean that the saturation level is reached sooner. Valid ranges are -100 to 100. Any value outside the valid range is silently clamped. -100 simulates a very slippery effect, +100 makes the wheel/joystick very hard to move, simulating the car at a stop or in mud.
             //LogitechGSDK.LogiPlayDamperForce(0, 100);
             //CONTROLLER STATE
@@ -47,7 +47,7 @@ public class SteeringWheelControl : MonoBehaviour
             }
             else if (rec.lRz < 0)
             {
-                controlFunctions.slowDown(0.01f);
+                controlFunctions.slowDown(0.02f);
             }
             else
             {
