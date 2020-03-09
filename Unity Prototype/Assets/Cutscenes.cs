@@ -24,6 +24,9 @@ public class Cutscenes : MonoBehaviour
     public AudioSource part6;
     public AudioSource leftnews;
     public AudioSource rightnews;
+    public AudioSource gps_start;
+    public AudioSource gps_near;
+    public AudioSource gps_end;
     public float maxVol = 0.8f;
     private string[] dialogueInstruments = { "Drums", "Support", "Wind" };
     // Start is called before the first frame update
@@ -67,8 +70,10 @@ public class Cutscenes : MonoBehaviour
         part1.time = 5;
         part1.Play();
         yield return new WaitForSeconds(part1.clip.length);
+        gps_start.Play();
+        yield return new WaitForSeconds(gps_start.clip.length);
         volumeAdjust(false);
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(7);
         volumeAdjust(true);
         part2.Play();
         yield return new WaitForSeconds(part2.clip.length);
@@ -83,8 +88,10 @@ public class Cutscenes : MonoBehaviour
         part4.Play();
         yield return new WaitForSeconds(part4.clip.length);
         volumeAdjust(false);
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(17);
         volumeAdjust(true);
+        gps_near.Play();
+        yield return new WaitForSeconds(gps_near.clip.length);
         part5.Play();
         changeInstrumentVolume(0, "all");
         leftnews.Play();
@@ -93,6 +100,8 @@ public class Cutscenes : MonoBehaviour
         changeInstrumentVolume(1, "all");
         volumeAdjust(false);
         part6.Play();
+        yield return new WaitForSeconds(part6.clip.length+2);
+        gps_end.Play();
     }
 
     IEnumerator wheelRumble()
