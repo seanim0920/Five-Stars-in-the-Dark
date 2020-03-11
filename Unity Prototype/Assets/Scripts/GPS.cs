@@ -13,7 +13,7 @@ public class GPS : MonoBehaviour
     {
         // ...
         source = GetComponent<AudioSource>();
-        distance = Resources.Load<AudioClip>("Audio/gps200");
+        distance = Resources.Load<AudioClip>("Audio/gps_1000ft");
     }
 
     // Update is called once per frame
@@ -26,11 +26,11 @@ public class GPS : MonoBehaviour
     {
         if (transform.parent.tag == "Right")
         {
-            direction = Resources.Load<AudioClip>("Audio/gpsright");
+            direction = Resources.Load<AudioClip>("Audio/gps_right");
         }
         else
         {
-            direction = Resources.Load<AudioClip>("Audio/gpsleft");
+            direction = Resources.Load<AudioClip>("Audio/gps_left");
         }
         if (other.gameObject.tag == "Player")
         {

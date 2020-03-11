@@ -5,7 +5,7 @@ using UnityEngine;
 public class LaneWarn : MonoBehaviour
 {
     private AudioSource source;
-    private AudioClip direction;
+    //private AudioClip direction;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,17 +20,17 @@ public class LaneWarn : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (transform.parent.tag == "Right")
+        /*if (transform.parent.tag == "Right")
         {
             direction = Resources.Load<AudioClip>("Audio/stayright");
         }
         else
         {
             direction = Resources.Load<AudioClip>("Audio/stayleft");
-        }
+        }*/
         if (other.gameObject.tag == "Player")
         {
-            source.PlayOneShot(direction);
+            source.Play();
         }
     }
 }

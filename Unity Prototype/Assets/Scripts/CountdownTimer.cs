@@ -22,7 +22,6 @@ public class CountdownTimer : MonoBehaviour
     void Update()
     {
         updateDisplay();
-        float time = 30.0f;
         if(waitTime > 0.0f)
         {
             waitTime -= 1 * Time.deltaTime;
