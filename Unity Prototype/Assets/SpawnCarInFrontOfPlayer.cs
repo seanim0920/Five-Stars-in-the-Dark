@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SpawnCarInFrontOfPlayer : MonoBehaviour
 {
+    int distance = 0;
     GameObject NPC;
     Transform playerTransform;
     // Start is called before the first frame update
@@ -23,7 +24,7 @@ public class SpawnCarInFrontOfPlayer : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             playerTransform = col.gameObject.transform;
-            GameObject car = Instantiate(NPC, playerTransform.position + new Vector3(0, 6, 0), Quaternion.identity);
+            GameObject car = Instantiate(NPC, playerTransform.position + new Vector3(0, distance, 0), Quaternion.identity);
         }
     }
     void OnTriggerExit2D(Collider2D col)

@@ -28,7 +28,7 @@ public class PlayerControls : MonoBehaviour
     private SteeringWheelControl wheelFunctions;
     public AudioMixer slowinstruments;
 
-    private string[] instruments = { "Drums", "Bass", "Keyboard", "Lead", "Wind", "Support"};
+    private string[] instruments = { "Lead", "Bass", "Keyboard", "Wind", "Support", "Drums"};
 
     void Start()
     {
@@ -60,7 +60,7 @@ public class PlayerControls : MonoBehaviour
         tireSound.volume = Mathf.Pow((movementSpeed / maxSpeed), 2);
         leftStrafe.volume = tireSound.volume/2;
         rightStrafe.volume = tireSound.volume/2;
-        wheelFunctions.PlayDirtRoadForce((int)(Mathf.Pow((movementSpeed/maxSpeed),2) * 16));
+        wheelFunctions.PlayDirtRoadForce((int)(Mathf.Pow((1-(movementSpeed/maxSpeed)),1) * 25));
         // Discrete turn l/r 
         transform.position += movementDirection * movementSpeed;
         //print(movementSpeed);
@@ -77,11 +77,11 @@ public class PlayerControls : MonoBehaviour
         }
         else if (movementSpeed > neutralSpeed)
         {
-            slowDown(0.05f);
+            slowDown(0.005f);
         }
         else
         {
-            speedUp(1f);
+            speedUp(0.1f);
         }
     }
 
@@ -104,11 +104,9 @@ public class PlayerControls : MonoBehaviour
     }
     public void strafe(float amount) //amount varies between -1 (steering wheel to the left) and 1 (steering wheel to the right)
     {
-        //print(amount);
-
         if (amount < 0) strafingDirection = -1;
         else if (amount > 0) strafingDirection = 1;
-        else amount = 0;
+        else strafingDirection = 0;
 
         tireSound.panStereo = amount;
         //strafeSound.volume = Mathf.Abs(amount)*3;
@@ -146,18 +144,18 @@ public class PlayerControls : MonoBehaviour
         //}
 
         //stops car from going too far left/right
+
+        //print(blockedSide / amount);
         if (blockedSide / amount > 0)
         {
-            //print("HITTING RAIL" + amount);
-            wheelFunctions.PlaySoftstopForce(1);
+            if (amount < -0.02f) wheelFunctions.PlaySideCollisionForce(-100);
+            else if (amount > 0.02f) wheelFunctions.PlaySideCollisionForce(100);
+            print("HITTING RAIL" + amount);
             if (lastRecordedStrafe == 0 || amount / lastRecordedStrafe <= 1f)
             {
                 lastRecordedStrafe = amount;
             }
             return;
-        }
-        else if (wheelFunctions) { 
-            wheelFunctions.StopSoftstopForce();
         }
 
         //print(lastRecordedStrafe);

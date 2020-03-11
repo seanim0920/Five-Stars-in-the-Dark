@@ -6,14 +6,15 @@ public class NPCMovement : MonoBehaviour
 {
     public AudioSource honk;
     private float movementSpeed = 0f;
-    private float maxSpeed = 0.1f;
     public float neutralSpeed = 0.05f;
+    private float maxSpeed;
     private float acceleration = 0.001f;
     private AudioSource engineSound;
     private float eyesight = 3;
     private Vector3 movementDirection;
     void Start()
     {
+        maxSpeed = neutralSpeed + 0.1f;
         engineSound = GetComponent<AudioSource>();
         StartCoroutine(SwitchLanes());
     }
