@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CheckErrors : MonoBehaviour
 {
@@ -14,11 +15,16 @@ public class CheckErrors : MonoBehaviour
     private Vector3 newPos;
 
     //set to public so it can be accessed from the end screen
-    public static int errors;
+    public static int errors { get; set; }
 
     public static void IncrementErrorsAndUpdateDisplay()
     {
         errors++;
+        if(errors >= 10)
+        {
+            SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        }
         errorText.text = "Error(s): " + errors.ToString();
         //AudioSource.PlayClipAtPoint(errorSound, player.position);
     }

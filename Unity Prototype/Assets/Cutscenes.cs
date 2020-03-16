@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class Cutscenes : MonoBehaviour
 {
@@ -100,8 +101,10 @@ public class Cutscenes : MonoBehaviour
         changeInstrumentVolume(1, "all");
         volumeAdjust(false);
         part6.Play();
-        yield return new WaitForSeconds(part6.clip.length+2);
+        yield return new WaitForSeconds(part6.clip.length+4);
         gps_end.Play();
+        SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
     }
 
     IEnumerator wheelRumble()

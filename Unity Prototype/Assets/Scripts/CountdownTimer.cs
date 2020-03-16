@@ -7,14 +7,16 @@ using UnityEngine.SceneManagement;
 public class CountdownTimer : MonoBehaviour
 {
     private static Text timerText;
-    private static float levelCompleteTime = 360f;
-    private static float waitTime = 30.0f;
+    private static float waitTime;
 
+    public static float levelCompleteTime { get; set; }
     public static float currentTime { get; set; }
     // Start is called before the first frame update
     void Start()
     {
-        timerText = GetComponent<Text>();
+        waitTime = 100.0f;
+        levelCompleteTime = 600.0f;
+        timerText = GameObject.Find("TimerText").GetComponent<Text>();
         currentTime = levelCompleteTime;
     }
 

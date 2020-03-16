@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TimeSpent : MonoBehaviour
@@ -19,10 +18,11 @@ public class TimeSpent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		remainder = CountdownTimer.currentTime;
-        if(((120 - remainder)%60) > 9)		
-			time.text = "TIME: 0" + Mathf.Floor(((120 - remainder)/60)) + ":" + Mathf.Floor(((120 - remainder)%60));
+		remainder = CountdownTimer.levelCompleteTime - CountdownTimer.currentTime;
+        remainder /= 2;
+        if((remainder%60) > 9)		
+			time.text = "TIME: 0" + Mathf.Floor(remainder/60) + ":" + Mathf.Floor(remainder%60);
 		else
-			time.text = "TIME: 0" + Mathf.Floor(((120 - remainder)/60)) + ":0" + Mathf.Floor(((120 - remainder)%60));
+			time.text = "TIME: 0" + Mathf.Floor(remainder/60) + ":" + Mathf.Floor(remainder%60);
     }
 }
