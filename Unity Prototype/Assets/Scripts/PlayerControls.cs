@@ -7,9 +7,9 @@ public class PlayerControls : MonoBehaviour
 {
     public AudioSource engineSound;
     public AudioSource tireSound;
-    private float movementSpeed = 0f;
-    private float maxSpeed = 0.08f;
-    private float neutralSpeed = 0.05f;
+    public float movementSpeed = 0f;
+    public float maxSpeed = 0.08f;
+    public float neutralSpeed = 0.05f;
     private float acceleration = 0.001f;
     private Rigidbody2D body;
     private AudioClip bump;

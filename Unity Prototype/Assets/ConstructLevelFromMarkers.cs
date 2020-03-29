@@ -26,11 +26,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     public AudioSource carStart;
 
     GameObject curb;
+    GameObject road;
 
     // Start is called before the first frame update
     void Start()
     {
         curb = Resources.Load<GameObject>("Curb");
+        road = Resources.Load<GameObject>("Road");
         level = GetComponent<AudioSource>();
 
         TextAsset markers = Resources.Load<TextAsset>("Level1Markers");
@@ -91,10 +93,14 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void constructLevelMap(float totalDialogueTime)
     {
-        GameObject leftcurb = Instantiate(curb, new Vector3(-6, 0, 0), Quaternion.identity);
-        leftcurb.transform.localScale = new Vector3(1,totalDialogueTime/controls.maxSpeed,1);
-        GameObject rightcurb = Instantiate(curb, new Vector3(6, 0, 0), Quaternion.identity);
-        rightcurb.transform.localScale = new Vector3(1, totalDialogueTime / controls.maxSpeed, 1);
+        float width = 10;
+        float length = totalDialogueTime / controls.neutralSpeed;
+        GameObject roadtile = Instantiate(road, new Vector3(0, 0, 1), Quaternion.identity);
+        roadtile.transform.localScale = new Vector3(width, length, 1);
+        GameObject leftcurb = Instantiate(curb, new Vector3(-width/3, 0, 1), Quaternion.identity);
+        leftcurb.transform.localScale = new Vector3(1,length,1);
+        GameObject rightcurb = Instantiate(curb, new Vector3(width/3, 0, 1), Quaternion.identity);
+        rightcurb.transform.localScale = new Vector3(1, length, 1);
     }
 
     IEnumerator playCutscenes(int startSection)
