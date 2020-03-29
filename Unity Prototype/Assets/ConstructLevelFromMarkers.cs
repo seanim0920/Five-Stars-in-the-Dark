@@ -25,12 +25,18 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     public GameObject blackScreen;
     public AudioSource carStart;
 
+    GameObject curb;
+
     // Start is called before the first frame update
     void Start()
     {
+        curb = Resources.Load<GameObject>("Curb");
         level = GetComponent<AudioSource>();
+
         TextAsset markers = Resources.Load<TextAsset>("Level1Markers");
         string[] lines = markers.text.Split('\n');
+
+        float totalDialogueTime = 0;
         foreach (string line in lines)
         {
             string[] tokens = line.Split(new char[] { ' ', '\t' });
@@ -44,30 +50,61 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 dialogueTimes.Add(float.Parse(tokens[1]));
                 //time to wait after playing dialogue
                 dialogueTimes.Add((tokens.Length == 4) ? float.Parse(tokens[3]) : 0);
+                totalDialogueTime += float.Parse(tokens[1]) - float.Parse(tokens[0]) + ((tokens.Length == 4) ? float.Parse(tokens[3]) : 0);
             }
         }
 
-        cutsceneRoutine = StartCoroutine(startCutscenes(dialogueSection));
+        /*
+        TextAsset markers = Resources.Load<TextAsset>("Level1Events");
+        string[] lines = markers.text.Split('\n');
+
+        float totalDialogueTime = 0;
+        foreach (string line in lines)
+        {
+            string[] tokens = line.Split(new char[] { ' ', '\t' });
+            int lineLength;
+            if (tokens.Length >= 3)
+            {
+                //print(tokens[0]);
+                //start of dialogue
+                dialogueTimes.Add(float.Parse(tokens[0]));
+                //end of dialogue
+                dialogueTimes.Add(float.Parse(tokens[1]));
+                //time to wait after playing dialogue
+                dialogueTimes.Add((tokens.Length == 4) ? float.Parse(tokens[3]) : 0);
+                totalDialogueTime += float.Parse(tokens[1]) - float.Parse(tokens[0]) + ((tokens.Length == 4) ? float.Parse(tokens[3]) : 0);
+            }
+        }
+        */
+
+        constructLevelMap(totalDialogueTime);
+
+        //function should go here
+        if (dialogueSection == 0)
+        {
+            blackScreen.SetActive(true);
+        }
+        cutsceneRoutine = StartCoroutine(playCutscenes(dialogueSection));
         StartCoroutine(lockWheel());
         StartCoroutine(shiftLoopSectionOfMusic(16f, 70.5f));
     }
 
-    IEnumerator startCutscenes(int startSection)
+    void constructLevelMap(float totalDialogueTime)
+    {
+        GameObject leftcurb = Instantiate(curb, new Vector3(-6, 0, 0), Quaternion.identity);
+        leftcurb.transform.localScale = new Vector3(1,totalDialogueTime/controls.maxSpeed,1);
+        GameObject rightcurb = Instantiate(curb, new Vector3(6, 0, 0), Quaternion.identity);
+        rightcurb.transform.localScale = new Vector3(1, totalDialogueTime / controls.maxSpeed, 1);
+    }
+
+    IEnumerator playCutscenes(int startSection)
     {
         for (int i = startSection*3; i < dialogueTimes.Count; i += 3)
-        {            
-            //function should go here
-            if (startSection == 0)
+        {
+            if (i == 0)
             {
-                blackScreen.SetActive(true);
+                StartCoroutine(startCar());
             }
-            else
-            {
-                ambience.Play();
-                carStart.Play();
-                controls.enabled = true;
-            }
-
             level.time = dialogueTimes[i];
             level.Play();
             adjustInstrumentVolume(true, new string[] { });
@@ -77,40 +114,29 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             level.Pause();
             adjustInstrumentVolume(false, new string[] { });
             yield return new WaitForSeconds(dialogueTimes[i + 2]);
-
-            //function should go here
-            if (i / 3 == 0)
-            {
-                blackScreen.SetActive(false);
-            }
-            if (i / 3 == 1)
-            {
-                yield return new WaitForSeconds(1);
-                carStart.Play();
-                StartCoroutine(wheelRumble());
-                yield return new WaitForSeconds(1);
-                controls.enabled = true;
-            }
-
-            //if (i/3 == 6) {
-            //    changeInstrumentVolume(0, "all");
-            //    leftnews.Play();
-            //    rightnews.Play();
-            //    yield return new WaitForSeconds(rightnews.clip.length - 2);
-            //    changeInstrumentVolume(1, "all");
-            //    volumeAdjust(false);
-            //    part6.Play();
-            //}
+            //perform(functions[i]);
         }
+    }
+
+    IEnumerator startCar()
+    {
+        blackScreen.SetActive(false);
+        ambience.Play();
+        yield return new WaitForSeconds(1);
+        carStart.Play();
+        StartCoroutine(wheelRumble());
+        yield return new WaitForSeconds(1);
+        controls.enabled = true;
     }
 
     IEnumerator lockWheel()
     {
         while (!controls.enabled)
         {
-            wheelFunctions.StopSoftstopForce();
+            wheelFunctions.PlaySoftstopForce(100);
             yield return new WaitForSeconds(0);
         }
+        wheelFunctions.StopSoftstopForce();
     }
 
     IEnumerator wheelRumble()
@@ -184,7 +210,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         if (Input.GetKeyDown("s"))
         {
             StopCoroutine(cutsceneRoutine);
-            cutsceneRoutine = StartCoroutine(startCutscenes(dialogueSection++));
+            cutsceneRoutine = StartCoroutine(playCutscenes(dialogueSection++));
         }
     }
 }

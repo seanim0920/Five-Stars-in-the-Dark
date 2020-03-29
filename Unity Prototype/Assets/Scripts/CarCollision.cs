@@ -8,7 +8,7 @@ public class CarCollision : MonoBehaviour
     private PlayerControls controlFunctions;
     private SteeringWheelControl wheelFunctions;
 
-    public Cutscenes cutsceneScript;
+    public ConstructLevelFromMarkers cutsceneScript;
     public GameObject hitSoundObject;
     public GameObject situationalDialogues;
     //collision sounds
