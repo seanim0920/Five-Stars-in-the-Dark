@@ -170,14 +170,6 @@ public class PlayerControls : MonoBehaviour
     {
         return lastRecordedStrafe * -443;
     }
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject.tag == "Car")
-        {
-            movementSpeed *= 0.1f;
-            //setRadioTempo(getRadioTempo() * 0.1f);
-        }
-    }
 
     //public void setRadioTempo(float speed)
     //{

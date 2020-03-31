@@ -11,6 +11,7 @@ public class CarCollision : MonoBehaviour
     public ConstructLevelFromMarkers cutsceneScript;
     public GameObject hitSoundObject;
     public GameObject situationalDialogues;
+    public PlayerControls carControls;
     //collision sounds
     AudioSource[] characterSounds;
     AudioSource charOnPed;
@@ -45,11 +46,12 @@ public class CarCollision : MonoBehaviour
 
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnCollisionEnter2D(Collision2D col)
     {
         if (System.Array.IndexOf(obstacleTags, col.gameObject.tag) != -1)
         {
-            if (!cutsceneScript.isSpeaking) {
+            if (!cutsceneScript.isSpeaking)
+            {
                 int randomChildIdx = Random.Range(0, situationalDialogues.transform.childCount);
                 Transform randomChild = situationalDialogues.transform.GetChild(randomChildIdx);
                 randomChild.GetComponent<AudioSource>().Play();
@@ -61,6 +63,8 @@ public class CarCollision : MonoBehaviour
             hitSoundObject.transform.position = col.gameObject.transform.position;
             hitSoundObject.GetComponent<AudioSource>().Play();
             wheelFunctions.PlayFrontCollisionForce();
+            carControls.movementSpeed *= 0.1f;
+            //setRadioTempo(getRadioTempo() * 0.1f);
         }
         if (col.gameObject.tag == "Pedestrian" || col.gameObject.tag == "Stop")
         {
@@ -73,7 +77,8 @@ public class CarCollision : MonoBehaviour
             {
                 controlFunctions.blockDirection(1);
                 charOnGuard.panStereo = 1;
-            } else
+            }
+            else
             {
                 controlFunctions.blockDirection(-1);
                 charOnGuard.panStereo = -1;
@@ -81,7 +86,7 @@ public class CarCollision : MonoBehaviour
             charOnGuard.Play();
         }
     }
-    void OnTriggerExit2D(Collider2D col)
+    void OnCollisionExit2D(Collision2D col)
     {
         if (col.gameObject.tag == "Car")
         {

@@ -218,7 +218,7 @@ AudioMixerController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LeftSpeaker
-  m_OutputGroup: {fileID: 3915148538736161782, guid: f74027338f32e724aaa799301afcc5ad,
+  m_OutputGroup: {fileID: 4064968886085815779, guid: f74027338f32e724aaa799301afcc5ad,
     type: 2}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:

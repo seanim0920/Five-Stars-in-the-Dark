@@ -15,6 +15,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //for lowering the volume when dialogue is playing
     public Transform leftSpeaker;
     public Transform rightSpeaker;
+    public Transform playerTransform;
     public bool isSpeaking;
     private string[] dialogueInstruments = { "Drums", "Support", "Wind" };
     public float maxVol = 0.8f;
@@ -25,20 +26,16 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     public GameObject blackScreen;
     public AudioSource carStart;
 
-    GameObject curb;
-    GameObject road;
+    float totalDialogueTime = 0;
 
-    // Start is called before the first frame update
-    void Start()
+    void parseLevelMarkers()
     {
-        curb = Resources.Load<GameObject>("Curb");
-        road = Resources.Load<GameObject>("Road");
+
         level = GetComponent<AudioSource>();
 
         TextAsset markers = Resources.Load<TextAsset>("Level1Markers");
         string[] lines = markers.text.Split('\n');
 
-        float totalDialogueTime = 0;
         foreach (string line in lines)
         {
             string[] tokens = line.Split(new char[] { ' ', '\t' });
@@ -78,9 +75,19 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             }
         }
         */
+    }
+
+    [ContextMenu("Construct Level")]
+    void constructLevel()
+    {
+        parseLevelMarkers();
 
         constructLevelMap(totalDialogueTime);
+    }
 
+    void Start()
+    {
+        parseLevelMarkers();
         //function should go here
         if (dialogueSection == 0)
         {
@@ -93,34 +100,59 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void constructLevelMap(float totalDialogueTime)
     {
-        float width = 10;
-        float length = totalDialogueTime / controls.neutralSpeed;
+        GameObject curb = Resources.Load<GameObject>("Curb");
+        GameObject road = Resources.Load<GameObject>("Road");
+        GameObject GPS = Resources.Load<GameObject>("GPSMarker");
+        GameObject exit = Resources.Load<GameObject>("Exit");
+
+        GameObject map = new GameObject("Map");
+        float width = 6;
+        float length = totalDialogueTime * controls.neutralSpeed * 60; //assuming 60 fps
         GameObject roadtile = Instantiate(road, new Vector3(0, 0, 1), Quaternion.identity);
         roadtile.transform.localScale = new Vector3(width, length, 1);
-        GameObject leftcurb = Instantiate(curb, new Vector3(-width/3, 0, 1), Quaternion.identity);
+        roadtile.transform.parent = map.transform;
+        GameObject leftcurb = Instantiate(curb, new Vector3(-width/2 - 0.5f, 0, 1), Quaternion.identity);
         leftcurb.transform.localScale = new Vector3(1,length,1);
-        GameObject rightcurb = Instantiate(curb, new Vector3(width/3, 0, 1), Quaternion.identity);
+        leftcurb.transform.parent = map.transform;
+        GameObject rightcurb = Instantiate(curb, new Vector3(width/2 + 0.5f, 0, 1), Quaternion.identity);
         rightcurb.transform.localScale = new Vector3(1, length, 1);
+        rightcurb.transform.parent = map.transform;
+        playerTransform.position = new Vector3(0, -length / 2, 0);
+
+        GameObject GPSstart = Instantiate(GPS, new Vector3(0, -length/2, 1), Quaternion.identity);
+        GPSstart.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/gps_start");
+        GPSstart.transform.parent = map.transform;
+        GameObject GPSmiddle = Instantiate(GPS, new Vector3(0, 0, 1), Quaternion.identity);
+        GPSmiddle.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/gps_middle");
+        GPSmiddle.transform.parent = map.transform;
+        GameObject GPSend = Instantiate(exit, new Vector3(0, length/2, 1), Quaternion.identity);
+        GPSend.transform.parent = map.transform;
     }
 
     IEnumerator playCutscenes(int startSection)
     {
         for (int i = startSection*3; i < dialogueTimes.Count; i += 3)
         {
-            if (i == 0)
+            int currentSection = i / 3;
+            if (currentSection == 1)
+            {
+                blackScreen.SetActive(false);
+            }
+            if (!controls.enabled && currentSection > 1)
             {
                 StartCoroutine(startCar());
+                yield return new WaitForSeconds(2);
             }
             level.time = dialogueTimes[i];
             level.Play();
-            adjustInstrumentVolume(true, new string[] { });
-            print("Waiting for " + (dialogueTimes[i + 1] - dialogueTimes[i]) + " seconds");
             yield return new WaitForSeconds(dialogueTimes[i + 1] - dialogueTimes[i]);
-            print("Finished waiting");
             level.Pause();
-            adjustInstrumentVolume(false, new string[] { });
+            print(currentSection);
+            if (currentSection == 1)
+            {
+                StartCoroutine(startCar());
+            }
             yield return new WaitForSeconds(dialogueTimes[i + 2]);
-            //perform(functions[i]);
         }
     }
 
@@ -133,6 +165,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         StartCoroutine(wheelRumble());
         yield return new WaitForSeconds(1);
         controls.enabled = true;
+        adjustInstrumentVolume(false, new string[] { });
     }
 
     IEnumerator lockWheel()
@@ -159,32 +192,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         }
         wheelFunctions.StopDirtRoadForce();
     }
-
-    void adjustInstrumentVolume(bool dialogueStart, string[] instruments)
-    {
-        isSpeaking = dialogueStart;
-        for (int loop = 0; loop < 2; loop++)
-        {
-            Transform speaker = leftSpeaker;
-            if (loop > 0) speaker = rightSpeaker;
-            foreach (Transform child in speaker)
-            {
-                if (instruments.Length == 0 || System.Array.IndexOf(instruments, child.gameObject.name) > -1)
-                {
-                    if (dialogueStart)
-                    {
-                        print("pause music");
-                        child.gameObject.GetComponent<AudioSource>().volume = 0.5f;
-                    }
-                    else
-                    {
-                        print("resume music");
-                        child.gameObject.GetComponent<AudioSource>().volume = 1f;
-                    }
-                }
-            }
-        }
-    }
+    
     IEnumerator shiftLoopSectionOfMusic(float startTime, float endTime)
     {
         while (true)
@@ -216,7 +224,35 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         if (Input.GetKeyDown("s"))
         {
             StopCoroutine(cutsceneRoutine);
-            cutsceneRoutine = StartCoroutine(playCutscenes(dialogueSection++));
+            dialogueSection++;
+            cutsceneRoutine = StartCoroutine(playCutscenes(dialogueSection));
+        }
+    }
+
+    // Changes the volume of individual instruments (currently unused)
+    void adjustInstrumentVolume(bool dialogueStart, string[] instruments)
+    {
+        isSpeaking = dialogueStart;
+        for (int loop = 0; loop < 2; loop++)
+        {
+            Transform speaker = leftSpeaker;
+            if (loop > 0) speaker = rightSpeaker;
+            foreach (Transform child in speaker)
+            {
+                if (instruments.Length == 0 || System.Array.IndexOf(instruments, child.gameObject.name) > -1)
+                {
+                    if (dialogueStart)
+                    {
+                        print("pause music");
+                        child.gameObject.GetComponent<AudioSource>().volume = 0.5f;
+                    }
+                    else
+                    {
+                        print("resume music");
+                        child.gameObject.GetComponent<AudioSource>().volume = 1f;
+                    }
+                }
+            }
         }
     }
 }
