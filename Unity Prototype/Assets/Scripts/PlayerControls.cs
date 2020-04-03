@@ -56,7 +56,7 @@ public class PlayerControls : MonoBehaviour
             }
         }
 
-        engineSound.volume = -Mathf.Pow((movementSpeed / maxSpeed), 2) + 1;
+        engineSound.volume = Mathf.Pow((movementSpeed / maxSpeed), 2);
         tireSound.volume = Mathf.Pow((movementSpeed / maxSpeed), 2);
         leftStrafe.volume = tireSound.volume/2;
         rightStrafe.volume = tireSound.volume/2;
