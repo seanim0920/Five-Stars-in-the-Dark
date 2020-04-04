@@ -6,6 +6,7 @@ using UnityEngine.Audio;
 public class PlayerControls : MonoBehaviour
 {
     public AudioSource engineSound;
+    private Transform engineSounds;
     public AudioSource tireSound;
     public float movementSpeed = 0f;
     public float maxSpeed = 0.08f;
@@ -24,6 +25,8 @@ public class PlayerControls : MonoBehaviour
 
     public AudioMixer leftSpeaker;
     public AudioMixer rightSpeaker;
+    public AudioMixerSnapshot restToCoast;
+    public AudioMixerSnapshot CoastToAccel;
 
     private SteeringWheelControl wheelFunctions;
     public AudioMixer slowinstruments;
@@ -32,6 +35,7 @@ public class PlayerControls : MonoBehaviour
 
     void Start()
     {
+        engineSounds = engineSound.transform;
         body = GetComponent<Rigidbody2D>();
         bump = Resources.Load<AudioClip>("Audio/bumpend");
         movementDirection = transform.up;
@@ -70,8 +74,25 @@ public class PlayerControls : MonoBehaviour
 
     public void returnToNeutralSpeed()
     {
+        // Transform engineSounds = engineSound.transform; // Get Engine children
+        // Debug.Log("Inside returnToNeutralSpeed");
         if (Mathf.Abs(neutralSpeed - movementSpeed) < 0.005f)
         {
+            // IEnumerator AccelFadeSound = AudioFadeOut.FadeOut (engineSounds.GetChild(1).GetComponent<AudioSource>(), 0.1f);
+            // StartCoroutine (AccelFadeSound);
+            // StopCoroutine (AccelFadeSound);
+            engineSounds.GetChild(1).GetComponent<AudioSource>().Stop();
+
+            // IEnumerator SlowFadeSound = AudioFadeOut.FadeOut (engineSounds.GetChild(2).GetComponent<AudioSource>(), 0.1f);
+            // StartCoroutine (SlowFadeSound);
+            // StopCoroutine (SlowFadeSound);
+            engineSounds.GetChild(2).GetComponent<AudioSource>().Stop();
+
+            if(!engineSounds.GetChild(0).GetComponent<AudioSource>().isPlaying)
+            {
+                // engineSounds.GetChild(0).GetComponent<AudioSource>().volume = 0.667f;
+                engineSounds.GetChild(0).GetComponent<AudioSource>().Play(); // Play Coasting sound
+            }
             movementSpeed = neutralSpeed;
             //setRadioTempo(1f);
         }
@@ -87,11 +108,51 @@ public class PlayerControls : MonoBehaviour
 
     public void slowDown(float amount)
     {
+        // Stop other engine sounds and play slow down sound
+        // IEnumerator CoastFadeSound = AudioFadeOut.FadeOut (engineSounds.GetChild(0).GetComponent<AudioSource>(), 0.1f);
+        // StartCoroutine (CoastFadeSound);
+        // StopCoroutine (CoastFadeSound);
+        engineSounds.GetChild(0).GetComponent<AudioSource>().Stop();
+
+        // IEnumerator AccelFadeSound = AudioFadeOut.FadeOut (engineSounds.GetChild(1).GetComponent<AudioSource>(), 0.1f);
+        // StartCoroutine (AccelFadeSound);
+        // StopCoroutine (AccelFadeSound);
+        engineSounds.GetChild(1).GetComponent<AudioSource>().Stop();
+
+        if(!engineSounds.GetChild(2).GetComponent<AudioSource>().isPlaying)
+        {
+            // engineSounds.GetChild(2).GetComponent<AudioSource>().volume = 0.667f;
+            engineSounds.GetChild(2).GetComponent<AudioSource>().Play();
+        }
         movementSpeed *= 1-amount;
         //setRadioTempo(getRadioTempo()*(1-amount));
     }
     public void speedUp(float amount)
     {
+        // Stop other engine sounds and play accelerating sound
+        // IEnumerator CoastFadeSound = AudioFadeOut.FadeOut (engineSounds.GetChild(0).GetComponent<AudioSource>(), 0.1f);
+        // StartCoroutine (CoastFadeSound);
+        // StopCoroutine (CoastFadeSound);
+        engineSounds.GetChild(0).GetComponent<AudioSource>().Stop();
+
+        // IEnumerator SlowFadeSound = AudioFadeOut.FadeOut (engineSounds.GetChild(2).GetComponent<AudioSource>(), 0.1f);
+        // StartCoroutine (SlowFadeSound);
+        // StopCoroutine (SlowFadeSound);
+        engineSounds.GetChild(2).GetComponent<AudioSource>().Stop();
+
+        if(!engineSounds.GetChild(1).GetComponent<AudioSource>().isPlaying)
+        {
+            // engineSounds.GetChild(1).GetComponent<AudioSource>().volume = 1f;
+            engineSounds.GetChild(1).GetComponent<AudioSource>().Play();
+        }
+
+        // Loop within the middle part of the accelerating audio file
+        if(engineSounds.GetChild(1).GetComponent<AudioSource>().time >= 22f ||
+           Mathf.Abs(neutralSpeed - movementSpeed) < 0.005f)
+        {
+            engineSounds.GetChild(1).GetComponent<AudioSource>().time = 11.6f;
+        }
+
         if (movementSpeed < maxSpeed)
         {
             movementSpeed += acceleration*amount;
