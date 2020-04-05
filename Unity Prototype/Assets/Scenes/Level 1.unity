@@ -463,7 +463,8 @@ AudioSource:
   m_GameObject: {fileID: 193093082}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 4439977972193145857, guid: 32ed263caa4934a41a0e4aa87ccbc5e2,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: 597f8a0a2fe663d4a90ee80b7f435d1b, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.667
@@ -1039,7 +1040,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2118,10 +2119,22 @@ MonoBehaviour:
   strafeSound: {fileID: 0}
   leftSpeaker: {fileID: 24100000, guid: 6d5d7be8b37c6e4429a96d486a8be36b, type: 2}
   rightSpeaker: {fileID: 24100000, guid: 1c5e2e4e86715854883ad8a592f82583, type: 2}
+  engineMixer: {fileID: 24100000, guid: 32ed263caa4934a41a0e4aa87ccbc5e2, type: 2}
+  engineSounds:
+  - {fileID: 24500006, guid: 32ed263caa4934a41a0e4aa87ccbc5e2, type: 2}
+  - {fileID: 2616851215000904619, guid: 32ed263caa4934a41a0e4aa87ccbc5e2, type: 2}
+  - {fileID: 2133684793175362343, guid: 32ed263caa4934a41a0e4aa87ccbc5e2, type: 2}
+  - {fileID: -8807714207632945724, guid: 32ed263caa4934a41a0e4aa87ccbc5e2, type: 2}
+  - {fileID: -214203039708733533, guid: 32ed263caa4934a41a0e4aa87ccbc5e2, type: 2}
+  snapshotWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   restToCoast: {fileID: 2133684793175362343, guid: 32ed263caa4934a41a0e4aa87ccbc5e2,
     type: 2}
-  CoastToAccel: {fileID: -8807714207632945724, guid: 32ed263caa4934a41a0e4aa87ccbc5e2,
-    type: 2}
+  coastToAccel: {fileID: 0}
   slowinstruments: {fileID: 0}
 --- !u!1 &893823259
 GameObject:
