@@ -28,8 +28,6 @@ public class PlayerControls : MonoBehaviour
     public AudioMixer engineMixer;
     public AudioMixerSnapshot[] engineSounds;
     public float[] snapshotWeights;
-    public AudioMixerSnapshot restToCoast;
-    public AudioMixerSnapshot coastToAccel;
 
     private SteeringWheelControl wheelFunctions;
     public AudioMixer slowinstruments;
@@ -43,7 +41,7 @@ public class PlayerControls : MonoBehaviour
         bump = Resources.Load<AudioClip>("Audio/bumpend");
         movementDirection = transform.up;
 
-        AudioMixerSnapshot[] engineSounds = {restToCoast, coastToAccel};
+        // AudioMixerSnapshot[] engineSounds = {restToCoast, coastToAccel};
 
         wheelFunctions = GetComponent<SteeringWheelControl>();
     }
