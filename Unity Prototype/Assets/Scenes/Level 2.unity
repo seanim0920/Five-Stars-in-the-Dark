@@ -4608,7 +4608,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1925323088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72a0a9c2222be6b439ba2cd14b88884f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ff49762a6db3c34a862496d50123005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   siren: {fileID: 2068014876}
@@ -4646,7 +4646,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938833895}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6ef207fa6f7fef419d0568955637107, type: 3}
   m_Name: 
@@ -4661,13 +4661,13 @@ MonoBehaviour:
   strafeSound: {fileID: 0}
   leftSpeaker: {fileID: 24100000, guid: 6d5d7be8b37c6e4429a96d486a8be36b, type: 2}
   rightSpeaker: {fileID: 24100000, guid: 1c5e2e4e86715854883ad8a592f82583, type: 2}
-  engineMixer: {fileID: 24100000, guid: 9e521e6c826c0b54da024778105d2095, type: 2}
+  engineMixer: {fileID: 24100000, guid: 1c0e23f8b692d224599d3ba4d1845940, type: 2}
   engineSounds:
-  - {fileID: 24500006, guid: 9e521e6c826c0b54da024778105d2095, type: 2}
-  - {fileID: 2616851215000904619, guid: 9e521e6c826c0b54da024778105d2095, type: 2}
-  - {fileID: 2133684793175362343, guid: 9e521e6c826c0b54da024778105d2095, type: 2}
-  - {fileID: -8807714207632945724, guid: 9e521e6c826c0b54da024778105d2095, type: 2}
-  - {fileID: -214203039708733533, guid: 9e521e6c826c0b54da024778105d2095, type: 2}
+  - {fileID: 24500006, guid: 1c0e23f8b692d224599d3ba4d1845940, type: 2}
+  - {fileID: 2616851215000904619, guid: 1c0e23f8b692d224599d3ba4d1845940, type: 2}
+  - {fileID: 2133684793175362343, guid: 1c0e23f8b692d224599d3ba4d1845940, type: 2}
+  - {fileID: -8807714207632945724, guid: 1c0e23f8b692d224599d3ba4d1845940, type: 2}
+  - {fileID: -214203039708733533, guid: 1c0e23f8b692d224599d3ba4d1845940, type: 2}
   snapshotWeights:
   - 0
   - 0
@@ -4800,7 +4800,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938833895}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4ba86515ddd983489a4a601c65fc266, type: 3}
   m_Name: 
@@ -5525,8 +5525,8 @@ AudioSource:
   m_Pitch: 1
   Loop: 1
   Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
+  Spatialize: 1
+  SpatializePostEffects: 1
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
@@ -5565,7 +5565,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
