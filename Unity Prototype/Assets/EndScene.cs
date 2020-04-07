@@ -7,6 +7,7 @@ public class EndScene : MonoBehaviour
     public AudioSource bass;
     public AudioSource drums;
     public GameObject fade;
+	public GameObject panel;
     public AudioSource endScene;
     public DisplayScore script;
     // Start is called before the first frame update
@@ -25,7 +26,9 @@ public class EndScene : MonoBehaviour
     {
         endScene.Play();
         yield return new WaitForSeconds(endScene.clip.length);
-        fade.SetActive(false);
+        fade.SetActive(true);
+		panel.SetActive(false);
+		yield return new WaitForSeconds(1);
         script.enabled = true;
         bass.volume = 1;
         drums.volume = 1;
