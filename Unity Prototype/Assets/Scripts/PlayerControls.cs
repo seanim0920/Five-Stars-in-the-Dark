@@ -85,7 +85,7 @@ public class PlayerControls : MonoBehaviour
             if(!engineSound.transform.GetChild(0).GetComponent<AudioSource>().isPlaying)
             {
                 // engineSound.transform.GetChild(0).GetComponent<AudioSource>().volume = 0.667f;
-                Debug.Log("Coasting Clip");
+                // Debug.Log("Coasting Clip");
                 engineSound.transform.GetChild(0).GetComponent<AudioSource>().Play(); // Play Coasting sound
             }
 
@@ -97,14 +97,14 @@ public class PlayerControls : MonoBehaviour
         else if (movementSpeed > neutralSpeed)
         {
             // Blend form MaxSpeed to Coasting
-            Debug.Log("MaxSpeed->Coasting");
+            // Debug.Log("MaxSpeed->Coasting");
             BlendSnapshot(3, 0.5f);
             slowDown(0.005f);
         }
         else
         {
             // Blend from Rest to Coasting
-            Debug.Log("Rest->Coasting");
+            // Debug.Log("Rest->Coasting");
             BlendSnapshot(0, 1.5f);
             speedUp(0.1f);
         }
@@ -115,7 +115,7 @@ public class PlayerControls : MonoBehaviour
         // Play Slowing Down Clip
         if(!engineSound.transform.GetChild(2).GetComponent<AudioSource>().isPlaying)
         {
-            Debug.Log("Slowing Clip");
+            // Debug.Log("Slowing Clip");
             engineSound.transform.GetChild(2).GetComponent<AudioSource>().Play();
         }
 
@@ -123,7 +123,7 @@ public class PlayerControls : MonoBehaviour
         // Blend from Coasting to Rest
         if (movementSpeed <= neutralSpeed)
         {
-            Debug.Log("Coasting->Rest");
+            // Debug.Log("Coasting->Rest");
             BlendSnapshot(4, 4f);
         }
 
@@ -135,20 +135,20 @@ public class PlayerControls : MonoBehaviour
         // Play Accelerating Clip
         if(!engineSound.transform.GetChild(1).GetComponent<AudioSource>().isPlaying)
         {
-            Debug.Log("Accel Clip");
+            // Debug.Log("Accel Clip");
             engineSound.transform.GetChild(1).GetComponent<AudioSource>().PlayScheduled(10.5f);
         }
 
         // Blend from Coasting to Max Speed
         if (movementSpeed > neutralSpeed)
         {
-            Debug.Log("Coasting->MaxSpeed");
+            // Debug.Log("Coasting->MaxSpeed");
             BlendSnapshot(2, 0.5f);
         }
         else
         {
             // Blend from Rest to Coasting
-            Debug.Log("Rest->Coasting");
+            // Debug.Log("Rest->Coasting");
             BlendSnapshot(0, 0.5f);
         }
 
