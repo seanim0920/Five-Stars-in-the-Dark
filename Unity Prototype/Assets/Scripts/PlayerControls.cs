@@ -8,6 +8,7 @@ public class PlayerControls : MonoBehaviour
     public AudioSource engineSound;
     public AudioSource tireSound;
     public float movementSpeed = 0f;
+    public float minSpeed = 0.01f;
     public float maxSpeed = 0.08f;
     public float neutralSpeed = 0.05f;
     private float acceleration = 0.001f;
@@ -38,7 +39,7 @@ public class PlayerControls : MonoBehaviour
 
         wheelFunctions = GetComponent<SteeringWheelControl>();
     }
-    void Update()
+    void FixedUpdate()
     {
         for (int loop = 0; loop < 2; loop++)
         {
@@ -87,6 +88,7 @@ public class PlayerControls : MonoBehaviour
 
     public void slowDown(float amount)
     {
+        if (movementSpeed <= minSpeed) return;
         movementSpeed *= 1-amount;
         //setRadioTempo(getRadioTempo()*(1-amount));
     }

@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using System.IO;
 public class ConstructLevelFromMarkers : MonoBehaviour
 {
-    //for skipping dialogue
-    public int dialogueSection = 0;
-    Coroutine cutsceneRoutine = null;
-
-    AudioSource level;
-    List<float> dialogueTimes = new List<float>();
+    AudioSource levelDialogue;
+    public AudioSource secondSource;
+    List<string> timedObstacleMarkers = new List<string>();
+    List<string> distanceObstacleMarkers = new List<string>();
+    List<string> dialogueMarkers = new List<string>();
+    Dictionary<GameObject, float> spawnedObstacles = new Dictionary<GameObject, float>();
     public SteeringWheelControl wheelFunctions;
 
     //for lowering the volume when dialogue is playing
@@ -22,59 +23,64 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     //for the start cutscene
     public PlayerControls controls;
+    public KeyboardControl keyboard;
     public AudioSource ambience;
     public GameObject blackScreen;
     public AudioSource carStart;
+    public TextAsset markersFile;
 
-    float totalDialogueTime = 0;
+    float numberOfLanes = 3;
+    float laneWidth = 1.8f;
+    float roadWidth = 1.8f * 3;
+
+    bool skipSection = false;
+    void parseMarkersFromTextFile()
+    {
+        StreamReader inp_stm = new StreamReader(Application.dataPath + "/" + "Level1.txt");
+
+        while (!inp_stm.EndOfStream)
+        {
+            string inp_ln = inp_stm.ReadLine();
+            // Do Something with the input. 
+        }
+
+        inp_stm.Close();
+    }
 
     void parseLevelMarkers()
     {
+        timedObstacleMarkers = new List<string>();
+        dialogueMarkers = new List<string>();
+        spawnedObstacles = new Dictionary<GameObject, float>();
+        levelDialogue = GetComponent<AudioSource>();
 
-        level = GetComponent<AudioSource>();
+        string[] lines = markersFile.text.Split('\n');
 
-        TextAsset markers = Resources.Load<TextAsset>("Level1Markers");
-        string[] lines = markers.text.Split('\n');
-
+        int lineNumber = 1;
         foreach (string line in lines)
         {
             string[] tokens = line.Split(new char[] { ' ', '\t' });
+            if (tokens.Length < 3 || !char.IsDigit(tokens[0][0])) continue;
+            float previousStartTime = 0;
+            bool newTrack = false;
+            float startTime = float.Parse(tokens[0]);
             int lineLength;
-            if (tokens.Length >= 3)
+            //markers will either be obstacles/dialogue, or news/realtime events
+            if (tokens.Length == 3)
             {
-                //print(tokens[0]);
-                //start of dialogue
-                dialogueTimes.Add(float.Parse(tokens[0]));
-                //end of dialogue
-                dialogueTimes.Add(float.Parse(tokens[1]));
-                //time to wait after playing dialogue
-                dialogueTimes.Add((tokens.Length == 4) ? float.Parse(tokens[3]) : 0);
-                totalDialogueTime += float.Parse(tokens[1]) - float.Parse(tokens[0]) + ((tokens.Length == 4) ? float.Parse(tokens[3]) : 0);
-            }
-        }
-
-        /*
-        TextAsset markers = Resources.Load<TextAsset>("Level1Events");
-        string[] lines = markers.text.Split('\n');
-
-        float totalDialogueTime = 0;
-        foreach (string line in lines)
-        {
-            string[] tokens = line.Split(new char[] { ' ', '\t' });
-            int lineLength;
-            if (tokens.Length >= 3)
+                dialogueMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
+            } else if (startTime >= previousStartTime && !newTrack)
             {
-                //print(tokens[0]);
-                //start of dialogue
-                dialogueTimes.Add(float.Parse(tokens[0]));
-                //end of dialogue
-                dialogueTimes.Add(float.Parse(tokens[1]));
-                //time to wait after playing dialogue
-                dialogueTimes.Add((tokens.Length == 4) ? float.Parse(tokens[3]) : 0);
-                totalDialogueTime += float.Parse(tokens[1]) - float.Parse(tokens[0]) + ((tokens.Length == 4) ? float.Parse(tokens[3]) : 0);
+                timedObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
+                previousStartTime = startTime;
+            } else
+            {
+                newTrack = true;
+                distanceObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
             }
+            print("amount of tokens are " + tokens.Length);
+            lineNumber++;
         }
-        */
     }
 
     [ContextMenu("Construct Level")]
@@ -82,39 +88,44 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         parseLevelMarkers();
 
-        constructLevelMap(totalDialogueTime);
+        constructLevelMap();
     }
 
     void Start()
     {
         parseLevelMarkers();
-        //function should go here
-        if (dialogueSection == 0)
+
+        if (GameObject.Find("Map"))
         {
-            blackScreen.SetActive(true);
+            Destroy(GameObject.Find("Map"));
+
+            constructLevelMap();
+
+            GameObject.Find("Map").name = "NewerMap";
         }
-        cutsceneRoutine = StartCoroutine(playCutscenes(dialogueSection));
+
         StartCoroutine(lockWheel());
         StartCoroutine(shiftLoopSectionOfMusic(16f, 70.5f));
+        StartCoroutine(playLevel());
     }
 
-    void constructLevelMap(float totalDialogueTime)
+    void constructLevelMap()
     {
+        float updateRate = 50; //how long fixedupdate runs per second
+
+        GameObject GPS = Resources.Load<GameObject>("GPSMarker");
         GameObject curb = Resources.Load<GameObject>("Curb");
         GameObject road = Resources.Load<GameObject>("Road");
-        GameObject GPS = Resources.Load<GameObject>("GPSMarker");
-        GameObject exit = Resources.Load<GameObject>("Exit");
 
         GameObject map = new GameObject("Map");
-        float width = 6;
-        float length = totalDialogueTime * controls.neutralSpeed * 60; //assuming 60 fps
+        float length = levelDialogue.clip.length * controls.neutralSpeed * updateRate;
         GameObject roadtile = Instantiate(road, new Vector3(0, 0, 1), Quaternion.identity);
-        roadtile.transform.localScale = new Vector3(width, length, 1);
+        roadtile.transform.localScale = new Vector3(roadWidth, length, 1);
         roadtile.transform.parent = map.transform;
-        GameObject leftcurb = Instantiate(curb, new Vector3(-width/2 - 0.5f, 0, 1), Quaternion.identity);
+        GameObject leftcurb = Instantiate(curb, new Vector3(-roadWidth/2 - 0.5f, 0, 1), Quaternion.identity);
         leftcurb.transform.localScale = new Vector3(1,length,1);
         leftcurb.transform.parent = map.transform;
-        GameObject rightcurb = Instantiate(curb, new Vector3(width/2 + 0.5f, 0, 1), Quaternion.identity);
+        GameObject rightcurb = Instantiate(curb, new Vector3(roadWidth/2 + 0.5f, 0, 1), Quaternion.identity);
         rightcurb.transform.localScale = new Vector3(1, length, 1);
         rightcurb.transform.parent = map.transform;
         playerTransform.position = new Vector3(0, -length / 2, 0);
@@ -122,38 +133,152 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         GameObject GPSstart = Instantiate(GPS, new Vector3(0, -length/2, 1), Quaternion.identity);
         GPSstart.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/gps_start");
         GPSstart.transform.parent = map.transform;
-        GameObject GPSmiddle = Instantiate(GPS, new Vector3(0, 0, 1), Quaternion.identity);
-        GPSmiddle.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/gps_middle");
-        GPSmiddle.transform.parent = map.transform;
-        GameObject GPSend = Instantiate(exit, new Vector3(0, length/2, 1), Quaternion.identity);
-        GPSend.transform.parent = map.transform;
+
+        //GameObject dialogueZone = Resources.Load<GameObject>("DialogueMarker");
     }
 
-    IEnumerator playCutscenes(int startSection)
+    IEnumerator playLevel()
     {
-        for (int i = startSection*3; i < dialogueTimes.Count; i += 3)
+        bool midpoint = false;
+        bool endpoint = false;
+        print("starting level now");
+        int updateRate = 50;
+        float endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split('-')[0]);
+
+        //perform these checks every frame for as long as the dialogue plays
+        while (levelDialogue.time < endOfLevel)
         {
-            int currentSection = i / 3;
-            if (currentSection == 1)
+            //figure out when the current dialogue section ends and the next starts
+            float currentDialogueEndTime = endOfLevel;
+            float nextDialogueStartTime = endOfLevel;
+            string command = "";
+
+            if (dialogueMarkers.Count > 1)
             {
-                blackScreen.SetActive(false);
+                currentDialogueEndTime = float.Parse(dialogueMarkers[0].Split('-')[1]);
+                nextDialogueStartTime = float.Parse(dialogueMarkers[1].Split('-')[0]);
+                command = dialogueMarkers[0].Split('-')[2];
+                dialogueMarkers.RemoveAt(0);
             }
-            if (!controls.enabled && currentSection > 1)
+
+            //figure out when the next obstacle will spawn
+            float nextObstacleSpawnTime = endOfLevel;
+            if (timedObstacleMarkers.Count > 0)
+            {
+                nextObstacleSpawnTime = endOfLevel;
+            }
+
+            //places GPS markers at the middle and end of the dialogue
+            if (levelDialogue.time >= endOfLevel / 2 && !midpoint)
+            {
+                secondSource.clip = Resources.Load<AudioClip>("Audio/gps_middle");
+                secondSource.Play();
+                yield return new WaitForSeconds(secondSource.clip.length);
+                midpoint = true;
+            }
+
+            //create a physical marker that must be hit before the next piece of dialogue can play
+            GameObject nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("DisposableTrigger"), playerTransform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+
+            //start playing the dialogue from wherever it left off
+            print("starting new dialogue section");
+            levelDialogue.Play();
+
+            print("current time" + levelDialogue.time + "dialogue end" + currentDialogueEndTime + " next dialogue start " + nextDialogueStartTime);
+            //while waiting for the next piece of dialogue, check if any obstacles need to be spawned or despawned, then remove from the queue. checks every frame
+            while (levelDialogue.time < nextDialogueStartTime)
+            {
+                //print("time in the dialogue is " + levelDialogue.time);
+                yield return new WaitForSeconds(0);
+
+                //check list of markers to see if the next obstacle is due
+                if (timedObstacleMarkers.Count > 0)
+                {
+                    string[] obstacleData = timedObstacleMarkers[0].Split('-');
+                    float spawnTime = float.Parse(obstacleData[0]);
+                    float despawnTime = float.Parse(obstacleData[1]);
+
+                    //if the next obstacle is due or if the obstacle trigger was touched, spawn it
+                    if (spawnTime < nextDialogueStartTime && levelDialogue.time > spawnTime)
+                    {
+                        string[] obstacleSeq = obstacleData[2].Split(',');
+                        print("spawning obstacles" + spawnTime);
+                        foreach (string obstacle in obstacleSeq)
+                        {
+                            //instantiate the obstacles plotted at this time
+
+                            //print(obstacle);
+                            string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
+                            float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
+                                tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
+                                playerTransform.position.x;
+                            float ypos = playerTransform.position.y + (tokens[1].ToLower()[0] == 'f' ? 7 : -7);
+                            print(tokens[0].Trim());
+                            spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
+                                new Vector3(xpos, ypos, 0),
+                                Quaternion.identity), despawnTime);
+                        }
+                        timedObstacleMarkers.RemoveAt(0);
+                    }
+                }
+
+                //check all active obstacles to see if any should be despawned
+                foreach (KeyValuePair<GameObject, float> pair in spawnedObstacles)
+                {
+                    if (levelDialogue.time >= pair.Value)
+                    {
+                        GameObject obj = pair.Key;
+
+                        obj.GetComponent<BoxCollider2D>().isTrigger = true;
+                        if (obj.transform.position.x > playerTransform.position.x)
+                            obj.transform.Rotate(0, 0, -90);
+                        else
+                            obj.transform.Rotate(0, 0, 90);
+                        Destroy(pair.Key, 5);
+
+                        spawnedObstacles.Remove(obj);
+                        break;
+                    }
+                    //obstacles can spawn prematurely, but not despawn prematurely
+                }
+
+                //for debugging
+                if (skipSection)
+                {
+                    Destroy(nextDialogueTrigger);
+                    foreach (KeyValuePair<GameObject, float> pair in spawnedObstacles)
+                    {
+                        Destroy(pair.Key);
+                    }
+                    spawnedObstacles.Clear();
+
+                    levelDialogue.time = nextDialogueStartTime;
+                    break;
+                }
+
+                if (levelDialogue.time >= currentDialogueEndTime && nextDialogueTrigger == null && (timedObstacleMarkers.Count == 0 || (float.Parse(timedObstacleMarkers[0].Split('-')[0]) >= nextDialogueStartTime))) { break; }
+            }
+
+            print("finished section of dialogue");
+            levelDialogue.Pause();
+
+            //wait until the next dialogue trigger is touched
+            while (nextDialogueTrigger != null) { yield return new WaitForSeconds(0); }
+
+            skipSection = false;
+
+            if (string.Equals(command.Trim(), "[Start]"))
             {
                 StartCoroutine(startCar());
                 yield return new WaitForSeconds(2);
             }
-            level.time = dialogueTimes[i];
-            level.Play();
-            yield return new WaitForSeconds(dialogueTimes[i + 1] - dialogueTimes[i]);
-            level.Pause();
-            print(currentSection);
-            if (currentSection == 1)
-            {
-                StartCoroutine(startCar());
-            }
-            yield return new WaitForSeconds(dialogueTimes[i + 2]);
         }
+
+        secondSource.clip = Resources.Load<AudioClip>("Audio/gps_end");
+        secondSource.Play();
+        yield return new WaitForSeconds(secondSource.clip.length);
+        SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
     }
 
     IEnumerator startCar()
@@ -223,9 +348,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         if (Input.GetKeyDown("s"))
         {
-            StopCoroutine(cutsceneRoutine);
-            dialogueSection++;
-            cutsceneRoutine = StartCoroutine(playCutscenes(dialogueSection));
+            skipSection = true;
         }
     }
 
@@ -243,12 +366,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 {
                     if (dialogueStart)
                     {
-                        print("pause music");
                         child.gameObject.GetComponent<AudioSource>().volume = 0.5f;
                     }
                     else
                     {
-                        print("resume music");
                         child.gameObject.GetComponent<AudioSource>().volume = 1f;
                     }
                 }

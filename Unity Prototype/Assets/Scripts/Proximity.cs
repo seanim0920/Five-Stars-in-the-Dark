@@ -7,6 +7,7 @@ public class Proximity : MonoBehaviour
 {
     private float eyesight = 4f;
     AudioSource noise;
+    private bool isBeep = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,8 +19,13 @@ public class Proximity : MonoBehaviour
     {
         if (Input.GetKeyDown("p"))
         {
-            //switch proximity modes
-            //noise.clip = "";
+            if (isBeep)
+            {
+                noise.clip = Resources.Load<AudioClip>("Audio/noise");
+            } else
+            {
+                noise.clip = Resources.Load<AudioClip>("Audio/proximitybeep");
+            }
         }
     }
 

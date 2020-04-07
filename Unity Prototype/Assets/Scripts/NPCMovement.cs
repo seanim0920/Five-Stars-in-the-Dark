@@ -18,7 +18,7 @@ public class NPCMovement : MonoBehaviour
         engineSound = GetComponent<AudioSource>();
         StartCoroutine(SwitchLanes());
     }
-    void Update()
+    void FixedUpdate()
     {
         movementDirection = transform.up;
         if (SeesObstacle(movementDirection))
@@ -30,11 +30,12 @@ public class NPCMovement : MonoBehaviour
             movementSpeed *= 0.92f;
             //engineSound.pitch *= 0.92f;
         }
+        /*
         else if (SeesObstacle(transform.right))
         {
             movementSpeed += acceleration;
             //engineSound.pitch += acceleration / neutralSpeed;
-        }
+        }*/
         else
         {
             if (neutralSpeed > movementSpeed + 0.02f)

@@ -8,8 +8,10 @@ public class SpeedShake : MonoBehaviour
     float shakeOffset = 5;
     float lerpTime = 0;
     public RectTransform rect;
+    Vector2 originalPosition;
     void Start()
     {
+        originalPosition = rect.anchoredPosition;
     }
 
     // Update is called once per frame
@@ -18,7 +20,7 @@ public class SpeedShake : MonoBehaviour
         if (controls.enabled)
         {
             Vector2 displacement = Quaternion.Euler(0, 0, Random.Range(0, 360)) * Vector2.right * shakeOffset * (controls.movementSpeed / controls.maxSpeed);
-            rect.anchoredPosition = Vector2.zero + displacement;
+            rect.anchoredPosition = originalPosition + displacement;
         }
     }
 }
