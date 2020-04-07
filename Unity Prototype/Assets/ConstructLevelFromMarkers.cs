@@ -290,6 +290,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         StartCoroutine(wheelRumble());
         yield return new WaitForSeconds(1);
         controls.enabled = true;
+        keyboard.enabled = true;
         adjustInstrumentVolume(false, new string[] { });
     }
 

@@ -6,6 +6,7 @@ using UnityEngine.Audio;
 public class PlayerControls : MonoBehaviour
 {
     public AudioSource engineSound;
+    // private Transform engineSounds;
     public AudioSource tireSound;
     public float movementSpeed = 0f;
     public float minSpeed = 0.01f;
@@ -25,6 +26,9 @@ public class PlayerControls : MonoBehaviour
 
     public AudioMixer leftSpeaker;
     public AudioMixer rightSpeaker;
+    public AudioMixer engineMixer;
+    public AudioMixerSnapshot[] engineSounds;
+    public float[] snapshotWeights;
 
     private SteeringWheelControl wheelFunctions;
     public AudioMixer slowinstruments;
@@ -33,9 +37,12 @@ public class PlayerControls : MonoBehaviour
 
     void Start()
     {
+        // engineSounds = engineSound.transform;
         body = GetComponent<Rigidbody2D>();
         bump = Resources.Load<AudioClip>("Audio/bumpend");
         movementDirection = transform.up;
+
+        // AudioMixerSnapshot[] engineSounds = {restToCoast, coastToAccel};
 
         wheelFunctions = GetComponent<SteeringWheelControl>();
     }
@@ -71,17 +78,35 @@ public class PlayerControls : MonoBehaviour
 
     public void returnToNeutralSpeed()
     {
+        // Transform engineSounds = engineSound.transform; // Get Engine children
+        // Debug.Log("Inside returnToNeutralSpeed");
         if (Mathf.Abs(neutralSpeed - movementSpeed) < 0.005f)
         {
+            // Play Coasting Clip
+            if(!engineSound.transform.GetChild(0).GetComponent<AudioSource>().isPlaying)
+            {
+                // engineSound.transform.GetChild(0).GetComponent<AudioSource>().volume = 0.667f;
+                // Debug.Log("Coasting Clip");
+                engineSound.transform.GetChild(0).GetComponent<AudioSource>().Play(); // Play Coasting sound
+            }
+
+            // Blend from whatever to only Coasting
+            BlendSnapshot(1, 0.5f);
             movementSpeed = neutralSpeed;
             //setRadioTempo(1f);
         }
         else if (movementSpeed > neutralSpeed)
         {
+            // Blend form MaxSpeed to Coasting
+            // Debug.Log("MaxSpeed->Coasting");
+            BlendSnapshot(3, 0.5f);
             slowDown(0.005f);
         }
         else
         {
+            // Blend from Rest to Coasting
+            // Debug.Log("Rest->Coasting");
+            BlendSnapshot(0, 1.5f);
             speedUp(0.1f);
         }
     }
@@ -89,11 +114,46 @@ public class PlayerControls : MonoBehaviour
     public void slowDown(float amount)
     {
         if (movementSpeed <= minSpeed) return;
+        // Play Slowing Down Clip
+        if(!engineSound.transform.GetChild(2).GetComponent<AudioSource>().isPlaying)
+        {
+            // Debug.Log("Slowing Clip");
+            engineSound.transform.GetChild(2).GetComponent<AudioSource>().Play();
+        }
+
+        
+        // Blend from Coasting to Rest
+        if (movementSpeed <= neutralSpeed)
+        {
+            // Debug.Log("Coasting->Rest");
+            BlendSnapshot(4, 4f);
+        }
+
         movementSpeed *= 1-amount;
         //setRadioTempo(getRadioTempo()*(1-amount));
     }
     public void speedUp(float amount)
     {
+        // Play Accelerating Clip
+        if(!engineSound.transform.GetChild(1).GetComponent<AudioSource>().isPlaying)
+        {
+            // Debug.Log("Accel Clip");
+            engineSound.transform.GetChild(1).GetComponent<AudioSource>().PlayScheduled(10.5f);
+        }
+
+        // Blend from Coasting to Max Speed
+        if (movementSpeed > neutralSpeed)
+        {
+            // Debug.Log("Coasting->MaxSpeed");
+            BlendSnapshot(2, 0.5f);
+        }
+        else
+        {
+            // Blend from Rest to Coasting
+            // Debug.Log("Rest->Coasting");
+            BlendSnapshot(0, 0.5f);
+        }
+
         if (movementSpeed < maxSpeed)
         {
             movementSpeed += acceleration*amount;
@@ -186,4 +246,60 @@ public class PlayerControls : MonoBehaviour
     //    radio.GetFloat("Speed", out speed);
     //    return speed;
     //}
+
+    // This function blends audio mixer snapshots together
+    // Code was modified from the Unity Audio Mixer Snapshots YouTube tutorial:
+    // https://youtu.be/2nYyws0qJOM
+    public void BlendSnapshot(int transitionNum, float blendTime)
+    {
+        // Snapshot indices are as follows:
+        // 0: Rest
+        // 1: Rest to Coasting
+        // 2: Coasting
+        // 3: MaxSpeed
+        // 4: MaxSpeed to Coasting
+        switch(transitionNum)
+        {
+        case 0: // Rest -> Coasting
+            snapshotWeights[0] = 0.0f;
+            snapshotWeights[1] = 1.0f;
+            snapshotWeights[2] = 0.0f;
+            snapshotWeights[3] = 0.0f;
+            snapshotWeights[4] = 0.0f;
+            engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
+            break;
+        case 1: // Just Coasting
+            snapshotWeights[0] = 0.0f;
+            snapshotWeights[1] = 0.0f;
+            snapshotWeights[2] = 1.0f;
+            snapshotWeights[3] = 0.0f;
+            snapshotWeights[4] = 0.0f;
+            engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
+            break;
+        case 2: // Coast -> Max Speed
+            snapshotWeights[0] = 0.0f;
+            snapshotWeights[1] = 0.0f;
+            snapshotWeights[2] = 0.0f;
+            snapshotWeights[3] = 1.0f;
+            snapshotWeights[4] = 0.0f;
+            engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
+            break;
+        case 3: // Max Speed -> Coast
+            snapshotWeights[0] = 0.0f;
+            snapshotWeights[1] = 0.0f;
+            snapshotWeights[2] = 0.0f;
+            snapshotWeights[3] = 0.0f;
+            snapshotWeights[4] = 1.0f;
+            engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
+            break;
+        case 4: // Coast -> Rest
+            snapshotWeights[0] = 1.0f;
+            snapshotWeights[1] = 0.0f;
+            snapshotWeights[2] = 0.0f;
+            snapshotWeights[3] = 0.0f;
+            snapshotWeights[4] = 0.0f;
+            engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
+            break;
+        }
+    }
 }
