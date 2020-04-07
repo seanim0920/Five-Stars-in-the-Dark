@@ -983,6 +983,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &629073940 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7315122538386487845, guid: f74e867e465b4404aae99e5cf594e41e,
+    type: 3}
+  m_PrefabInstance: {fileID: 7742082322583644492}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1082225172 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4314826277659574847, guid: 0737ab1198c13c74695686fd9e987b22,
@@ -1813,6 +1819,51 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelConstructor
       objectReference: {fileID: 0}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: wheelFunctions
+      value: 
+      objectReference: {fileID: 7742082322583644500}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: leftSpeaker
+      value: 
+      objectReference: {fileID: 7742082322583644499}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: rightSpeaker
+      value: 
+      objectReference: {fileID: 7742082322583644498}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 7742082322583644497}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: controls
+      value: 
+      objectReference: {fileID: 7742082322583644496}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: keyboard
+      value: 
+      objectReference: {fileID: 7742082322583644495}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: ambience
+      value: 
+      objectReference: {fileID: 7742082322583644494}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: blackScreen
+      value: 
+      objectReference: {fileID: 1527944646}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: carStart
+      value: 
+      objectReference: {fileID: 7742082322583644493}
     - target: {fileID: 412440413062414635, guid: cec60119a7a8c704ea21138b08c6c077,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1868,51 +1919,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: wheelFunctions
-      value: 
-      objectReference: {fileID: 7742082322583644500}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: leftSpeaker
-      value: 
-      objectReference: {fileID: 7742082322583644499}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: rightSpeaker
-      value: 
-      objectReference: {fileID: 7742082322583644498}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: playerTransform
-      value: 
-      objectReference: {fileID: 7742082322583644497}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: controls
-      value: 
-      objectReference: {fileID: 7742082322583644496}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: keyboard
-      value: 
-      objectReference: {fileID: 7742082322583644495}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: ambience
-      value: 
-      objectReference: {fileID: 7742082322583644494}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: blackScreen
-      value: 
-      objectReference: {fileID: 1527944646}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: carStart
-      value: 
-      objectReference: {fileID: 7742082322583644493}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cec60119a7a8c704ea21138b08c6c077, type: 3}
 --- !u!1001 &7742082322583644492
@@ -1996,6 +2002,16 @@ PrefabInstance:
         type: 3}
       propertyPath: hitSoundObject
       value: 
+      objectReference: {fileID: 258595034}
+    - target: {fileID: 6449874753617890295, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: snapshotWeights.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6449874753617890295, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: engineSounds.Array.size
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6449874753617890295, guid: f74e867e465b4404aae99e5cf594e41e,
         type: 3}
@@ -2008,6 +2024,46 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 24100000, guid: d266e19fb9e87fe4cacf93d1ffc191e8,
         type: 2}
+    - target: {fileID: 6449874753617890295, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: engineSound
+      value: 
+      objectReference: {fileID: 629073940}
+    - target: {fileID: 6449874753617890295, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: engineSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 24500006, guid: d266e19fb9e87fe4cacf93d1ffc191e8,
+        type: 2}
+    - target: {fileID: 6449874753617890295, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: engineSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 2616851215000904619, guid: d266e19fb9e87fe4cacf93d1ffc191e8,
+        type: 2}
+    - target: {fileID: 6449874753617890295, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: engineSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 2133684793175362343, guid: d266e19fb9e87fe4cacf93d1ffc191e8,
+        type: 2}
+    - target: {fileID: 6449874753617890295, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: engineSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: -8807714207632945724, guid: d266e19fb9e87fe4cacf93d1ffc191e8,
+        type: 2}
+    - target: {fileID: 6449874753617890295, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: engineSounds.Array.data[4]
+      value: 
+      objectReference: {fileID: -214203039708733533, guid: d266e19fb9e87fe4cacf93d1ffc191e8,
+        type: 2}
+    - target: {fileID: 7315122538386487845, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74e867e465b4404aae99e5cf594e41e, type: 3}
 --- !u!82 &7742082322583644493 stripped
