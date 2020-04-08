@@ -8,6 +8,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     AudioSource levelDialogue;
     public AudioSource secondSource;
     List<string> timedObstacleMarkers = new List<string>();
+    List<string> commandMarkers = new List<string>();
     List<string> distanceObstacleMarkers = new List<string>();
     List<string> dialogueMarkers = new List<string>();
     Dictionary<GameObject, float> spawnedObstacles = new Dictionary<GameObject, float>();
@@ -34,6 +35,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     float roadWidth = 1.8f * 3;
 
     bool skipSection = false;
+    bool skipIntro = false;
     void parseMarkersFromTextFile()
     {
         StreamReader inp_stm = new StreamReader(Application.dataPath + "/" + "Level1.txt");
@@ -68,7 +70,15 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             //markers will either be obstacles/dialogue, or news/realtime events
             if (tokens.Length == 3)
             {
-                dialogueMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
+                if (tokens[2][0] == '[')
+                {
+                    print("parsed command marker" + tokens.Length);
+                    commandMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
+                }
+                else
+                {
+                    dialogueMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
+                }
             } else if (startTime >= previousStartTime && !newTrack)
             {
                 timedObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
@@ -78,7 +88,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 newTrack = true;
                 distanceObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
             }
-            print("amount of tokens are " + tokens.Length);
+            //print("amount of tokens are " + tokens.Length);
             lineNumber++;
         }
     }
@@ -144,6 +154,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         print("starting level now");
         int updateRate = 50;
         float endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split('-')[0]);
+        print("level ends at " + endOfLevel);
 
         //perform these checks every frame for as long as the dialogue plays
         while (levelDialogue.time < endOfLevel)
@@ -151,13 +162,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             //figure out when the current dialogue section ends and the next starts
             float currentDialogueEndTime = endOfLevel;
             float nextDialogueStartTime = endOfLevel;
-            string command = "";
+            bool start = false;
 
             if (dialogueMarkers.Count > 1)
             {
                 currentDialogueEndTime = float.Parse(dialogueMarkers[0].Split('-')[1]);
                 nextDialogueStartTime = float.Parse(dialogueMarkers[1].Split('-')[0]);
-                command = dialogueMarkers[0].Split('-')[2];
+                if (string.Equals(dialogueMarkers[0].Split('-')[2].Trim(), "Start")) start = true;
                 dialogueMarkers.RemoveAt(0);
             }
 
@@ -179,6 +190,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
             //create a physical marker that must be hit before the next piece of dialogue can play
             GameObject nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("DisposableTrigger"), playerTransform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+            if (start)
+            {
+                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("DisposableTrigger"), playerTransform.position + new Vector3(0, (nextDialogueStartTime - currentDialogueEndTime) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+            }
 
             //start playing the dialogue from wherever it left off
             print("starting new dialogue section");
@@ -190,6 +205,28 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             {
                 //print("time in the dialogue is " + levelDialogue.time);
                 yield return new WaitForSeconds(0);
+
+                //check list of markers to see if the next obstacle is due
+                if (commandMarkers.Count > 0)
+                {
+                    string[] commandData = commandMarkers[0].Split('-');
+                    string command = commandData[2].Trim();
+                    float spawnTime = float.Parse(commandData[0]);
+                    print("parsing command... " + command + string.Equals(command, "[RevealScreen]"));
+                    if (levelDialogue.time >= spawnTime)
+                    {
+                        if (string.Equals(command, "[RevealScreen]"))
+                        {
+                            blackScreen.SetActive(false);
+                        }
+                        else if (string.Equals(command, "[StartCar]"))
+                        {
+                            StartCoroutine(startCar());
+                            yield return new WaitForSeconds(2);
+                        }
+                        commandMarkers.RemoveAt(0);
+                    }
+                }
 
                 //check list of markers to see if the next obstacle is due
                 if (timedObstacleMarkers.Count > 0)
@@ -266,12 +303,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             while (nextDialogueTrigger != null) { yield return new WaitForSeconds(0); }
 
             skipSection = false;
-
-            if (string.Equals(command.Trim(), "[Start]"))
-            {
-                StartCoroutine(startCar());
-                yield return new WaitForSeconds(2);
-            }
         }
 
         secondSource.clip = Resources.Load<AudioClip>("Audio/gps_end");
@@ -350,6 +381,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         if (Input.GetKeyDown("s"))
         {
             skipSection = true;
+        }
+        if (Input.GetKeyDown("l"))
+        {
+            skipIntro = true;
         }
     }
 

@@ -1233,7 +1233,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1527944647
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1933,6 +1933,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7315122538386487845, guid: f74e867e465b4404aae99e5cf594e41e,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4472338791395012213, guid: f74e867e465b4404aae99e5cf594e41e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2059,11 +2064,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -214203039708733533, guid: d266e19fb9e87fe4cacf93d1ffc191e8,
         type: 2}
-    - target: {fileID: 7315122538386487845, guid: f74e867e465b4404aae99e5cf594e41e,
-        type: 3}
-      propertyPath: OutputAudioMixerGroup
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f74e867e465b4404aae99e5cf594e41e, type: 3}
 --- !u!82 &7742082322583644493 stripped
