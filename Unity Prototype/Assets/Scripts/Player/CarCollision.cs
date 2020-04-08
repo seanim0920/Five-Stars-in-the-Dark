@@ -49,7 +49,7 @@ public class CarCollision : MonoBehaviour
             hitSoundObject.transform.position = col.gameObject.transform.position;
             hitSoundObject.GetComponent<AudioSource>().Play();
             wheelFunctions.PlayFrontCollisionForce();
-            carControls.movementSpeed *= 0.1f;
+            controlFunctions.movementSpeed *= 0.1f;
             //setRadioTempo(getRadioTempo() * 0.1f);
         }
         if (col.gameObject.tag == "Pedestrian" || col.gameObject.tag == "Stop")
