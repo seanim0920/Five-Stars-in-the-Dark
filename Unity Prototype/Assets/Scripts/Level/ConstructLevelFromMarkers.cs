@@ -33,6 +33,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     float laneWidth = 1.8f;
     float roadWidth = 1.8f * 3;
 
+    //this is public so dialogue rewinding scripts know where to rewind too.
+    public float currentDialogueStartTime = 0.0f;
+
     bool skipSection = false;
     void parseMarkersFromTextFile()
     {
@@ -151,10 +154,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             //figure out when the current dialogue section ends and the next starts
             float currentDialogueEndTime = endOfLevel;
             float nextDialogueStartTime = endOfLevel;
+            currentDialogueStartTime = 0.0f;
             string command = "";
 
             if (dialogueMarkers.Count > 1)
             {
+                currentDialogueStartTime = levelDialogue.time;
                 currentDialogueEndTime = float.Parse(dialogueMarkers[0].Split('-')[1]);
                 nextDialogueStartTime = float.Parse(dialogueMarkers[1].Split('-')[0]);
                 command = dialogueMarkers[0].Split('-')[2];

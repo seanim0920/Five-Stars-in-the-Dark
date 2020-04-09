@@ -49,7 +49,7 @@ public class CarCollision : MonoBehaviour
             hitSoundObject.transform.position = col.gameObject.transform.position;
             hitSoundObject.GetComponent<AudioSource>().Play();
             wheelFunctions.PlayFrontCollisionForce();
-            carControls.movementSpeed *= 0.1f;
+            //carControls.movementSpeed *= 0.1f;    I don't know why this is here, and I can't find the object it's attached to. So... idk fam I'll figure it out I guess.
             //setRadioTempo(getRadioTempo() * 0.1f);
         }
         if (col.gameObject.tag == "Pedestrian" || col.gameObject.tag == "Stop")
@@ -72,6 +72,8 @@ public class CarCollision : MonoBehaviour
             //this statement plays the audio
             hitSoundObject.GetComponent<AudioSource>().Play();
         }
+
+        DialogueInterrupt();
     }
     void OnCollisionExit2D(Collision2D col)
     {
@@ -89,6 +91,44 @@ public class CarCollision : MonoBehaviour
             CheckErrors.IncrementErrorsAndUpdateDisplay();
         }
 
+    }
+
+    void DialogueInterrupt()
+    {
+        //pick a number in [1, 4) to determine hitsound
+        int x = Random.Range(-2, 1) + (GetNumericValue(SceneManagment.Scene.name[6]) * 3);
+        //the only differences between the hurt sounds (besides content) are their names so I'm just using that
+        //If all levels are named 'Level i' and all hurt sounds are called 'hurt x', 'hurt x+1', and hurt x+2',
+        //then this will pick a hurt number in the correct range for the level.
+        
+        //is there dialogue currently being spoken? If so...
+        if (cutsceneScript.isSpeaking)
+        {
+            //Stop the level dialogue
+            cutsceneScript.levelDialogue.Stop(); 
+            //play a random hurtsound
+            //The following line assumes the clip is played with 2D stereo (i.e. won't get quieter as the car moves)
+            AudioSource.PlayClipAtPoint(Resources.Load<AudioClip>("Audio/" + SceneManagment.Scene.name + "/hurt " + x), new Vector3(0, 0, 0));
+            //rewind to when this dialogue section started
+            cutsceneScript.levelDialogue.time = cutsceneScript.currentDialogueStartTime;
+            //wait for... idk 3 seconds?
+            StartCoroutine(HitsoundWait(3));
+            //resume dialogue
+            cutsceneScript.levelDialogue.Play();
+        }
+        //if not...
+        else
+        {
+            //just play a random hurtsound
+            //The following line assumes the clip is played with 0 stereo (i.e. won't get quiter as the car moves)
+            AudioSource.PlayClipAtPoint(Resources.Load<AudioClip>("Audio/" + SceneManagment.Scene.name + "/hurt" + x), new Vector3(0, 0, 0));
+        }
+    }
+
+    //yes, I know it's a bit of a waste to have this IEnumerator here, but I can't declare it anonamously so oh well
+    IEnumerator HitsoundWait(int x)
+    {
+        yield return new WaitForSeconds(x);
     }
 
 }
