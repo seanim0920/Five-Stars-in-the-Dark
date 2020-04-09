@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 public class ConstructLevelFromMarkers : MonoBehaviour
 {
-    AudioSource levelDialogue;
+    public AudioSource levelDialogue;
     public AudioSource secondSource;
     List<string> timedObstacleMarkers = new List<string>();
     List<string> commandMarkers = new List<string>();
@@ -203,6 +203,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             //start playing the dialogue from wherever it left off
             print("starting new dialogue section");
             levelDialogue.Play();
+            isSpeaking = true;
 
             print("current time" + levelDialogue.time + "dialogue end" + currentDialogueEndTime + " next dialogue start " + nextDialogueStartTime);
             //while waiting for the next piece of dialogue, check if any obstacles need to be spawned or despawned, then remove from the queue. checks every frame
@@ -303,6 +304,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
             print("finished section of dialogue");
             levelDialogue.Pause();
+            isSpeaking = false;
 
             //wait until the next dialogue trigger is touched
             while (nextDialogueTrigger != null) { yield return new WaitForSeconds(0); }
