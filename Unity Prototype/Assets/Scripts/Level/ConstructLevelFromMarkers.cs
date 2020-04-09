@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using System.IO;
 public class ConstructLevelFromMarkers : MonoBehaviour
 {
-    AudioSource levelDialogue;
+    public AudioSource levelDialogue;
     public AudioSource secondSource;
     List<string> timedObstacleMarkers = new List<string>();
     List<string> commandMarkers = new List<string>();
@@ -33,6 +33,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     float numberOfLanes = 3;
     float laneWidth = 1.8f;
     float roadWidth = 1.8f * 3;
+
+    //this is public so dialogue rewinding scripts know where to rewind too.
+    public float currentDialogueStartTime = 0.0f;
 
     bool skipSection = false;
     bool skipIntro = false;
@@ -163,9 +166,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             float currentDialogueEndTime = endOfLevel;
             float nextDialogueStartTime = endOfLevel;
             bool start = false;
+            currentDialogueStartTime = 0.0f;
 
             if (dialogueMarkers.Count > 1)
             {
+                currentDialogueStartTime = levelDialogue.time;
                 currentDialogueEndTime = float.Parse(dialogueMarkers[0].Split('-')[1]);
                 nextDialogueStartTime = float.Parse(dialogueMarkers[1].Split('-')[0]);
                 if (string.Equals(dialogueMarkers[0].Split('-')[2].Trim(), "Start")) start = true;
@@ -198,6 +203,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             //start playing the dialogue from wherever it left off
             print("starting new dialogue section");
             levelDialogue.Play();
+            isSpeaking = true;
 
             print("current time" + levelDialogue.time + "dialogue end" + currentDialogueEndTime + " next dialogue start " + nextDialogueStartTime);
             //while waiting for the next piece of dialogue, check if any obstacles need to be spawned or despawned, then remove from the queue. checks every frame
@@ -298,6 +304,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
             print("finished section of dialogue");
             levelDialogue.Pause();
+            isSpeaking = false;
 
             //wait until the next dialogue trigger is touched
             while (nextDialogueTrigger != null) { yield return new WaitForSeconds(0); }
