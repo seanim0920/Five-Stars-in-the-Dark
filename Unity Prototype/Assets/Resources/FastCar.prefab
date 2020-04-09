@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2138646690712720297, guid: 9734698dbdef23049810e4ddda98d195,
         type: 3}
       propertyPath: m_Name
-      value: NPC
+      value: FastCar
       objectReference: {fileID: 0}
     - target: {fileID: 2138646690712720300, guid: 9734698dbdef23049810e4ddda98d195,
         type: 3}
