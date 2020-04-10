@@ -83,7 +83,7 @@ public class CarCollision : MonoBehaviour
         {
             //play the hurtsound and wait 3 seconds
             cutsceneScript.isSpeaking = false;
-            StartCoroutine(HitsoundWait(passengerHurt, 3));
+            StartCoroutine(HitsoundWait(passengerHurt, 2));
             cutsceneScript.isSpeaking = true;
         }
         //if not...
@@ -116,11 +116,11 @@ public class CarCollision : MonoBehaviour
     {
         Debug.Log("Pausing Dialogue");
         //Stop the level dialogue
-        cutsceneScript.levelDialogue.Stop();
+        cutsceneScript.levelDialogue.Pause();
         //play a random hurtsound
         AudioSource.PlayClipAtPoint(passengerHurt, /*new Vector3(0, 0, 0)*/this.gameObject.transform.position);
         //rewind to when this dialogue section started
-        cutsceneScript.levelDialogue.time = cutsceneScript.currentDialogueStartTime;
+        //cutsceneScript.levelDialogue.time = cutsceneScript.currentDialogueStartTime;
         //wait for... idk 3 seconds?
         yield return new WaitForSeconds(x);
         //resume dialogue
