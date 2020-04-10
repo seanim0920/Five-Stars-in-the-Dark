@@ -14,7 +14,7 @@ public class CarCollision : MonoBehaviour
     public GameObject situationalDialogues;
     //collision sound
     public AudioSource charOnCar;
-    string[] obstacleTags = { "Curb", "Guardrail", "Pedestrian", "Stop" };
+    string[] obstacleTags = { "Car", "Curb", "Guardrail", "Pedestrian", "Stop" };
 
     // Start is called before the first frame update
     void Start()
