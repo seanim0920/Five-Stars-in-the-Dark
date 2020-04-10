@@ -1,20 +1,19 @@
 0.000000	53.906569	Start
 43.647653	43.647653	[RevealScreen]
 53.717433	53.717433	[StartCar]
-59.686242	59.686242	[News1]
-74.091973	83.881224	Dialogue
-98.506212	121.367995	Dialogue
-146.957150	170.217263	Dialogue
-179.150819	179.150819	[News2]
-195.205402	240.767897	Dialogue
-267.389282	299.903819	Dialogue
-331.027932	350.707783	Dialogue
-331.188365	331.188365	[News3]
-385.468390	393.597024	End
-89.174326	115.966732	SlowCar aheadOf Lane1, SlowCar aheadOf Lane3
-91.554090	110.060160	SlowCar aheadOf Lane2
-133.159863	161.576929	SlowCar aheadOf Player
-179.364731	254.233730	SlowCar ahead playersLeft, SlowCar aheadOf playersRight
-214.874027	260.651073	FastCar behind Player
-270.597954	329.637507	FastCar behind Player
-314.021973	378.409312	SlowCar aheadOf PlayersLeft, FastCar behind Player
+54.346616	63.234011	Dialogue
+77.858998	100.720782	Dialogue
+117.533464	140.793578	Dialogue
+155.204943	200.767438	Dialogue
+216.136936	248.651473	Dialogue
+262.295557	275.151360	Dialogue
+262.520595	262.520595	[News3]
+309.911966	318.040601	End
+63.801320	90.593726	FastCar behind Lane1
+85.573888	104.079957	SlowCar behind Lane3
+107.786857	136.203923	SlowCar aheadOf Player
+153.991725	228.860724	SlowCar ahead playersLeft, SlowCar aheadOf playersRight
+189.501022	235.278067	FastCar behind Player
+245.224948	304.264502	FastCar behind Player
+282.647408	309.651938	FastCar aheadOf Lane3, SlowCar aheadOf Lane1
+288.648967	308.751787	SlowCar aheadOf PlayersLeft, FastCar behind Player
