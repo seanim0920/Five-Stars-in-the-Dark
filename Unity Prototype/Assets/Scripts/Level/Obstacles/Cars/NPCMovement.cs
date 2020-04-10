@@ -99,15 +99,16 @@ public class NPCMovement : MonoBehaviour
             //2 is the size of a lane
             Vector3 goal = transform.position + direction * 2;
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
-            if (!SeesObstacle(direction) &&
-                hit.collider.gameObject != null &&
-                hit.collider.gameObject.tag != "Guardrail")
+            if(hit.collider.gameObject != null)
             {
-                while ((goal - transform.position).magnitude > 0.02f)
+                if (!SeesObstacle(direction) && hit.collider.gameObject.tag != "Guardrail")
                 {
-                    //0.02f is movement speed while strafing
-                    transform.position += (goal - transform.position).normalized * 0.02f;
-                    yield return null;
+                    while ((goal - transform.position).magnitude > 0.02f)
+                    {
+                        //0.02f is movement speed while strafing
+                        transform.position += (goal - transform.position).normalized * 0.02f;
+                        yield return null;
+                    }
                 }
             }
         }
