@@ -8,7 +8,9 @@ using UnityEngine;
 public class QuickTurn : MonoBehaviour
 {
     //public int direction;
-    public AudioSource turnSound;
+    private AudioSource turnSound;
+    public KeyboardControl keyboardCtrl;
+    public PlayerControls playerCtrl;
     public bool mustTurnLeft;
     private string turnDirection;
     // Start is called before the first frame update
@@ -22,6 +24,8 @@ public class QuickTurn : MonoBehaviour
         {
             turnDirection = "right";
         }
+
+        turnSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -46,36 +50,46 @@ public class QuickTurn : MonoBehaviour
         // }
 
         // Begin Quick Turn sequence
-        StartCoroutine(QTurn());
+        if(other.transform.tag == "Player")
+        {
+            // Debug.Log("Turn " + turnDirection + "!"); // We potentially want to play a quick turn warning audio clip
+            StartCoroutine(QTurn());
+        }
     }
     IEnumerator QTurn()
     {
+        float startTime = Time.time;
         // If player was strafing in wrong direction/holding wrong button in the first place
-        if(!Input.GetKey(turnDirection))
+        while(!Input.GetKey(turnDirection) && Time.time - startTime < 2f)
         {
             // Wait for player to turn in correct direction (Make sure player is not cheating by somehow performing both inputs)
-            yield return new WaitForSeconds(2f);
+            yield return null;
         }
 
-        float startTime = Time.time;
+        startTime = Time.time;
         // If turning in correct direction
         if(Input.GetKey(turnDirection))
         {
+            keyboardCtrl.enabled = false;
+            playerCtrl.enabled = false;
             // Wait for a second and make sure player is holding correct direction the whole time
-            while(Time.time - startTime < 1f)
+            while(Time.time - startTime < 1.5f)
             {
                 yield return null;
             }
             // Play turnsound
             turnSound.Play();
             // return with no errors
-            yield break;;
+            keyboardCtrl.enabled = true;
+            playerCtrl.enabled = true;
+            yield break;
         }
         // else (turned in wrong direction)
         else
         {
             // return with score decremented
-            Debug.Log("Decrement Score");
+            // Debug.Log("Decrement Score"); // We potentially want to play an error audio clip
+            CheckErrors.IncrementErrorsAndUpdateDisplay();
             yield break;
         }
     }

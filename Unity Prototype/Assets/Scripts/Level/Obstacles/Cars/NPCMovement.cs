@@ -85,30 +85,30 @@ public class NPCMovement : MonoBehaviour
     IEnumerator SwitchLanes()
     {
         //randomly switch to the right or left lane
-        while (true)
-        {
-            //how will the car figure out where to go? just check to the right or left to see if there is open space/curb
-            yield return new WaitForSeconds(Random.Range(1.0f, 25.0f));
+        // while (true)
+        // {
+        //     //how will the car figure out where to go? just check to the right or left to see if there is open space/curb
+        //     yield return new WaitForSeconds(Random.Range(1.0f, 25.0f));
 
-            Vector3 direction = transform.right;
-            if (Random.Range(0, 1) == 0)
-            {
-                direction *= -1;
-            }
+        //     Vector3 direction = transform.right;
+        //     if (Random.Range(0, 1) == 0)
+        //     {
+        //         direction *= -1;
+        //     }
 
-            //2 is the size of a lane
-            Vector3 goal = transform.position + direction * 2;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
-            if (!SeesObstacle(direction) && hit.collider.gameObject.tag != "Guardrail")
-            {
-                while ((goal - transform.position).magnitude > 0.02f)
-                {
-                    //0.02f is movement speed while strafing
-                    transform.position += (goal - transform.position).normalized * 0.02f;
+        //     //2 is the size of a lane
+        //     Vector3 goal = transform.position + direction * 2;
+        //     RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
+        //     if (!SeesObstacle(direction) && hit.collider.gameObject.tag != "Guardrail")
+        //     {
+        //         while ((goal - transform.position).magnitude > 0.02f)
+        //         {
+        //             //0.02f is movement speed while strafing
+        //             transform.position += (goal - transform.position).normalized * 0.02f;
                     yield return null;
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
     }
 
     IEnumerator Honk()
