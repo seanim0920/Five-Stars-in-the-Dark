@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CarCollision : MonoBehaviour
 {
@@ -72,6 +73,26 @@ public class CarCollision : MonoBehaviour
             //this statement plays the audio
             hitSoundObject.GetComponent<AudioSource>().Play();
         }
+
+        //these pull a random hurtsound to play
+        int x = 1; // Random.Range(-2, 1) + (GetNumericValue(SceneManagment.Scene.name[6]) * 3);
+        AudioClip passengerHurt = Resources.Load<AudioClip>("Audio/dialogue/" + SceneManager.GetActiveScene().name + "/hurt" + x);
+        
+        //if the passenger is speaking...
+        if (cutsceneScript.checkIfSpeaking() && cutsceneScript.levelDialogue.isPlaying)
+        {
+            //play the hurtsound and wait 3 seconds
+            cutsceneScript.isSpeaking = false;
+            StartCoroutine(HitsoundWait(passengerHurt, 3));
+            cutsceneScript.isSpeaking = true;
+        }
+        //if not...
+        else
+        {
+            //just play the hurtsound
+            AudioSource.PlayClipAtPoint(passengerHurt, new Vector3(0, 0, 0));
+        }
+
     }
     void OnCollisionExit2D(Collision2D col)
     {
@@ -89,6 +110,22 @@ public class CarCollision : MonoBehaviour
             CheckErrors.IncrementErrorsAndUpdateDisplay();
         }
 
+    }
+
+    IEnumerator HitsoundWait(AudioClip passengerHurt, int x)
+    {
+        Debug.Log("Pausing Dialogue");
+        //Stop the level dialogue
+        cutsceneScript.levelDialogue.Stop();
+        //play a random hurtsound
+        AudioSource.PlayClipAtPoint(passengerHurt, /*new Vector3(0, 0, 0)*/this.gameObject.transform.position);
+        //rewind to when this dialogue section started
+        cutsceneScript.levelDialogue.time = cutsceneScript.currentDialogueStartTime;
+        //wait for... idk 3 seconds?
+        yield return new WaitForSeconds(x);
+        //resume dialogue
+        cutsceneScript.levelDialogue.Play();
+        Debug.Log("Resuming Dialogue");
     }
 
 }
