@@ -215,7 +215,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     print("parsing command... " + command + string.Equals(command, "[RevealScreen]"));
                     if (levelDialogue.time >= spawnTime)
                     {
-                        if (string.Equals(command, "[RevealScreen]"))
+                        AudioClip radioClip = Resources.Load<AudioClip>("Audio/" + command);
+                        if (radioClip != null)
+                        {
+                            secondSource.clip = radioClip;
+                            secondSource.Play();
+                        } 
+                        else if (string.Equals(command, "[RevealScreen]"))
                         {
                             blackScreen.SetActive(false);
                         }
@@ -248,6 +254,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                             string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
                             float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
                                 tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
+                                tokens[2].ToLower().Trim() == "playersleft" && playerTransform.position.x > (-roadWidth + laneWidth) / 2 ? playerTransform.position.x - laneWidth :
+                                tokens[2].ToLower().Trim() == "playersright" && playerTransform.position.x < (roadWidth + laneWidth) / 2 ? playerTransform.position.x + laneWidth :
                                 playerTransform.position.x;
                             float ypos = playerTransform.position.y + (tokens[1].ToLower()[0] == 'f' ? 7 : -7);
                             print(tokens[0].Trim());

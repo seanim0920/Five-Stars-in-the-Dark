@@ -9,7 +9,7 @@ public class EndScene : MonoBehaviour
     public GameObject fade;
 	public GameObject panel;
     public AudioSource endScene;
-    public DisplayScore script;
+    public DisplayScore scoreScript;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,11 +26,13 @@ public class EndScene : MonoBehaviour
     {
         endScene.Play();
         yield return new WaitForSeconds(endScene.clip.length);
+        bass.time = 16;
+        drums.time = 16;
+        bass.Play();
+        drums.Play();
         fade.SetActive(true);
 		panel.SetActive(false);
 		yield return new WaitForSeconds(1);
-        script.enabled = true;
-        bass.volume = 1;
-        drums.volume = 1;
+        scoreScript.enabled = true;
     }
 }
