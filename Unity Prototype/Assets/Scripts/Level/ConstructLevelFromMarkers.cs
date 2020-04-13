@@ -132,16 +132,17 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
         GameObject map = new GameObject("Map");
         float length = levelDialogue.clip.length * controls.neutralSpeed * updateRate;
-        GameObject roadtile = Instantiate(road, new Vector3(0, 0, 1), Quaternion.identity);
+        GameObject roadtile = Instantiate(road, new Vector3(0, 0, 0), curb.transform.localRotation);
         roadtile.transform.localScale = new Vector3(roadWidth, length, 1);
         roadtile.transform.parent = map.transform;
-        GameObject leftcurb = Instantiate(curb, new Vector3(-roadWidth/2 - 0.5f, 0, 1), Quaternion.identity);
+        //change quaternion.identity
+        GameObject leftcurb = Instantiate(curb, new Vector3(-roadWidth/2 - 0.5f, 0, 1), curb.transform.localRotation);
         leftcurb.transform.localScale = new Vector3(1,length,1);
         leftcurb.transform.parent = map.transform;
-        GameObject rightcurb = Instantiate(curb, new Vector3(roadWidth/2 + 0.5f, 0, 1), Quaternion.identity);
+        GameObject rightcurb = Instantiate(curb, new Vector3(roadWidth/2 + 0.5f, 0, 1), curb.transform.localRotation);
         rightcurb.transform.localScale = new Vector3(1, length, 1);
         rightcurb.transform.parent = map.transform;
-        playerTransform.position = new Vector3(0, -length / 2, 0);
+        playerTransform.position = new Vector3(0, 0, -length / 2);
 
         GameObject GPSstart = Instantiate(GPS, new Vector3(0, -length/2, 1), Quaternion.identity);
         GPSstart.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/gps_start");
@@ -264,11 +265,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                                 tokens[2].ToLower().Trim() == "playersleft" && playerTransform.position.x > (-roadWidth + laneWidth) / 2 ? playerTransform.position.x - laneWidth :
                                 tokens[2].ToLower().Trim() == "playersright" && playerTransform.position.x < (roadWidth + laneWidth) / 2 ? playerTransform.position.x + laneWidth :
                                 playerTransform.position.x;
-                            float ypos = playerTransform.position.y + (tokens[1].ToLower()[0] == 'a' ? 7 : -7);
+                            float zpos = playerTransform.position.z + (tokens[1].ToLower()[0] == 'a' ? 7 : -7);
                             print(tokens[0].Trim());
-                            spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
-                                new Vector3(xpos, ypos, 0),
-                                Quaternion.identity), despawnTime);
+                            GameObject obstacle = Resources.Load<GameObject>(tokens[0].Trim()
+                            spawnedObstacles.Add(Instantiate(obstacle),
+                                new Vector3(xpos, 0, zpos),
+                                obstacle.localRotation), despawnTime);
                         }
                         timedObstacleMarkers.RemoveAt(0);
                     }
