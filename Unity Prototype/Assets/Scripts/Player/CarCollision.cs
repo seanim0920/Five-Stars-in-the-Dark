@@ -125,10 +125,10 @@ public class CarCollision : MonoBehaviour
         int foundSilences = 0;
         for (int i = samples.Length; i-- > 0;)
         {
-            if (samples[i] <= 0f)
+            if (Mathf.Abs(samples[i]) == 0f)
             {
                 foundSilences++;
-                if (foundSilences >= 6)
+                if (foundSilences >= 2)
                 {
                     print("found silences.");
                     dialogue.timeSamples = (currentTimePosition - maxRewindTimeInSamples) + (i / cutsceneScript.levelDialogue.clip.channels);
