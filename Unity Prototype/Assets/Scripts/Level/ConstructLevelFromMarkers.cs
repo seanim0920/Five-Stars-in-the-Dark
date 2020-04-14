@@ -254,12 +254,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     {
                         string[] obstacleSeq = obstacleData[2].Split(',');
                         print("spawning obstacles" + spawnTime);
-                        foreach (string obstacle in obstacleSeq)
+                        foreach (string obstacleInfo in obstacleSeq)
                         {
                             //instantiate the obstacles plotted at this time
 
                             //print(obstacle);
-                            string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
+                            string[] tokens = obstacleInfo.Trim().Split(new char[] { ' ', '\t' });
                             float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
                                 tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
                                 tokens[2].ToLower().Trim() == "playersleft" && playerTransform.position.x > (-roadWidth + laneWidth) / 2 ? playerTransform.position.x - laneWidth :
@@ -267,10 +267,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                                 playerTransform.position.x;
                             float zpos = playerTransform.position.z + (tokens[1].ToLower()[0] == 'a' ? 7 : -7);
                             print(tokens[0].Trim());
-                            GameObject obstacle = Resources.Load<GameObject>(tokens[0].Trim()
-                            spawnedObstacles.Add(Instantiate(obstacle),
+                            GameObject obstacle = Resources.Load<GameObject>(tokens[0].Trim());
+                            spawnedObstacles.Add(Instantiate(obstacle,
                                 new Vector3(xpos, 0, zpos),
-                                obstacle.localRotation), despawnTime);
+                                obstacle.transform.localRotation), despawnTime);
                         }
                         timedObstacleMarkers.RemoveAt(0);
                     }

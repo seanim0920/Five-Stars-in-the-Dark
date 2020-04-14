@@ -13,7 +13,7 @@ public class PlayerControls : MonoBehaviour
     public float maxSpeed = 0.08f;
     public float neutralSpeed = 0.05f;
     private float acceleration = 0.001f;
-    private Rigidbody2D body;
+    private Rigidbody body;
     private AudioClip bump;
     private Vector3 movementDirection;
     private int blockedSide = 0;
@@ -38,7 +38,7 @@ public class PlayerControls : MonoBehaviour
     void Start()
     {
         // engineSounds = engineSound.transform;
-        body = GetComponent<Rigidbody2D>();
+        body = GetComponent<Rigidbody>();
         bump = Resources.Load<AudioClip>("Audio/bumpend");
         movementDirection = transform.up;
 
@@ -70,7 +70,7 @@ public class PlayerControls : MonoBehaviour
         rightStrafe.volume = tireSound.volume/2;
         wheelFunctions.PlayDirtRoadForce((int)(Mathf.Pow((1-(movementSpeed/maxSpeed)),1) * 25));
         // Discrete turn l/r 
-        transform.position += movementDirection * movementSpeed;
+        body.position += movementDirection * movementSpeed;
         //print(movementSpeed);
 
 //        slowinstruments.SetFloat("DrumsVolume", movementSpeed/maxSpeed);
@@ -224,7 +224,7 @@ public class PlayerControls : MonoBehaviour
         lastRecordedStrafe = amount;
         //moves car left/right
         if (Mathf.Abs(amount) > 0.02f)
-            transform.position += amount * 2 * movementSpeed * transform.right;
+            body.MovePosition(body.position + amount * 2 * movementSpeed * transform.right);
     }
 
     //this is linked to the steering wheel in the UI.
