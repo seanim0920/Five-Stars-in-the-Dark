@@ -28,7 +28,7 @@ public class PlayerControls : MonoBehaviour
     public AudioMixer rightSpeaker;
     public AudioMixer engineMixer;
     public AudioMixerSnapshot[] engineSounds;
-    public float[] snapshotWeights;
+    [SerializeField] private float[] snapshotWeights;
 
     private SteeringWheelControl wheelFunctions;
     public AudioMixer slowinstruments;

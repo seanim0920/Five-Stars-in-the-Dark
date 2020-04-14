@@ -163,7 +163,6 @@ MonoBehaviour:
   cutsceneScript: {fileID: 0}
   hitSoundObject: {fileID: 0}
   situationalDialogues: {fileID: 6449874754157961004}
-  carControls: {fileID: 6449874753617890295}
   charOnCar: {fileID: 0}
 --- !u!114 &4472338791395012222
 MonoBehaviour:
@@ -322,9 +321,9 @@ MonoBehaviour:
   engineSound: {fileID: 0}
   tireSound: {fileID: 6449874752265886619}
   movementSpeed: 0
-  minSpeed: 0.01
-  maxSpeed: 0.08
-  neutralSpeed: 0.05
+  minSpeed: 0
+  maxSpeed: 1.5
+  neutralSpeed: 1
   leftStrafe: {fileID: 6449874752537065036}
   rightStrafe: {fileID: 6449874754035345062}
   strafeSound: {fileID: 0}
