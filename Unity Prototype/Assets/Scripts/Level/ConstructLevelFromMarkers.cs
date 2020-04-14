@@ -264,7 +264,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                                 tokens[2].ToLower().Trim() == "playersleft" && playerTransform.position.x > (-roadWidth + laneWidth) / 2 ? playerTransform.position.x - laneWidth :
                                 tokens[2].ToLower().Trim() == "playersright" && playerTransform.position.x < (roadWidth + laneWidth) / 2 ? playerTransform.position.x + laneWidth :
                                 playerTransform.position.x;
-                            float ypos = playerTransform.position.y + (tokens[1].ToLower()[0] == 'a' ? 7 : -7);
+                            float ypos = playerTransform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? 7 : -7);
                             print(tokens[0].Trim());
                             spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
                                 new Vector3(xpos, ypos, 0),
