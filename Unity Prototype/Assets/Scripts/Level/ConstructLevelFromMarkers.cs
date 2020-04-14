@@ -25,6 +25,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //for the start cutscene
     public PlayerControls controls;
     public KeyboardControl keyboard;
+    public CountdownTimer timeTracker;
     public AudioSource ambience;
     public GameObject blackScreen;
     public AudioSource carStart;
@@ -338,6 +339,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         yield return new WaitForSeconds(1);
         controls.enabled = true;
         keyboard.enabled = true;
+        timeTracker.enabled = true;
         adjustInstrumentVolume(false, new string[] { });
     }
 

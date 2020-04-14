@@ -14,7 +14,7 @@ public class CountdownTimer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        waitTime = 100.0f;
+        // waitTime = 100.0f;
         levelCompleteTime = 600.0f;
         timerText = GameObject.Find("TimerText").GetComponent<Text>();
         currentTime = levelCompleteTime;
@@ -24,12 +24,12 @@ public class CountdownTimer : MonoBehaviour
     void Update()
     {
         updateDisplay();
-        if(waitTime > 0.0f)
-        {
-            waitTime -= 1 * Time.deltaTime;
-        }
-        else
-        {
+        // if(waitTime > 0.0f)
+        // {
+        //     waitTime -= 1 * Time.deltaTime;
+        // }
+        // else
+        // {
             currentTime -= 1 * Time.deltaTime;
             updateDisplay();
             if (currentTime <= 0)
@@ -37,7 +37,7 @@ public class CountdownTimer : MonoBehaviour
                 SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
                 SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
             }
-        }
+        // }
     }
 
     private static void updateDisplay()
