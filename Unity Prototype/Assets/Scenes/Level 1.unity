@@ -337,6 +337,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &149952739 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4314826276381511994, guid: 0737ab1198c13c74695686fd9e987b22,
+    type: 3}
+  m_PrefabInstance: {fileID: 170769229}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa71ceec7bae7d449d78f57181254eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &161635414
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,6 +731,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DriverView
+      objectReference: {fileID: 0}
+    - target: {fileID: 4314826276381511994, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4314826275832921484, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
@@ -2058,6 +2075,11 @@ PrefabInstance:
       propertyPath: carStart
       value: 
       objectReference: {fileID: 7742082322583644493}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: timeTracker
+      value: 
+      objectReference: {fileID: 149952739}
     - target: {fileID: 412440413062414635, guid: cec60119a7a8c704ea21138b08c6c077,
         type: 3}
       propertyPath: m_LocalPosition.x
