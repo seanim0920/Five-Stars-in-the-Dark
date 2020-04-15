@@ -34,8 +34,8 @@ public class LowPassDetection : MonoBehaviour
         {
             float distance = (leftEar.point - (Vector2)transform.position).magnitude;
             //print(distance);
-            leftSource.SetFloat("LowF", (minFrequency + (((maxFrequency-minFrequency)/(Mathf.Pow((hearingDistance - minDistance), sharpness)))*Mathf.Pow((distance-minDistance), sharpness))));
-            leftSource.SetFloat("Volume", maxVolume+(-maxVolume/Mathf.Pow(hearingDistance, 2))*Mathf.Pow(distance, 2));
+            leftSource.SetFloat("LowF", (minFrequency + (((maxFrequency - minFrequency) / (Mathf.Pow((hearingDistance - minDistance), sharpness))) * Mathf.Pow((distance - minDistance), sharpness))));
+            leftSource.SetFloat("Volume", maxVolume + (-maxVolume / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
             //rightSource.SetFloat("HighF", (minFrequency*3) + ((-minFrequency*3) / Mathf.Pow(hearingDistance, 2)) * Mathf.Pow(distance, 2));
         }
         if (rightEar.collider && rightEar.collider.gameObject.tag != "Zone")
