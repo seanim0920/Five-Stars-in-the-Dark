@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class LowPassDetection : MonoBehaviour
+public class SidewaysSoundMuffling : MonoBehaviour
 {
     public AudioMixer leftSource;
     public AudioMixer rightSource;
     private float maxFrequency = 20000;
     private float minFrequency = 400;
-    private float hearingDistance = 2.3f;
-    private float minDistance = 0.41f;
+    private float hearingDistance = 20f;
+    private float minDistance = 10f;
     private float sharpness = 10;
     private float maxVolume = 20;
 
