@@ -445,6 +445,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4314826276381511972, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4314826275832921484, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
     - {fileID: 4314826275832921472, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
@@ -2710,6 +2715,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1102164924 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4314826276381511994, guid: 0737ab1198c13c74695686fd9e987b22,
+    type: 3}
+  m_PrefabInstance: {fileID: 170769229}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa71ceec7bae7d449d78f57181254eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1114848690
 GameObject:
   m_ObjectHideFlags: 0
@@ -4582,6 +4599,7 @@ MonoBehaviour:
   maxVol: 0.8
   controls: {fileID: 885915664}
   keyboard: {fileID: 7463166642665891221}
+  timeTracker: {fileID: 1102164924}
   ambience: {fileID: 1577631320}
   blackScreen: {fileID: 1527944646}
   carStart: {fileID: 770254976}
