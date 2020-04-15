@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2138646690712720297}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 9.412607, y: -236.99306, z: -50.45068}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 20, y: 20, z: 1}
   m_Children:
   - {fileID: 5491585684252965663}
   m_Father: {fileID: 0}
@@ -98,7 +98,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -121,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   honk: {fileID: 9050258354356607982}
   engineSound: {fileID: 8748288786756460907}
+  movementSpeed: 0
   neutralSpeed: 0.065
 --- !u!82 &9050258354356607982
 AudioSource:

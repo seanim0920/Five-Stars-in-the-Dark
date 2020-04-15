@@ -21,13 +21,30 @@ public class CarCollision : MonoBehaviour
     {
         controlFunctions = GetComponent<PlayerControls>();
         wheelFunctions = GetComponent<SteeringWheelControl>();
-
+        body = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    IEnumerator disablePlayerControlMomentarily(float disabledTime)
+    {
+        controlFunctions.movementSpeed = 0;
+        controlFunctions.enabled = false;
+        yield return new WaitForSeconds(disabledTime);
+        controlFunctions.enabled = true;
+    }
+
+    IEnumerator disableNPCMovementMomentarily(GameObject NPC, float disabledTime)
+    {
+        NPCMovement movement = NPC.GetComponent<NPCMovement>();
+        movement.movementSpeed = 0;
+        movement.enabled = false;
+        yield return new WaitForSeconds(disabledTime);
+        movement.enabled = true;
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -44,7 +61,13 @@ public class CarCollision : MonoBehaviour
             hitSoundObject.transform.position = col.gameObject.transform.position;
             hitSoundObject.GetComponent<AudioSource>().Play();
             wheelFunctions.PlayFrontCollisionForce();
-            controlFunctions.movementSpeed *= 0.1f;
+            float disabledTime = Mathf.Pow((Vector3.Angle(col.gameObject.transform.position - transform.position, transform.up) / 90 - 1), 2);
+            StartCoroutine(disablePlayerControlMomentarily(disabledTime));
+            StartCoroutine(disableNPCMovementMomentarily(col.gameObject, disabledTime));
+            //add an impact force to this car and the other car at the position of contact with the direction of the surface normal. magnitude depends on angle between transform.up and the point of collision.
+            col.gameObject.GetComponent<Rigidbody2D>().AddForceAtPosition(10 * (col.gameObject.transform.position - transform.position).normalized, col.GetContact(0).point, ForceMode2D.Impulse);
+            //body.AddForce(disabledTime * (col.gameObject.transform.position - transform.position), ForceMode2D.Impulse);
+
             //setRadioTempo(getRadioTempo() * 0.1f);
         }
         if (col.gameObject.tag == "Pedestrian" || col.gameObject.tag == "Stop")

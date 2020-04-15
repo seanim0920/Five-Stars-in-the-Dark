@@ -6,32 +6,32 @@ using UnityEngine.Audio;
 public class PlayerControls : MonoBehaviour
 {
     public AudioSource engineSound;
-    // private Transform engineSounds;
     public AudioSource tireSound;
+    public float minSpeed = 0f;
+    public float maxSpeed = 1.5f;
+    public float neutralSpeed = 1f;
+    public float acceleration = 0.01f;
     public float movementSpeed = 0f;
-    public float minSpeed = 0.01f;
-    public float maxSpeed = 0.08f;
-    public float neutralSpeed = 0.05f;
-    private float acceleration = 0.001f;
+
     private Rigidbody2D body;
     private AudioClip bump;
     private Vector3 movementDirection;
     private int blockedSide = 0;
     private float lastRecordedStrafe = 0;
     private int strafingDirection = -1;
+
     public AudioSource leftStrafe;
     public AudioSource rightStrafe;
-
     public AudioSource strafeSound;
-
     public AudioMixer leftSpeaker;
     public AudioMixer rightSpeaker;
     public AudioMixer engineMixer;
     public AudioMixerSnapshot[] engineSounds;
+
+    [Header("Private Attributes (visible for debugging)")]
     [SerializeField] private float[] snapshotWeights;
 
     private SteeringWheelControl wheelFunctions;
-    public AudioMixer slowinstruments;
 
     private string[] instruments = { "Lead", "Bass", "Keyboard", "Wind", "Support", "Drums"};
 
@@ -72,8 +72,6 @@ public class PlayerControls : MonoBehaviour
         // Discrete turn l/r 
         transform.position += movementDirection * movementSpeed;
         //print(movementSpeed);
-
-//        slowinstruments.SetFloat("DrumsVolume", movementSpeed/maxSpeed);
     }
 
     public void returnToNeutralSpeed()
@@ -100,7 +98,7 @@ public class PlayerControls : MonoBehaviour
             // Blend form MaxSpeed to Coasting
             // Debug.Log("MaxSpeed->Coasting");
             BlendSnapshot(3, 0.5f);
-            slowDown(0.005f);
+            slowDown(0.001f);
         }
         else
         {
@@ -171,6 +169,7 @@ public class PlayerControls : MonoBehaviour
         else strafingDirection = 0;
 
         tireSound.panStereo = amount;
+        //add sliding sound when letting go of the wheel (hands across leather)
         //strafeSound.volume = Mathf.Abs(amount)*3;
         ////strafeSound.volume = Mathf.Pow(Mathf.Abs(amount), 2);
         ////strafeSound.panStereo = -strafeSound.volume;
@@ -224,7 +223,7 @@ public class PlayerControls : MonoBehaviour
         lastRecordedStrafe = amount;
         //moves car left/right
         if (Mathf.Abs(amount) > 0.02f)
-            transform.position += amount * 2 * movementSpeed * transform.right;
+            transform.position += amount * (movementSpeed) * transform.right;
     }
 
     //this is linked to the steering wheel in the UI.

@@ -6,10 +6,10 @@ public class NPCMovement : MonoBehaviour
 {
     public AudioSource honk;
     public AudioSource engineSound;
-    private float movementSpeed = 0f;
+    public float movementSpeed = 0f;
     public float neutralSpeed = 0.05f;
     private float maxSpeed;
-    private float acceleration = 0.001f;
+    private float acceleration = 0.01f;
     private float eyesight = 3;
     private Vector3 movementDirection;
     void Start()
@@ -26,8 +26,7 @@ public class NPCMovement : MonoBehaviour
             {
                 honk.Play();
             }
-            movementSpeed *= 0.92f;
-            //engineSound.pitch *= 0.92f;
+            movementSpeed *= 0.99f;
         }
         /*
         else if (SeesObstacle(transform.right))
