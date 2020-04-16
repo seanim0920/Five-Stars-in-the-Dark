@@ -1007,6 +1007,18 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 31c2ca7157293f247a99b4d6bf2ee804, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cec60119a7a8c704ea21138b08c6c077, type: 3}
+--- !u!114 &660989827 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+    type: 3}
+  m_PrefabInstance: {fileID: 660989826}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503f84fdf5c9d174899cb93f03f70006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &792819324 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 6449874753195909991, guid: f74e867e465b4404aae99e5cf594e41e,
@@ -1268,6 +1280,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4314826276381511994, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4314826275832921474, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1408,11 +1425,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: DriverView
       objectReference: {fileID: 0}
-    - target: {fileID: 4314826276381511994, guid: 0737ab1198c13c74695686fd9e987b22,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4314826277659574847, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
       propertyPath: m_IsActive
@@ -1495,7 +1507,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cutsceneScript
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 660989827}
     - target: {fileID: 4472338791395012218, guid: f74e867e465b4404aae99e5cf594e41e,
         type: 3}
       propertyPath: hitSoundObject
