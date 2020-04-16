@@ -5512,8 +5512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beec82e24370d7a4b9552d82496449cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutsceneScript: {fileID: 0}
-  hitSoundObject: {fileID: 0}
+  cutsceneScript: {fileID: 2017990812}
   situationalDialogues: {fileID: 389073048}
   charOnCar: {fileID: 0}
 --- !u!50 &1938833903
@@ -5903,6 +5902,7 @@ MonoBehaviour:
   maxVol: 0.8
   controls: {fileID: 1938833896}
   keyboard: {fileID: 1938833900}
+  gamepad: {fileID: 0}
   timeTracker: {fileID: 1492790323}
   ambience: {fileID: 1464723228}
   blackScreen: {fileID: 1798619071}
