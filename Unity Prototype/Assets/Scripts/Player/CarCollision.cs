@@ -44,6 +44,15 @@ public class CarCollision : MonoBehaviour
             hitSoundObject.transform.position = col.gameObject.transform.position;
             hitSoundObject.GetComponent<AudioSource>().Play();
             wheelFunctions.PlayFrontCollisionForce();
+            if (col.gameObject.GetComponent<NPCMovement>() != null)
+            {
+                col.gameObject.GetComponent<NPCMovement>().enabled = false;
+            }
+            if (col.gameObject.GetComponent<PoliceMovement>() != null)
+            {
+                col.gameObject.GetComponent<PoliceMovement>().enabled = false;
+            }
+            col.gameObject.GetComponent<Rigidbody2D>().AddForce((col.gameObject.transform.position - transform.position).normalized, ForceMode2D.Impulse);
             controlFunctions.movementSpeed *= 0.1f;
             //setRadioTempo(getRadioTempo() * 0.1f);
         }
