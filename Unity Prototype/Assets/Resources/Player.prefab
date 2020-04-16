@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4472338791395012218}
   - component: {fileID: 4472338791395012222}
   - component: {fileID: 4472338791395012210}
+  - component: {fileID: 6787908219160468566}
   - component: {fileID: 6449874753617890283}
   - component: {fileID: 6449874753617890282}
   - component: {fileID: 6449874753617890281}
@@ -163,7 +164,6 @@ MonoBehaviour:
   cutsceneScript: {fileID: 0}
   hitSoundObject: {fileID: 0}
   situationalDialogues: {fileID: 6449874754157961004}
-  carControls: {fileID: 6449874753617890295}
   charOnCar: {fileID: 0}
 --- !u!114 &4472338791395012222
 MonoBehaviour:
@@ -184,11 +184,24 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4472338791395012223}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4ba86515ddd983489a4a601c65fc266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6787908219160468566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4472338791395012223}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec533e9ef212164bbe6bb4da05beb19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlFunctions: {fileID: 6449874753617890295}
 --- !u!82 &6449874753617890283
 AudioSource:
   m_ObjectHideFlags: 0
@@ -330,9 +343,19 @@ MonoBehaviour:
   strafeSound: {fileID: 0}
   leftSpeaker: {fileID: 24100000, guid: 6d5d7be8b37c6e4429a96d486a8be36b, type: 2}
   rightSpeaker: {fileID: 24100000, guid: 1c5e2e4e86715854883ad8a592f82583, type: 2}
-  engineMixer: {fileID: 0}
-  engineSounds: []
-  snapshotWeights: []
+  engineMixer: {fileID: 24100000, guid: d266e19fb9e87fe4cacf93d1ffc191e8, type: 2}
+  engineSounds:
+  - {fileID: 24500006, guid: d266e19fb9e87fe4cacf93d1ffc191e8, type: 2}
+  - {fileID: 2616851215000904619, guid: d266e19fb9e87fe4cacf93d1ffc191e8, type: 2}
+  - {fileID: 2133684793175362343, guid: d266e19fb9e87fe4cacf93d1ffc191e8, type: 2}
+  - {fileID: -8807714207632945724, guid: d266e19fb9e87fe4cacf93d1ffc191e8, type: 2}
+  - {fileID: -214203039708733533, guid: d266e19fb9e87fe4cacf93d1ffc191e8, type: 2}
+  snapshotWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   slowinstruments: {fileID: 0}
 --- !u!1 &6449874752063602086
 GameObject:
