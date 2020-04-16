@@ -49,7 +49,8 @@ public class QuickTurn : MonoBehaviour
         if(other.transform.tag == "Player")
         {
             other.GetComponentInParent<GamepadControl>().gamepad.Gameplay.Disable();
-            other.GetComponentInParent<GamepadControl>().gamepad.QuickTurns.Enable();
+            // other.GetComponentInParent<GamepadControl>().gamepad.QuickTurns.Enable();
+            other.GetComponentInParent<GamepadControl>().gamepad.QuickTurns.Get().FindAction("Turn " + turnDirection).Enable();
             Debug.Log("Turn " + turnDirection + "!"); // We potentially want to play a quick turn warning audio clip
             StartCoroutine(QTurn(other.GetComponentInParent<GamepadControl>().gamepad));
         }

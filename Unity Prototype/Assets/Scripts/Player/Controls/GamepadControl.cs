@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class GamepadControl : MonoBehaviour
 {
     public PS4Controls gamepad;
-    [SerializeField] private PlayerInput input;
     [SerializeField] private PlayerControls controlFunctions;
     private KeyboardControl keyboardScript;
     private float accelAmt = 0;
