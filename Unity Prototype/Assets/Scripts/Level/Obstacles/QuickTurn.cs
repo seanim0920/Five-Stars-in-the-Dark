@@ -9,8 +9,8 @@ public class QuickTurn : MonoBehaviour
 {
     //public int direction;
     private AudioSource turnSound;
-    public KeyboardControl keyboardCtrl;
-    public PlayerControls playerCtrl;
+    private KeyboardControl keyboardCtrl;
+    private PlayerControls playerCtrl;
     public bool mustTurnLeft;
     private string turnDirection;
     // Start is called before the first frame update
@@ -52,6 +52,8 @@ public class QuickTurn : MonoBehaviour
         // Begin Quick Turn sequence
         if(other.transform.tag == "Player")
         {
+            keyboardCtrl = other.gameObject.GetComponent<KeyboardControl>();
+            playerCtrl = other.gameObject.GetComponent<PlayerControls>();
             // Debug.Log("Turn " + turnDirection + "!"); // We potentially want to play a quick turn warning audio clip
             StartCoroutine(QTurn());
         }

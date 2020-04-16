@@ -260,16 +260,33 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
                             //print(obstacle);
                             string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
-                            float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
-                                tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
-                                tokens[2].ToLower().Trim() == "playersleft" && playerTransform.position.x > (-roadWidth + laneWidth) / 2 ? playerTransform.position.x - laneWidth :
-                                tokens[2].ToLower().Trim() == "playersright" && playerTransform.position.x < (roadWidth + laneWidth) / 2 ? playerTransform.position.x + laneWidth :
-                                playerTransform.position.x;
-                            float ypos = playerTransform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? 7 : -7);
-                            print(tokens[0].Trim());
-                            spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
-                                new Vector3(xpos, ypos, 0),
-                                Quaternion.identity), despawnTime);
+                            float spawnDistance = 8;
+                            if (tokens.Length == 2)
+                            {
+                                GameObject obj = Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
+                                    new Vector3(playerTransform.position.x, playerTransform.position.y + spawnDistance, 0),
+                                    Quaternion.identity);
+                                spawnedObstacles.Add(obj, despawnTime);
+                                if (tokens[1].ToLower()[0] == 'r')
+                                {
+                                    obj.GetComponent<QuickTurn>().mustTurnLeft = false;
+                                } else
+                                {
+                                    obj.GetComponent<QuickTurn>().mustTurnLeft = true;
+                                }
+                            }
+                            else {
+                                float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
+                                    tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
+                                    tokens[2].ToLower().Trim() == "playersleft" && playerTransform.position.x > (-roadWidth + laneWidth) / 2 ? playerTransform.position.x - laneWidth :
+                                    tokens[2].ToLower().Trim() == "playersright" && playerTransform.position.x < (roadWidth + laneWidth) / 2 ? playerTransform.position.x + laneWidth :
+                                    playerTransform.position.x;
+                                float ypos = playerTransform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? spawnDistance : -spawnDistance);
+                                print(tokens[0].Trim());
+                                spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
+                                    new Vector3(xpos, ypos, 0),
+                                    Quaternion.identity), despawnTime);
+                            }
                         }
                         timedObstacleMarkers.RemoveAt(0);
                     }
