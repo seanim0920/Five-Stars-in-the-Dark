@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 
 public class PlayerControls : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class PlayerControls : MonoBehaviour
     public float[] snapshotWeights;
 
     private SteeringWheelControl wheelFunctions;
+    
     public AudioMixer slowinstruments;
 
     private string[] instruments = { "Lead", "Bass", "Keyboard", "Wind", "Support", "Drums"};
