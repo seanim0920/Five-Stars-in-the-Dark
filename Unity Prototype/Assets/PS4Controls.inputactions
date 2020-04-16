@@ -6,22 +6,6 @@
             "id": "214d1fe7-3d1b-41b1-ad35-3fc9f0166f5d",
             "actions": [
                 {
-                    "name": "Turn Left",
-                    "type": "Button",
-                    "id": "54069a22-1fd7-441c-a7a8-2c2803278784",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Turn Right",
-                    "type": "Button",
-                    "id": "140ebd1e-8e6e-44f8-aaf0-6d927b505297",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Accelerate",
                     "type": "Value",
                     "id": "3a347a41-ebb3-4825-abae-67285979a7ba",
@@ -47,28 +31,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "00b380cf-fea2-4c28-a938-7f38cd4e3927",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Turn Left",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "dcca207f-c1d0-4e46-853b-28106e3e2b4b",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Turn Right",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "8a33d485-713a-4ee0-b012-93fb363640a3",
@@ -99,6 +61,52 @@
                     "processors": "",
                     "groups": "",
                     "action": "Strafe",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "QuickTurns",
+            "id": "5e95b0b4-128e-4083-8d44-97c2a7501c08",
+            "actions": [
+                {
+                    "name": "Turn Left",
+                    "type": "Value",
+                    "id": "2c08916c-36ce-4c5d-b08c-1654729794d0",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": "Hold(duration=1,pressPoint=0.1)"
+                },
+                {
+                    "name": "Turn Right",
+                    "type": "Value",
+                    "id": "4af16860-3899-43a6-9061-0320d22d2282",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": "Hold(duration=1,pressPoint=0.1)"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bde5239f-e763-4031-bae0-b868f6d6fa2f",
+                    "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Turn Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4eb56b82-8268-4b5f-b41a-4dd41cfe5b4d",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Turn Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

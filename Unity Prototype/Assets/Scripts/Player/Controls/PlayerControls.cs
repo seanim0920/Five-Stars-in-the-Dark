@@ -32,21 +32,11 @@ public class PlayerControls : MonoBehaviour
     public float[] snapshotWeights;
 
     private SteeringWheelControl wheelFunctions;
-    [SerializeField] private PS4Controls gamepad;
-    private float accelAmt = 0;
-    private bool isAccelerating;
-    private float brakeAmt = 0;
-    private bool isBraking;
-    private float strafeAmt = 0;
-    private bool isStrafing;
+    
     public AudioMixer slowinstruments;
 
     private string[] instruments = { "Lead", "Bass", "Keyboard", "Wind", "Support", "Drums"};
 
-    void Awake()
-    {
-        gamepad = new PS4Controls();
-    }
     void Start()
     {
         // engineSounds = engineSound.transform;
@@ -57,9 +47,6 @@ public class PlayerControls : MonoBehaviour
         // AudioMixerSnapshot[] engineSounds = {restToCoast, coastToAccel};
 
         wheelFunctions = GetComponent<SteeringWheelControl>();
-        isAccelerating = false;
-        isBraking = false;
-        isStrafing = false;
     }
     void FixedUpdate()
     {
@@ -89,24 +76,6 @@ public class PlayerControls : MonoBehaviour
         //print(movementSpeed);
 
 //        slowinstruments.SetFloat("DrumsVolume", movementSpeed/maxSpeed);
-
-        if(isBraking)
-        {
-            slowDown(brakeAmt);
-        }
-        else if(isAccelerating)
-        {
-            speedUp(accelAmt);
-        }
-        else
-        {
-            returnToNeutralSpeed();
-        }
-
-        if(isStrafing)
-        {
-            strafe(strafeAmt);
-        }
     }
 
     public void returnToNeutralSpeed()
@@ -279,56 +248,6 @@ public class PlayerControls : MonoBehaviour
     //    radio.GetFloat("Speed", out speed);
     //    return speed;
     //}
-
-    private void OnEnable()
-    {
-        gamepad.Gameplay.Accelerate.performed += HandleAccelerate;
-        gamepad.Gameplay.Accelerate.Enable();
-
-        gamepad.Gameplay.Brake.performed += HandleBrake;
-        gamepad.Gameplay.Brake.Enable();
-
-        gamepad.Gameplay.Strafe.performed += HandleStrafe;
-        gamepad.Gameplay.Strafe.canceled += CancelStrafe;
-        gamepad.Gameplay.Strafe.Enable();
-    }
-
-    private void OnDisable()
-    {
-        gamepad.Gameplay.Accelerate.performed -= HandleAccelerate;
-        gamepad.Gameplay.Accelerate.Disable();
-        
-        gamepad.Gameplay.Brake.performed -= HandleBrake;
-        gamepad.Gameplay.Brake.Disable();
-
-        gamepad.Gameplay.Strafe.performed -= HandleStrafe;
-        gamepad.Gameplay.Strafe.canceled -= CancelStrafe;
-        gamepad.Gameplay.Strafe.Disable();
-    }
-
-    private void HandleAccelerate(InputAction.CallbackContext context)
-    {
-        accelAmt = context.ReadValue<float>();
-        isAccelerating = accelAmt >= 0.1;
-    }
-
-    private void HandleBrake(InputAction.CallbackContext context)
-    {
-        brakeAmt = context.ReadValue<float>() / 50;
-        isBraking = brakeAmt > 0.1 / 50;
-    }
-
-    private void HandleStrafe(InputAction.CallbackContext context)
-    {
-        strafeAmt = context.ReadValue<float>() / 2;
-        Debug.Log(strafeAmt);
-        isStrafing = Mathf.Abs(strafeAmt) > 0.1 / 50;
-    }
-
-    private void CancelStrafe(InputAction.CallbackContext context)
-    {
-        isStrafing = false;
-    }
 
     // This function blends audio mixer snapshots together
     // Code was modified from the Unity Audio Mixer Snapshots YouTube tutorial:

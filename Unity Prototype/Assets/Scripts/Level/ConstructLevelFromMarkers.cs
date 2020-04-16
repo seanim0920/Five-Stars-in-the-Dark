@@ -25,6 +25,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //for the start cutscene
     public PlayerControls controls;
     public KeyboardControl keyboard;
+    public GamepadControl gamepad;
     public CountdownTimer timeTracker;
     public AudioSource ambience;
     public GameObject blackScreen;
@@ -219,7 +220,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     string[] commandData = commandMarkers[0].Split('-');
                     string command = commandData[2].Trim();
                     float spawnTime = float.Parse(commandData[0]);
-                    print("parsing command... " + command);
+                    // print("parsing command... " + command);
                     if (levelDialogue.time >= spawnTime)
                     {
                         AudioClip radioClip = Resources.Load<AudioClip>("Audio/" + command);
@@ -338,7 +339,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         StartCoroutine(wheelRumble());
         yield return new WaitForSeconds(1);
         controls.enabled = true;
-        // keyboard.enabled = true;
+        keyboard.enabled = true;
+        gamepad.enabled = true;
         timeTracker.enabled = true;
         adjustInstrumentVolume(false, new string[] { });
     }
