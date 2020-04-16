@@ -62,7 +62,7 @@ public class QuickTurn : MonoBehaviour
         // Debug.Log(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>());
 
         while((!Input.GetKey(turnDirection.ToLower()) ||
-               gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() > 0) &&
+               gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() <= 0) &&
                Time.time - startTime < 2f)
         {
             Debug.Log(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>());
@@ -72,8 +72,7 @@ public class QuickTurn : MonoBehaviour
 
         startTime = Time.time;
         // If turning in correct direction
-        if(Input.GetKey(turnDirection.ToLower()) ||
-           gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() > 0)
+        if(Input.GetKey(turnDirection.ToLower()))
         {
             keyboardCtrl.enabled = false;
             playerCtrl.enabled = false;
@@ -87,8 +86,14 @@ public class QuickTurn : MonoBehaviour
             // return with no errors
             keyboardCtrl.enabled = true;
             playerCtrl.enabled = true;
-            gp.QuickTurns.Disable();
+            yield break;
+        }
+        else if(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() > 0)
+        {
+            // Play turnsound
+            turnSound.Play();
             gp.Gameplay.Enable();
+            // return with no errors
             yield break;
         }
         // else (turned in wrong direction)
@@ -97,7 +102,7 @@ public class QuickTurn : MonoBehaviour
             // return with score decremented
             // Debug.Log("Decrement Score"); // We potentially want to play an error audio clip
             CheckErrors.IncrementErrorsAndUpdateDisplay();
-            gp.QuickTurns.Disable();
+            gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
             gp.Gameplay.Enable();
             yield break;
         }

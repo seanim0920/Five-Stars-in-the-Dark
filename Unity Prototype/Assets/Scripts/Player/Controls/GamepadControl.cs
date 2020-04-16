@@ -54,40 +54,27 @@ public class GamepadControl : MonoBehaviour
         {
             controlFunctions.strafe(strafeAmt);
         }
-
-        Debug.Log("Gameplay:" + gamepad.Gameplay.enabled);
-        Debug.Log("QuickTurns: " + gamepad.QuickTurns.enabled);
     }
 
     private void OnEnable()
     {
-        // if(!gamepad.QuickTurns.enabled)
-        // {
-            gamepad.Gameplay.Accelerate.performed += HandleAccelerate;
-            gamepad.Gameplay.Accelerate.canceled += CancelAccelerate;
-            gamepad.Gameplay.Accelerate.Enable();
+        gamepad.Gameplay.Accelerate.performed += HandleAccelerate;
+        gamepad.Gameplay.Accelerate.canceled += CancelAccelerate;
+        gamepad.Gameplay.Accelerate.Enable();
 
-            gamepad.Gameplay.Brake.performed += HandleBrake;
-            gamepad.Gameplay.Brake.canceled += CancelBrake;
-            gamepad.Gameplay.Brake.Enable();
+        gamepad.Gameplay.Brake.performed += HandleBrake;
+        gamepad.Gameplay.Brake.canceled += CancelBrake;
+        gamepad.Gameplay.Brake.Enable();
 
-            gamepad.Gameplay.Strafe.performed += HandleStrafe;
-            gamepad.Gameplay.Strafe.canceled += CancelStrafe;
-            gamepad.Gameplay.Strafe.Enable();
+        gamepad.Gameplay.Strafe.performed += HandleStrafe;
+        gamepad.Gameplay.Strafe.canceled += CancelStrafe;
+        gamepad.Gameplay.Strafe.Enable();
+        
+        gamepad.QuickTurns.TurnLeft.performed += Turning;
+        gamepad.QuickTurns.TurnLeft.canceled += CancelTurning;
 
-        //     gamepad.QuickTurns.Disable();
-        // }
-        // else
-        // {
-        //     Debug.Log("Enabling Quick Turns");
-            gamepad.QuickTurns.TurnLeft.performed += Turning;
-            gamepad.QuickTurns.TurnLeft.canceled += CancelTurning;
-            // gamepad.QuickTurns.TurnLeft.Enable();
-
-            gamepad.QuickTurns.TurnRight.performed += Turning;
-            gamepad.QuickTurns.TurnRight.canceled += CancelTurning;
-            // gamepad.QuickTurns.TurnRight.Enable();
-        // }
+        gamepad.QuickTurns.TurnRight.performed += Turning;
+        gamepad.QuickTurns.TurnRight.canceled += CancelTurning;
     }
 
     private void OnDisable()
@@ -137,7 +124,6 @@ public class GamepadControl : MonoBehaviour
 
     private void HandleStrafe(InputAction.CallbackContext context)
     {
-        Debug.Log("Strafing");
         strafeAmt = context.ReadValue<float>() / 2;
         isStrafing = Mathf.Abs(strafeAmt) > 0.1 / 50;
     }
@@ -150,15 +136,11 @@ public class GamepadControl : MonoBehaviour
     private void Turning(InputAction.CallbackContext context)
     {
         Debug.Log("Turning");
-        var value = context.ReadValue<float>();
-        Debug.Log(value);
     }
 
     private void CancelTurning(InputAction.CallbackContext context)
     {
-        Debug.Log("Cancel turning");
         var value = context.ReadValue<float>();
-        Debug.Log(value);
         gamepad.Gameplay.Enable();
         gamepad.QuickTurns.Disable();
     }
