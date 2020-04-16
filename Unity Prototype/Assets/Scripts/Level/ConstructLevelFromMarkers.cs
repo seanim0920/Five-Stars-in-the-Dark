@@ -37,6 +37,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     //this is public so dialogue rewinding scripts know where to rewind too.
     public float currentDialogueStartTime = 0.0f;
+    //this is public so error checking knows how far the player got
+    public float endOfLevel = 1.0f;
 
     bool skipSection = false;
     bool skipIntro = false;
@@ -157,7 +159,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         bool endpoint = false;
         print("starting level now");
         int updateRate = 50;
-        float endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split('-')[0]);
+        endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split('-')[0]);
         print("level ends at " + endOfLevel);
 
         //perform these checks every frame for as long as the dialogue plays

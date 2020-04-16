@@ -22,7 +22,7 @@ public class CheckErrors : MonoBehaviour
         errors++;
         if(errors >= 10)
         {
-            SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+            SceneManager.LoadScene("FailScreen", LoadSceneMode.Single);
             SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         }
         errorText.text = "Error(s): " + errors.ToString();

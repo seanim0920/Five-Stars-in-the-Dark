@@ -14,11 +14,26 @@ public class DisplayScore : MonoBehaviour
     public static float score = Mathf.Exp(-CheckErrors.errors/3);
     float lerpTime = 0;
     RectTransform rect;
+
+    //Text fields to display to on the end screen
+    Text timeText;
+    Text progressText;
+    Text errorText;
+
     void Start()
     {
         startTime = Time.time;
         scoreBar = GetComponentInChildren<Slider>();
         rect = GetComponent<RectTransform>();
+
+        //Grabbing text fields. They're in the same place in both End and Fail
+        //   so I'm hardcoding it.
+        //3 denotes the ScoreUI object
+        progressText = GetGrandchild(this.gameObject, 3, 0).GetComponent<Text>();   //0 is Stat0 [progress]
+        errorText = GetGrandchild(this.gameObject, 3, 2).GetComponent<Text>();      //2 is ERRORS
+        timeText = GetGrandchild(this.gameObject, 3, 0).GetComponent<Text>();       //4 is TIME
+        int prog = 0;
+
         StartCoroutine(IncrementProgress());
 
         float scoreBonus = 0;
@@ -32,6 +47,23 @@ public class DisplayScore : MonoBehaviour
             }
         }
         score += scoreBonus;
+
+        //Hi. Thomas Here. I don't know what scripts (if any)
+        //   update the progress and time fields of the endscreen,
+        //   so I'm just putting it here.
+        /*prog = (current point in dialogue *100) / end point of dialogue;
+        if(prog == 100)
+        {
+            //We must be on EndScreen because the player beat the level
+            progressText = "THANKS FOR PLAYING";
+        }
+        else
+        {
+            //We must be on Failscreen because the player didn't finish
+            progressText = "PROGRESS: " + prog;
+        }
+        errorText = number of errors;
+        timeText = the rime correctly formatted;*/
     }
 
     // Update is called once per frame
@@ -55,5 +87,11 @@ public class DisplayScore : MonoBehaviour
             shakeOffset = Mathf.Lerp(shakeAmount, 0, lerpTime);
             yield return new WaitForSeconds(0);
         }
+    }
+
+    //returns go's gradchild at index grandchild by pulling it from go's child at index child
+    GameObject GetGrandchild(GameObject go, int child, int grandchild)
+    {
+        return go.transform.GetChild(child).GetChild(grandchild).gameObject;
     }
 }
