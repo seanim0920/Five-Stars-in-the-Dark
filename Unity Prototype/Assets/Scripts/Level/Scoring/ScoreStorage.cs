@@ -6,14 +6,22 @@ using UnityEngine;
 //This will give you the singular existing object which has this bad boy!
 public class ScoreStorage : Singleton<ScoreStorage>
 {
-    int progress;
-    int errors;
-    int time;
+    int progress = 0;
+    int errors = 0;
+    int time = 0;
 
-    /*public void pullScores()
+    //This method attempts to set all the scores at once, based on where I (Thomas) think they are.
+    public void setScoreAll()
     {
-        //this will pull from publicly set methods to try and grab every score at once
-    }*/
+        //if the following scripts aren't in the scene, this method will fail:
+        //ConstructLEvelFromMarkers (attached to LevelConstructor)
+        //CheckErrors (attached to ErrorText, which is on the prefab Camera)
+        //CountdownTimer (attached to TimerText, which is on the prefab Camera)
+        ConstructLevelFromMarkers CLFM = GameObject.Find("/LevelConstructor").GetComponent<ConstructLevelFromMarkers>();
+        progress = (int)(CLFM.currentDialogueStartTime * 100 / CLFM.endOfLevel);
+        errors = GameObject.Find("/Main Camera/Canvas/ErrorText").GetComponent<CheckErrors>().getErrors();
+        time = (int)(600 - GameObject.Find("/Main Camera/Canvas/TimerText").GetComponent<CountdownTimer>().getCurrentTime()) * 10;
+    }
 
     //These allow scripts to access the scores
     public int getScoreProgress()

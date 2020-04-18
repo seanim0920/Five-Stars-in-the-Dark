@@ -20,8 +20,10 @@ public class CheckErrors : MonoBehaviour
     public static void IncrementErrorsAndUpdateDisplay()
     {
         errors++;
+        ScoreStorage.Instance.setScoreErrors(errors);
         if(errors >= 10)
         {
+            ScoreStorage.Instance.setScoreAll();
             SceneManager.LoadScene("FailScreen", LoadSceneMode.Single);
             SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
         }
@@ -40,5 +42,11 @@ public class CheckErrors : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    //because errors is static, it needs a method to access
+    public int getErrors()
+    {
+        return errors;
     }
 }
