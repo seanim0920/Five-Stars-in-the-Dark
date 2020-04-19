@@ -22,7 +22,7 @@ public class ScoreStorage : Singleton<ScoreStorage>
         ConstructLevelFromMarkers CLFM = GameObject.Find("/LevelConstructor").GetComponent<ConstructLevelFromMarkers>();
         progress = (int)(CLFM.currentDialogueStartTime * 100 / CLFM.endOfLevel);
         errors = GameObject.Find("/Main Camera/Canvas/ErrorText").GetComponent<CheckErrors>().getErrors();
-        time = (int)(600 - GameObject.Find("/Main Camera/Canvas/TimerText").GetComponent<CountdownTimer>().getCurrentTime()) * 10;
+        time = (int)(600.0f - GameObject.Find("/Main Camera/Canvas/TimerText").GetComponent<CountdownTimer>().getCurrentTime()) * 100;
     }
 
     //These allow scripts to access the scores
@@ -41,10 +41,10 @@ public class ScoreStorage : Singleton<ScoreStorage>
         return time;
     }
 
-    //returns the time as a string formatted (XX.X)
+    //returns the time as a string formatted (XX:XX)
     public string getScoreTimeFormatted()
     {
-        return time / 10 + "." + time % 10;
+        return time / 100 + ":" + time % 100;// time.toString("00:00");
     }
 
     //These allow scripts to manually set the scores

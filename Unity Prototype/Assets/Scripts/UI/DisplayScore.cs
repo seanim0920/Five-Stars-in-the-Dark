@@ -40,12 +40,10 @@ public class DisplayScore : MonoBehaviour
         }
         else
         {
-            string proggers = "PROGRESS: " + ScoreStorage.Instance.getScoreProgress() + "%";
-            Debug.Log(proggers);
-            progressText.text = proggers;
+            progressText.text = "PROGRESS: " + ScoreStorage.Instance.getScoreProgress() + "%";
         }
         errorText.text = "ERRORS: " + ScoreStorage.Instance.getScoreErrors();
-        timeText.text = ScoreStorage.Instance.getScoreTimeFormatted();
+        timeText.text = "TIME: " + ScoreStorage.Instance.getScoreTimeFormatted();
 
         int prog = 0;
 
