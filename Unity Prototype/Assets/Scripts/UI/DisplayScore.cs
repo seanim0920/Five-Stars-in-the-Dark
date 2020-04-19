@@ -31,7 +31,22 @@ public class DisplayScore : MonoBehaviour
         //3 denotes the ScoreUI object
         progressText = GetGrandchild(this.gameObject, 3, 0).GetComponent<Text>();   //0 is Stat0 [progress]
         errorText = GetGrandchild(this.gameObject, 3, 2).GetComponent<Text>();      //2 is ERRORS
-        timeText = GetGrandchild(this.gameObject, 3, 0).GetComponent<Text>();       //4 is TIME
+        timeText = GetGrandchild(this.gameObject, 3, 4).GetComponent<Text>();       //4 is TIME
+        //Set text field texts to score
+        Debug.Log("Stored Progress: " + ScoreStorage.Instance.getScoreProgress());
+        if(ScoreStorage.Instance.getScoreProgress() >= 100)
+        {
+            progressText.text = "THANKS FOR PLAYING";
+        }
+        else
+        {
+            string proggers = "PROGRESS: " + ScoreStorage.Instance.getScoreProgress() + "%";
+            Debug.Log(proggers);
+            progressText.text = proggers;
+        }
+        errorText.text = "ERRORS: " + ScoreStorage.Instance.getScoreErrors();
+        timeText.text = ScoreStorage.Instance.getScoreTimeFormatted();
+
         int prog = 0;
 
         StartCoroutine(IncrementProgress());
@@ -69,7 +84,7 @@ public class DisplayScore : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(lerpTime);
+        //Debug.Log(lerpTime);
         scoreBar.value = lerpTime * score;
 
         Vector2 displacement = Quaternion.Euler(0, 0, Random.Range(0, 360)) * Vector2.right * shakeOffset;

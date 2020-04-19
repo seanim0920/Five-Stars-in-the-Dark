@@ -10,6 +10,8 @@ public class ScoreStorage : Singleton<ScoreStorage>
     int errors = 0;
     int time = 0;
 
+    //DontDestroyOnLoad(this.gameObject);
+
     //This method attempts to set all the scores at once, based on where I (Thomas) think they are.
     public void setScoreAll()
     {
@@ -37,6 +39,12 @@ public class ScoreStorage : Singleton<ScoreStorage>
     public int getScoreTime()
     {
         return time;
+    }
+
+    //returns the time as a string formatted (XX.X)
+    public string getScoreTimeFormatted()
+    {
+        return time / 10 + "." + time % 10;
     }
 
     //These allow scripts to manually set the scores
