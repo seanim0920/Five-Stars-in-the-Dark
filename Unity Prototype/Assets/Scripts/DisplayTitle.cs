@@ -23,13 +23,10 @@ public class DisplayTitle : MonoBehaviour
 		if(transform.position.x >= -100) {
 			Instructions.SetActive(false);
 			LvlSelect.SetActive(false);
-			if(Masterkey.egg) {
+			if(Masterkey.egg || Masterkey.lvl) {
 				Blackout.SetActive(true);
-				LoadScene.Loader("Level 1");
-			} else if (Masterkey.lvl) {
-                Blackout.SetActive(true);
-                LoadScene.Loader(Masterkey.sceneName);
-            }
+				LoadScene.Loader(Masterkey.sceneName);
+			}
 		}
     }
 }
