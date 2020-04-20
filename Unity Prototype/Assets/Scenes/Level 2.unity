@@ -944,7 +944,7 @@ PrefabInstance:
         type: 3}
       propertyPath: markersFile
       value: 
-      objectReference: {fileID: 4900000, guid: 4f0cb3620cfc11945ba036f9d5c06813, type: 3}
+      objectReference: {fileID: 4900000, guid: aa320b45461a49643a0cf08090f28509, type: 3}
     - target: {fileID: 412440413062414635, guid: cec60119a7a8c704ea21138b08c6c077,
         type: 3}
       propertyPath: m_LocalPosition.x
