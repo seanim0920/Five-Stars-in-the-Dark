@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class SpeedBumpSound : MonoBehaviour
 {
+    public AudioClip enterAudio;
+    public AudioClip exitAudio;
+    private AudioSource source;
     // Start is called before the first frame update
     void Start()
     {
-        
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -20,14 +23,14 @@ public class SpeedBumpSound : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            Destroy(transform.gameObject);
+            source.PlayOneShot(enterAudio);
         }
     }
     void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player")
         {
-            Destroy(transform.gameObject);
+            source.PlayOneShot(exitAudio);
         }
     }
 }
