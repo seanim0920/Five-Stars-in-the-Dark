@@ -503,15 +503,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: DriverView
       objectReference: {fileID: 0}
+    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -37.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4314826275832921475, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
       propertyPath: orthographic size
       value: 140
-      objectReference: {fileID: 0}
-    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -37.499985
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4314826275832921484, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
@@ -1261,6 +1261,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6775186467697617656, guid: f69b4fae26683fe428909848d1fe1e89,
+        type: 3}
+      propertyPath: acceleration
+      value: 0.02
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6775186467697617638, guid: f69b4fae26683fe428909848d1fe1e89, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f69b4fae26683fe428909848d1fe1e89, type: 3}
@@ -1421,7 +1426,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1637047121 stripped
 RectTransform:

@@ -16,11 +16,10 @@ GameObject:
   - component: {fileID: 4148996918431534973}
   - component: {fileID: 6775186467697617636}
   - component: {fileID: 6775186467697617637}
-  - component: {fileID: 6775186467697617638}
   - component: {fileID: 6775186467697617656}
   - component: {fileID: 8006605283975087664}
   m_Layer: 0
-  m_Name: Player 1
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -266,20 +265,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4148996918431534960}
   m_Enabled: 1
---- !u!114 &6775186467697617638
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4148996918431534960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce56b19dd3de27d4091a16d6d68f1f49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftSource: {fileID: 24100000, guid: 6d5d7be8b37c6e4429a96d486a8be36b, type: 2}
-  rightSource: {fileID: 24100000, guid: 1c5e2e4e86715854883ad8a592f82583, type: 2}
 --- !u!114 &6775186467697617656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +282,7 @@ MonoBehaviour:
   minSpeed: 0
   maxSpeed: 1.5
   neutralSpeed: 1
-  acceleration: 0.01
+  acceleration: 0.02
   movementSpeed: 0
   leftStrafe: {fileID: 6775186468797847363}
   rightStrafe: {fileID: 6775186467074901929}

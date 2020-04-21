@@ -9,7 +9,7 @@ public class NPCMovement : MonoBehaviour
     public float movementSpeed = 0f;
     public float neutralSpeed = 0.05f;
     private float maxSpeed;
-    private float acceleration = 0.01f;
+    private float acceleration = 0.02f;
     private float eyesight = 3;
     private Vector3 movementDirection;
     void Start()
