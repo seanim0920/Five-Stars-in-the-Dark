@@ -25,6 +25,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //for the start cutscene
     public PlayerControls controls;
     public KeyboardControl keyboard;
+    public GamepadControl gamepad;
+    public CountdownTimer timeTracker;
     public AudioSource ambience;
     public GameObject blackScreen;
     public AudioSource carStart;
@@ -36,6 +38,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     //this is public so dialogue rewinding scripts know where to rewind too.
     public float currentDialogueStartTime = 0.0f;
+    //this is public so error checking knows how far the player got
+    public float endOfLevel = 1.0f;
 
     bool skipSection = false;
     bool skipIntro = false;
@@ -158,7 +162,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         bool endpoint = false;
         print("starting level now");
         int updateRate = 50;
-        float endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split('-')[0]);
+        endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split('-')[0]);
         print("level ends at " + endOfLevel);
 
         //perform these checks every frame for as long as the dialogue plays
@@ -261,16 +265,33 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
                             //print(obstacle);
                             string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
-                            float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
-                                tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
-                                tokens[2].ToLower().Trim() == "playersleft" && playerTransform.position.x > (-roadWidth + laneWidth) / 2 ? playerTransform.position.x - laneWidth :
-                                tokens[2].ToLower().Trim() == "playersright" && playerTransform.position.x < (roadWidth + laneWidth) / 2 ? playerTransform.position.x + laneWidth :
-                                playerTransform.position.x;
-                            float ypos = playerTransform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? 100 : -100);
-                            print(tokens[0].Trim());
-                            spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
-                                new Vector3(xpos, ypos, 0),
-                                Quaternion.identity), despawnTime);
+                            float spawnDistance = 100;
+                            if (tokens.Length == 2)
+                            {
+                                GameObject obj = Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
+                                    new Vector3(playerTransform.position.x, playerTransform.position.y + spawnDistance, 0),
+                                    Quaternion.identity);
+                                spawnedObstacles.Add(obj, despawnTime);
+                                if (tokens[1].ToLower()[0] == 'r')
+                                {
+                                    obj.GetComponent<QuickTurn>().mustTurnLeft = false;
+                                } else
+                                {
+                                    obj.GetComponent<QuickTurn>().mustTurnLeft = true;
+                                }
+                            }
+                            else {
+                                float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
+                                    tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
+                                    tokens[2].ToLower().Trim() == "playersleft" && playerTransform.position.x > (-roadWidth + laneWidth) / 2 ? playerTransform.position.x - laneWidth :
+                                    tokens[2].ToLower().Trim() == "playersright" && playerTransform.position.x < (roadWidth + laneWidth) / 2 ? playerTransform.position.x + laneWidth :
+                                    playerTransform.position.x;
+                                float ypos = playerTransform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? spawnDistance : -spawnDistance);
+                                print(tokens[0].Trim());
+                                spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
+                                    new Vector3(xpos, ypos, 0),
+                                    Quaternion.identity), despawnTime);
+                            }
                         }
                         timedObstacleMarkers.RemoveAt(0);
                     }
@@ -326,6 +347,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         secondSource.clip = Resources.Load<AudioClip>("Audio/gps_end");
         secondSource.Play();
         yield return new WaitForSeconds(secondSource.clip.length);
+        //This is where the level ends
+        ScoreStorage.Instance.setScoreAll();
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
     }
@@ -340,6 +363,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         yield return new WaitForSeconds(1);
         controls.enabled = true;
         keyboard.enabled = true;
+        gamepad.enabled = true;
+        timeTracker.enabled = true;
         adjustInstrumentVolume(false, new string[] { });
     }
 

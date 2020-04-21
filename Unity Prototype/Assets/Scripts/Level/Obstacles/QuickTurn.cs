@@ -4,25 +4,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class QuickTurn : MonoBehaviour
 {
+    [SerializeField] private PS4Controls gamepad;
     //public int direction;
     private AudioSource turnSound;
     public KeyboardControl keyboardCtrl;
+    public GamepadControl gamepadCtrl;
     public PlayerControls playerCtrl;
     public bool mustTurnLeft;
     private string turnDirection;
+
+    void Awake()
+    {
+        gamepad = new PS4Controls();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         if(mustTurnLeft)
         {
-            turnDirection = "left";
+            turnDirection = "Left";
         }
         else
         {
-            turnDirection = "right";
+            turnDirection = "Right";
         }
 
         turnSound = GetComponent<AudioSource>();
@@ -36,39 +45,37 @@ public class QuickTurn : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // if (transform.parent.tag == "Right")
-        // {
-        //     direction = Resources.Load<AudioClip>("Audio/gps_right");
-        // }
-        // else
-        // {
-        //     direction = Resources.Load<AudioClip>("Audio/gps_left");
-        // }
-        // if (other.gameObject.tag == "Player")
-        // {
-        //     StartCoroutine(PlayWarnings());
-        // }
-
         // Begin Quick Turn sequence
         if(other.transform.tag == "Player")
         {
-            // Debug.Log("Turn " + turnDirection + "!"); // We potentially want to play a quick turn warning audio clip
-            StartCoroutine(QTurn());
+            keyboardCtrl = other.gameObject.GetComponent<KeyboardControl>();
+            playerCtrl = other.gameObject.GetComponent<PlayerControls>();
+            other.GetComponentInParent<GamepadControl>().gamepad.Gameplay.Disable();
+            // other.GetComponentInParent<GamepadControl>().gamepad.QuickTurns.Enable();
+            other.GetComponentInParent<GamepadControl>().gamepad.QuickTurns.Get().FindAction("Turn " + turnDirection).Enable();
+            Debug.Log("Turn " + turnDirection + "!"); // We potentially want to play a quick turn warning audio clip
+            StartCoroutine(QTurn(other.GetComponentInParent<GamepadControl>().gamepad));
         }
     }
-    IEnumerator QTurn()
+    IEnumerator QTurn(PS4Controls gp)
     {
         float startTime = Time.time;
         // If player was strafing in wrong direction/holding wrong button in the first place
-        while(!Input.GetKey(turnDirection) && Time.time - startTime < 2f)
+        // turnValue = gp.QuickTurns.Get().FindAction("Turn" + turnDirection).ReadValue<float>();
+        // Debug.Log(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>());
+
+        while((!Input.GetKey(turnDirection.ToLower()) ||
+               gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() <= 0) &&
+               Time.time - startTime < 2f)
         {
+            Debug.Log(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>());
             // Wait for player to turn in correct direction (Make sure player is not cheating by somehow performing both inputs)
             yield return null;
         }
 
         startTime = Time.time;
         // If turning in correct direction
-        if(Input.GetKey(turnDirection))
+        if(Input.GetKey(turnDirection.ToLower()))
         {
             keyboardCtrl.enabled = false;
             playerCtrl.enabled = false;
@@ -84,22 +91,23 @@ public class QuickTurn : MonoBehaviour
             playerCtrl.enabled = true;
             yield break;
         }
+        else if(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() > 0)
+        {
+            // Play turnsound
+            turnSound.Play();
+            gp.Gameplay.Enable();
+            // return with no errors
+            yield break;
+        }
         // else (turned in wrong direction)
         else
         {
             // return with score decremented
             // Debug.Log("Decrement Score"); // We potentially want to play an error audio clip
             CheckErrors.IncrementErrorsAndUpdateDisplay();
+            gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
+            gp.Gameplay.Enable();
             yield break;
         }
-    }
-
-    void OnTriggerStay2D(Collider2D other)
-    {
-        // ...
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
     }
 }

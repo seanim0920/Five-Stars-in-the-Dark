@@ -445,6 +445,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4314826276381511972, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4314826275832921484, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
     - {fileID: 4314826275832921472, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
@@ -1319,6 +1324,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470715993}
   m_CullTransparentMesh: 0
+--- !u!1 &559831060 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5623311442956690697, guid: 6474ecd82f7f3514f86702184941548d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1323969908}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &559831066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559831060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: f187917cc215652408b965d63444f936,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3a347a41-ebb3-4825-abae-67285979a7ba
+    m_ActionName: Gameplay/Accelerate[/DualShock4GamepadHID/rightTrigger,/DualShock4GamepadHID/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1ad7417e-abbb-4462-b949-70e0509d4f2c
+    m_ActionName: Gameplay/Brake[/DualShock4GamepadHID/leftTrigger,/DualShock4GamepadHID/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f5591991-fa34-48aa-9de7-266a27b5aca2
+    m_ActionName: Gameplay/Strafe[/DualShock4GamepadHID/leftStick/x,/DualShock4GamepadHID/leftStick/x]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2c08916c-36ce-4c5d-b08c-1654729794d0
+    m_ActionName: QuickTurns/Turn Left[/DualShock4GamepadHID/leftStick/left,/DualShock4GamepadHID/leftStick/left]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4af16860-3899-43a6-9061-0320d22d2282
+    m_ActionName: QuickTurns/Turn Right[/DualShock4GamepadHID/leftStick/right,/DualShock4GamepadHID/leftStick/right]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: QuickTurns
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &664606528
 GameObject:
   m_ObjectHideFlags: 0
@@ -2710,6 +2772,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1102164924 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4314826276381511994, guid: 0737ab1198c13c74695686fd9e987b22,
+    type: 3}
+  m_PrefabInstance: {fileID: 170769229}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa71ceec7bae7d449d78f57181254eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1114848690
 GameObject:
   m_ObjectHideFlags: 0
@@ -3753,7 +3827,7 @@ PrefabInstance:
     - target: {fileID: 6951997797052847585, guid: 6474ecd82f7f3514f86702184941548d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -200
+      value: -230
       objectReference: {fileID: 0}
     - target: {fileID: 6951997797052847585, guid: 6474ecd82f7f3514f86702184941548d,
         type: 3}
@@ -3815,6 +3889,16 @@ PrefabInstance:
       propertyPath: mustTurnLeft
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 807799375485478047, guid: 6474ecd82f7f3514f86702184941548d,
+        type: 3}
+      propertyPath: gamepadCtrl
+      value: 
+      objectReference: {fileID: 7463166642665891227}
+    - target: {fileID: 807799375485478047, guid: 6474ecd82f7f3514f86702184941548d,
+        type: 3}
+      propertyPath: input
+      value: 
+      objectReference: {fileID: 559831066}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6474ecd82f7f3514f86702184941548d, type: 3}
 --- !u!1 &1330607019
@@ -4582,6 +4666,8 @@ MonoBehaviour:
   maxVol: 0.8
   controls: {fileID: 885915664}
   keyboard: {fileID: 7463166642665891221}
+  gamepad: {fileID: 7463166642665891227}
+  timeTracker: {fileID: 1102164924}
   ambience: {fileID: 1577631320}
   blackScreen: {fileID: 1527944646}
   carStart: {fileID: 770254976}
@@ -7845,12 +7931,13 @@ GameObject:
   - component: {fileID: 7463166642665891228}
   - component: {fileID: 7463166642665891226}
   - component: {fileID: 7463166642665891229}
+  - component: {fileID: 885915662}
   - component: {fileID: 7463166642665891225}
   - component: {fileID: 7463166642665891221}
+  - component: {fileID: 7463166642665891227}
+  - component: {fileID: 885915664}
   - component: {fileID: 885915660}
   - component: {fileID: 885915661}
-  - component: {fileID: 885915662}
-  - component: {fileID: 885915664}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7891,6 +7978,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7463166642665891227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7463166642665891224}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec533e9ef212164bbe6bb4da05beb19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlFunctions: {fileID: 885915664}
 --- !u!61 &7463166642665891228
 BoxCollider2D:
   m_ObjectHideFlags: 0
