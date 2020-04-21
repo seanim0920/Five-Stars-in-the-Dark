@@ -25,8 +25,8 @@ public class DisplayTitle : MonoBehaviour
 			LvlSelect.SetActive(false);
 			if(Masterkey.egg || Masterkey.lvl) {
 				Blackout.SetActive(true);
-				LoadScene.Loader(Masterkey.sceneName);
-			}
+                LoadScene.Loader(Masterkey.sceneName);
+            }
 		}
     }
 }

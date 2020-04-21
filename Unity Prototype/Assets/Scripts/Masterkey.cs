@@ -28,14 +28,10 @@ public class Masterkey : MonoBehaviour
         l.onClick.AddListener(TaskLvl);
         lb.onClick.AddListener(TaskLvlReset);
 
-        Button l1 = level1.GetComponent<Button>();
-        Button l2 = level2.GetComponent<Button>();
-        Button l3 = level3.GetComponent<Button>();
-        Button l4 = level4.GetComponent<Button>();
-        l1.onClick.AddListener(() => sceneName = "Level 1");
-        l2.onClick.AddListener(() => sceneName = "Level 2");
-        l3.onClick.AddListener(() => sceneName = "Level 3");
-        l4.onClick.AddListener(() => sceneName = "Level 4");
+        level1.onClick.AddListener(() => sceneName = "Level 1");
+        level2.onClick.AddListener(() => sceneName = "Level 2");
+        level3.onClick.AddListener(() => sceneName = "Level 3");
+        level4.onClick.AddListener(() => sceneName = "Level 4");
     }
 
     // Update is called once per frame
