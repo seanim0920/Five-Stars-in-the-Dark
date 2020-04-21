@@ -212,7 +212,7 @@ public class PlayerControls : MonoBehaviour
         {
             if (amount < -0.02f) wheelFunctions.PlaySideCollisionForce(-100);
             else if (amount > 0.02f) wheelFunctions.PlaySideCollisionForce(100);
-            print("HITTING RAIL" + amount);
+            //print("HITTING RAIL" + amount);
             if (lastRecordedStrafe == 0 || amount / lastRecordedStrafe <= 1f)
             {
                 lastRecordedStrafe = amount;

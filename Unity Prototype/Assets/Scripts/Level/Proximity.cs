@@ -37,7 +37,7 @@ public class Proximity : MonoBehaviour
             float distance = difference.magnitude;
             float eyesight = transform.localScale.y * transform.parent.transform.localScale.y;
             noise.volume = Mathf.Pow(((-distance / (eyesight)) + 1), 2) * 1.1f;
-            print("proximity volume is " + distance + " " + noise.volume);
+            //print("proximity volume is " + distance + " " + noise.volume);
             Vector3 posRelativeToPlayer = transform.parent.transform.InverseTransformPoint(col.gameObject.transform.position);
             noise.panStereo = posRelativeToPlayer.x / (transform.localScale.x / 2);
             noise.pitch = noise.volume * 3;

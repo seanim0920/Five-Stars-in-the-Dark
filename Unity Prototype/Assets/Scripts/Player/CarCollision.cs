@@ -80,12 +80,13 @@ public class CarCollision : MonoBehaviour
         }
         if (col.gameObject.tag == "Guardrail")
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 1f);
-           if (hit.collider != null && hit.collider.gameObject.tag == col.gameObject.tag)
+           if (col.gameObject.transform.position.x > transform.position.x)
            {
+                print("blocked right");
                 controlFunctions.blockDirection(1);
            } else
-           {
+            {
+                print("blocked left");
                 controlFunctions.blockDirection(-1);
            }
 
