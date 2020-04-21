@@ -791,7 +791,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -42.000366, y: 317}
+  m_AnchoredPosition: {x: -42.00049, y: 317}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &175950042
@@ -3874,7 +3874,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -19.785034, y: 0}
+  m_AnchoredPosition: {x: -19.784912, y: 0}
   m_SizeDelta: {x: 39.57, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &738527297
@@ -11024,7 +11024,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -42.000366, y: 513}
+  m_AnchoredPosition: {x: -42.00049, y: 513}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2012897677
@@ -11576,3 +11576,7 @@ MonoBehaviour:
   levelOne: {fileID: 784915601}
   play: {fileID: 1119972355}
   play2: {fileID: 234589275}
+  level1: {fileID: 784915605}
+  level2: {fileID: 821615379}
+  level3: {fileID: 458958182}
+  level4: {fileID: 1555053409}
