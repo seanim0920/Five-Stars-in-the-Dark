@@ -31,6 +31,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     public GameObject blackScreen;
     public AudioSource carStart;
     public TextAsset markersFile;
+    public static string debugMessage { get; set; }
 
     float numberOfLanes = 3;
     float laneWidth = 1.8f * 20;
@@ -45,11 +46,49 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     bool skipIntro = false;
     void parseMarkersFromTextFile()
     {
-        StreamReader inp_stm = new StreamReader(Application.dataPath + "/" + "Level1.txt");
+        timedObstacleMarkers = new List<string>();
+        dialogueMarkers = new List<string>();
+        spawnedObstacles = new Dictionary<GameObject, float>();
+        levelDialogue = GetComponent<AudioSource>();
 
+        StreamReader inp_stm = new StreamReader(Application.dataPath + "/" + "Level.txt");
+
+        int lineNumber = 1;
         while (!inp_stm.EndOfStream)
         {
-            string inp_ln = inp_stm.ReadLine();
+            string line = inp_stm.ReadLine();
+
+            string[] tokens = line.Split(new char[] { ' ', '\t' });
+            if (tokens.Length < 3 || !char.IsDigit(tokens[0][0])) continue;
+            float previousStartTime = 0;
+            bool newTrack = false;
+            float startTime = float.Parse(tokens[0]);
+            int lineLength;
+            //markers will either be obstacles/dialogue, or news/realtime events
+            if (tokens.Length == 3)
+            {
+                if (tokens[2][0] == '[')
+                {
+                    print("parsed command marker" + tokens.Length);
+                    commandMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
+                }
+                else
+                {
+                    dialogueMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
+                }
+            }
+            else if (startTime >= previousStartTime && !newTrack)
+            {
+                timedObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
+                previousStartTime = startTime;
+            }
+            else
+            {
+                newTrack = true;
+                distanceObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
+            }
+            //print("amount of tokens are " + tokens.Length);
+            lineNumber++;
             // Do Something with the input. 
         }
 
@@ -160,10 +199,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         bool midpoint = false;
         bool endpoint = false;
-        print("starting level now");
+        debugMessage = "starting level now, level ends at " + endOfLevel;
         int updateRate = 50;
         endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split('-')[0]);
-        print("level ends at " + endOfLevel);
 
         //perform these checks every frame for as long as the dialogue plays
         while (levelDialogue.time < endOfLevel)
@@ -207,16 +245,16 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             }
 
             //start playing the dialogue from wherever it left off
-            print("starting new dialogue section");
             levelDialogue.Play();
             isSpeaking = true;
 
-            print("current time" + levelDialogue.time + "dialogue end" + currentDialogueEndTime + " next dialogue start " + nextDialogueStartTime);
+            debugMessage = "starting new dialogue section: " + "ends at " + currentDialogueEndTime + " next dialogue starts at " + nextDialogueStartTime;
             //while waiting for the next piece of dialogue, check if any obstacles need to be spawned or despawned, then remove from the queue. checks every frame
             while (levelDialogue.time < nextDialogueStartTime)
             {
                 //print("time in the dialogue is " + levelDialogue.time);
                 yield return new WaitForSeconds(0);
+                debugMessage = "current time in dialogue: " + levelDialogue.time + "... ";
 
                 //check list of markers to see if the next obstacle is due
                 if (commandMarkers.Count > 0)
@@ -224,11 +262,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     string[] commandData = commandMarkers[0].Split('-');
                     string command = commandData[2].Trim();
                     float spawnTime = float.Parse(commandData[0]);
-                    print("parsing command... " + command);
                     if (levelDialogue.time >= spawnTime)
                     {
+                        debugMessage += "parsing command: " + command;
                         AudioClip radioClip = Resources.Load<AudioClip>("Audio/" + command);
-                        print("trying to find " + "Audio/" + command);
                         if (radioClip != null)
                         {
                             secondSource.clip = radioClip;
@@ -257,8 +294,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     //if the next obstacle is due or if the obstacle trigger was touched, spawn it
                     if (spawnTime < nextDialogueStartTime && levelDialogue.time > spawnTime)
                     {
+                        debugMessage += "spawning obstacles: " + obstacleData[2];
                         string[] obstacleSeq = obstacleData[2].Split(',');
-                        print("spawning obstacles" + spawnTime);
                         foreach (string obstacle in obstacleSeq)
                         {
                             //instantiate the obstacles plotted at this time
@@ -303,6 +340,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     if (levelDialogue.time >= pair.Value)
                     {
                         GameObject obj = pair.Key;
+                        debugMessage += "despawning obstacle: " + obj.name;
 
                         obj.GetComponent<CapsuleCollider2D>().isTrigger = true;
                         if (obj.transform.position.x > playerTransform.position.x)
@@ -334,7 +372,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 if (levelDialogue.time >= currentDialogueEndTime && nextDialogueTrigger == null && (timedObstacleMarkers.Count == 0 || (float.Parse(timedObstacleMarkers[0].Split('-')[0]) >= nextDialogueStartTime))) { break; }
             }
 
-            print("finished section of dialogue");
+            debugMessage = "finished section of dialogue";
             levelDialogue.Pause();
             isSpeaking = false;
 
