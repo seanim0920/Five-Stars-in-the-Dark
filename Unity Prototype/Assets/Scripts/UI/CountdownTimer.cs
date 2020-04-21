@@ -34,6 +34,7 @@ public class CountdownTimer : MonoBehaviour
             updateDisplay();
             if (currentTime <= 0)
             {
+                ScoreStorage.Instance.setScoreAll();
                 SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
                 SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
             }
@@ -43,5 +44,11 @@ public class CountdownTimer : MonoBehaviour
     private static void updateDisplay()
     {
         timerText.text = "Time remaining: " + currentTime.ToString("00.0");
+    }
+
+    //because currentTime is static, it needs a method to access
+    public float getCurrentTime()
+    {
+        return currentTime;
     }
 }
