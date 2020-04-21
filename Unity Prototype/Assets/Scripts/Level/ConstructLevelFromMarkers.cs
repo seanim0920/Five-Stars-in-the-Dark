@@ -178,12 +178,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         GameObject map = new GameObject("Map");
         float length = levelDialogue.clip.length * controls.neutralSpeed * updateRate;
         GameObject roadtile = Instantiate(road, new Vector3(0, 0, 1), Quaternion.identity);
-        roadtile.transform.localScale = new Vector3(roadWidth * 20, length, 1);
+        roadtile.transform.localScale = new Vector3(roadWidth, length, 1);
         roadtile.transform.parent = map.transform;
-        GameObject leftcurb = Instantiate(curb, new Vector3(20 * (-roadWidth/2 - 0.5f), 0, 1), Quaternion.identity);
+        GameObject leftcurb = Instantiate(curb, new Vector3((-roadWidth/2 - 0.5f), 0, 1), Quaternion.identity);
         leftcurb.transform.localScale = new Vector3(20,length,1);
         leftcurb.transform.parent = map.transform;
-        GameObject rightcurb = Instantiate(curb, new Vector3(20 * (roadWidth/2 + 0.5f), 0, 1), Quaternion.identity);
+        GameObject rightcurb = Instantiate(curb, new Vector3((roadWidth/2 + 0.5f), 0, 1), Quaternion.identity);
         rightcurb.transform.localScale = new Vector3(20, length, 1);
         rightcurb.transform.parent = map.transform;
         playerTransform.position = new Vector3(0, -length / 2, 0);
