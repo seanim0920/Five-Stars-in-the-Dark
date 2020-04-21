@@ -14,7 +14,7 @@ public class GamepadControl : MonoBehaviour
     private bool isBraking;
     private float strafeAmt = 0;
     private bool isStrafing;
-
+    private bool gamepadConnected = false;
     void Awake()
     {
         gamepad = new PS4Controls();
@@ -31,7 +31,7 @@ public class GamepadControl : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if(keyboardScript.enabled)
+        if(gamepadConnected && keyboardScript.enabled)
         {
             keyboardScript.enabled = false;
         }

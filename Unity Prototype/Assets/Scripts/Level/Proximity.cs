@@ -5,7 +5,6 @@ using UnityEngine.Audio;
 
 public class Proximity : MonoBehaviour
 {
-    private float eyesight = 4f;
     AudioSource noise;
     private bool isBeep = true;
     // Start is called before the first frame update
@@ -31,13 +30,17 @@ public class Proximity : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D col)
     {
+        //should be adjusted to detect the closest car to the player, if there are multiple cars in the zone
         if (col.gameObject.tag == "Car")
         {
             Vector3 difference = (col.gameObject.transform.position - transform.parent.transform.position);
             float distance = difference.magnitude;
-            noise.volume = Mathf.Pow(((-distance / transform.localScale.y) + 1), 2) * 1.1f;
-            noise.panStereo = Vector3.Cross(difference, transform.up).magnitude * (Vector3.Dot(col.gameObject.transform.position - transform.parent.transform.position, transform.right) > 0 ? 1 : -1) / (transform.localScale.x / 2);
-            noise.pitch = (1 / eyesight) * Mathf.Pow(distance - eyesight, 2) + 1;
+            float eyesight = transform.localScale.y * transform.parent.transform.localScale.y;
+            noise.volume = Mathf.Pow(((-distance / (eyesight)) + 1), 2) * 1.1f;
+            print("proximity volume is " + distance + " " + noise.volume);
+            Vector3 posRelativeToPlayer = transform.parent.transform.InverseTransformPoint(col.gameObject.transform.position);
+            noise.panStereo = posRelativeToPlayer.x / (transform.localScale.x / 2);
+            noise.pitch = noise.volume * 3;
         }
     }
 

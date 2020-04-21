@@ -138,7 +138,7 @@ Camera:
   far clip plane: 100
   field of view: 150
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 100
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -175,6 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focus: {fileID: 0}
+  Zoffset: 0
 --- !u!82 &4314826275832921472
 AudioSource:
   m_ObjectHideFlags: 0

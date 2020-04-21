@@ -33,8 +33,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     public TextAsset markersFile;
 
     float numberOfLanes = 3;
-    float laneWidth = 1.8f;
-    float roadWidth = 1.8f * 3;
+    float laneWidth = 1.8f * 20;
+    float roadWidth = 1.8f * 3 * 20;
 
     //this is public so dialogue rewinding scripts know where to rewind too.
     public float currentDialogueStartTime = 0.0f;
@@ -139,13 +139,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         GameObject map = new GameObject("Map");
         float length = levelDialogue.clip.length * controls.neutralSpeed * updateRate;
         GameObject roadtile = Instantiate(road, new Vector3(0, 0, 1), Quaternion.identity);
-        roadtile.transform.localScale = new Vector3(roadWidth, length, 1);
+        roadtile.transform.localScale = new Vector3(roadWidth * 20, length, 1);
         roadtile.transform.parent = map.transform;
-        GameObject leftcurb = Instantiate(curb, new Vector3(-roadWidth/2 - 0.5f, 0, 1), Quaternion.identity);
-        leftcurb.transform.localScale = new Vector3(1,length,1);
+        GameObject leftcurb = Instantiate(curb, new Vector3(20 * (-roadWidth/2 - 0.5f), 0, 1), Quaternion.identity);
+        leftcurb.transform.localScale = new Vector3(20,length,1);
         leftcurb.transform.parent = map.transform;
-        GameObject rightcurb = Instantiate(curb, new Vector3(roadWidth/2 + 0.5f, 0, 1), Quaternion.identity);
-        rightcurb.transform.localScale = new Vector3(1, length, 1);
+        GameObject rightcurb = Instantiate(curb, new Vector3(20 * (roadWidth/2 + 0.5f), 0, 1), Quaternion.identity);
+        rightcurb.transform.localScale = new Vector3(20, length, 1);
         rightcurb.transform.parent = map.transform;
         playerTransform.position = new Vector3(0, -length / 2, 0);
 
@@ -304,7 +304,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     {
                         GameObject obj = pair.Key;
 
-                        obj.GetComponent<BoxCollider2D>().isTrigger = true;
+                        obj.GetComponent<CapsuleCollider2D>().isTrigger = true;
                         if (obj.transform.position.x > playerTransform.position.x)
                             obj.transform.Rotate(0, 0, -90);
                         else

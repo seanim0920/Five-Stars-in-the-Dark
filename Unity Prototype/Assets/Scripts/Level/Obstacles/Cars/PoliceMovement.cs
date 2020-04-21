@@ -46,7 +46,7 @@ public class PoliceMovement : MonoBehaviour
     bool SeesPlayer(Vector3 direction)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
-        if(hit.collider != null)
+        if(hit.collider != null) //doesnt actually check if it sees the player vs npc
         {
             Vector3 posRelativeToPlayer = hit.collider.gameObject.transform.InverseTransformPoint(transform.position);
             // Debug.Log(posRelativeToPlayer);

@@ -70,7 +70,8 @@ public class CarCollision : MonoBehaviour
                 col.gameObject.GetComponent<PoliceMovement>().enabled = false;
             }
             col.gameObject.GetComponent<Rigidbody2D>().AddForce((col.gameObject.transform.position - transform.position).normalized, ForceMode2D.Impulse);
-            //controlFunctions.movementSpeed *= 0.1f;
+            //should be adjusted to push them away from the car rather than just slowing them down
+            controlFunctions.movementSpeed *= 0.1f;
             //setRadioTempo(getRadioTempo() * 0.1f);
         }
         if (col.gameObject.tag == "Pedestrian" || col.gameObject.tag == "Stop")
