@@ -6,7 +6,7 @@ public class DisplayInstructions : MonoBehaviour
 {
 	public GameObject Instructions;
 	public GameObject LevelSelect;
-	public bool lvlMode = false;
+    public bool lvlMode = false;
     // Start is called before the first frame update
     void Start()
     {

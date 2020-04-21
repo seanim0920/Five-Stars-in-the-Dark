@@ -18,15 +18,14 @@ public class DisplayTitle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		f = Masterkey.egg;
 	    var pos = transform.position;
 		
 		if(transform.position.x >= -100) {
 			Instructions.SetActive(false);
 			LvlSelect.SetActive(false);
-			if(f) {
+			if(Masterkey.egg || Masterkey.lvl) {
 				Blackout.SetActive(true);
-				LoadScene.Loader("Level 1");
+				LoadScene.Loader(Masterkey.sceneName);
 			}
 		}
     }
