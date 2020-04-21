@@ -5972,11 +5972,12 @@ MonoBehaviour:
   maxVol: 0.8
   controls: {fileID: 1938833896}
   keyboard: {fileID: 1938833900}
+  gamepad: {fileID: 0}
   timeTracker: {fileID: 1492790323}
   ambience: {fileID: 1464723228}
   blackScreen: {fileID: 1798619071}
   carStart: {fileID: 1370924914}
-  markersFile: {fileID: 4900000, guid: 2e321ed8b564878438a1622dee8455b5, type: 3}
+  markersFile: {fileID: 4900000, guid: aa320b45461a49643a0cf08090f28509, type: 3}
   currentDialogueStartTime: 0
   endOfLevel: 1
 --- !u!4 &2017990813
