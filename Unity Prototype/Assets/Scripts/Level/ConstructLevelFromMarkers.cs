@@ -385,6 +385,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         secondSource.clip = Resources.Load<AudioClip>("Audio/gps_end");
         secondSource.Play();
         yield return new WaitForSeconds(secondSource.clip.length);
+        levelDialogue.Play();
+        while (levelDialogue.isPlaying)
+        {
+            yield return new WaitForSeconds(0);
+        }
+
         //This is where the level ends
         ScoreStorage.Instance.setScoreAll();
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
