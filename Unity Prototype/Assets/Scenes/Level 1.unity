@@ -1289,7 +1289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6961da72b5d1d3b4283417693ca74f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controls: {fileID: 0}
+  controls: {fileID: 1478482137}
   rect: {fileID: 1637047121}
 --- !u!114 &1082225177
 MonoBehaviour:
@@ -1304,7 +1304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelImage: {fileID: 170769230}
-  wheelScript: {fileID: 0}
+  wheelScript: {fileID: 1478482137}
 --- !u!1 &1104813466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,8 +1591,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 578fbbacf4a0e0948ac940811c5f3c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftSource: {fileID: 0}
-  rightSource: {fileID: 0}
+  leftSource: {fileID: 24100000, guid: 6d5d7be8b37c6e4429a96d486a8be36b, type: 2}
+  rightSource: {fileID: 24100000, guid: 1c5e2e4e86715854883ad8a592f82583, type: 2}
 --- !u!82 &1478482133 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 6775186468114612840, guid: f69b4fae26683fe428909848d1fe1e89,

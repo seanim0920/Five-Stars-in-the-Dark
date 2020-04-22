@@ -24,8 +24,6 @@ public class EndScene : MonoBehaviour
 
     IEnumerator PlayScene()
     {
-        endScene.Play();
-        yield return new WaitForSeconds(endScene.clip.length);
         bass.time = 16;
         drums.time = 16;
         bass.Play();

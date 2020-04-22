@@ -1438,7 +1438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6961da72b5d1d3b4283417693ca74f98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controls: {fileID: 0}
+  controls: {fileID: 1534084238}
   rect: {fileID: 1487197917}
 --- !u!114 &1487197922
 MonoBehaviour:
@@ -1453,7 +1453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wheelImage: {fileID: 1487197919}
-  wheelScript: {fileID: 0}
+  wheelScript: {fileID: 1534084238}
 --- !u!1001 &1534084233
 PrefabInstance:
   m_ObjectHideFlags: 0
