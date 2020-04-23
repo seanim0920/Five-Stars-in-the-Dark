@@ -47,6 +47,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     bool skipSection = false;
     bool skipIntro = false;
+
+    Object[] loadedObjects;
     void parseMarkersFromTextFile()
     {
         timedObstacleMarkers = new List<string>();
@@ -152,6 +154,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void Start()
     {
+        loadedObjects = Resources.LoadAll("", typeof(GameObject));
+        foreach (var go in loadedObjects)
+        {
+            Debug.Log(go.name);
+        }
         player = GameObject.Find("Player");
         wheelFunctions = player.GetComponent<SteeringWheelControl>();
         controls = player.GetComponent<PlayerControls>();
@@ -308,21 +315,39 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         {
                             //instantiate the obstacles plotted at this time
 
-                            //print(obstacle);
                             string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
-                            float spawnDistance = 100;
+                            float spawnDistance = 200;
+
+                            string prefab = "";
+                            foreach (var obj in loadedObjects)
+                            {
+                                if (string.Equals(obj.name, tokens[0].Trim(), System.StringComparison.OrdinalIgnoreCase))
+                                {
+                                    Debug.Log("found obstacle");
+                                    prefab = obj.name;
+                                }
+                            }
+                            if (prefab == "") { Debug.Log("could not load obstacle"); break; }
+
                             if (tokens.Length == 2)
                             {
-                                GameObject obj = Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
+                                GameObject obj = Instantiate(Resources.Load<GameObject>(prefab),
                                     new Vector3(player.transform.position.x, player.transform.position.y + spawnDistance, 0),
                                     Quaternion.identity);
-                                spawnedObstacles.Add(obj, despawnTime);
-                                if (tokens[1].ToLower()[0] == 'r')
+                                if ((string.Equals(prefab, "quickturn", System.StringComparison.OrdinalIgnoreCase)))
                                 {
-                                    obj.GetComponent<QuickTurn>().mustTurnLeft = false;
-                                } else
+                                    if ((string.Equals(tokens[1].Trim(), "right", System.StringComparison.OrdinalIgnoreCase)))
+                                    {
+                                        obj.GetComponent<QuickTurn>().mustTurnLeft = false;
+                                    }
+                                    else
+                                    {
+                                        obj.GetComponent<QuickTurn>().mustTurnLeft = true;
+                                    }
+                                } else if ((string.Equals(prefab, "stoplight", System.StringComparison.OrdinalIgnoreCase)))
                                 {
-                                    obj.GetComponent<QuickTurn>().mustTurnLeft = true;
+                                    string pattern = tokens[1].ToLower().Trim();
+                                    obj.GetComponent<Stoplight>().pattern = pattern;
                                 }
                             }
                             else {

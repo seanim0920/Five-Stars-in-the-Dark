@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Stoplight : MonoBehaviour
 {
-    public int loopAmount;
-    public int carsAmount;
+    public int loopAmount = 3;
+    public string pattern = "w";
     // Start is called before the first frame update
     void Start()
     {
@@ -20,19 +20,20 @@ public class Stoplight : MonoBehaviour
         transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
         for (int loop = 0; loop < loopAmount; loop++)
         {
-            for (int cars = 0; cars < carsAmount; cars++)
+            for (int i = 0; i < pattern.Length; i++)
             {
-                GameObject npc = Instantiate(Resources.Load<GameObject>("FastCar"), transform);
-                npc.GetComponent<Rigidbody2D>().isKinematic = true;
-                npc.GetComponent<NPCMovement>().neutralSpeed = 2;
-                npc.transform.localPosition = transform.GetChild(0).localPosition;
-                npc.transform.Rotate(0, 0, -90);
-                Destroy(npc, 4);
+                if (pattern[i] == 'w')
+                {
+                    GameObject npc = Instantiate(Resources.Load<GameObject>("FastCar"), transform);
+                    npc.GetComponent<Rigidbody2D>().isKinematic = true;
+                    npc.GetComponent<NPCMovement>().neutralSpeed = 2;
+                    npc.transform.localPosition = transform.GetChild(0).localPosition;
+                    npc.transform.Rotate(0, 0, -90);
+                    Destroy(npc, 4);
+                }
                 yield return new WaitForSeconds(1f);
             }
-            yield return new WaitForSeconds(3f);
         }
-        yield return new WaitForSeconds(8f);
         tag = "Go";
         transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
 
