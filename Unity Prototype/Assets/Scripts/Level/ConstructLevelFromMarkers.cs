@@ -7,25 +7,28 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 {
     public AudioSource levelDialogue;
     public AudioSource secondSource;
+    private GameObject player;
+
     List<string> timedObstacleMarkers = new List<string>();
     List<string> commandMarkers = new List<string>();
     List<string> distanceObstacleMarkers = new List<string>();
     List<string> dialogueMarkers = new List<string>();
     Dictionary<GameObject, float> spawnedObstacles = new Dictionary<GameObject, float>();
-    public SteeringWheelControl wheelFunctions;
+    
+    //variables set from the player object
+    private SteeringWheelControl wheelFunctions;
+    private PlayerControls controls;
+    private KeyboardControl keyboard;
+    private GamepadControl gamepad;
 
     //for lowering the volume when dialogue is playing
     public Transform leftSpeaker;
     public Transform rightSpeaker;
-    public Transform playerTransform;
     public bool isSpeaking;
     private string[] dialogueInstruments = { "Drums", "Support", "Wind" };
     public float maxVol = 0.8f;
 
     //for the start cutscene
-    public PlayerControls controls;
-    public KeyboardControl keyboard;
-    public GamepadControl gamepad;
     public CountdownTimer timeTracker;
     public AudioSource ambience;
     public GameObject blackScreen;
@@ -149,6 +152,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.Find("Player");
+        wheelFunctions = player.GetComponent<SteeringWheelControl>();
+        controls = player.GetComponent<PlayerControls>();
+        keyboard = player.GetComponent<KeyboardControl>();
+        gamepad = player.GetComponent<GamepadControl>();
         parseLevelMarkers();
 
         /*
@@ -171,7 +179,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         float updateRate = 50; //how long fixedupdate runs per second
 
-        GameObject GPS = Resources.Load<GameObject>("GPSMarker");
         GameObject curb = Resources.Load<GameObject>("Curb");
         GameObject road = Resources.Load<GameObject>("Road");
 
@@ -186,11 +193,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         GameObject rightcurb = Instantiate(curb, new Vector3((roadWidth/2 + 0.5f), 0, 1), Quaternion.identity);
         rightcurb.transform.localScale = new Vector3(20, length, 1);
         rightcurb.transform.parent = map.transform;
-        playerTransform.position = new Vector3(0, -length / 2, 0);
-
-        GameObject GPSstart = Instantiate(GPS, new Vector3(0, -length/2, 1), Quaternion.identity);
-        GPSstart.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("Audio/gps_start");
-        GPSstart.transform.parent = map.transform;
+        player.transform.position = new Vector3(0, -length / 2, 0);
 
         //GameObject dialogueZone = Resources.Load<GameObject>("DialogueMarker");
     }
@@ -231,17 +234,17 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             //places GPS markers at the middle and end of the dialogue
             if (levelDialogue.time >= endOfLevel / 2 && !midpoint)
             {
-                secondSource.clip = Resources.Load<AudioClip>("Audio/gps_middle");
+                secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_middle");
                 secondSource.Play();
                 yield return new WaitForSeconds(secondSource.clip.length);
                 midpoint = true;
             }
 
             //create a physical marker that must be hit before the next piece of dialogue can play
-            GameObject nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("DisposableTrigger"), playerTransform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+            GameObject nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
             if (start)
             {
-                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("DisposableTrigger"), playerTransform.position + new Vector3(0, (nextDialogueStartTime - currentDialogueEndTime) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - currentDialogueEndTime) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
             }
 
             //start playing the dialogue from wherever it left off
@@ -277,6 +280,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         }
                         else if (string.Equals(command, "[StartCar]"))
                         {
+                            secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_start");
+                            secondSource.Play();
+                            yield return new WaitForSeconds(secondSource.clip.length);
                             StartCoroutine(startCar());
                             yield return new WaitForSeconds(2);
                         }
@@ -306,7 +312,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                             if (tokens.Length == 2)
                             {
                                 GameObject obj = Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
-                                    new Vector3(playerTransform.position.x, playerTransform.position.y + spawnDistance, 0),
+                                    new Vector3(player.transform.position.x, player.transform.position.y + spawnDistance, 0),
                                     Quaternion.identity);
                                 spawnedObstacles.Add(obj, despawnTime);
                                 if (tokens[1].ToLower()[0] == 'r')
@@ -320,10 +326,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                             else {
                                 float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
                                     tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
-                                    tokens[2].ToLower().Trim() == "playersleft" && playerTransform.position.x > (-roadWidth + laneWidth) / 2 ? playerTransform.position.x - laneWidth :
-                                    tokens[2].ToLower().Trim() == "playersright" && playerTransform.position.x < (roadWidth + laneWidth) / 2 ? playerTransform.position.x + laneWidth :
-                                    playerTransform.position.x;
-                                float ypos = playerTransform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? spawnDistance : -spawnDistance);
+                                    tokens[2].ToLower().Trim() == "playersleft" && player.transform.position.x > (-roadWidth + laneWidth) / 2 ? player.transform.position.x - laneWidth :
+                                    tokens[2].ToLower().Trim() == "playersright" && player.transform.position.x < (roadWidth + laneWidth) / 2 ? player.transform.position.x + laneWidth :
+                                    player.transform.position.x;
+                                float ypos = player.transform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? spawnDistance : -spawnDistance);
                                 //print(tokens[0].Trim());
                                 spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
                                     new Vector3(xpos, ypos, 0),
@@ -343,7 +349,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         debugMessage += "despawning obstacle: " + obj.name;
 
                         obj.GetComponent<CapsuleCollider2D>().isTrigger = true;
-                        if (obj.transform.position.x > playerTransform.position.x)
+                        if (obj.transform.position.x > player.transform.position.x)
                             obj.transform.Rotate(0, 0, -90);
                         else
                             obj.transform.Rotate(0, 0, 90);
@@ -382,7 +388,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             skipSection = false;
         }
 
-        secondSource.clip = Resources.Load<AudioClip>("Audio/gps_end");
+        secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_end");
         secondSource.Play();
         yield return new WaitForSeconds(secondSource.clip.length);
         levelDialogue.Play();

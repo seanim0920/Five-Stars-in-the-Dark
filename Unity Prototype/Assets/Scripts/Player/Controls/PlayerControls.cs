@@ -18,7 +18,7 @@ public class PlayerControls : MonoBehaviour
     private AudioClip bump;
     private Vector3 movementDirection;
     private int blockedSide = 0;
-    private float lastRecordedStrafe = 0;
+    private static float lastRecordedStrafe = 0;
     private int strafingDirection = -1;
 
     public AudioSource leftStrafe;
@@ -228,7 +228,7 @@ public class PlayerControls : MonoBehaviour
     }
 
     //this is linked to the steering wheel in the UI.
-    public float GetWheelAngle()
+    public static float GetWheelAngle()
     {
         return lastRecordedStrafe * -443;
     }

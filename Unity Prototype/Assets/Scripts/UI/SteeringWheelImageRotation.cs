@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class SteeringWheelImageRotation : MonoBehaviour
 {
     public Image wheelImage;
-    public PlayerControls wheelScript;
     private float wheelAngle;
     // Start is called before the first frame update
     void Start()
@@ -21,6 +20,6 @@ public class SteeringWheelImageRotation : MonoBehaviour
     }
     public void changeWheelImageAngle()
     {
-        wheelImage.rectTransform.rotation = Quaternion.Euler(0, 0, wheelScript.GetWheelAngle());
+        wheelImage.rectTransform.rotation = Quaternion.Euler(0, 0, PlayerControls.GetWheelAngle());
     }
 }

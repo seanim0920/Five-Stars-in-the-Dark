@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class SpeedShake : MonoBehaviour
 {
-    public PlayerControls controls;
+    private PlayerControls controls;
     float shakeOffset = 5;
     float lerpTime = 0;
     public RectTransform rect;
     Vector2 originalPosition;
     void Start()
     {
+        controls = GameObject.Find("Player").GetComponent<PlayerControls>();
         originalPosition = rect.anchoredPosition;
     }
 

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503f84fdf5c9d174899cb93f03f70006, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelDialogue: {fileID: 412440413062414628}
   secondSource: {fileID: 412440413062414629}
   wheelFunctions: {fileID: 0}
   leftSpeaker: {fileID: 0}
@@ -54,10 +55,14 @@ MonoBehaviour:
   maxVol: 0.8
   controls: {fileID: 0}
   keyboard: {fileID: 0}
+  gamepad: {fileID: 0}
+  timeTracker: {fileID: 0}
   ambience: {fileID: 0}
   blackScreen: {fileID: 0}
   carStart: {fileID: 0}
   markersFile: {fileID: 4900000, guid: 3859332970301a44bbff84c2d8e5df3c, type: 3}
+  currentDialogueStartTime: 0
+  endOfLevel: 1
 --- !u!82 &412440413062414628
 AudioSource:
   m_ObjectHideFlags: 0
