@@ -69,7 +69,7 @@ public class PlayerControls : MonoBehaviour
         tireSound.volume = Mathf.Pow((movementSpeed / maxSpeed), 2);
         leftStrafe.volume = tireSound.volume/2;
         rightStrafe.volume = tireSound.volume/2;
-        wheelFunctions.PlayDirtRoadForce((int)(Mathf.Pow((1-(movementSpeed/maxSpeed)),1) * 25));
+        //wheelFunctions.PlayDirtRoadForce((int)(Mathf.Pow((1-(movementSpeed/maxSpeed)),1) * 25));
         // Discrete turn l/r 
         transform.position += movementDirection * movementSpeed;
         //print(movementSpeed);
