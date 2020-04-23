@@ -280,11 +280,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         }
                         else if (string.Equals(command, "[StartCar]"))
                         {
+                            StartCoroutine(startCar());
+                            yield return new WaitForSeconds(2);
+                            levelDialogue.Pause();
                             secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_start");
                             secondSource.Play();
                             yield return new WaitForSeconds(secondSource.clip.length);
-                            StartCoroutine(startCar());
-                            yield return new WaitForSeconds(2);
+                            levelDialogue.Play();
                         }
                         commandMarkers.RemoveAt(0);
                     }
