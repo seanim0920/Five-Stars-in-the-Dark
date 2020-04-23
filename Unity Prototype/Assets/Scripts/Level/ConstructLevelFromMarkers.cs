@@ -310,7 +310,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
                             //print(obstacle);
                             string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
-                            float spawnDistance = 100;
+                            float spawnDistance = 200;
                             if (tokens.Length == 2)
                             {
                                 GameObject obj = Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
