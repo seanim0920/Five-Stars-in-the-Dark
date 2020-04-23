@@ -8,7 +8,6 @@ public class EndScene : MonoBehaviour
     public AudioSource drums;
     public GameObject fade;
 	public GameObject panel;
-    public AudioSource endScene;
     public DisplayScore scoreScript;
     // Start is called before the first frame update
     void Start()
