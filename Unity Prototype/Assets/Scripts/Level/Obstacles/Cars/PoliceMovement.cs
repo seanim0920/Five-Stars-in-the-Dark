@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoliceMovement : MonoBehaviour
+public class PoliceMovement : NPCMovement
 {
     public AudioSource siren;
-    private float movementSpeed;
-    [SerializeField] private float neutralSpeed;
-    private float maxSpeed = 0.1f;
+    // private float movementSpeed;
+    // [SerializeField] private float neutralSpeed;
+    // private float maxSpeed = 0.1f;
     [SerializeField] private float strafeSpeed;
-    private float acceleration = 0f;
+    // private float acceleration = 0f;
     [SerializeField] private float eyesight;
     private Vector3 movementDirection;
 
@@ -17,27 +17,31 @@ public class PoliceMovement : MonoBehaviour
     void Start()
     {
         movementDirection = transform.up;
-        movementSpeed = neutralSpeed;
+        movementSpeed = 0.5f;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (SeesPlayer(transform.right))
-        {
-            // Debug.Log("I c u");
-            StartCoroutine(RamPlayer(transform.right));
-        }
-        else if (SeesPlayer(-transform.right))
-        {
-            // Debug.Log("I c u");
-            StartCoroutine(RamPlayer(-transform.right));
-        }
-        else
-        {
-            movementSpeed = neutralSpeed;
+        // if (SeesPlayer(transform.right))
+        // {
+        //     // Debug.Log("I c u");
+        //     StartCoroutine(RamPlayer(transform.right));
+        // }
+        // else if (SeesPlayer(-transform.right))
+        // {
+        //     // Debug.Log("I c u");
+        //     StartCoroutine(RamPlayer(-transform.right));
+        // }
+        // else
+        // {
+            // movementSpeed = neutralSpeed;
+            if(movementSpeed < neutralSpeed)
+            {
+                movementSpeed += 0.05f;
+            }
             drive();
-        }
+        // }
     }
 
     void drive()

@@ -26,8 +26,6 @@
 90.716379	104.371419	SlowCar frontOf Lane3
 93.498945	106.376633	SlowCar behind Lane2
 96.487628	107.847124	SlowCar frontOf Lane1
-116.970850	126.311808	PoliceCar behind Lane3
-118.671308	127.080474	PoliceCar behind Lane1
 122.072222	129.252790	PoliceCar behind player
 145.517921	148.094372	SlowCar frontOf Lane2
 146.290856	148.712720	FastCar behind Lane1
