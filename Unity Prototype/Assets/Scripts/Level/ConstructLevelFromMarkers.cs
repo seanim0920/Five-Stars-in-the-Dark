@@ -43,6 +43,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //this is public so dialogue rewinding scripts know where to rewind too.
     public float currentDialogueStartTime = 0.0f;
     //this is public so error checking knows how far the player got
+    public float startOfLevel = 0f;
     public float endOfLevel = 1.0f;
 
     bool skipSection = false;
@@ -75,6 +76,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 if (tokens[2][0] == '[')
                 {
                     print("parsed command marker" + tokens.Length);
+                    if (string.Equals(tokens[2].Trim(), "[StartCar]"))
+                    {
+                        startOfLevel = float.Parse(tokens[0]);
+                    }
                     commandMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
                 }
                 else
@@ -239,8 +244,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             }
 
             //places GPS markers at the middle and end of the dialogue
-            if (levelDialogue.time >= endOfLevel / 2 && !midpoint)
+            if (levelDialogue.time + startOfLevel >= (endOfLevel - startOfLevel) / 2 && !midpoint)
             {
+                print(levelDialogue.time + "level ends at " + endOfLevel);
                 secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_middle");
                 secondSource.Play();
                 yield return new WaitForSeconds(secondSource.clip.length);
@@ -287,6 +293,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         }
                         else if (string.Equals(command, "[StartCar]"))
                         {
+                            print("started car at time " + levelDialogue.time);
                             StartCoroutine(startCar());
                             yield return new WaitForSeconds(2);
                             levelDialogue.Pause();
