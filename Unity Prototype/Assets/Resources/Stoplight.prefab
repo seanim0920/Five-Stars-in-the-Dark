@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 583945890498765490}
   m_Layer: 0
   m_Name: Spawner
-  m_TagString: GPS
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 583945890991342602}
   m_Layer: 0
   m_Name: 3rdbump
-  m_TagString: GPS
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 583945891618272164}
   m_Layer: 0
   m_Name: 1stbump (1)
-  m_TagString: GPS
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 583945892114818594}
   m_Layer: 0
   m_Name: 3rdbump (1)
-  m_TagString: GPS
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 583945892310946763}
   m_Layer: 0
   m_Name: 2ndbump
-  m_TagString: GPS
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 4845841335132972758}
   m_Layer: 0
   m_Name: Bumps
-  m_TagString: Untagged
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -801,7 +801,7 @@ GameObject:
   - component: {fileID: 583945892353120945}
   m_Layer: 0
   m_Name: 2ndbump (1)
-  m_TagString: GPS
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -908,7 +908,7 @@ GameObject:
   - component: {fileID: 7427055489062672188}
   m_Layer: 0
   m_Name: 1stbump
-  m_TagString: GPS
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1015,7 +1015,7 @@ GameObject:
   - component: {fileID: 2980699947354079921}
   m_Layer: 0
   m_Name: 1
-  m_TagString: Untagged
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1192,7 +1192,7 @@ GameObject:
   - component: {fileID: 2980699947855463155}
   m_Layer: 0
   m_Name: Stoplight
-  m_TagString: Stop
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1338,7 +1338,7 @@ GameObject:
   - component: {fileID: 6281783204578032177}
   m_Layer: 0
   m_Name: 3
-  m_TagString: Untagged
+  m_TagString: Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
