@@ -489,12 +489,6 @@ PrefabInstance:
       objectReference: {fileID: 2082718667}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f69b4fae26683fe428909848d1fe1e89, type: 3}
---- !u!82 &535763923 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 6775186468114612840, guid: f69b4fae26683fe428909848d1fe1e89,
-    type: 3}
-  m_PrefabInstance: {fileID: 535763922}
-  m_PrefabAsset: {fileID: 0}
 --- !u!82 &535763924 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 6775186468347368624, guid: f69b4fae26683fe428909848d1fe1e89,
@@ -597,12 +591,18 @@ PrefabInstance:
       objectReference: {fileID: 2107840633}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
---- !u!1 &958084995 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1798619071, guid: 0737ab1198c13c74695686fd9e987b22,
+--- !u!114 &958084995 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1798619073, guid: 0737ab1198c13c74695686fd9e987b22,
     type: 3}
   m_PrefabInstance: {fileID: 958084994}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &958084996 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4314826276381511994, guid: 0737ab1198c13c74695686fd9e987b22,
@@ -1411,7 +1411,7 @@ PrefabInstance:
         type: 3}
       propertyPath: carStart
       value: 
-      objectReference: {fileID: 535763923}
+      objectReference: {fileID: 0}
     - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
         type: 3}
       propertyPath: markersFile
