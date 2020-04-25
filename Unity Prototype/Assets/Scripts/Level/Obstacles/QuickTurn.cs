@@ -64,6 +64,8 @@ public class QuickTurn : MonoBehaviour
         // turnValue = gp.QuickTurns.Get().FindAction("Turn" + turnDirection).ReadValue<float>();
         // Debug.Log(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>());
 
+        keyboardCtrl.enabled = false;
+        playerCtrl.enabled = false;
         while((!Input.GetKey(turnDirection.ToLower()) ||
                gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() <= 0) &&
                Time.time - startTime < 2f)
@@ -77,10 +79,8 @@ public class QuickTurn : MonoBehaviour
         // If turning in correct direction
         if(Input.GetKey(turnDirection.ToLower()))
         {
-            keyboardCtrl.enabled = false;
-            playerCtrl.enabled = false;
             // Wait for a second and make sure player is holding correct direction the whole time
-            while(Time.time - startTime < 1.5f)
+            while(Time.time - startTime < 1.0f)
             {
                 yield return null;
             }
@@ -107,6 +107,8 @@ public class QuickTurn : MonoBehaviour
             CheckErrors.IncrementErrorsAndUpdateDisplay();
             gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
             gp.Gameplay.Enable();
+            keyboardCtrl.enabled = true;
+            playerCtrl.enabled = true;
             yield break;
         }
     }
