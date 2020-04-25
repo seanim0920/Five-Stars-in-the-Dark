@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+
 public class ConstructLevelFromMarkers : MonoBehaviour
 {
     public AudioSource levelDialogue;
@@ -453,8 +455,14 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         StartCoroutine(wheelRumble());
         yield return new WaitForSeconds(1);
         controls.enabled = true;
-        keyboard.enabled = true;
-        //gamepad.enabled = true;
+        if(Gamepad.current == null)
+        {
+            keyboard.enabled = true;
+        }
+        else
+        {
+            gamepad.enabled = true;
+        }
         timeTracker.enabled = true;
         adjustInstrumentVolume(false, new string[] { });
     }
