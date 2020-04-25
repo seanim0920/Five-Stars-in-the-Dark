@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEngine.UI;
 public class ConstructLevelFromMarkers : MonoBehaviour
 {
     public AudioSource levelDialogue;
     public AudioSource secondSource;
     private GameObject player;
+
+    private AudioClip carStart;
+    private AudioClip carPark;
 
     List<string> timedObstacleMarkers = new List<string>();
     List<string> commandMarkers = new List<string>();
@@ -31,8 +35,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //for the start cutscene
     public CountdownTimer timeTracker;
     public AudioSource ambience;
-    public GameObject blackScreen;
-    public AudioSource carStart;
+    public Image blackScreen;
     public TextAsset markersFile;
     public static string debugMessage { get; set; }
 
@@ -171,6 +174,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         gamepad = player.GetComponent<GamepadControl>();
         parseLevelMarkers();
 
+        carStart = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
+        carPark = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
+
         /*
         if (GameObject.Find("Map"))
         {
@@ -289,7 +295,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         } 
                         else if (string.Equals(command, "[RevealScreen]"))
                         {
-                            blackScreen.SetActive(false);
+                            blackScreen.enabled = false;
                         }
                         else if (string.Equals(command, "[StartCar]"))
                         {
@@ -422,16 +428,17 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             skipSection = false;
         }
 
+        //This is where the level ends
         secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_end");
         secondSource.Play();
         yield return new WaitForSeconds(secondSource.clip.length);
+        StartCoroutine(parkCar());
         levelDialogue.Play();
         while (levelDialogue.isPlaying)
         {
             yield return new WaitForSeconds(0);
         }
 
-        //This is where the level ends
         ScoreStorage.Instance.setScoreAll();
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
         SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
@@ -439,16 +446,27 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     IEnumerator startCar()
     {
-        blackScreen.SetActive(false);
+        blackScreen.enabled = false;
         ambience.Play();
         yield return new WaitForSeconds(1);
-        carStart.Play();
+        secondSource.PlayOneShot(carStart);
         StartCoroutine(wheelRumble());
         yield return new WaitForSeconds(1);
         controls.enabled = true;
         keyboard.enabled = true;
         //gamepad.enabled = true;
         timeTracker.enabled = true;
+        adjustInstrumentVolume(false, new string[] { });
+    }
+    IEnumerator parkCar()
+    {
+        controls.enabled = false;
+        keyboard.enabled = false;
+        gamepad.enabled = false;
+        timeTracker.enabled = false;
+        secondSource.PlayOneShot(carPark);
+        yield return new WaitForSeconds(1);
+        blackScreen.GetComponent<Image>().CrossFadeAlpha(0, 3.0f, false);
         adjustInstrumentVolume(false, new string[] { });
     }
 
