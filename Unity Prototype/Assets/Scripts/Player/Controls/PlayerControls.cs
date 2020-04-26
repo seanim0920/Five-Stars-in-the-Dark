@@ -8,6 +8,7 @@ public class PlayerControls : MonoBehaviour
 {
     public AudioSource engineSound;
     public AudioSource tireSound;
+    public AudioSource dialogue;
     public float minSpeed = 0f;
     public float maxSpeed = 1.5f;
     public float neutralSpeed = 1f;
@@ -170,6 +171,12 @@ public class PlayerControls : MonoBehaviour
         else strafingDirection = 0;
 
         tireSound.panStereo = amount;
+        engineSound.panStereo = amount * 3;
+        foreach (Transform child in engineSound.gameObject.transform)
+        {
+            child.gameObject.GetComponent<AudioSource>().panStereo = amount * 3;
+        }
+        dialogue.panStereo = -amount * 3;
         //add sliding sound when letting go of the wheel (hands across leather)
         //strafeSound.volume = Mathf.Abs(amount)*3;
         ////strafeSound.volume = Mathf.Pow(Mathf.Abs(amount), 2);
