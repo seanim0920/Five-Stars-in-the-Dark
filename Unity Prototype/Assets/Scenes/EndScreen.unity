@@ -2176,9 +2176,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: dce13328cf0c416448ee8eb19b491c57, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 2a2b22e14e397a241b765da71bd5525d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3727,6 +3727,7 @@ GameObject:
   - component: {fileID: 1062668405}
   - component: {fileID: 1062668404}
   - component: {fileID: 1062668403}
+  - component: {fileID: 1062668407}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3818,6 +3819,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1062668407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062668402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfee0c3d697821a42b59036eb508ad13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bass: {fileID: 1135973707}
+  drums: {fileID: 557048607}
+  fade: {fileID: 1899861670}
+  panel: {fileID: 527060065}
+  scoreScript: {fileID: 1512238595}
 --- !u!1 &1135973705
 GameObject:
   m_ObjectHideFlags: 0
@@ -3859,9 +3877,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 2e9172e69aa087342a3c0aa432c83a90, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c14f616cc10b2d44fa9f89a872ff8141, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3978,7 +3996,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4859,14 +4877,13 @@ GameObject:
   - component: {fileID: 1512238594}
   - component: {fileID: 1512238593}
   - component: {fileID: 1512238595}
-  - component: {fileID: 1512238597}
   m_Layer: 5
   m_Name: ScoreUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1512238592
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4946,23 +4963,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d91c8fa2cb6f6e3468e2b9b3515c00c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1512238597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1512238591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfee0c3d697821a42b59036eb508ad13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bass: {fileID: 1135973707}
-  drums: {fileID: 557048607}
-  fade: {fileID: 1899861670}
-  panel: {fileID: 527060065}
-  scoreScript: {fileID: 1512238595}
 --- !u!1 &1555104693
 GameObject:
   m_ObjectHideFlags: 0
