@@ -24,8 +24,8 @@ public class CheckErrors : MonoBehaviour
         if(errors >= 10)
         {
             ScoreStorage.Instance.setScoreAll();
-            SceneManager.LoadScene("FailScreen", LoadSceneMode.Single);
-            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+            Masterkey2.sceneName = SceneManager.GetActiveScene().name;
+            LoadScene.Loader("FailScreen");
         }
         errorText.text = "Error(s): " + errors.ToString();
         //AudioSource.PlayClipAtPoint(errorSound, player.position);
