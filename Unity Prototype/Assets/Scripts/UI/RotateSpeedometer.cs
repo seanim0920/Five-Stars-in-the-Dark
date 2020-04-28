@@ -15,6 +15,7 @@ public class RotateSpeedometer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        controls = GameObject.Find("Player").GetComponent<PlayerControls>();
         leftNeedleAngle = minAngle;
         rightNeedleAngle = minAngle;
         angleRange = Mathf.Abs(maxAngle - minAngle);
