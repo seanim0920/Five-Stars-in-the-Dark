@@ -20,6 +20,6 @@ public class SteeringWheelImageRotation : MonoBehaviour
     }
     public void changeWheelImageAngle()
     {
-        wheelImage.rectTransform.rotation = Quaternion.Euler(0, 0, PlayerControls.GetWheelAngle());
+        wheelImage.rectTransform.rotation = Quaternion.Euler(0, 0, PlayerControls.getStrafeAmount() * -443);
     }
 }

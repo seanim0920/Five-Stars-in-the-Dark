@@ -26,8 +26,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     private GamepadControl gamepad;
 
     //for lowering the volume when dialogue is playing
-    public Transform leftSpeaker;
-    public Transform rightSpeaker;
+    //public Transform leftSpeaker;
+    //public Transform rightSpeaker;
     public bool isSpeaking;
     private string[] dialogueInstruments = { "Drums", "Support", "Wind" };
     public float maxVol = 0.8f;
@@ -497,23 +497,24 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     
     IEnumerator shiftLoopSectionOfMusic(float startTime, float endTime)
     {
-        while (true)
-        {
-            for (int loop = 0; loop < 2; loop++)
-            {
-                Transform speaker = leftSpeaker;
-                if (loop > 0) speaker = rightSpeaker;
-                foreach (Transform child in speaker)
-                {
-                    AudioSource instrument = child.gameObject.GetComponent<AudioSource>();
-                    if (instrument.time >= endTime)
-                    {
-                        child.gameObject.GetComponent<AudioSource>().time = startTime;
-                    }
-                }
-            }
-            yield return null;
-        }
+        //while (true)
+        //{
+        //    for (int loop = 0; loop < 2; loop++)
+        //    {
+        //        Transform speaker = leftSpeaker;
+        //        if (loop > 0) speaker = rightSpeaker;
+        //        foreach (Transform child in speaker)
+        //        {
+        //            AudioSource instrument = child.gameObject.GetComponent<AudioSource>();
+        //            if (instrument.time >= endTime)
+        //            {
+        //                child.gameObject.GetComponent<AudioSource>().time = startTime;
+        //            }
+        //        }
+        //    }
+        //    yield return null;
+        //}
+        yield return null;
     }
     public bool checkIfSpeaking()
     {
@@ -536,25 +537,25 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     // Changes the volume of individual instruments (currently unused)
     void adjustInstrumentVolume(bool dialogueStart, string[] instruments)
     {
-        isSpeaking = dialogueStart;
-        for (int loop = 0; loop < 2; loop++)
-        {
-            Transform speaker = leftSpeaker;
-            if (loop > 0) speaker = rightSpeaker;
-            foreach (Transform child in speaker)
-            {
-                if (instruments.Length == 0 || System.Array.IndexOf(instruments, child.gameObject.name) > -1)
-                {
-                    if (dialogueStart)
-                    {
-                        child.gameObject.GetComponent<AudioSource>().volume = 0.5f;
-                    }
-                    else
-                    {
-                        child.gameObject.GetComponent<AudioSource>().volume = 1f;
-                    }
-                }
-            }
-        }
+        //isSpeaking = dialogueStart;
+        //for (int loop = 0; loop < 2; loop++)
+        //{
+        //    Transform speaker = leftSpeaker;
+        //    if (loop > 0) speaker = rightSpeaker;
+        //    foreach (Transform child in speaker)
+        //    {
+        //        if (instruments.Length == 0 || System.Array.IndexOf(instruments, child.gameObject.name) > -1)
+        //        {
+        //            if (dialogueStart)
+        //            {
+        //                child.gameObject.GetComponent<AudioSource>().volume = 0.5f;
+        //            }
+        //            else
+        //            {
+        //                child.gameObject.GetComponent<AudioSource>().volume = 1f;
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
