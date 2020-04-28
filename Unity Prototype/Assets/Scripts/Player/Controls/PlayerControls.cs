@@ -8,6 +8,9 @@ public class PlayerControls : MonoBehaviour
 {
     public AudioSource engineSound;
     public AudioSource tireSound;
+    public AudioSource dialogue;
+    public AudioSource slidingSound;
+    public AudioSource grabWheel;
     public float minSpeed = 0f;
     public float maxSpeed = 1.5f;
     public float neutralSpeed = 1f;
@@ -20,12 +23,9 @@ public class PlayerControls : MonoBehaviour
     private int blockedSide = 0;
     private static float lastRecordedStrafe = 0;
     private int strafingDirection = -1;
+    private bool isHolding = false;
 
-    public AudioSource leftStrafe;
-    public AudioSource rightStrafe;
     public AudioSource strafeSound;
-    public AudioMixer leftSpeaker;
-    public AudioMixer rightSpeaker;
     public AudioMixer engineMixer;
     public AudioMixerSnapshot[] engineSounds;
 
@@ -49,26 +49,25 @@ public class PlayerControls : MonoBehaviour
     }
     void FixedUpdate()
     {
-        for (int loop = 0; loop < 2; loop++)
-        {
-            AudioMixer speaker = leftSpeaker;
-            if (loop == 0) speaker = rightSpeaker;
-            float speed = (movementSpeed / maxSpeed);
-            for (int insname = 0; insname < 6; insname++)
-            {
-                if (insname <= 2)
-                    speaker.SetFloat(instruments[insname] + "Volume", -60 * (Mathf.Pow((speed-1), ((insname + 1 + 2)*2))));
-                else if (insname == 3)
-                    speaker.SetFloat(instruments[insname] + "Volume", 60 * (speed - 1));
-                else
-                    speaker.SetFloat(instruments[insname] + "Volume", 60 * (Mathf.Pow(speed, insname) - 1));
-            }
-        }
+        //for (int loop = 0; loop < 2; loop++)
+        //{
+        //    AudioMixer speaker = leftSpeaker;
+        //    if (loop == 0) speaker = rightSpeaker;
+        //    float speed = (movementSpeed / maxSpeed);
+        //    for (int insname = 0; insname < 6; insname++)
+        //    {
+        //        if (insname <= 2)
+        //            speaker.SetFloat(instruments[insname] + "Volume", -60 * (Mathf.Pow((speed-1), ((insname + 1 + 2)*2))));
+        //        else if (insname == 3)
+        //            speaker.SetFloat(instruments[insname] + "Volume", 60 * (speed - 1));
+        //        else
+        //            speaker.SetFloat(instruments[insname] + "Volume", 60 * (Mathf.Pow(speed, insname) - 1));
+        //    }
+        //}
 
         engineSound.volume = -Mathf.Pow((movementSpeed / maxSpeed), 2) + 1;
         tireSound.volume = Mathf.Pow((movementSpeed / maxSpeed), 2);
-        leftStrafe.volume = tireSound.volume/2;
-        rightStrafe.volume = tireSound.volume/2;
+        strafeSound.volume = tireSound.volume/2;
         //wheelFunctions.PlayDirtRoadForce((int)(Mathf.Pow((1-(movementSpeed/maxSpeed)),1) * 25));
         // Discrete turn l/r 
         transform.position += movementDirection * movementSpeed;
@@ -163,51 +162,26 @@ public class PlayerControls : MonoBehaviour
     {
         blockedSide = direction;
     }
+
+    public void setHoldingWheel(bool isHolding)
+    {
+        this.isHolding = isHolding;
+    }
     public void strafe(float amount) //amount varies between -1 (steering wheel to the left) and 1 (steering wheel to the right)
     {
         if (amount < 0) strafingDirection = -1;
         else if (amount > 0) strafingDirection = 1;
         else strafingDirection = 0;
 
-        tireSound.panStereo = amount;
-        //add sliding sound when letting go of the wheel (hands across leather)
-        //strafeSound.volume = Mathf.Abs(amount)*3;
-        ////strafeSound.volume = Mathf.Pow(Mathf.Abs(amount), 2);
-        ////strafeSound.panStereo = -strafeSound.volume;
-        //if (amount * lastRecordedStrafe <= 0)
-        //{
-        //    if (amount < 0)
-        //    {
-        //        strafeSound.clip = leftStrafe;
-        //        strafeSound.panStereo = 1;
-        //    } else if (amount > 0)
-        //    {
-        //        strafeSound.clip = rightStrafe;
-        //        strafeSound.panStereo = -1;
-        //    }
-        //    strafeSound.Play();
-        //}
-
-        //when we have a squeaky wheel sound, we'll use this when the player turns the wheel left/right
-        ////plays squeaky noise when wheel turns left/right
-        //if (amount < lastRecordedStrafe && !strafeSound.isPlaying)
-        //{
-        //    strafeSound.clip = leftStrafe;
-        //    strafeSound.Play();
-        //}
-        //else if (amount > lastRecordedStrafe && !strafeSound.isPlaying)
-        //{
-        //    strafeSound.clip = rightStrafe;
-        //    strafeSound.Play();
-        //}
-        //else
-        //{
-        //    strafeSound.Stop();
-        //}
+        engineSound.panStereo = amount * 3;
+        foreach (Transform child in engineSound.gameObject.transform)
+        {
+            child.gameObject.GetComponent<AudioSource>().panStereo = amount * 3;
+        }
+        dialogue.panStereo = -amount * 3;
+        strafeSound.panStereo = amount * 2;
 
         //stops car from going too far left/right
-
-        //print(blockedSide / amount);
         if (blockedSide / amount > 0)
         {
             if (amount < -0.02f) wheelFunctions.PlaySideCollisionForce(-100);
@@ -220,17 +194,35 @@ public class PlayerControls : MonoBehaviour
             return;
         }
 
-        //print(lastRecordedStrafe);
         lastRecordedStrafe = amount;
+
         //moves car left/right
         if (Mathf.Abs(amount) > 0.02f)
+        {
             transform.position += amount * (movementSpeed) * transform.right;
+        }
+
+        //plays sliding sound when player lets go of wheel
+        if (!isHolding && Mathf.Abs(amount) > 0.04f)
+        {
+            if (!slidingSound.isPlaying)
+            {
+                slidingSound.Play();
+            }
+            slidingSound.panStereo = amount * 3f;
+        } else
+        {
+            if (slidingSound.isPlaying && Mathf.Abs(amount) > 0.02f)
+            {
+                grabWheel.Play();
+            }
+            slidingSound.Stop();
+        }
     }
 
-    //this is linked to the steering wheel in the UI.
-    public static float GetWheelAngle()
+    public static float getStrafeAmount()
     {
-        return lastRecordedStrafe * -443;
+        return lastRecordedStrafe;
     }
 
     //public void setRadioTempo(float speed)

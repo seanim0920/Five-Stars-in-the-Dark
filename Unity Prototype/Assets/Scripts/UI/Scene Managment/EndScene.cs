@@ -12,24 +12,18 @@ public class EndScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(PlayScene());
+        bass.time = 16;
+        drums.time = 16;
+        bass.Play();
+        drums.Play();
+        fade.SetActive(true);
+        panel.SetActive(false);
+        scoreScript.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         
-    }
-
-    IEnumerator PlayScene()
-    {
-        bass.time = 16;
-        drums.time = 16;
-        bass.Play();
-        drums.Play();
-        fade.SetActive(true);
-		panel.SetActive(false);
-		yield return new WaitForSeconds(1);
-        scoreScript.enabled = true;
     }
 }

@@ -7,9 +7,9 @@ using UnityEngine.EventSystems;
 public class Masterkey : MonoBehaviour
 {
     public Button start;
+    public Button play;
     public Button level;
     public Button levelBack;
-    public GameObject levelOne, play, play2;
     public static bool egg = false;
     public static bool lvl = false;
     public static string sceneName = "Level 1";
@@ -21,12 +21,9 @@ public class Masterkey : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Button e = start.GetComponent<Button>();
-        Button l = level.GetComponent<Button>();
-        Button lb = levelBack.GetComponent<Button>();
-        e.onClick.AddListener(TaskStart);
-        l.onClick.AddListener(TaskLvl);
-        lb.onClick.AddListener(TaskLvlReset);
+        start.onClick.AddListener(TaskStart);
+        level.onClick.AddListener(TaskLvl);
+        levelBack.onClick.AddListener(TaskTitle);
 
         level1.onClick.AddListener(() => sceneName = "Level 1");
         level2.onClick.AddListener(() => sceneName = "Level 2");
@@ -43,20 +40,20 @@ public class Masterkey : MonoBehaviour
     {
         egg = true;
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(play2);
+        EventSystem.current.SetSelectedGameObject(play.gameObject);
     }
 
     void TaskLvl()
     {
         lvl = true;
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(levelOne);
+        EventSystem.current.SetSelectedGameObject(level1.gameObject);
     }
 
-    void TaskLvlReset()
+    void TaskTitle()
     {
         lvl = false;
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(play);
+        EventSystem.current.SetSelectedGameObject(start.gameObject);
     }
 }
