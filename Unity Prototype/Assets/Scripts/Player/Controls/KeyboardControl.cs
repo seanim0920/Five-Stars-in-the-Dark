@@ -34,7 +34,8 @@ public class KeyboardControl : MonoBehaviour
         strafeAmount *= 0.97f;
         accelAmount *= 0.97f;
         breakAmount *= 0.97f;
-        controlFunctions.strafe(strafeAmount);
+        controlFunctions.strafe(strafeAmount); //2.08f normalizes strafeamount
+        controlFunctions.setHoldingWheel(false);
 
         if (Input.GetKey("up") && accelAmount < 0.98f)
         {
@@ -44,12 +45,14 @@ public class KeyboardControl : MonoBehaviour
         {
             breakAmount += 0.02f;
         }
-        if (Input.GetKey("left") && strafeAmount > -0.98f)
+        if (Input.GetKey("left"))
         {
+            controlFunctions.setHoldingWheel(true);
             strafeAmount -= 0.01f;
         }
-        if (Input.GetKey("right") && strafeAmount < 0.98f)
+        if (Input.GetKey("right"))
         {
+            controlFunctions.setHoldingWheel(true);
             strafeAmount += 0.01f;
         }
     }
