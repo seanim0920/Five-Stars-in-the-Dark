@@ -11070,7 +11070,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d43f23dd889ac4a4db2fda2e075c168d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  start: {fileID: 1119972357}
+  start: {fileID: 234589278}
   play: {fileID: 234589278}
   level: {fileID: 968326904}
   levelBack: {fileID: 1575511606}
