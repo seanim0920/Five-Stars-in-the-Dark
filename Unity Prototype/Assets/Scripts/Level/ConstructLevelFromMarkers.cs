@@ -442,8 +442,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         }
 
         ScoreStorage.Instance.setScoreAll();
-        SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        Masterkey3.sceneName = SceneManager.GetActiveScene().name;
+        LoadScene.Loader("EndScreen");
     }
 
     IEnumerator startCar()

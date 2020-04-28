@@ -30,14 +30,14 @@ public class CountdownTimer : MonoBehaviour
         // }
         // else
         // {
-            currentTime -= 1 * Time.deltaTime;
-            updateDisplay();
-            if (currentTime <= 0)
-            {
-                ScoreStorage.Instance.setScoreAll();
-                SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
-                SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
-            }
+        currentTime -= 1 * Time.deltaTime;
+        updateDisplay();
+        if (currentTime <= 0)
+        {
+            ScoreStorage.Instance.setScoreAll();
+            Masterkey2.sceneName = SceneManager.GetActiveScene().name;
+            LoadScene.Loader("FailScene");
+        }
         // }
     }
 

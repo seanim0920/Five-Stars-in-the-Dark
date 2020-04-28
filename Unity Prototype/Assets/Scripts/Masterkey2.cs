@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Masterkey2 : MonoBehaviour
 {
@@ -22,5 +23,16 @@ public class Masterkey2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    private string getPrev()
+    {
+        int prevIndex = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("This scene index: " + prevIndex);
+        --prevIndex;
+        Debug.Log("Previous scene index: " + prevIndex);
+        string prevName = SceneManager.GetSceneByBuildIndex(prevIndex).name;
+        Debug.Log("Previous scene name: " + prevName);
+        return prevName;
     }
 }
