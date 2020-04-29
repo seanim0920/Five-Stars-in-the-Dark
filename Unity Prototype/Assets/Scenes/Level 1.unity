@@ -430,6 +430,30 @@ PrefabInstance:
       propertyPath: focus
       value: 
       objectReference: {fileID: 1478482138}
+    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -37.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332332946149501532, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -37.49991
+      objectReference: {fileID: 0}
+    - target: {fileID: 1798619072, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -37.49991
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
 --- !u!114 &170769231 stripped
