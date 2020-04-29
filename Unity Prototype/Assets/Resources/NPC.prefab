@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9050258354356607982}
   - component: {fileID: 8748288786756460907}
   - component: {fileID: 5314253236553276883}
+  - component: {fileID: 2766852292570965207}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Car
@@ -359,6 +360,49 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.75, y: 1.84}
   m_Direction: 0
+--- !u!169 &2766852292570965207
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138646690712720297}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.14207649
+      value: 0.99530816
+      inSlope: -0.19339724
+      outSlope: -0.19339724
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.5869556
+    - serializedVersion: 3
+      time: 0.5718248
+      value: 0.70434713
+      inSlope: -2.2466044
+      outSlope: -2.2466044
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.90710807
+      value: 0.2588203
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &4391676529046181694
 GameObject:
   m_ObjectHideFlags: 0
