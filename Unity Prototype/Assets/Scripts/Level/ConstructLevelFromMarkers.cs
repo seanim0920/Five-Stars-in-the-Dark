@@ -164,7 +164,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void Start()
     {
-        loadedObjects = Resources.LoadAll("", typeof(GameObject));
+        loadedObjects = Resources.LoadAll("Prefabs/Obstacles", typeof(GameObject));
         foreach (var go in loadedObjects)
         {
             Debug.Log(go.name);
@@ -199,8 +199,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         float updateRate = 50; //how long fixedupdate runs per second
 
-        GameObject curb = Resources.Load<GameObject>("Curb");
-        GameObject road = Resources.Load<GameObject>("Road");
+        GameObject curb = Resources.Load<GameObject>("Prefabs/Curb");
+        GameObject road = Resources.Load<GameObject>("Prefabs/Road");
 
         GameObject map = new GameObject("Map");
         float length = levelDialogue.clip.length * controls.neutralSpeed * updateRate;
@@ -214,8 +214,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         rightcurb.transform.localScale = new Vector3(20, length, 1);
         rightcurb.transform.parent = map.transform;
         player.transform.position = new Vector3(0, -length / 2, 0);
-
-        //GameObject dialogueZone = Resources.Load<GameObject>("DialogueMarker");
     }
 
     IEnumerator playLevel()
@@ -262,10 +260,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             }
 
             //create a physical marker that must be hit before the next piece of dialogue can play
-            GameObject nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+            GameObject nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
             if (start)
             {
-                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - currentDialogueEndTime) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - currentDialogueEndTime) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
             }
 
             //start playing the dialogue from wherever it left off
@@ -346,7 +344,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
                             if (tokens.Length == 2)
                             {
-                                GameObject obj = Instantiate(Resources.Load<GameObject>(prefab),
+                                GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/" + prefab),
                                     new Vector3(player.transform.position.x, player.transform.position.y + spawnDistance, 0),
                                     Quaternion.identity);
                                 if ((string.Equals(prefab, "quickturn", System.StringComparison.OrdinalIgnoreCase)))
@@ -373,7 +371,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                                     player.transform.position.x;
                                 float ypos = player.transform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? spawnDistance : -spawnDistance);
                                 //print(tokens[0].Trim());
-                                spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>(tokens[0].Trim()),
+                                spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/"+prefab),
                                     new Vector3(xpos, ypos, 0),
                                     Quaternion.identity), despawnTime);
                             }
