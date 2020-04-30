@@ -22,8 +22,7 @@ public class CheckErrors : MonoBehaviour
         errors++;
         if(errors >= 10)
         {
-            SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
-            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+            LoadScene.Loader("FailScreen");
         }
         errorText.text = "Error(s): " + errors.ToString();
         //AudioSource.PlayClipAtPoint(errorSound, player.position);

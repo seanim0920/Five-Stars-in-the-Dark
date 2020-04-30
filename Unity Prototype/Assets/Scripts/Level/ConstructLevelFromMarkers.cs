@@ -219,7 +219,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     string[] commandData = commandMarkers[0].Split('-');
                     string command = commandData[2].Trim();
                     float spawnTime = float.Parse(commandData[0]);
-                    print("parsing command... " + command);
+                    //print("parsing command... " + command);
                     if (levelDialogue.time >= spawnTime)
                     {
                         AudioClip radioClip = Resources.Load<AudioClip>("Audio/" + command);
