@@ -10,7 +10,10 @@ public class ScoreStorage : Singleton<ScoreStorage>
     int errors = 0;
     int time = 0;
 
-    //DontDestroyOnLoad(this.gameObject);
+    void Start()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     //This method attempts to set all the scores at once, based on where I (Thomas) think they are.
     public void setScoreAll()
