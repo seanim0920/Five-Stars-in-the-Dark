@@ -441,7 +441,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
         ScoreStorage.Instance.setScoreAll();
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
-        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+        //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
     }
 
     IEnumerator startCar()
@@ -466,6 +466,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     }
     IEnumerator parkCar()
     {
+        //controls.completeStop();
+        //WaitForChangedResult();
         controls.enabled = false;
         keyboard.enabled = false;
         gamepad.enabled = false;
