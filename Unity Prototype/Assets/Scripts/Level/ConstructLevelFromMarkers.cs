@@ -466,11 +466,15 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     }
     IEnumerator parkCar()
     {
-        //controls.completeStop();
-        //WaitForChangedResult();
-        controls.enabled = false;
         keyboard.enabled = false;
         gamepad.enabled = false;
+        while (Mathf.Abs(controls.movementSpeed) > 0.01f)
+        {
+            controls.movementSpeed *= 0.97f;
+            yield return new WaitForSeconds(0);
+        }
+        controls.movementSpeed = 0;
+        controls.enabled = false;
         timeTracker.enabled = false;
         secondSource.PlayOneShot(carPark);
         yield return new WaitForSeconds(1);
