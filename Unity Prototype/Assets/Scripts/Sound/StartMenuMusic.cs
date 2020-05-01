@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class StartMenuMusic : MonoBehaviour
 {
     public AudioSource lead;
     public AudioSource bass;
+
     // Start is called before the first frame update
     void Start()
     {
