@@ -363,12 +363,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                                     {
                                         obj.GetComponent<QuickTurn>().mustTurnLeft = true;
                                     }
-                                    nextDialogueTrigger.transform.position.y += 50;
+                                    nextDialogueTrigger.transform.position += new Vector3(0,50,0);
                                 } else if ((string.Equals(prefab, "stoplight", System.StringComparison.OrdinalIgnoreCase)))
                                 {
                                     string pattern = tokens[1].ToLower().Trim();
                                     obj.GetComponent<Stoplight>().pattern = pattern;
-                                    nextDialogueTrigger.transform.position.y += 350; //I think this is the length of the stoplight object?
+                                    nextDialogueTrigger.transform.position += new Vector3(0, 350, 0); //I think this is the length of the stoplight object?
                                 }
                             }
                             else {
