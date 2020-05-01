@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class CountdownTimer : MonoBehaviour
 {
     private static Text timerText;
-    private static float waitTime;
 
     public static float levelCompleteTime { get; set; }
     public static float currentTime { get; set; }
@@ -24,19 +23,12 @@ public class CountdownTimer : MonoBehaviour
     void Update()
     {
         updateDisplay();
-        // if(waitTime > 0.0f)
-        // {
-        //     waitTime -= 1 * Time.deltaTime;
-        // }
-        // else
-        // {
             currentTime -= 1 * Time.deltaTime;
             updateDisplay();
             if (currentTime <= 0)
             {
                 ScoreStorage.Instance.setScoreAll();
-                SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
-                SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
+                SceneManager.LoadScene("FailScreen", LoadSceneMode.Single);
             }
         // }
     }
