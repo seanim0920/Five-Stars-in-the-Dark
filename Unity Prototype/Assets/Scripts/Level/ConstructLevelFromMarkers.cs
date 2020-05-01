@@ -297,6 +297,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         {
                             blackScreen.enabled = false;
                         }
+                        else if (string.Equals(command, "[HideScreen]"))
+                        {
+                            blackScreen.enabled = true;
+                        }
                         else if (string.Equals(command, "[StartCar]"))
                         {
                             print("started car at time " + levelDialogue.time);
