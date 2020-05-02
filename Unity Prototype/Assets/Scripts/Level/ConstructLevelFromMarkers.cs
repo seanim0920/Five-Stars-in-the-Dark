@@ -24,8 +24,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //variables set from the player object
     private SteeringWheelControl wheelFunctions;
     private PlayerControls controls;
+    private SteeringWheelControl wheelControl;
     private KeyboardControl keyboard;
     private GamepadControl gamepad;
+    private int controlType = 0; // 0 = Steering Wheel
+                                 // 1 = Keyboard
+                                 // 2 = Gamepad
 
     //for lowering the volume when dialogue is playing
     //public Transform leftSpeaker;
@@ -172,6 +176,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         player = GameObject.Find("Player");
         wheelFunctions = player.GetComponent<SteeringWheelControl>();
         controls = player.GetComponent<PlayerControls>();
+        wheelControl = player.GetComponent<SteeringWheelControl>();
         keyboard = player.GetComponent<KeyboardControl>();
         gamepad = player.GetComponent<GamepadControl>();
         parseLevelMarkers();
@@ -455,7 +460,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         StartCoroutine(wheelRumble());
         yield return new WaitForSeconds(1);
         controls.enabled = true;
-        if(Gamepad.current == null)
+        Debug.Log(controlType);
+        if(controlType == 0)
+        {
+            wheelControl.enabled = true;
+        }
+        else if(controlType == 1)
         {
             keyboard.enabled = true;
         }
@@ -565,5 +575,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         //        }
         //    }
         //}
+    }
+
+    public void setController(int type)
+    {
+        controlType = type;
     }
 }

@@ -5224,10 +5224,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 817644220}
   toggleTransition: 1
   graphic: {fileID: 1364671938}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 1302661004}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+          type: 3}
+        m_MethodName: setController
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1302488375}
+        m_MethodName: checkGamepad
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &817644218
 GameObject:
@@ -8419,6 +8442,7 @@ GameObject:
   - component: {fileID: 1302488371}
   - component: {fileID: 1302488370}
   - component: {fileID: 1302488374}
+  - component: {fileID: 1302488375}
   m_Layer: 5
   m_Name: UI Canvas
   m_TagString: Untagged
@@ -8527,6 +8551,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503bfc94a174a8241aa20679824e2030, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1302488375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302488369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2119632ea7e94eb4db78fcc032ac9a0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steeringWheel: {fileID: 1302661003}
+  keyboard: {fileID: 1600748214}
+  gamepad: {fileID: 804881958}
 --- !u!1 &1302661001
 GameObject:
   m_ObjectHideFlags: 0
@@ -8537,6 +8576,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1302661002}
   - component: {fileID: 1302661003}
+  - component: {fileID: 1302661004}
   m_Layer: 5
   m_Name: Steering Wheel Toggle
   m_TagString: Untagged
@@ -8607,11 +8647,47 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 437836552}
   toggleTransition: 1
   graphic: {fileID: 1703952377}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 1302661004}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+          type: 3}
+        m_MethodName: setController
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1302488375}
+        m_MethodName: checkWheel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
+--- !u!114 &1302661004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302661001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 0
 --- !u!1 &1343559162
 GameObject:
   m_ObjectHideFlags: 0
@@ -10164,10 +10240,22 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 383026682}
   toggleTransition: 1
   graphic: {fileID: 9983032}
-  m_Group: {fileID: 0}
+  m_Group: {fileID: 1302661004}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+          type: 3}
+        m_MethodName: setController
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &1628342981
 GameObject:
@@ -12461,7 +12549,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -939}
+  m_AnchoredPosition: {x: 644, y: -280}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1947935820
