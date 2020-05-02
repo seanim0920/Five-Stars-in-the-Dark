@@ -50,7 +50,7 @@ public class Masterkey : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(level1.gameObject);
     }
 
-    void TaskTitle()
+    public void TaskTitle()
     {
         lvl = false;
         EventSystem.current.SetSelectedGameObject(null);
