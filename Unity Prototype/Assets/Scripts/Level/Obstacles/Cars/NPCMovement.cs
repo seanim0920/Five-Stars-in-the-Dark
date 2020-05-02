@@ -8,111 +8,101 @@ public class NPCMovement : MonoBehaviour
     public AudioSource engineSound;
     public float movementSpeed = 0f;
     public float neutralSpeed = 0.05f;
-    private float maxSpeed;
+    public float maxSpeed;
+    public float minSpeed;
     private float acceleration = 0.02f;
     private float eyesight = 3;
     private Vector3 movementDirection;
     void Start()
     {
-        maxSpeed = neutralSpeed + 0.1f;
-        StartCoroutine(SwitchLanes());
+        StartCoroutine(Coast());
     }
+
     void FixedUpdate()
     {
+        //keep refreshing movementdirection, car may rotate
         movementDirection = transform.up;
-        if (SeesObstacle(movementDirection))
-        {
-            if (SeesPlayer(movementDirection) && !honk.isPlaying)
-            {
-                honk.Play();
-            }
-            movementSpeed *= 0.99f;
-        }
-        /*
-        else if (SeesObstacle(transform.right))
-        {
-            movementSpeed += acceleration;
-            //engineSound.pitch += acceleration / neutralSpeed;
-        }*/
-        else
-        {
-            if (neutralSpeed > movementSpeed + 0.02f)
-            {
-                movementSpeed += acceleration;
-                //engineSound.pitch += acceleration / neutralSpeed;
-            }
-            else if (neutralSpeed < movementSpeed - 0.02f)
-            {
-                movementSpeed -= acceleration;
-                //engineSound.pitch -= acceleration / neutralSpeed;
-            }
-            else
-            {
-                movementSpeed = neutralSpeed;
-                //engineSound.pitch = 1f;
-            }
-        }
 
         transform.position += movementDirection * movementSpeed;
     }
 
-    bool SeesObstacle(Vector3 direction)
+    string IfFindsObstacleReturnTag(Vector3 direction)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
-        if (hit.collider != null && (hit.collider.gameObject.tag == "Stop" || hit.collider.gameObject.tag == "Car" || hit.collider.gameObject.tag == "Player"))
+        if (hit.collider != null)
         {
-            return true;
+            return hit.collider.gameObject.tag;
         }
         else
         {
-            return false;
+            return null;
         }
     }
 
-    bool SeesPlayer(Vector3 direction)
+    public IEnumerator Coast()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
-        if (hit.collider != null && (hit.collider.gameObject.tag == "Player"))
+        StopAllCoroutines();
+        while (neutralSpeed > movementSpeed)
         {
-            return true;
+            movementSpeed += acceleration;
+            yield return new WaitForSeconds(0);
         }
-        else
+        while (neutralSpeed < movementSpeed)
         {
-            return false;
+            movementSpeed -= acceleration;
+            yield return new WaitForSeconds(0);
+        }
+        movementSpeed = neutralSpeed;
+    }
+
+    public IEnumerator SwitchLaneRight(bool isRight)
+    {
+        StopAllCoroutines();
+        int direction = 1;
+        if (!isRight)
+        {
+            direction *= -1;
+        }
+
+        int laneWidth = 40;
+        float endPositionX = transform.position.x + direction * laneWidth;
+        while (endPositionX - transform.position.x > 0.02f)
+        {
+            transform.position += new Vector3(movementSpeed * direction,0,0);
+            yield return new WaitForSeconds(0);
         }
     }
-    IEnumerator SwitchLanes()
+
+    // Update is called once per frame
+    public IEnumerator speedUp()
     {
-        //randomly switch to the right or left lane
-        // while (true)
-        // {
-        //     //how will the car figure out where to go? just check to the right or left to see if there is open space/curb
-        //     yield return new WaitForSeconds(Random.Range(1.0f, 25.0f));
-
-        //     Vector3 direction = transform.right;
-        //     if (Random.Range(0, 1) == 0)
-        //     {
-        //         direction *= -1;
-        //     }
-
-        //     //2 is the size of a lane
-        //     Vector3 goal = transform.position + direction * 2;
-        //     RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
-        //     if (!SeesObstacle(direction) && hit.collider != null && hit.collider.gameObject.tag != "Guardrail")
-        //     {
-        //         while ((goal - transform.position).magnitude > 0.02f)
-        //         {
-        //             //0.02f is movement speed while strafing
-        //             transform.position += (goal - transform.position).normalized * 0.02f;
-                    yield return null;
-        //         }
-        //     }
-        // }
+        StopAllCoroutines();
+        while (movementSpeed < maxSpeed)
+        {
+            movementSpeed += 0.01f;
+            yield return new WaitForSeconds(0);
+        }
+        movementSpeed = maxSpeed;
     }
-
-    IEnumerator Honk()
+    public IEnumerator slowDown()
     {
-        yield return null;
+        StopAllCoroutines();
+        while (movementSpeed > minSpeed)
+        {
+            movementSpeed *= 0.98f;
+            yield return new WaitForSeconds(0);
+        }
+        movementSpeed = minSpeed;
+    }
+    public IEnumerator suddenStop()
+    {
+        StopAllCoroutines();
+        while (movementSpeed > 0.01f)
+        {
+            movementSpeed *= 0.96f;
+            yield return new WaitForSeconds(0);
+        }
+        movementSpeed = 0;
     }
 
     public void setSpeed(float speed)
