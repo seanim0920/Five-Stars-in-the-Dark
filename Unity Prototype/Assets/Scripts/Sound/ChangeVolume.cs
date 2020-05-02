@@ -5,12 +5,17 @@ using UnityEngine.Audio;
 
 public class ChangeVolume : MonoBehaviour
 {
-    [SerializeField] private AudioMixer menuMaster;
-    [SerializeField] private AudioMixer carDialogue;
+    [SerializeField] private AudioMixer[] mixers;
+    [SerializeField] private string[] exposedParameters;
 
     public void SetVolume(float newVolume)
     {
-        menuMaster.SetFloat("Menu BGM", Mathf.Log10(newVolume) * 20);
-        carDialogue.SetFloat("Dialogue Volume", Mathf.Log10(newVolume) * 20);
+        foreach(AudioMixer am in mixers)
+        {
+            foreach(string s in exposedParameters)
+            {
+                am.SetFloat(s, Mathf.Log10(newVolume) * 20);
+            }
+        }
     }
 }

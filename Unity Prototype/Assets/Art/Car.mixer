@@ -181,7 +181,19 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 1090a7c28ec9aa741bfdacff93ecc69d
+    name: Ambience Volume
+  - guid: d555bbd8997f172409ee969735d416cc
+    name: Dialogue Volume
+  - guid: 748f281f9ca676b4695797aa37aa918f
+    name: Engine Volume
+  - guid: cd16c91ac8dda844b9d97c903d6e1313
+    name: NPC Volume
+  - guid: 704e2d21471e3a34783bef25c4e64d89
+    name: Radio Volume
+  - guid: 56183bac40bb21a46ab685a47b1f881f
+    name: Wind Volume
   m_AudioMixerGroupViews:
   - guids:
     - e72586dbc249ec34d81a57d657009dfe
