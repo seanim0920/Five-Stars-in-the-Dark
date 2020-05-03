@@ -17,8 +17,8 @@ public class EndScene : MonoBehaviour
         bass.Play();
         drums.Play();
         fade.SetActive(true);
-        panel.SetActive(false);
-        scoreScript.enabled = true;
+        // panel.SetActive(false);
+        // scoreScript.enabled = true;
     }
 
     // Update is called once per frame

@@ -83,7 +83,14 @@ public class DisplayScore : MonoBehaviour
     void Update()
     {
         //Debug.Log(lerpTime);
-        scoreBar.value = lerpTime * score;
+        if(ScoreStorage.Instance.getScoreProgress() >= 100)
+        {
+            scoreBar.value = lerpTime * score;
+        }
+        else
+        {
+            scoreBar.value = lerpTime * ScoreStorage.Instance.getScoreProgress();
+        }
 
         Vector2 displacement = Quaternion.Euler(0, 0, Random.Range(0, 360)) * Vector2.right * shakeOffset;
         rect.anchoredPosition = Vector2.zero + displacement;
