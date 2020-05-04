@@ -47,7 +47,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
         sound.Pause();
         shakeStore = MovementShake.shakeOffset;
-        SpeedShake.shakeOffset = 0;
+        MovementShake.shakeOffset = 0;
     }
 
     public void toMenu()
