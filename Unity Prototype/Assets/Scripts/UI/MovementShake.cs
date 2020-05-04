@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovementShake : MonoBehaviour
 {
     private PlayerControls controls;
-    float shakeOffset = 5;
+    public static float shakeOffset = 5;
     float lerpTime = 0;
     public RectTransform rect;
     Vector2 originalPosition;

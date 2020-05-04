@@ -9,6 +9,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject soundSource;
     private AudioSource sound;
+    private float shakeStore;
 
     private void Start()
     {
@@ -36,6 +37,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         sound.UnPause();
+        MovementShake.shakeOffset = shakeStore;
     }
 
     public void pauseGame()
@@ -44,6 +46,8 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         sound.Pause();
+        shakeStore = MovementShake.shakeOffset;
+        SpeedShake.shakeOffset = 0;
     }
 
     public void toMenu()
