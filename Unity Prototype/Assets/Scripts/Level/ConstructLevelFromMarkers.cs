@@ -27,9 +27,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     private SteeringWheelControl wheelControl;
     private KeyboardControl keyboard;
     private GamepadControl gamepad;
-    private int controlType = 0; // 0 = Steering Wheel
-                                 // 1 = Keyboard
-                                 // 2 = Gamepad
+    private static int controlType; // 0 = Steering Wheel
+                                    // 1 = Keyboard
+                                    // 2 = Gamepad
 
     //for lowering the volume when dialogue is playing
     //public Transform leftSpeaker;
@@ -467,17 +467,17 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         yield return new WaitForSeconds(1);
         controls.enabled = true;
         Debug.Log(controlType);
-        if(controlType == 0)
+        if(controlType == 0 && (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
         {
             wheelControl.enabled = true;
         }
-        else if(controlType == 1)
+        else if(controlType == 2 && Gamepad.current != null)
         {
-            keyboard.enabled = true;
+            gamepad.enabled = true;
         }
         else
         {
-            gamepad.enabled = true;
+            keyboard.enabled = true;
         }
         timeTracker.enabled = true;
         adjustInstrumentVolume(false, new string[] { });
@@ -591,6 +591,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     public void setController(int type)
     {
+        Debug.Log("controller type: " + type);
         controlType = type;
     }
 }
