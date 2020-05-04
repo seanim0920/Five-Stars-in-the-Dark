@@ -7,13 +7,12 @@ public class PauseMenu : MonoBehaviour
 {
     public static bool isPaused = false;
     public GameObject pauseMenuUI;
-    public GameObject soundSource;
-    private AudioSource sound;
     private float shakeStore;
+    AudioSource[] sources;
 
     private void Start()
     {
-       sound = soundSource.GetComponent(typeof(AudioSource)) as AudioSource;
+        sources = GameObject.FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
     }
 
     // Update is called once per frame
@@ -36,16 +35,29 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        sound.UnPause();
+        foreach (AudioSource source in sources)
+        {
+            if (!source.isPlaying && source.time != 0)
+            {
+                source.UnPause();
+            }
+        }
         MovementShake.shakeOffset = shakeStore;
     }
 
     public void pauseGame()
     {
+        sources = GameObject.FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
         isPaused = true;
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        sound.Pause();
+        foreach (AudioSource source in sources)
+        {
+            if (source.isPlaying)
+            {
+                source.Pause();
+            }
+        }
         shakeStore = MovementShake.shakeOffset;
         MovementShake.shakeOffset = 0;
     }

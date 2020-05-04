@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 
 public class ConstructLevelFromMarkers : MonoBehaviour
 {
-    public AudioSource levelDialogue;
+    public static AudioSource levelDialogue;
     public AudioSource secondSource;
     private GameObject player;
 
@@ -34,7 +34,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //for lowering the volume when dialogue is playing
     //public Transform leftSpeaker;
     //public Transform rightSpeaker;
-    public bool isSpeaking;
+    public static bool isSpeaking;
     private string[] dialogueInstruments = { "Drums", "Support", "Wind" };
     public float maxVol = 0.8f;
 
@@ -545,10 +545,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         //    yield return null;
         //}
         yield return null;
-    }
-    public bool checkIfSpeaking()
-    {
-        return isSpeaking;
     }
 
     // Update is called once per frame
