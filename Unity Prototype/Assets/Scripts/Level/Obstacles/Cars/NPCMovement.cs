@@ -10,7 +10,7 @@ public class NPCMovement : MonoBehaviour
     public float neutralSpeed = 0.05f;
     public float maxSpeed;
     public float minSpeed;
-    private float acceleration = 0.02f;
+    private float acceleration = 0.01f;
     private float eyesight = 3;
     private Vector3 movementDirection;
     void Start()
@@ -26,7 +26,7 @@ public class NPCMovement : MonoBehaviour
         transform.position += movementDirection * movementSpeed;
     }
 
-    string IfFindsObstacleReturnTag(Vector3 direction)
+    public string SeesObstacle(Vector3 direction)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
         if (hit.collider != null)
@@ -41,23 +41,22 @@ public class NPCMovement : MonoBehaviour
 
     public IEnumerator Coast()
     {
-        StopAllCoroutines();
-        while (neutralSpeed > movementSpeed)
+        while (movementSpeed < neutralSpeed)
         {
             movementSpeed += acceleration;
-            yield return new WaitForSeconds(0);
+            yield return new WaitForFixedUpdate();
         }
-        while (neutralSpeed < movementSpeed)
+        while (movementSpeed > neutralSpeed)
         {
             movementSpeed -= acceleration;
-            yield return new WaitForSeconds(0);
+            yield return new WaitForFixedUpdate();
         }
         movementSpeed = neutralSpeed;
+        print(movementSpeed);
     }
 
-    public IEnumerator SwitchLaneRight(bool isRight)
+    public IEnumerator SwitchLaneRight(bool isRight, float strafeSpeed)
     {
-        StopAllCoroutines();
         int direction = 1;
         if (!isRight)
         {
@@ -68,7 +67,7 @@ public class NPCMovement : MonoBehaviour
         float endPositionX = transform.position.x + direction * laneWidth;
         while (endPositionX - transform.position.x > 0.02f)
         {
-            transform.position += new Vector3(movementSpeed * direction,0,0);
+            transform.position += new Vector3(strafeSpeed * direction,0,0);
             yield return new WaitForSeconds(0);
         }
     }
@@ -76,31 +75,28 @@ public class NPCMovement : MonoBehaviour
     // Update is called once per frame
     public IEnumerator speedUp()
     {
-        StopAllCoroutines();
         while (movementSpeed < maxSpeed)
         {
             movementSpeed += 0.01f;
-            yield return new WaitForSeconds(0);
+            yield return new WaitForFixedUpdate();
         }
         movementSpeed = maxSpeed;
     }
     public IEnumerator slowDown()
     {
-        StopAllCoroutines();
         while (movementSpeed > minSpeed)
         {
             movementSpeed *= 0.98f;
-            yield return new WaitForSeconds(0);
+            yield return new WaitForFixedUpdate();
         }
         movementSpeed = minSpeed;
     }
     public IEnumerator suddenStop()
     {
-        StopAllCoroutines();
         while (movementSpeed > 0.01f)
         {
             movementSpeed *= 0.96f;
-            yield return new WaitForSeconds(0);
+            yield return new WaitForFixedUpdate();
         }
         movementSpeed = 0;
     }
