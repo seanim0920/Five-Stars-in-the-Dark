@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Masterkey3 : MonoBehaviour
+public class MasterkeyEndScreen : MonoBehaviour
 {
     public Button retry;
     public Button next;

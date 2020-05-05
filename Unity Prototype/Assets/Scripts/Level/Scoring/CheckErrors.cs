@@ -24,7 +24,7 @@ public class CheckErrors : MonoBehaviour
         if(errors >= 10)
         {
             ScoreStorage.Instance.setScoreAll();
-            Masterkey2.sceneName = SceneManager.GetActiveScene().name;
+            MasterkeyFailScreen.sceneName = SceneManager.GetActiveScene().name;
             LoadScene.Loader("FailScreen");
         }
         errorText.text = "Error(s): " + errors.ToString();
