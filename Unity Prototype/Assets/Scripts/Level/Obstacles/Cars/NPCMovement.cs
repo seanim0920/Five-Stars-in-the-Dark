@@ -26,12 +26,12 @@ public class NPCMovement : MonoBehaviour
         transform.position += movementDirection * movementSpeed;
     }
 
-    public string SeesObstacle(Vector3 direction)
+    public GameObject SeesObstacle(Vector3 direction)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, eyesight);
         if (hit.collider != null)
         {
-            return hit.collider.gameObject.tag;
+            return hit.collider.gameObject;
         }
         else
         {

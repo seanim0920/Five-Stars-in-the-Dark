@@ -64,10 +64,6 @@ public class CarCollision : MonoBehaviour
             {
                 col.gameObject.GetComponent<NPCMovement>().enabled = false;
             }
-            if (col.gameObject.GetComponent<PoliceMovement>() != null)
-            {
-                col.gameObject.GetComponent<PoliceMovement>().enabled = false;
-            }
             col.gameObject.GetComponent<Rigidbody2D>().AddForce((col.gameObject.transform.position - transform.position).normalized, ForceMode2D.Impulse);
             //should be adjusted to push them away from the car rather than just slowing them down
             controlFunctions.movementSpeed *= 0.1f;
