@@ -5,7 +5,7 @@ using UnityEngine;
 public class TargetMovement : MonoBehaviour
 {
     private NPCMovement movementFunctions;
-    public string sequence = "a  p  s  ";
+    public string sequence = "a..p..s..";
     // Start is called before the first frame update
     private enum MoveState { None, Coasting, Ramming, Blocking };
     private MoveState currentMoveState = MoveState.Coasting;
