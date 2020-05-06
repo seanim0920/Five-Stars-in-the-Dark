@@ -430,20 +430,13 @@ PrefabInstance:
       propertyPath: focus
       value: 
       objectReference: {fileID: 1478482138}
-    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
-        type: 3}
+    - target: {fileID: 1798619072, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -37.499985
+      value: -37.49994
       objectReference: {fileID: 0}
-    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
-        type: 3}
+    - target: {fileID: 1798619072, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
+      value: -31.348022
       objectReference: {fileID: 0}
     - target: {fileID: 4332332946149501532, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
@@ -455,22 +448,44 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 2.4000244
       objectReference: {fileID: 0}
-    - target: {fileID: 1798619072, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -37.49994
-      objectReference: {fileID: 0}
-    - target: {fileID: 1798619072, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -31.348007
-      objectReference: {fileID: 0}
     - target: {fileID: 1798619071, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925605469043292874, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -37.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4314826277659574847, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
       propertyPath: m_Name
       value: MainCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 367951496075980717, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6279816790420459378, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
@@ -1365,7 +1380,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 412440411803478620}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 412440411803478621}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 503f84fdf5c9d174899cb93f03f70006, type: 3}
@@ -1604,6 +1619,11 @@ PrefabInstance:
       propertyPath: blackScreen
       value: 
       objectReference: {fileID: 170769231}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: markersFile
+      value: 
+      objectReference: {fileID: 4900000, guid: db4587d33f9728d4f979745299050cb9, type: 3}
     - target: {fileID: 412440413062414635, guid: cec60119a7a8c704ea21138b08c6c077,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1659,14 +1679,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 412440413062414628, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 52b62bd776074864587fb44fd343337f, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cec60119a7a8c704ea21138b08c6c077, type: 3}
---- !u!1 &412440411803478621 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 412440413062414633, guid: cec60119a7a8c704ea21138b08c6c077,
-    type: 3}
-  m_PrefabInstance: {fileID: 412440411803478620}
-  m_PrefabAsset: {fileID: 0}
 --- !u!222 &2925605467565228338
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2381,7 +2400,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 2925605469112426102}
-  soundSource: {fileID: 412440411803478621}
 --- !u!114 &2925605469043292879
 MonoBehaviour:
   m_ObjectHideFlags: 0
