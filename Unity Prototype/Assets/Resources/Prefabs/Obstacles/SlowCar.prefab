@@ -78,10 +78,16 @@ PrefabInstance:
       propertyPath: neutralSpeed
       value: 0.75
       objectReference: {fileID: 0}
+    - target: {fileID: 6641276138397330363, guid: 87b8479f7f00d3d40b4179817129cbca,
+        type: 3}
+      propertyPath: honk
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5587792251600710922, guid: 87b8479f7f00d3d40b4179817129cbca,
         type: 3}
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: c0c57b1860a280e47ae148f0ab2e6314, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5587792251600710922, guid: 87b8479f7f00d3d40b4179817129cbca, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 87b8479f7f00d3d40b4179817129cbca, type: 3}
