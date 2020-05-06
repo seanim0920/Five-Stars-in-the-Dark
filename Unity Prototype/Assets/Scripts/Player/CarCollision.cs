@@ -92,8 +92,8 @@ public class CarCollision : MonoBehaviour
         }
 
         //these pull a random hurtsound to play
-        int x = 1; // Random.Range(-2, 1) + (GetNumericValue(SceneManagment.Scene.name[6]) * 3);
-        AudioClip passengerHurt = Resources.Load<AudioClip>("Audio/dialogue/" + SceneManager.GetActiveScene().name + "/hurt" + x);
+        int x = 4; // Random.Range(-2, 1) + (GetNumericValue(SceneManagment.Scene.name[6]) * 3);
+        AudioClip passengerHurt = Resources.Load<AudioClip>("Audio/dialogue/hurt" + x);
 
         print("hitting a zone?" + (col.gameObject.tag != "Zone"));
         if (col.gameObject.tag != "Zone")
