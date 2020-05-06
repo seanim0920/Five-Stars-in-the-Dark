@@ -19,6 +19,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     List<string> commandMarkers = new List<string>();
     List<string> distanceObstacleMarkers = new List<string>();
     List<string> dialogueMarkers = new List<string>();
+    List<string> subtitleMarkers = new List<string>();
     Dictionary<GameObject, float> spawnedObstacles = new Dictionary<GameObject, float>();
     
     //variables set from the player object
@@ -44,6 +45,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     public Image blackScreen;
     public TextAsset markersFile;
     public static string debugMessage { get; set; }
+    public static string subtitleMessage { get; set; }
 
     float numberOfLanes = 3;
     float laneWidth = 1.8f * 20;
@@ -96,15 +98,14 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     dialogueMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
                 }
             }
-            else if (startTime >= previousStartTime && !newTrack)
-            {
-                timedObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
-                previousStartTime = startTime;
-            }
             else
             {
-                newTrack = true;
-                distanceObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
+                if (tokens[2][0] == '"')
+                {
+                    subtitleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
+                }
+                timedObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
+                previousStartTime = startTime;
             }
             //print("amount of tokens are " + tokens.Length);
             lineNumber++;
@@ -128,7 +129,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         {
             string[] tokens = line.Split(new char[] { ' ', '\t' });
             if (tokens.Length < 3 || !char.IsDigit(tokens[0][0])) continue;
-            float previousStartTime = 0;
             bool newTrack = false;
             float startTime = float.Parse(tokens[0]);
             int lineLength;
@@ -144,14 +144,16 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 {
                     dialogueMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
                 }
-            } else if (startTime >= previousStartTime && !newTrack)
-            {
-                timedObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
-                previousStartTime = startTime;
             } else
             {
-                newTrack = true;
-                distanceObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
+                if (tokens[2][0] == '"')
+                {
+                    print("parsed subtitle marker" + tokens.Length);
+                    subtitleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
+                } else
+                {
+                    timedObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
+                }
             }
             //print("amount of tokens are " + tokens.Length);
             lineNumber++;
@@ -226,6 +228,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         bool midpoint = false;
         bool endpoint = false;
         debugMessage = "starting level now, level ends at " + endOfLevel;
+        subtitleMessage = "";
         int updateRate = 50;
         endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split('-')[0]);
 
@@ -258,9 +261,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             if (levelDialogue.time + startOfLevel >= (endOfLevel - startOfLevel) / 2 && !midpoint)
             {
                 print(levelDialogue.time + "level ends at " + endOfLevel);
-                secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_middle");
-                secondSource.Play();
-                yield return new WaitForSeconds(secondSource.clip.length);
+                //secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_middle");
+                //secondSource.Play();
+                //yield return new WaitForSeconds(secondSource.clip.length);
                 midpoint = true;
             }
 
@@ -292,7 +295,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     if (levelDialogue.time >= spawnTime)
                     {
                         debugMessage += "parsing command: " + command;
-                        AudioClip radioClip = Resources.Load<AudioClip>("Audio/" + command);
+                        AudioClip radioClip = Resources.Load<AudioClip>("Audio/" + SceneManager.GetActiveScene().name + "/" + command);
                         if (radioClip != null)
                         {
                             secondSource.clip = radioClip;
@@ -312,12 +315,36 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                             StartCoroutine(startCar());
                             yield return new WaitForSeconds(2);
                             levelDialogue.Pause();
-                            secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_start");
-                            secondSource.Play();
-                            yield return new WaitForSeconds(secondSource.clip.length);
+                            //secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_start");
+                            //secondSource.Play();
+                            //yield return new WaitForSeconds(secondSource.clip.length);
                             levelDialogue.Play();
                         }
+                        else if (string.Equals(command, "[EndControl]"))
+                        {
+                            StartCoroutine(parkCar());
+                        }
                         commandMarkers.RemoveAt(0);
+                    }
+                }
+
+                //check list of markers to see if the next subtitle is due
+                if (subtitleMarkers.Count > 0)
+                {
+                    string[] subtitleData = subtitleMarkers[0].Split('-');
+                    float spawnTime = float.Parse(subtitleData[0]);
+                    float despawnTime = float.Parse(subtitleData[1]);
+
+                    //if the next obstacle is due or if the obstacle trigger was touched, spawn it
+                    if (levelDialogue.time >= spawnTime)
+                    {
+                        debugMessage += "printing subtitles: " + subtitleData[2];
+
+                        subtitleMessage = subtitleData[2];
+                    } else if (levelDialogue.time > despawnTime)
+                    {
+                        subtitleMessage = "";
+                        subtitleMarkers.RemoveAt(0);
                     }
                 }
 
@@ -442,10 +469,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         }
 
         //This is where the level ends
-        secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_end");
-        secondSource.Play();
-        yield return new WaitForSeconds(secondSource.clip.length);
-        StartCoroutine(parkCar());
+        //secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_end");
+        //secondSource.Play();
+        //yield return new WaitForSeconds(secondSource.clip.length);
         levelDialogue.Play();
         while (levelDialogue.isPlaying)
         {
