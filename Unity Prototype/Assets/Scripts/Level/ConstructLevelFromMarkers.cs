@@ -228,6 +228,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         debugMessage = "starting level now, level ends at " + endOfLevel;
         int updateRate = 50;
         endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split('-')[0]);
+        //initial parsing of the theoretical fastest level time, for the sake of score calculation
+        ScoreStorage.Instance.setScorePar((int)endOfLevel * 100);
 
         //perform these checks every frame for as long as the dialogue plays
         while (levelDialogue.time < endOfLevel)

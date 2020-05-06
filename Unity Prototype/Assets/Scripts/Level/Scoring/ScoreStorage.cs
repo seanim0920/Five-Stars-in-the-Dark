@@ -6,9 +6,16 @@ using UnityEngine;
 //This will give you the singular existing object which has this bad boy!
 public class ScoreStorage : Singleton<ScoreStorage>
 {
+    //how far in the level the player progressed. If level passed, should always be 100
     int progress = 0;
+    //number of errors
     int errors = 0;
+    //time taken to finish the level
     int time = 0;
+    //literal score, from 0 to 100
+    int points = 0;
+    //fastest time the player could have achieved
+    int par = 0;
 
     void Start()
     {
@@ -24,8 +31,11 @@ public class ScoreStorage : Singleton<ScoreStorage>
         //CountdownTimer (attached to TimerText, which is on the prefab Camera)
         ConstructLevelFromMarkers CLFM = GameObject.Find("/LevelConstructor").GetComponent<ConstructLevelFromMarkers>();
         progress = (int)(CLFM.currentDialogueStartTime * 100 / CLFM.endOfLevel);
-        errors = GameObject.Find("/Main Camera/Canvas/ErrorText").GetComponent<CheckErrors>().getErrors();
-        time = (int)(600.0f - GameObject.Find("/Main Camera/Canvas/TimerText").GetComponent<CountdownTimer>().getCurrentTime()) * 100;
+        errors = GameObject.Find("/Main Camera/MainCanvas/ErrorText").GetComponent<CheckErrors>().getErrors();
+        time = (int)(600.0f - GameObject.Find("/Main Camera/MainCanvas/TimerText").GetComponent<CountdownTimer>().getCurrentTime()) * 100;
+        //Par is not set here, becuase its data is not saved.
+        //Every error subtracts 8 points, and every 30 seconds over the fastest possible time subtracts 5 points (up to 120 seconds).
+        points = 100 - (errors * 8) - ((time-par)/600);   //We divide be 600: 6 to split the time into 5 parts of 30 seconds and 100 to round out the miliseconds    
     }
 
     //These allow scripts to access the scores
@@ -42,6 +52,16 @@ public class ScoreStorage : Singleton<ScoreStorage>
     public int getScoreTime()
     {
         return time;
+    }
+
+    public int getScorePar()
+    {
+        return par;
+    }
+
+    public int getScorePoints()
+    {
+        return points;
     }
 
     //returns the time as a string formatted (XX:XX)
@@ -64,5 +84,15 @@ public class ScoreStorage : Singleton<ScoreStorage>
     public void setScoreTime(int x)
     {
         time = x;
+    }
+    
+    public void setScorePar(int x)
+    {
+        par = x;
+    }
+
+    public void setScorePoints(int x)
+    {
+        points = x;
     }
 }

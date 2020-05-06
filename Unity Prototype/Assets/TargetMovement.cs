@@ -33,10 +33,10 @@ public class TargetMovement : MonoBehaviour
                         movementFunctions.slowDown();
                         break;
                     case 'r':
-                        movementFunctions.SwitchLaneRight(true);
+                        movementFunctions.SwitchLaneRight(true, movementFunctions.movementSpeed);
                         break;
                     case 'l':
-                        movementFunctions.SwitchLaneRight(false);
+                        movementFunctions.SwitchLaneRight(false, movementFunctions.movementSpeed);
                         break;
                     default:
                         yield return new WaitForSeconds(System.Convert.ToSingle(command));

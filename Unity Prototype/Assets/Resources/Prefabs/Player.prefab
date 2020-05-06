@@ -299,7 +299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beec82e24370d7a4b9552d82496449cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cutsceneScript: {fileID: 0}
   hitSoundObject: {fileID: 0}
   situationalDialogues: {fileID: 6775186467164110371}
   charOnCar: {fileID: 0}
@@ -3939,7 +3938,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: a85fed0ef8209244c944f65698d798d9, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.667
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4067,7 +4066,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 597f8a0a2fe663d4a90ee80b7f435d1b, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.667
+  m_Volume: 0.333
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4195,7 +4194,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 2a70a8f5f34693a4d8bc7d0ff2cc50e3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.667
+  m_Volume: 0.333
   m_Pitch: 1
   Loop: 1
   Mute: 0
