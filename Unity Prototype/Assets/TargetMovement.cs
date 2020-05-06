@@ -5,8 +5,10 @@ using UnityEngine;
 public class TargetMovement : MonoBehaviour
 {
     private NPCMovement movementFunctions;
-    public string sequence;
+    public string sequence = "a  p  s  ";
     // Start is called before the first frame update
+    private enum MoveState { None, Coasting, Ramming, Blocking };
+    private MoveState currentMoveState = MoveState.Coasting;
     void Start()
     {
         movementFunctions = GetComponent<NPCMovement>();
@@ -24,19 +26,24 @@ public class TargetMovement : MonoBehaviour
                 switch (command)
                 {
                     case 'a':
-                        movementFunctions.speedUp();
+                        StopAllCoroutines();
+                        StartCoroutine(movementFunctions.speedUp());
                         break;
                     case 'p':
-                        movementFunctions.suddenStop();
+                        StopAllCoroutines();
+                        StartCoroutine(movementFunctions.suddenStop());
                         break;
                     case 's':
-                        movementFunctions.slowDown();
+                        StopAllCoroutines();
+                        StartCoroutine(movementFunctions.slowDown());
                         break;
                     case 'r':
-                        movementFunctions.SwitchLaneRight(true, movementFunctions.movementSpeed);
+                        StopAllCoroutines();
+                        StartCoroutine(movementFunctions.SwitchLaneRight(true, movementFunctions.movementSpeed));
                         break;
                     case 'l':
-                        movementFunctions.SwitchLaneRight(false, movementFunctions.movementSpeed);
+                        StopAllCoroutines();
+                        StartCoroutine(movementFunctions.SwitchLaneRight(false, movementFunctions.movementSpeed));
                         break;
                     default:
                         yield return new WaitForSeconds(System.Convert.ToSingle(command));
