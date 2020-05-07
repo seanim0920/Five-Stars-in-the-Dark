@@ -23,15 +23,14 @@ public class CountdownTimer : MonoBehaviour
     void Update()
     {
         updateDisplay();
-            currentTime -= 1 * Time.deltaTime;
-            updateDisplay();
-            if (currentTime <= 0)
-            {
-                ScoreStorage.Instance.setScoreAll();
-                MasterkeyFailScreen.currentLevel = SceneManager.GetActiveScene().name;
-                SceneManager.LoadScene("FailScreen", LoadSceneMode.Single);
-            }
-        // }
+        currentTime -= 1 * Time.deltaTime;
+        updateDisplay();
+        if (currentTime <= 0)
+        {
+            ScoreStorage.Instance.setScoreAll();
+            MasterkeyFailScreen.currentLevel = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene("FailScreen", LoadSceneMode.Single);
+        }
     }
 
     private static void updateDisplay()
