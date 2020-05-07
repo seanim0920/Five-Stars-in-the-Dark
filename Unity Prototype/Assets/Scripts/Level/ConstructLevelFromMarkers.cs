@@ -455,6 +455,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         }
 
         ScoreStorage.Instance.setScoreAll();
+        ScoreStorage.Instance.setScoreProgress(100);
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
         //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().name);
     }
