@@ -12,7 +12,7 @@ public class MasterkeyFailScreen : MonoBehaviour
     // Start is called before the first frame update
      void Start()
     {		
-		retry.onClick.AddListener(() => LoadScene.Loader(sceneName));
+		retry.onClick.AddListener(() => LoadScene.Loader(currentLevel));
 		menu.onClick.AddListener(() => LoadScene.Loader("Menu"));
     }
 

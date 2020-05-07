@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MasterkeyEndScreen : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class MasterkeyEndScreen : MonoBehaviour
     void Start()
     {
         retry.onClick.AddListener(() => LoadScene.Loader(currentLevel));
-        nextLevel.onClick.AddListener(() => LoadScene.Loader(getNextSceneName(currentLevel)));
+        next.onClick.AddListener(() => LoadScene.Loader(getNextSceneName(currentLevel)));
         menu.onClick.AddListener(() => LoadScene.Loader("Menu"));
     }
 
