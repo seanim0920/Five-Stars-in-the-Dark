@@ -33,7 +33,7 @@ public class KeyboardControl : MonoBehaviour
 
         strafeAmount *= 0.97f;
         accelAmount *= 0.97f;
-        breakAmount *= 0.97f;
+        // breakAmount *= 0.97f;
         controlFunctions.strafe(strafeAmount); //2.08f normalizes strafeamount
         controlFunctions.setHoldingWheel(false);
 
@@ -43,7 +43,8 @@ public class KeyboardControl : MonoBehaviour
         }
         if (Input.GetKey("down") && breakAmount < 0.98f)
         {
-            breakAmount += 0.02f;
+            // breakAmount += 0.02f;
+            breakAmount = 0.02f;
         }
         if (Input.GetKey("left"))
         {
