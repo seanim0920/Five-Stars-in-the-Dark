@@ -7,7 +7,7 @@ public class NPCMovement : MonoBehaviour
     public AudioSource honk;
     public AudioSource engineSound;
     public float movementSpeed = 0f;
-    public float neutralSpeed = 0.05f;
+    public float neutralSpeed = 1f;
     public float maxSpeed;
     public float minSpeed;
     private float acceleration = 0.01f;
@@ -63,13 +63,19 @@ public class NPCMovement : MonoBehaviour
             direction *= -1;
         }
 
-        int laneWidth = 40;
+        int laneWidth = 30;
         float endPositionX = transform.position.x + direction * laneWidth;
-        while (endPositionX - transform.position.x > 0.02f)
+        while (endPositionX > transform.position.x)
         {
-            transform.position += new Vector3(strafeSpeed * direction,0,0);
-            yield return new WaitForSeconds(0);
+            transform.position += new Vector3(strafeSpeed,0,0);
+            yield return new WaitForFixedUpdate();
         }
+        while (endPositionX < transform.position.x)
+        {
+            transform.position -= new Vector3(strafeSpeed, 0, 0);
+            yield return new WaitForFixedUpdate();
+        }
+        transform.position = new Vector3(endPositionX,transform.position.y,transform.position.z);
     }
 
     // Update is called once per frame
@@ -77,7 +83,7 @@ public class NPCMovement : MonoBehaviour
     {
         while (movementSpeed < maxSpeed)
         {
-            movementSpeed += 0.01f;
+            movementSpeed += acceleration;
             yield return new WaitForFixedUpdate();
         }
         movementSpeed = maxSpeed;
@@ -89,16 +95,26 @@ public class NPCMovement : MonoBehaviour
             movementSpeed *= 0.98f;
             yield return new WaitForFixedUpdate();
         }
+        while (movementSpeed < minSpeed)
+        {
+            movementSpeed += acceleration/2;
+            yield return new WaitForFixedUpdate();
+        }
         movementSpeed = minSpeed;
     }
     public IEnumerator suddenStop()
     {
         while (movementSpeed > 0.01f)
         {
+            //print("trying to stop car");
             movementSpeed *= 0.96f;
             yield return new WaitForFixedUpdate();
         }
         movementSpeed = 0;
+    }
+    public void resetMovement()
+    {
+        StopAllCoroutines();
     }
 
     public void setSpeed(float speed)
