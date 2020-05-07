@@ -6,6 +6,7 @@ public class Stoplight : MonoBehaviour
 {
     public int loopAmount = 3;
     public string pattern = "w";
+    private string objectDirectory = "Prefabs/Obstacles/";
     // Start is called before the first frame update
     void Start()
     {
@@ -24,12 +25,12 @@ public class Stoplight : MonoBehaviour
             {
                 if (pattern[i] == 'w')
                 {
-                    GameObject npc = Instantiate(Resources.Load<GameObject>("FastCar"), transform);
+                    GameObject npc = Instantiate(Resources.Load<GameObject>(objectDirectory + "FastCar"), transform);
                     npc.GetComponent<Rigidbody2D>().isKinematic = true;
                     npc.GetComponent<NPCMovement>().neutralSpeed = 2;
                     npc.transform.localPosition = transform.GetChild(0).localPosition;
                     npc.transform.Rotate(0, 0, -90);
-                    Destroy(npc, 4);
+                    Destroy(npc, 8);
                 }
                 yield return new WaitForSeconds(1f);
             }
