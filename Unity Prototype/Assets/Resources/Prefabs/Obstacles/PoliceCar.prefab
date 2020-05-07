@@ -6,7 +6,7 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8146954475394885307}
+  m_GameObject: {fileID: 7827876533968565700}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 2675066774269485028, guid: 52622cb0ca335e540b9533ee3c0e8469,
@@ -103,7 +103,7 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8146954475394885307}
+  m_GameObject: {fileID: 7827876533968565700}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 2675066774269485028, guid: 52622cb0ca335e540b9533ee3c0e8469,
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8146954475394885307}
+  m_GameObject: {fileID: 7827876533968565700}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f81ed8b71a7803c4486ad4932c5c5744, type: 3}
@@ -221,11 +221,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PoliceCar
-      objectReference: {fileID: 0}
-    - target: {fileID: 9050258354356607982, guid: 9734698dbdef23049810e4ddda98d195,
-        type: 3}
-      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2138646690712720300, guid: 9734698dbdef23049810e4ddda98d195,
         type: 3}
@@ -282,9 +277,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9050258354356607982, guid: 9734698dbdef23049810e4ddda98d195,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7798444560812318047, guid: 9734698dbdef23049810e4ddda98d195,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7798444560812318047, guid: 9734698dbdef23049810e4ddda98d195,
+        type: 3}
+      propertyPath: neutralSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7798444560812318047, guid: 9734698dbdef23049810e4ddda98d195,
+        type: 3}
+      propertyPath: movementSpeed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9734698dbdef23049810e4ddda98d195, type: 3}
---- !u!1 &8146954475394885307 stripped
+--- !u!1 &7827876533968565700 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2138646690712720297, guid: 9734698dbdef23049810e4ddda98d195,
     type: 3}

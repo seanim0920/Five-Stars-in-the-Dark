@@ -25,7 +25,7 @@ public class Stoplight : MonoBehaviour
             {
                 if (pattern[i] == 'w')
                 {
-                    GameObject npc = Instantiate(Resources.Load<GameObject>(objectDirectory + "FastCar"), transform);
+                    GameObject npc = Instantiate(Resources.Load<GameObject>(objectDirectory + "StoplightCar"), transform);
                     npc.GetComponent<Rigidbody2D>().isKinematic = true;
                     npc.GetComponent<NPCMovement>().neutralSpeed = 2;
                     npc.transform.localPosition = transform.GetChild(0).localPosition;
