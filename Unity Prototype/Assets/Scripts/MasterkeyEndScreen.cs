@@ -8,24 +8,27 @@ public class MasterkeyEndScreen : MonoBehaviour
     public Button retry;
     public Button next;
     public Button menu;
-    public static string sceneName = "Level 2";
-    public static string prevName = "Level 1";
+    public static string currentLevel = "Level 2";
 
     // Start is called before the first frame update
     void Start()
     {
-        Button e = retry.GetComponent<Button>();
-        Button l = next.GetComponent<Button>();
-        Button lb = menu.GetComponent<Button>();
-
-        e.onClick.AddListener(() => LoadScene.Loader(prevName));
-        l.onClick.AddListener(() => LoadScene.Loader(sceneName));
-        lb.onClick.AddListener(() => LoadScene.Loader("Menu"));
+        retry.onClick.AddListener(() => LoadScene.Loader(currentLevel));
+        nextLevel.onClick.AddListener(() => LoadScene.Loader(getNextSceneName(currentLevel)));
+        menu.onClick.AddListener(() => LoadScene.Loader("Menu"));
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    private string getNextSceneName(string currentLevel)
+    {
+        int currIndex = SceneManager.GetSceneByName(currentLevel).buildIndex;
+        ++currIndex;
+        string nextName = SceneManager.GetSceneByBuildIndex(currIndex).name;
+        return nextName;
     }
 }

@@ -28,6 +28,7 @@ public class CountdownTimer : MonoBehaviour
             if (currentTime <= 0)
             {
                 ScoreStorage.Instance.setScoreAll();
+                MasterkeyFailScreen.currentLevel = SceneManager.GetActiveScene().name;
                 SceneManager.LoadScene("FailScreen", LoadSceneMode.Single);
             }
         // }

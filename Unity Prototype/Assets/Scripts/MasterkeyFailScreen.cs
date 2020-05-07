@@ -7,16 +7,13 @@ public class MasterkeyFailScreen : MonoBehaviour
 {
     public Button retry;
 	public Button menu;
-    public static string sceneName = "Level 1";
+    public static string currentLevel = "Level 1";
 	
     // Start is called before the first frame update
      void Start()
-    {
-		Button e = retry.GetComponent<Button>();
-		Button lb = menu.GetComponent<Button>();
-		
-		e.onClick.AddListener(() => LoadScene.Loader(sceneName));
-		lb.onClick.AddListener(() => LoadScene.Loader("Menu"));
+    {		
+		retry.onClick.AddListener(() => LoadScene.Loader(sceneName));
+		menu.onClick.AddListener(() => LoadScene.Loader("Menu"));
     }
 
     // Update is called once per frame
