@@ -32,8 +32,8 @@ public class DisplayScore : MonoBehaviour
         progressText = GetGrandchild(this.gameObject, 3, 0).GetComponent<Text>();   //0 is Stat0 [progress]
         errorText = GetGrandchild(this.gameObject, 3, 2).GetComponent<Text>();      //2 is ERRORS
         timeText = GetGrandchild(this.gameObject, 3, 4).GetComponent<Text>();       //4 is TIME
+        
         //Set text field texts to score
-        Debug.Log("Stored Progress: " + ScoreStorage.Instance.getScoreProgress());
         if(ScoreStorage.Instance.getScoreProgress() >= 100)
         {
             progressText.text = "THANKS FOR PLAYING";
@@ -61,6 +61,10 @@ public class DisplayScore : MonoBehaviour
         }
         score += scoreBonus;
 
+        Debug.Log("Script Score: " + score);
+        Debug.Log("Points Score: " + ScoreStorage.Instance.getScorePoints());
+        Debug.Log("Stored Progress: " + ScoreStorage.Instance.getScoreProgress());
+
         //Hi. Thomas Here. I don't know what scripts (if any)
         //   update the progress and time fields of the endscreen,
         //   so I'm just putting it here.
@@ -83,9 +87,10 @@ public class DisplayScore : MonoBehaviour
     void Update()
     {
         //Debug.Log(lerpTime);
+        
         if(ScoreStorage.Instance.getScoreProgress() >= 100)
         {
-            scoreBar.value = lerpTime * score;
+            scoreBar.value = lerpTime * ScoreStorage.Instance.getScorePoints() / 100; //score;
         }
         else
         {
