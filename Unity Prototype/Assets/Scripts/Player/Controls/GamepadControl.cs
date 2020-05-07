@@ -53,6 +53,10 @@ public class GamepadControl : MonoBehaviour
         {
             controlFunctions.strafe(strafeAmt);
         }
+        else
+        {
+            controlFunctions.strafe(0);
+        }
     }
 
     private void OnEnable()
@@ -123,7 +127,7 @@ public class GamepadControl : MonoBehaviour
 
     private void HandleStrafe(InputAction.CallbackContext context)
     {
-        strafeAmt = context.ReadValue<float>() / 2;
+        strafeAmt = Mathf.Pow(context.ReadValue<float>(), 3f) / 3;
         isStrafing = Mathf.Abs(strafeAmt) > 0.1 / 50;
     }
 
