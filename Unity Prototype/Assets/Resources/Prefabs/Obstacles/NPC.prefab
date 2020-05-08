@@ -147,8 +147,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 0
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 100
+  MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -483,8 +483,8 @@ AudioLowPassFilter:
       inWeight: 0.33333334
       outWeight: 0.5869556
     - serializedVersion: 3
-      time: 0.5718248
-      value: 0.70434713
+      time: 0.63981795
+      value: 0.89359426
       inSlope: -2.2466044
       outSlope: -2.2466044
       tangentMode: 0

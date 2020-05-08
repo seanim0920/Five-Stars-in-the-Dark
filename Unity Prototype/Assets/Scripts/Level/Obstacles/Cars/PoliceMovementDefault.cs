@@ -30,10 +30,11 @@ public class PoliceMovementDefault : MonoBehaviour
         {
             Vector3 direction = transform.right;
             if (i == 0) direction = -transform.right;
-
+            
             GameObject sideObstacle = moveFunctions.SeesObstacle(direction);
-            if (sideObstacle != null && sideObstacle.tag == "Player")
+            if (sideObstacle != null && sideObstacle.tag == "Player" && currentMoveState != MoveState.Blocking)
             {
+                print("sees player!");
                 currentMoveState = MoveState.Blocking;
                 StartCoroutine(blockPlayer(sideObstacle, direction));
             }
@@ -47,15 +48,20 @@ public class PoliceMovementDefault : MonoBehaviour
     }
     IEnumerator blockPlayer(GameObject player, Vector3 direction)
     {
+        print("trying to ram player");
         Vector3 posRelativeToPlayer = player.transform.InverseTransformPoint(transform.position);
-        while (posRelativeToPlayer.y <= 50) //we will assume 50 is half the car's length
+        while (posRelativeToPlayer.y <= 1) //we will assume 50 is half the car's length
         {
+            posRelativeToPlayer = player.transform.InverseTransformPoint(transform.position);
+            print("catching up to player" + posRelativeToPlayer);
             yield return new WaitForFixedUpdate();
         }
         while (posRelativeToPlayer.y > 0)
         {
+            posRelativeToPlayer = player.transform.InverseTransformPoint(transform.position);
+            print("aligning with player");
             //if this car is getting ahead of the player, slow down until it's aligned with the player, then ram into them.
-            moveFunctions.movementSpeed *= 0.99f;
+            moveFunctions.movementSpeed *= 0.98f;
             yield return new WaitForFixedUpdate();
         }
 
