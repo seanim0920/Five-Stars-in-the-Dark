@@ -310,7 +310,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         {
                             blackScreen.enabled = true;
                         }
-                        else if (string.Equals(command, "[StartCar]"))
+                        else if (string.Equals(command, "[StartControl]") || string.Equals(command, "[StartCar]"))
                         {
                             print("started car at time " + levelDialogue.time);
                             StartCoroutine(startCar());
@@ -480,6 +480,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         {
             yield return new WaitForSeconds(0);
         }
+        //endcontrol command goes here
 
         ScoreStorage.Instance.setScoreAll();
         MasterkeyEndScreen.currentLevel = SceneManager.GetActiveScene().name;
@@ -491,7 +492,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         blackScreen.enabled = false;
         ambience.Play();
-        yield return new WaitForSeconds(1);
         secondSource.PlayOneShot(carStart);
         StartCoroutine(wheelRumble());
         yield return new WaitForSeconds(1);
@@ -518,8 +518,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         gamepad.enabled = false;
         while (Mathf.Abs(controls.movementSpeed) > 0.01f)
         {
-            controls.movementSpeed *= 0.97f;
-            yield return new WaitForSeconds(0);
+            controls.movementSpeed *= 0.98f;
+            yield return new WaitForFixedUpdate();
         }
         controls.movementSpeed = 0;
         controls.enabled = false;
