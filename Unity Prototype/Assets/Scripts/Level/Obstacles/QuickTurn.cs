@@ -96,6 +96,7 @@ public class QuickTurn : MonoBehaviour
             // Play turnsound
             turnSound.Play();
             gp.Gameplay.Enable();
+            playerCtrl.enabled = true;
             // return with no errors
             yield break;
         }
