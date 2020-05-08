@@ -8,18 +8,7 @@
 81.209483	86.681386	SlowCar aheadOf player
 98.494260	102.002716	FastCar aheadOf Lane1
 118.611552	118.611552	QuickTurn right
-146.067631	152.730478	Target a.p.s.a..s...p.
-146.228570	146.807948	Normal none
-146.807948	147.387326	Normal right
-147.387326	147.934516	Normal none
-147.934516	148.481706	Slow none
-148.481706	149.093272	Normal none
-149.093272	149.704838	Normal right
-149.704838	150.348591	Normal none
-150.348591	150.895781	Normal left
-150.895781	151.507347	Normal none
-151.507347	152.054537	Fast none
-152.054537	152.730478	Normal none
+146.067631	152.730478	Target c....r....l....r....l....s....c....r....l....p....
 166.474612	166.474612	QuickTurn left
 168.953062	171.077448	FastCar behind Lane1
 171.463700	177.321856	SlowCar aheadOf Lane2

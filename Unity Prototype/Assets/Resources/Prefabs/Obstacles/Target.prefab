@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1810698426}
   - component: {fileID: 1810698431}
   - component: {fileID: 1810698430}
-  - component: {fileID: 1810698429}
   - component: {fileID: 1810698428}
   - component: {fileID: 1810698427}
   m_Layer: 0
@@ -110,18 +109,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1810698429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1810698425}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6218519dd322da34aa5d5638dfe3c23c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &1810698428
 AudioSource:
   m_ObjectHideFlags: 0
@@ -131,9 +118,8 @@ AudioSource:
   m_GameObject: {fileID: 1810698425}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 2074561442567944244, guid: f74027338f32e724aaa799301afcc5ad,
-    type: 2}
-  m_audioClip: {fileID: 8300000, guid: 1a9f679fd2c040e4bbce81f4208484b5, type: 3}
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: d3ee7c55fd2c01845a9213ca2a832802, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0
   m_Pitch: 1
