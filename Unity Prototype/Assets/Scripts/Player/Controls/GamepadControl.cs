@@ -52,7 +52,7 @@ public class GamepadControl : MonoBehaviour
             controlFunctions.returnToNeutralSpeed();
         }
 
-        strafeAcceleration = (strafeFinal - strafeInitial) / 60f; // 60f is a magic number for the wheel rotation speed
+        strafeAcceleration = (strafeFinal - strafeInitial) / 90f; // 90f is a magic number for the wheel rotation speed
         if(isStrafing)
         {
             // If velocity < 1/3 or velocity > 1/3, but acceleration is in opposite direction
@@ -63,7 +63,7 @@ public class GamepadControl : MonoBehaviour
             }
             if(Mathf.Abs(strafeAcceleration + strafeVelocity) < 0.33f)
             {
-                strafeVelocity += strafeAcceleration * 1.2f;
+                strafeVelocity += strafeAcceleration * 1.4f;
             }
             controlFunctions.strafe(strafeVelocity);
             
