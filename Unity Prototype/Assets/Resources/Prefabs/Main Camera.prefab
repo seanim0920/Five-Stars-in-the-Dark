@@ -240,7 +240,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: ulihauli
+  m_Text: '
+
+'
 --- !u!114 &1836351009213640782
 MonoBehaviour:
   m_ObjectHideFlags: 0
