@@ -148,7 +148,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 }
             } else
             {
-                if (tokens[2][0] == '"')
+                if (tokens[2][0] == '"' || tokens[2][0] == '<')
                 {
                     print("parsed subtitle marker" + tokens.Length);
                     subtitleMarkers.Add(tokens[0] + firstDelimiter + tokens[1] + firstDelimiter + string.Join(" ", tokens, 2, tokens.Length - 2));
@@ -342,9 +342,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         debugMessage += "printing subtitles: " + subtitleData[2];
 
                         subtitleMessage = subtitleData[2];
-                    } else if (levelDialogue.time > despawnTime)
-                    {
-                        subtitleMessage = "";
                         subtitleMarkers.RemoveAt(0);
                     }
                 }
