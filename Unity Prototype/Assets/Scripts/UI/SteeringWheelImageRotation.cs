@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SteeringWheelImageRotation : MonoBehaviour
 {
+    public AudioSource disabledWheelSound;
     public Image wheelImage;
     private float wheelAngle;
     // Start is called before the first frame update
@@ -14,12 +15,36 @@ public class SteeringWheelImageRotation : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        changeWheelImageAngle();
+        if (PlayerControls.enabled)
+        {
+            changeWheelImageAngle();
+        }
+        wheelImage.rectTransform.rotation = Quaternion.Euler(0, 0, wheelAngle);
     }
     public void changeWheelImageAngle()
     {
-        wheelImage.rectTransform.rotation = Quaternion.Euler(0, 0, PlayerControls.getStrafeAmount() * -443);
+        wheelAngle = PlayerControls.getStrafeAmount() * -443;
+    }
+    public IEnumerator turnFail(bool right)
+    {
+        disabledWheelSound.Play();
+        float inc = 1;
+        if (right)
+        {
+            inc = -1;
+        }
+        for (int i = 0; i < 90; i++)
+        {
+            print("trying to turn right");
+            wheelAngle += inc;
+            yield return new WaitForFixedUpdate();
+        }
+        for (int i = 0; i < 90; i++)
+        {
+            wheelAngle -= inc;
+            yield return new WaitForFixedUpdate();
+        }
     }
 }

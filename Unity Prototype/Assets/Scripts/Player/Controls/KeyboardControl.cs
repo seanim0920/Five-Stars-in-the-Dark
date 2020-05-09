@@ -8,10 +8,12 @@ public class KeyboardControl : MonoBehaviour
     private float accelAmount = 0;
     private float breakAmount = 0;
     private float strafeAmount = 0;
+    private SteeringWheelImageRotation wheelImageTurnScript;
     // Start is called before the first frame update
     void Start()
     {
         controlFunctions = GetComponent<PlayerControls>();
+        wheelImageTurnScript = GameObject.Find("Main Camera").GetComponentInChildren<SteeringWheelImageRotation>();
     }
 
     // Update is called once per frame
@@ -35,7 +37,6 @@ public class KeyboardControl : MonoBehaviour
         accelAmount *= 0.97f;
         // breakAmount *= 0.97f;
         controlFunctions.strafe(strafeAmount); //2.08f normalizes strafeamount
-        controlFunctions.setHoldingWheel(false);
 
         if (Input.GetKey("up") && accelAmount < 0.98f)
         {
@@ -46,15 +47,28 @@ public class KeyboardControl : MonoBehaviour
             // breakAmount += 0.02f;
             breakAmount = 0.02f;
         }
-        if (Input.GetKey("left"))
+        if (Input.GetKey("left") || Input.GetKey("right"))
         {
-            controlFunctions.setHoldingWheel(true);
-            strafeAmount -= 0.01f;
-        }
-        if (Input.GetKey("right"))
+            if (controlFunctions.enabled)
+            {
+                if (Input.GetKey("right"))
+                {
+                    strafeAmount += 0.01f;
+                }
+                else
+                {
+                    strafeAmount -= 0.01f;
+                }
+            }
+            else if (!controlFunctions.isHolding)
+            {
+                print("faling turn");
+                StartCoroutine(wheelImageTurnScript.turnFail(Input.GetKey("right")));
+            }
+            controlFunctions.isHolding = true;
+        } else
         {
-            controlFunctions.setHoldingWheel(true);
-            strafeAmount += 0.01f;
+            controlFunctions.isHolding = false;
         }
     }
 }

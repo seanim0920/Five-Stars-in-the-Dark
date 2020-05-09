@@ -23,8 +23,8 @@ public class PlayerControls : MonoBehaviour
     private int blockedSide = 0;
     private static float lastRecordedStrafe = 0;
     private int strafingDirection = -1;
-    private bool isHolding = false;
 
+    public bool isHolding = false;
     public AudioSource strafeSound;
     public AudioMixer engineMixer;
     public AudioMixerSnapshot[] engineSounds;
@@ -163,10 +163,6 @@ public class PlayerControls : MonoBehaviour
         blockedSide = direction;
     }
 
-    public void setHoldingWheel(bool isHolding)
-    {
-        this.isHolding = isHolding;
-    }
     public void strafe(float amount) //amount varies between -1 (steering wheel to the left) and 1 (steering wheel to the right)
     {
         if (amount < 0) strafingDirection = -1;

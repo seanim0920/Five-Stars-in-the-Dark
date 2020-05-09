@@ -172,6 +172,18 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void Start()
     {
+        if (controlType == 0 && (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
+        {
+            wheelControl.enabled = true;
+        }
+        else if (controlType == 2 && Gamepad.current != null)
+        {
+            gamepad.enabled = true;
+        }
+        else
+        {
+            keyboard.enabled = true;
+        }
         loadedObjects = Resources.LoadAll("Prefabs/Obstacles", typeof(GameObject));
         player = GameObject.Find("Player");
         wheelFunctions = player.GetComponent<SteeringWheelControl>();
@@ -494,25 +506,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         yield return new WaitForSeconds(1);
         controls.enabled = true;
         Debug.Log(controlType);
-        if(controlType == 0 && (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
-        {
-            wheelControl.enabled = true;
-        }
-        else if(controlType == 2 && Gamepad.current != null)
-        {
-            gamepad.enabled = true;
-        }
-        else
-        {
-            keyboard.enabled = true;
-        }
         timeTracker.enabled = true;
         adjustInstrumentVolume(false, new string[] { });
     }
     IEnumerator parkCar()
     {
-        keyboard.enabled = false;
-        gamepad.enabled = false;
         while (Mathf.Abs(controls.movementSpeed) > 0.01f)
         {
             controls.movementSpeed *= 0.97f;
