@@ -8,11 +8,14 @@ public class GamepadControl : MonoBehaviour
     public PS4Controls gamepad;
     [SerializeField] private PlayerControls controlFunctions;
     private KeyboardControl keyboardScript;
-    private float accelAmt = 0;
+    private float accelAmt = 0f;
     private bool isAccelerating;
-    private float brakeAmt = 0;
+    private float brakeAmt = 0f;
     private bool isBraking;
-    private float strafeAmt = 0;
+    private float strafeVelocity = 0f;
+    private float strafeAcceleration = 0f;
+    private float strafeInitial = 0f;
+    private float strafeFinal = 0f;
     private bool isStrafing;
     private bool gamepadConnected = false;
     void Awake()
@@ -49,14 +52,27 @@ public class GamepadControl : MonoBehaviour
             controlFunctions.returnToNeutralSpeed();
         }
 
+        strafeAcceleration = (strafeFinal - strafeInitial) / 60f; // 60f is a magic number for the wheel rotation speed
         if(isStrafing)
         {
-            controlFunctions.strafe(strafeAmt);
+            // If velocity < 1/3 or velocity > 1/3, but acceleration is in opposite direction
+            if(Mathf.Abs(strafeVelocity) < 0.33f)
+            {
+                strafeVelocity += strafeAcceleration;
+                strafeInitial = Mathf.Lerp(strafeInitial, strafeFinal, 0.05f);
+            }
+            if(Mathf.Abs(strafeAcceleration + strafeVelocity) < 0.33f)
+            {
+                strafeVelocity += strafeAcceleration * 1.2f;
+            }
+            controlFunctions.strafe(strafeVelocity);
+            
         }
         else
         {
-            controlFunctions.strafe(0);
+            strafeVelocity *= 0.97f;
         }
+        controlFunctions.strafe(strafeVelocity);
     }
 
     private void OnEnable()
@@ -69,6 +85,7 @@ public class GamepadControl : MonoBehaviour
         gamepad.Gameplay.Brake.canceled += CancelBrake;
         gamepad.Gameplay.Brake.Enable();
 
+        gamepad.Gameplay.Strafe.started += StartStrafe;
         gamepad.Gameplay.Strafe.performed += HandleStrafe;
         gamepad.Gameplay.Strafe.canceled += CancelStrafe;
         gamepad.Gameplay.Strafe.Enable();
@@ -86,6 +103,7 @@ public class GamepadControl : MonoBehaviour
         gamepad.Gameplay.Brake.canceled -= CancelAccelerate;
         gamepad.Gameplay.Accelerate.Disable();
         
+        gamepad.Gameplay.Strafe.started -= StartStrafe;
         gamepad.Gameplay.Brake.performed -= HandleBrake;
         gamepad.Gameplay.Brake.canceled -= CancelBrake;
         gamepad.Gameplay.Brake.Disable();
@@ -106,7 +124,7 @@ public class GamepadControl : MonoBehaviour
     private void HandleAccelerate(InputAction.CallbackContext context)
     {
         accelAmt = context.ReadValue<float>();
-        isAccelerating = accelAmt >= 0.1;
+        isAccelerating = accelAmt >= 0.1f;
     }
 
     private void CancelAccelerate(InputAction.CallbackContext context)
@@ -116,8 +134,8 @@ public class GamepadControl : MonoBehaviour
 
     private void HandleBrake(InputAction.CallbackContext context)
     {
-        brakeAmt = context.ReadValue<float>() / 50;
-        isBraking = brakeAmt > 0.1 / 50;
+        brakeAmt = context.ReadValue<float>() / 50f;
+        isBraking = brakeAmt > 0.1f / 50f;
     }
 
     private void CancelBrake(InputAction.CallbackContext context)
@@ -125,20 +143,25 @@ public class GamepadControl : MonoBehaviour
         isBraking = false;
     }
 
+    private void StartStrafe(InputAction.CallbackContext context)
+    {
+        strafeInitial = 0f; // context.ReadValue<float>();
+    }
     private void HandleStrafe(InputAction.CallbackContext context)
     {
-        strafeAmt = Mathf.Pow(context.ReadValue<float>(), 3f) / 3;
-        isStrafing = Mathf.Abs(strafeAmt) > 0.1 / 50;
+        strafeFinal = context.ReadValue<float>();
+        isStrafing = Mathf.Abs(strafeFinal) > 0.01f;
     }
 
     private void CancelStrafe(InputAction.CallbackContext context)
     {
         isStrafing = false;
+        strafeInitial = 0f;
+        strafeFinal = 0f;
     }
 
     private void Turning(InputAction.CallbackContext context)
     {
-        Debug.Log("Turning");
     }
 
     private void CancelTurning(InputAction.CallbackContext context)
