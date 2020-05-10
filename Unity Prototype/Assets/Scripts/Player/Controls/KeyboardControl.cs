@@ -8,12 +8,10 @@ public class KeyboardControl : MonoBehaviour
     private float accelAmount = 0;
     private float breakAmount = 0;
     private float strafeAmount = 0;
-    private SteeringWheelImageRotation wheelImageTurnScript;
     // Start is called before the first frame update
     void Start()
     {
         controlFunctions = GetComponent<PlayerControls>();
-        wheelImageTurnScript = GameObject.Find("Main Camera").GetComponentInChildren<SteeringWheelImageRotation>();
     }
 
     // Update is called once per frame
@@ -49,26 +47,14 @@ public class KeyboardControl : MonoBehaviour
         }
         if (Input.GetKey("left") || Input.GetKey("right"))
         {
-            if (controlFunctions.enabled)
+            if (Input.GetKey("right"))
             {
-                if (Input.GetKey("right"))
-                {
-                    strafeAmount += 0.01f;
-                }
-                else
-                {
-                    strafeAmount -= 0.01f;
-                }
+                strafeAmount += 0.01f;
             }
-            else if (!controlFunctions.isHolding)
+            else
             {
-                print("faling turn");
-                StartCoroutine(wheelImageTurnScript.turnFail(Input.GetKey("right")));
+                strafeAmount -= 0.01f;
             }
-            controlFunctions.isHolding = true;
-        } else
-        {
-            controlFunctions.isHolding = false;
         }
     }
 }

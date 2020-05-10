@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerControls : MonoBehaviour
 {
+    public AudioSource disabledWheelSound;
     public AudioSource engineSound;
     public AudioSource tireSound;
     public AudioSource dialogue;
@@ -24,7 +25,7 @@ public class PlayerControls : MonoBehaviour
     private static float lastRecordedStrafe = 0;
     private int strafingDirection = -1;
 
-    public bool isHolding = false;
+    public bool isTurning = false;
     public AudioSource strafeSound;
     public AudioMixer engineMixer;
     public AudioMixerSnapshot[] engineSounds;
@@ -165,32 +166,38 @@ public class PlayerControls : MonoBehaviour
 
     public void strafe(float amount) //amount varies between -1 (steering wheel to the left) and 1 (steering wheel to the right)
     {
-        if (amount < 0) strafingDirection = -1;
-        else if (amount > 0) strafingDirection = 1;
-        else strafingDirection = 0;
 
-        engineSound.panStereo = amount * 3;
-        foreach (Transform child in engineSound.gameObject.transform)
-        {
-            child.gameObject.GetComponent<AudioSource>().panStereo = amount * 3;
-        }
-        dialogue.panStereo = -amount * 3;
-        strafeSound.panStereo = amount * 2;
+        //prevents car from moving if it's only nudged left/right
+        if (Mathf.Abs(amount - lastRecordedStrafe) < 0.01f) return;
 
-        //stops car from going too far left/right
-        if (blockedSide / amount > 0)
+        panCarSounds(amount);
+        checkCurbCollision(amount);
+
+        //check if the player has begun turning (may not work for gamepad)
+        if (!isTurning && Mathf.Abs(amount) > Mathf.Abs(lastRecordedStrafe))
         {
-            if (amount < -0.02f) wheelFunctions.PlaySideCollisionForce(-100);
-            else if (amount > 0.02f) wheelFunctions.PlaySideCollisionForce(100);
-            //print("HITTING RAIL" + amount);
-            if (lastRecordedStrafe == 0 || amount / lastRecordedStrafe <= 1f)
+            isTurning = true;
+            if (!this.enabled)
             {
-                lastRecordedStrafe = amount;
+                StartCoroutine(turnFail(amount > 0));
+            } else
+            {
+                if (!slidingSound.isPlaying)
+                {
+                    slidingSound.Play();
+                }
+                slidingSound.panStereo = amount * 3f;
             }
-            return;
         }
-
-        lastRecordedStrafe = amount;
+        else if (isTurning && Mathf.Abs(amount) < Mathf.Abs(lastRecordedStrafe))
+        {
+            isTurning = false;
+            if (slidingSound.isPlaying && Mathf.Abs(amount) > 0.02f)
+            {
+                grabWheel.Play();
+            }
+            slidingSound.Stop();
+        }
 
         //moves car left/right
         if (Mathf.Abs(amount) > 0.02f)
@@ -198,26 +205,58 @@ public class PlayerControls : MonoBehaviour
             transform.position += amount * (movementSpeed) * transform.right;
         }
 
-        //plays sliding sound when player lets go of wheel
-        if (!isHolding && Mathf.Abs(amount) > 0.04f)
+        lastRecordedStrafe = amount;
+    }
+
+    private void panCarSounds(float amount)
+    {
+        engineSound.panStereo = amount * 3;
+        foreach (Transform child in engineSound.gameObject.transform)
         {
-            if (!slidingSound.isPlaying)
-            {
-                slidingSound.Play();
-            }
-            slidingSound.panStereo = amount * 3f;
-        } else
+            child.gameObject.GetComponent<AudioSource>().panStereo = amount * 3;
+        }
+        dialogue.panStereo = -amount * 3;
+        strafeSound.panStereo = amount * 2;
+    }
+
+    private void checkCurbCollision (float amount)
+    {
+        if (blockedSide / amount > 0)
         {
-            if (slidingSound.isPlaying && Mathf.Abs(amount) > 0.02f)
+            if (amount < 0) wheelFunctions.PlaySideCollisionForce(-100);
+            else if (amount > 0) wheelFunctions.PlaySideCollisionForce(100);
+            //print("HITTING RAIL" + amount);
+            if (lastRecordedStrafe == 0 || amount / lastRecordedStrafe <= 1f)
             {
-                grabWheel.Play();
+                lastRecordedStrafe = amount;
             }
-            slidingSound.Stop();
+            return;
+        }
+    }
+
+    public IEnumerator turnFail(bool right)
+    {
+        disabledWheelSound.Play();
+        float inc = 1;
+        if (right)
+        {
+            inc = -1;
+        }
+        for (int i = 0; i < 90; i++)
+        {
+            print("trying to turn right");
+            lastRecordedStrafe += inc;
+            yield return new WaitForFixedUpdate();
+        }
+        for (int i = 0; i < 90; i++)
+        {
+            lastRecordedStrafe -= inc;
+            yield return new WaitForFixedUpdate();
         }
     }
 
     public static float getStrafeAmount()
-    {
+    { 
         return lastRecordedStrafe;
     }
 

@@ -18,7 +18,6 @@ public class GamepadControl : MonoBehaviour
     private float strafeFinal = 0f;
     private bool isStrafing;
     private bool gamepadConnected = false;
-    private SteeringWheelImageRotation wheelImageTurnScript;
     void Awake()
     {
         gamepad = new PS4Controls();
@@ -30,7 +29,6 @@ public class GamepadControl : MonoBehaviour
         isAccelerating = false;
         isBraking = false;
         isStrafing = false;
-        wheelImageTurnScript = GameObject.Find("Main Camera").GetComponentInChildren<SteeringWheelImageRotation>();
     }
 
     // Update is called once per frame
@@ -147,11 +145,6 @@ public class GamepadControl : MonoBehaviour
 
     private void StartStrafe(InputAction.CallbackContext context)
     {
-        if (!controlFunctions.enabled)
-        {
-            StartCoroutine(wheelImageTurnScript.turnFail(context.ReadValue<float>() > 0));
-        }
-        controlFunctions.isHolding = true;
         strafeInitial = 0f; // context.ReadValue<float>();
     }
     private void HandleStrafe(InputAction.CallbackContext context)
@@ -162,7 +155,6 @@ public class GamepadControl : MonoBehaviour
 
     private void CancelStrafe(InputAction.CallbackContext context)
     {
-        controlFunctions.isHolding = false;
         isStrafing = false;
         strafeInitial = 0f;
         strafeFinal = 0f;
