@@ -201,6 +201,7 @@ public class PlayerControls : MonoBehaviour
         //prevents car from moving if it's only nudged left/right
         if (Mathf.Abs(amount - lastRecordedStrafe) < 0.01f) return;
 
+        //moves car to the side if there is no curb
         if (blockedSide / amount > 0)
         {
             if (amount < 0) wheelFunctions.PlaySideCollisionForce(-100);

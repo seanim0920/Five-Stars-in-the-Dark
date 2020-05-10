@@ -8,6 +8,7 @@ public class subtitleText : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ConstructLevelFromMarkers.subtitleMessage = "";
         subText = GetComponent<Text>();
     }
 
