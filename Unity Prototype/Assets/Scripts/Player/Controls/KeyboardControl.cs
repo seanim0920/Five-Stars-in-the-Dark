@@ -55,6 +55,9 @@ public class KeyboardControl : MonoBehaviour
             {
                 strafeAmount -= 0.01f;
             }
+        } else if (!controlFunctions.enabled)
+        {
+            strafeAmount = 0;
         }
     }
 }

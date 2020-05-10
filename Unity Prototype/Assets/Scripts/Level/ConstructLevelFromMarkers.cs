@@ -172,6 +172,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void Start()
     {
+        loadedObjects = Resources.LoadAll("Prefabs/Obstacles", typeof(GameObject));
+        player = GameObject.Find("Player");
+        wheelFunctions = player.GetComponent<SteeringWheelControl>();
+        controls = player.GetComponent<PlayerControls>();
+        wheelControl = player.GetComponent<SteeringWheelControl>();
+        keyboard = player.GetComponent<KeyboardControl>();
+        gamepad = player.GetComponent<GamepadControl>();
         if (controlType == 0 && (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
         {
             wheelControl.enabled = true;
@@ -184,13 +191,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         {
             keyboard.enabled = true;
         }
-        loadedObjects = Resources.LoadAll("Prefabs/Obstacles", typeof(GameObject));
-        player = GameObject.Find("Player");
-        wheelFunctions = player.GetComponent<SteeringWheelControl>();
-        controls = player.GetComponent<PlayerControls>();
-        wheelControl = player.GetComponent<SteeringWheelControl>();
-        keyboard = player.GetComponent<KeyboardControl>();
-        gamepad = player.GetComponent<GamepadControl>();
         parseLevelMarkers();
 
         carStart = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");

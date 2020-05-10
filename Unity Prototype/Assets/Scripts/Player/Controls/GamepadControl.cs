@@ -71,6 +71,7 @@ public class GamepadControl : MonoBehaviour
         else
         {
             strafeVelocity *= 0.97f;
+            if (!controlFunctions.enabled) strafeVelocity = 0;
         }
         controlFunctions.strafe(strafeVelocity);
     }

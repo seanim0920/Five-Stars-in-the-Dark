@@ -35,7 +35,7 @@ public class PlayerControls : MonoBehaviour
 
     private SteeringWheelControl wheelFunctions;
 
-    private string[] instruments = { "Lead", "Bass", "Keyboard", "Wind", "Support", "Drums"};
+    private string[] instruments = { "Lead", "Bass", "Keyboard", "Wind", "Support", "Drums" };
 
     void Start()
     {
@@ -68,7 +68,7 @@ public class PlayerControls : MonoBehaviour
 
         engineSound.volume = -Mathf.Pow((movementSpeed / maxSpeed), 2) + 1;
         tireSound.volume = Mathf.Pow((movementSpeed / maxSpeed), 2);
-        strafeSound.volume = tireSound.volume/2;
+        strafeSound.volume = tireSound.volume / 2;
         //wheelFunctions.PlayDirtRoadForce((int)(Mathf.Pow((1-(movementSpeed/maxSpeed)),1) * 25));
         // Discrete turn l/r 
         transform.position += movementDirection * movementSpeed;
@@ -82,7 +82,7 @@ public class PlayerControls : MonoBehaviour
         if (Mathf.Abs(neutralSpeed - movementSpeed) < 0.005f)
         {
             // Play Coasting Clip
-            if(!engineSound.transform.GetChild(0).GetComponent<AudioSource>().isPlaying)
+            if (!engineSound.transform.GetChild(0).GetComponent<AudioSource>().isPlaying)
             {
                 // engineSound.transform.GetChild(0).GetComponent<AudioSource>().volume = 0.667f;
                 // Debug.Log("Coasting Clip");
@@ -114,13 +114,13 @@ public class PlayerControls : MonoBehaviour
     {
         if (movementSpeed <= minSpeed) return;
         // Play Slowing Down Clip
-        if(!engineSound.transform.GetChild(2).GetComponent<AudioSource>().isPlaying)
+        if (!engineSound.transform.GetChild(2).GetComponent<AudioSource>().isPlaying)
         {
             // Debug.Log("Slowing Clip");
             engineSound.transform.GetChild(2).GetComponent<AudioSource>().Play();
         }
 
-        
+
         // Blend from Coasting to Rest
         if (movementSpeed <= neutralSpeed)
         {
@@ -128,13 +128,13 @@ public class PlayerControls : MonoBehaviour
             BlendSnapshot(4, 4f);
         }
 
-        movementSpeed *= 1-amount;
+        movementSpeed *= 1 - amount;
         //setRadioTempo(getRadioTempo()*(1-amount));
     }
     public void speedUp(float amount)
     {
         // Play Accelerating Clip
-        if(!engineSound.transform.GetChild(1).GetComponent<AudioSource>().isPlaying)
+        if (!engineSound.transform.GetChild(1).GetComponent<AudioSource>().isPlaying)
         {
             // Debug.Log("Accel Clip");
             engineSound.transform.GetChild(1).GetComponent<AudioSource>().PlayScheduled(10.5f);
@@ -155,7 +155,7 @@ public class PlayerControls : MonoBehaviour
 
         if (movementSpeed < maxSpeed)
         {
-            movementSpeed += acceleration*amount;
+            movementSpeed += acceleration * amount;
             //setRadioTempo(getRadioTempo() + acceleration*amount/neutralSpeed);
         }
     }
@@ -166,28 +166,27 @@ public class PlayerControls : MonoBehaviour
 
     public void strafe(float amount) //amount varies between -1 (steering wheel to the left) and 1 (steering wheel to the right)
     {
-
-        //prevents car from moving if it's only nudged left/right
-        if (Mathf.Abs(amount - lastRecordedStrafe) < 0.01f) return;
-
         panCarSounds(amount);
-        checkCurbCollision(amount);
+
+        if (!this.enabled)
+        {
+            if (!isTurning && Mathf.Abs(amount) > 0)
+            {
+                print("trying to turn right");
+                StartCoroutine(turnFail(amount > 0));
+            }
+            return;
+        }
 
         //check if the player has begun turning (may not work for gamepad)
         if (!isTurning && Mathf.Abs(amount) > Mathf.Abs(lastRecordedStrafe))
         {
             isTurning = true;
-            if (!this.enabled)
+            if (!slidingSound.isPlaying)
             {
-                StartCoroutine(turnFail(amount > 0));
-            } else
-            {
-                if (!slidingSound.isPlaying)
-                {
-                    slidingSound.Play();
-                }
-                slidingSound.panStereo = amount * 3f;
+                slidingSound.Play();
             }
+            slidingSound.panStereo = amount * 3f;
         }
         else if (isTurning && Mathf.Abs(amount) < Mathf.Abs(lastRecordedStrafe))
         {
@@ -199,12 +198,26 @@ public class PlayerControls : MonoBehaviour
             slidingSound.Stop();
         }
 
-        //moves car left/right
-        if (Mathf.Abs(amount) > 0.02f)
+        //prevents car from moving if it's only nudged left/right
+        if (Mathf.Abs(amount - lastRecordedStrafe) < 0.01f) return;
+
+        if (blockedSide / amount > 0)
+        {
+            if (amount < 0) wheelFunctions.PlaySideCollisionForce(-100);
+            else if (amount > 0) wheelFunctions.PlaySideCollisionForce(100);
+            //print("HITTING RAIL" + amount);
+            if (lastRecordedStrafe == 0 || amount / lastRecordedStrafe <= 1f)
+            {
+                lastRecordedStrafe = amount;
+            }
+            return;
+        }
+        else
         {
             transform.position += amount * (movementSpeed) * transform.right;
         }
 
+        print("updating strafe");
         lastRecordedStrafe = amount;
     }
 
@@ -219,44 +232,30 @@ public class PlayerControls : MonoBehaviour
         strafeSound.panStereo = amount * 2;
     }
 
-    private void checkCurbCollision (float amount)
-    {
-        if (blockedSide / amount > 0)
-        {
-            if (amount < 0) wheelFunctions.PlaySideCollisionForce(-100);
-            else if (amount > 0) wheelFunctions.PlaySideCollisionForce(100);
-            //print("HITTING RAIL" + amount);
-            if (lastRecordedStrafe == 0 || amount / lastRecordedStrafe <= 1f)
-            {
-                lastRecordedStrafe = amount;
-            }
-            return;
-        }
-    }
-
     public IEnumerator turnFail(bool right)
     {
+        isTurning = true;
         disabledWheelSound.Play();
-        float inc = 1;
+        float inc = -0.005f;
         if (right)
         {
-            inc = -1;
+            inc = 0.005f;
         }
-        for (int i = 0; i < 90; i++)
+        for (int i = 0; i < 5; i++)
         {
-            print("trying to turn right");
             lastRecordedStrafe += inc;
             yield return new WaitForFixedUpdate();
         }
-        for (int i = 0; i < 90; i++)
+        for (int i = 0; i < 5; i++)
         {
             lastRecordedStrafe -= inc;
             yield return new WaitForFixedUpdate();
         }
+        isTurning = false;
     }
 
     public static float getStrafeAmount()
-    { 
+    {
         return lastRecordedStrafe;
     }
 
@@ -285,48 +284,48 @@ public class PlayerControls : MonoBehaviour
         // 2: Coasting
         // 3: MaxSpeed
         // 4: MaxSpeed to Coasting
-        switch(transitionNum)
+        switch (transitionNum)
         {
-        case 0: // Rest -> Coasting
-            snapshotWeights[0] = 0.0f;
-            snapshotWeights[1] = 1.0f;
-            snapshotWeights[2] = 0.0f;
-            snapshotWeights[3] = 0.0f;
-            snapshotWeights[4] = 0.0f;
-            engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
-            break;
-        case 1: // Just Coasting
-            snapshotWeights[0] = 0.0f;
-            snapshotWeights[1] = 0.0f;
-            snapshotWeights[2] = 1.0f;
-            snapshotWeights[3] = 0.0f;
-            snapshotWeights[4] = 0.0f;
-            engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
-            break;
-        case 2: // Coast -> Max Speed
-            snapshotWeights[0] = 0.0f;
-            snapshotWeights[1] = 0.0f;
-            snapshotWeights[2] = 0.0f;
-            snapshotWeights[3] = 1.0f;
-            snapshotWeights[4] = 0.0f;
-            engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
-            break;
-        case 3: // Max Speed -> Coast
-            snapshotWeights[0] = 0.0f;
-            snapshotWeights[1] = 0.0f;
-            snapshotWeights[2] = 0.0f;
-            snapshotWeights[3] = 0.0f;
-            snapshotWeights[4] = 1.0f;
-            engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
-            break;
-        case 4: // Coast -> Rest
-            snapshotWeights[0] = 1.0f;
-            snapshotWeights[1] = 0.0f;
-            snapshotWeights[2] = 0.0f;
-            snapshotWeights[3] = 0.0f;
-            snapshotWeights[4] = 0.0f;
-            engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
-            break;
+            case 0: // Rest -> Coasting
+                snapshotWeights[0] = 0.0f;
+                snapshotWeights[1] = 1.0f;
+                snapshotWeights[2] = 0.0f;
+                snapshotWeights[3] = 0.0f;
+                snapshotWeights[4] = 0.0f;
+                engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
+                break;
+            case 1: // Just Coasting
+                snapshotWeights[0] = 0.0f;
+                snapshotWeights[1] = 0.0f;
+                snapshotWeights[2] = 1.0f;
+                snapshotWeights[3] = 0.0f;
+                snapshotWeights[4] = 0.0f;
+                engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
+                break;
+            case 2: // Coast -> Max Speed
+                snapshotWeights[0] = 0.0f;
+                snapshotWeights[1] = 0.0f;
+                snapshotWeights[2] = 0.0f;
+                snapshotWeights[3] = 1.0f;
+                snapshotWeights[4] = 0.0f;
+                engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
+                break;
+            case 3: // Max Speed -> Coast
+                snapshotWeights[0] = 0.0f;
+                snapshotWeights[1] = 0.0f;
+                snapshotWeights[2] = 0.0f;
+                snapshotWeights[3] = 0.0f;
+                snapshotWeights[4] = 1.0f;
+                engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
+                break;
+            case 4: // Coast -> Rest
+                snapshotWeights[0] = 1.0f;
+                snapshotWeights[1] = 0.0f;
+                snapshotWeights[2] = 0.0f;
+                snapshotWeights[3] = 0.0f;
+                snapshotWeights[4] = 0.0f;
+                engineMixer.TransitionToSnapshots(engineSounds, snapshotWeights, blendTime);
+                break;
         }
     }
 }
