@@ -310,7 +310,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         {
                             blackScreen.enabled = true;
                         }
-                        else if (string.Equals(command, "[StartCar]"))
+                        else if (string.Equals(command, "[StartCar]") || string.Equals(command, "[StartControl]"))
                         {
                             print("started car at time " + levelDialogue.time);
                             StartCoroutine(startCar());
