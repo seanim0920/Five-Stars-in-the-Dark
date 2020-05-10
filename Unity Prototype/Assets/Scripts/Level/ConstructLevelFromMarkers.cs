@@ -322,7 +322,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         {
                             blackScreen.enabled = true;
                         }
-                        else if (string.Equals(command, "[StartCar]"))
+                        else if (string.Equals(command, "[StartCar]") || string.Equals(command, "[StartControl]"))
                         {
                             print("started car at time " + levelDialogue.time);
                             StartCoroutine(startCar());
@@ -575,7 +575,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("s") || Gamepad.current.buttonSouth.isPressed)
+        if (Input.GetKeyDown("s") || (Gamepad.current != null && Gamepad.current.buttonSouth.isPressed))
         {
             skipSection = true;
         }
