@@ -112,6 +112,14 @@ public class PlayerControls : MonoBehaviour
 
     public void slowDown(float amount)
     {
+        if (!this.enabled)
+        {
+            if (brakeStart)
+            {
+                disabledAccel.Play();
+            }
+            return;
+        }
         if (movementSpeed <= minSpeed) return;
         // Play Slowing Down Clip
         if (!engineSound.transform.GetChild(2).GetComponent<AudioSource>().isPlaying)
@@ -133,6 +141,14 @@ public class PlayerControls : MonoBehaviour
     }
     public void speedUp(float amount)
     {
+        if (!this.enabled)
+        {
+            if (accelStart)
+            {
+                disabledAccel.Play();
+            }
+            return;
+        }
         // Play Accelerating Clip
         if (!engineSound.transform.GetChild(1).GetComponent<AudioSource>().isPlaying)
         {
@@ -199,8 +215,6 @@ public class PlayerControls : MonoBehaviour
         }
 
         //prevents car from moving if it's only nudged left/right
-        if (Mathf.Abs(amount - lastRecordedStrafe) < 0.01f) return;
-
         //moves car to the side if there is no curb
         if (blockedSide / amount > 0)
         {
@@ -213,7 +227,7 @@ public class PlayerControls : MonoBehaviour
             }
             return;
         }
-        else
+        else if (Mathf.Abs(amount) > 0.01f)
         {
             transform.position += amount * (movementSpeed) * transform.right;
         }

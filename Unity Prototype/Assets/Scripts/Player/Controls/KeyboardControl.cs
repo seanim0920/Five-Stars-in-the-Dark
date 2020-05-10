@@ -35,6 +35,7 @@ public class KeyboardControl : MonoBehaviour
         accelAmount *= 0.97f;
         // breakAmount *= 0.97f;
         controlFunctions.strafe(strafeAmount); //2.08f normalizes strafeamount
+        if (!controlFunctions.enabled) strafeAmount = 0;
 
         if (Input.GetKey("up") && accelAmount < 0.98f)
         {
