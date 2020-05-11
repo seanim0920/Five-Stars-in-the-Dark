@@ -6,12 +6,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerControls : MonoBehaviour
 {
+    public AudioSource releasePedalSound;
+    public AudioSource accelPedalSound;
+    public AudioSource brakePedalSound;
     public AudioSource disabledWheelSound;
     public AudioSource engineSound;
     public AudioSource tireSound;
     public AudioSource dialogue;
     public AudioSource slidingSound;
     public AudioSource grabWheel;
+
     public float minSpeed = 0f;
     public float maxSpeed = 1.5f;
     public float neutralSpeed = 1f;
@@ -22,11 +26,16 @@ public class PlayerControls : MonoBehaviour
     private AudioClip bump;
     private Vector3 movementDirection;
     private int blockedSide = 0;
-    private static float lastRecordedStrafe = 0;
+    private float lastRecordedStrafe = 0;
     private int strafingDirection = -1;
 
-    public bool isTurning = false;
+    private bool coasting = false;
+    private bool acceling = false;
+    private bool braking = false;
+    private bool isTurning = false;
+
     public AudioSource strafeSound;
+
     public AudioMixer engineMixer;
     public AudioMixerSnapshot[] engineSounds;
 
@@ -48,24 +57,9 @@ public class PlayerControls : MonoBehaviour
 
         wheelFunctions = GetComponent<SteeringWheelControl>();
     }
+    
     void FixedUpdate()
     {
-        //for (int loop = 0; loop < 2; loop++)
-        //{
-        //    AudioMixer speaker = leftSpeaker;
-        //    if (loop == 0) speaker = rightSpeaker;
-        //    float speed = (movementSpeed / maxSpeed);
-        //    for (int insname = 0; insname < 6; insname++)
-        //    {
-        //        if (insname <= 2)
-        //            speaker.SetFloat(instruments[insname] + "Volume", -60 * (Mathf.Pow((speed-1), ((insname + 1 + 2)*2))));
-        //        else if (insname == 3)
-        //            speaker.SetFloat(instruments[insname] + "Volume", 60 * (speed - 1));
-        //        else
-        //            speaker.SetFloat(instruments[insname] + "Volume", 60 * (Mathf.Pow(speed, insname) - 1));
-        //    }
-        //}
-
         engineSound.volume = -Mathf.Pow((movementSpeed / maxSpeed), 2) + 1;
         tireSound.volume = Mathf.Pow((movementSpeed / maxSpeed), 2);
         strafeSound.volume = tireSound.volume / 2;
@@ -77,6 +71,16 @@ public class PlayerControls : MonoBehaviour
 
     public void returnToNeutralSpeed()
     {
+        if (acceling || braking)
+        {
+            releasePedalSound.volume = 1-movementSpeed / maxSpeed;
+            releasePedalSound.Play();
+        }
+        acceling = false;
+        braking = false;
+        if (!this.enabled) return;
+        coasting = true;
+
         // Transform engineSounds = engineSound.transform; // Get Engine children
         // Debug.Log("Inside returnToNeutralSpeed");
         if (Mathf.Abs(neutralSpeed - movementSpeed) < 0.005f)
@@ -108,18 +112,21 @@ public class PlayerControls : MonoBehaviour
             BlendSnapshot(0, 1.5f);
             speedUp(0.1f);
         }
+        coasting = false;
     }
 
     public void slowDown(float amount)
     {
-        if (!this.enabled)
+        if (!coasting)
         {
-            if (brakeStart)
+            if (!braking)
             {
-                disabledAccel.Play();
+                brakePedalSound.volume = 1-movementSpeed / maxSpeed;
+                brakePedalSound.Play();
             }
-            return;
+            braking = true;
         }
+        if (!this.enabled) return;
         if (movementSpeed <= minSpeed) return;
         // Play Slowing Down Clip
         if (!engineSound.transform.GetChild(2).GetComponent<AudioSource>().isPlaying)
@@ -127,7 +134,6 @@ public class PlayerControls : MonoBehaviour
             // Debug.Log("Slowing Clip");
             engineSound.transform.GetChild(2).GetComponent<AudioSource>().Play();
         }
-
 
         // Blend from Coasting to Rest
         if (movementSpeed <= neutralSpeed)
@@ -141,14 +147,16 @@ public class PlayerControls : MonoBehaviour
     }
     public void speedUp(float amount)
     {
-        if (!this.enabled)
+        if (!coasting)
         {
-            if (accelStart)
+            if (!acceling)
             {
-                disabledAccel.Play();
+                accelPedalSound.volume = 1-movementSpeed / maxSpeed;
+                accelPedalSound.Play();
             }
-            return;
+            acceling = true;
         }
+        if (!this.enabled) return;
         // Play Accelerating Clip
         if (!engineSound.transform.GetChild(1).GetComponent<AudioSource>().isPlaying)
         {
@@ -269,24 +277,20 @@ public class PlayerControls : MonoBehaviour
         isTurning = false;
     }
 
-    public static float getStrafeAmount()
+    public float getStrafeAmount()
     {
         return lastRecordedStrafe;
     }
 
-    //public void setRadioTempo(float speed)
-    //{
-    //    radio.SetFloat("Speed", speed);
-    //    radio.SetFloat("Pitch", 1 / speed);
-    //    //radio.SetFloat("Pitch", -(speed - 4) / 3);
-    //    if (speed < 0.01f) radio.SetFloat("Pitch", 0);
-    //}
-    //public float getRadioTempo()
-    //{
-    //    float speed = 0;
-    //    radio.GetFloat("Speed", out speed);
-    //    return speed;
-    //}
+    public bool isAcceling()
+    {
+        return acceling;
+    }
+
+    public bool isBraking()
+    {
+        return braking;
+    }
 
     // This function blends audio mixer snapshots together
     // Code was modified from the Unity Audio Mixer Snapshots YouTube tutorial:

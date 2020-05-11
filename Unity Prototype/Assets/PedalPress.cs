@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SteeringWheelImageRotation : MonoBehaviour
+public class PedalPress : MonoBehaviour
 {
+    [SerializeField] private Image brakePedal, accelPedal;
     [SerializeField] private PlayerControls controls;
-    public Image wheelImage;
-    private float wheelAngle;
     // Start is called before the first frame update
     void Start()
     {
         controls = GameObject.Find("Player").GetComponent<PlayerControls>();
-        changeWheelImageAngle();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        changeWheelImageAngle();
-        wheelImage.rectTransform.rotation = Quaternion.Euler(0, 0, wheelAngle);
-    }
-    public void changeWheelImageAngle()
-    {
-        wheelAngle = controls.getStrafeAmount() * -443;
+        accelPedal.enabled = true;
+        brakePedal.enabled = true;
+        if (controls.isBraking())
+        {
+            brakePedal.enabled = false;
+        }
+        if (controls.isAcceling())
+        {
+            accelPedal.enabled = false;
+        }
     }
 }

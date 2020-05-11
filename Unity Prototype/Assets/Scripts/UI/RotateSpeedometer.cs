@@ -22,7 +22,7 @@ public class RotateSpeedometer : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         float maxSpeedPercentage = controls.movementSpeed / controls.maxSpeed;
         float deltaAngle = angleRange * maxSpeedPercentage;

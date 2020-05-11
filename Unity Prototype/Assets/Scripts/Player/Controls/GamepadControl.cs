@@ -39,13 +39,16 @@ public class GamepadControl : MonoBehaviour
             keyboardScript.enabled = false;
         }
 
-        if(isBraking)
+        if (isBraking || isAccelerating)
         {
-            controlFunctions.slowDown(brakeAmt);
-        }
-        else if(isAccelerating)
-        {
-            controlFunctions.speedUp(accelAmt);
+            if (isBraking)
+            {
+                controlFunctions.slowDown(brakeAmt);
+            }
+            if (isAccelerating)
+            {
+                controlFunctions.speedUp(accelAmt);
+            }
         }
         else
         {

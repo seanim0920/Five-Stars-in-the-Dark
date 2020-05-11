@@ -17,16 +17,18 @@ public class KeyboardControl : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Input.GetKey("up"))
+        if ((Input.GetKey("up") || Input.GetKey("down")))
         {
-            controlFunctions.speedUp(accelAmount);
-        }
-        else if (Input.GetKey("down"))
-        {
-            controlFunctions.slowDown(breakAmount);
-            strafeAmount *= 0.92f;
-        }
-        else
+            if (Input.GetKey("up"))
+            {
+                controlFunctions.speedUp(accelAmount);
+            }
+            if (Input.GetKey("down"))
+            {
+                controlFunctions.slowDown(breakAmount);
+                strafeAmount *= 0.92f;
+            }
+        } else
         {
             controlFunctions.returnToNeutralSpeed();
         }
