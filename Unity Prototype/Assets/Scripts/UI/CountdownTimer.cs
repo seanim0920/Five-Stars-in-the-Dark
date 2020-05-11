@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class CountdownTimer : MonoBehaviour
 {
@@ -24,12 +22,6 @@ public class CountdownTimer : MonoBehaviour
         if (isTracking)
         {
             currentTime -= 1 * Time.deltaTime;
-            if (currentTime <= 0)
-            {
-                ScoreStorage.Instance.setScoreAll();
-                MasterkeyFailScreen.currentLevel = SceneManager.GetActiveScene().name;
-                SceneManager.LoadScene("FailScreen", LoadSceneMode.Single);
-            }
         }
     }
 

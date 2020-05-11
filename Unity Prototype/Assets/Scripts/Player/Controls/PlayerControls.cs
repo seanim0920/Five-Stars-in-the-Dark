@@ -307,6 +307,8 @@ public class PlayerControls : MonoBehaviour
     public IEnumerator shutOff()
     {
         this.impacted = false;
+        this.enabled = false;
+        StartCoroutine(stopCar());
         for (int i = 0; i < 200; i++)
         {
             engineSound.pitch *= 0.99f;

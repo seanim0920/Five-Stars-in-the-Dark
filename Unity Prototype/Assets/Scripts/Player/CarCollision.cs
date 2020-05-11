@@ -87,7 +87,7 @@ public class CarCollision : MonoBehaviour
         if (System.Array.IndexOf(obstacleTags, col.gameObject.tag) != -1)
         {
             //factor speed in, faster speed means bigger error
-            TrackErrors.IncrementErrorsAndUpdateDisplay();
+            TrackErrors.IncrementErrors();
         }
 
         hitSoundObject = col.gameObject;
@@ -164,7 +164,7 @@ public class CarCollision : MonoBehaviour
         }
         if (col.gameObject.tag == "Stop")
         {
-            TrackErrors.IncrementErrorsAndUpdateDisplay();
+            TrackErrors.IncrementErrors();
         }
 
     }

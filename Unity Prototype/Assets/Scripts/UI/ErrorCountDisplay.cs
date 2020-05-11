@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ErrorCountDisplay : MonoBehaviour
 {
-	private static Text errorText;
+	private Text errorText;
     // Start is called before the first frame update
     void Start()
     {

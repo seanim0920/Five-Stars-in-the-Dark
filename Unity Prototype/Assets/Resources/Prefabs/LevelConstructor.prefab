@@ -47,10 +47,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondSource: {fileID: 412440413062414629}
   maxVol: 0.8
-  timeTracker: {fileID: 0}
   ambience: {fileID: 0}
   blackScreen: {fileID: 0}
-  markersFile: {fileID: 4900000, guid: 3859332970301a44bbff84c2d8e5df3c, type: 3}
+  markersFile: {fileID: 4900000, guid: db4587d33f9728d4f979745299050cb9, type: 3}
   currentDialogueStartTime: 0
   startOfLevel: 0
   endOfLevel: 1
@@ -65,7 +64,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 528117112507497875, guid: 52622cb0ca335e540b9533ee3c0e8469,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 658fe7c27c116084d8d307c1fa90eb50, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 52b62bd776074864587fb44fd343337f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
