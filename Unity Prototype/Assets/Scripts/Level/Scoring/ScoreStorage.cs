@@ -24,8 +24,8 @@ public class ScoreStorage : Singleton<ScoreStorage>
         //CountdownTimer (attached to TimerText, which is on the prefab Camera)
         ConstructLevelFromMarkers CLFM = GameObject.Find("/LevelConstructor").GetComponent<ConstructLevelFromMarkers>();
         progress = (int)(CLFM.currentDialogueStartTime * 100 / CLFM.endOfLevel);
-        errors = GameObject.Find("/Main Camera/Canvas/ErrorText").GetComponent<CheckErrors>().getErrors();
-        time = (int)(600.0f - GameObject.Find("/Main Camera/Canvas/TimerText").GetComponent<CountdownTimer>().getCurrentTime()) * 100;
+        errors = GameObject.Find("/Main Camera/MainCanvas/ErrorText").GetComponent<CheckErrors>().getErrors();
+        time = (int)(600.0f - GameObject.Find("/Main Camera/MainCanvas/TimerText").GetComponent<CountdownTimer>().getCurrentTime()) * 100;
     }
 
     //These allow scripts to access the scores
