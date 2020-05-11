@@ -240,7 +240,6 @@ public class PlayerControls : MonoBehaviour
             transform.position += amount * (movementSpeed) * transform.right;
         }
 
-        print("updating strafe");
         lastRecordedStrafe = amount;
     }
 
@@ -275,6 +274,39 @@ public class PlayerControls : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         isTurning = false;
+    }
+
+    private void OnDisable()
+    {
+        isTurning = false;
+        StartCoroutine(stopCar());
+    }
+
+    IEnumerator stopCar()
+    {
+        while (movementSpeed > 0.01f)
+        {
+            lastRecordedStrafe *= 0.97f;
+            movementSpeed *= 0.97f;
+
+            tireSound.volume *= 0.97f;
+            strafeSound.volume *= 0.97f;
+            engineSound.volume *= 0.97f;
+            foreach (Transform child in engineSound.gameObject.transform)
+            {
+                child.gameObject.GetComponent<AudioSource>().volume *= 0.97f;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+        tireSound.volume = 0;
+        strafeSound.volume = 0;
+        lastRecordedStrafe = 0;
+        movementSpeed = 0;
+        engineSound.volume = 0;
+        foreach (Transform child in engineSound.gameObject.transform)
+        {
+            child.gameObject.GetComponent<AudioSource>().volume = 0;
+        }
     }
 
     public float getStrafeAmount()

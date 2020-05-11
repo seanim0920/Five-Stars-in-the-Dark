@@ -245,11 +245,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         ScoreStorage.Instance.setScorePar((int)endOfLevel * 100);
 
         //perform these checks every frame for as long as the dialogue plays
-        while (levelDialogue.time < endOfLevel)
+        while (levelDialogue.time < levelDialogue.clip.length)
         {
             //figure out when the current dialogue section ends and the next starts
-            float currentDialogueEndTime = endOfLevel;
-            float nextDialogueStartTime = endOfLevel;
+            float currentDialogueEndTime = levelDialogue.clip.length;
+            float nextDialogueStartTime = levelDialogue.clip.length;
             bool start = false;
             currentDialogueStartTime = 0.0f;
 
@@ -261,12 +261,16 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 if (string.Equals(dialogueMarkers[0].Split(firstDelimiter)[2].Trim(), "Start")) start = true;
                 dialogueMarkers.RemoveAt(0);
             }
+            else
+            {
+                nextDialogueStartTime = levelDialogue.clip.length;
+            }
 
             //figure out when the next obstacle will spawn
-            float nextObstacleSpawnTime = endOfLevel;
+            float nextObstacleSpawnTime = levelDialogue.clip.length;
             if (timedObstacleMarkers.Count > 0)
             {
-                nextObstacleSpawnTime = endOfLevel;
+                nextObstacleSpawnTime = levelDialogue.clip.length;
             }
 
             //places GPS markers at the middle and end of the dialogue
@@ -335,6 +339,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         }
                         else if (string.Equals(command, "[EndControl]"))
                         {
+                            print("ending player control");
                             StartCoroutine(parkCar());
                         }
                         commandMarkers.RemoveAt(0);
@@ -463,12 +468,17 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     }
                     spawnedObstacles.Clear();
 
-                    levelDialogue.time = nextDialogueStartTime;
+                    if (nextDialogueStartTime < levelDialogue.clip.length)
+                        levelDialogue.time = nextDialogueStartTime;
+                    else
+                        levelDialogue.time = levelDialogue.clip.length;
                     break;
                 }
 
-                if (levelDialogue.time >= currentDialogueEndTime && nextDialogueTrigger == null && (timedObstacleMarkers.Count == 0 || (float.Parse(timedObstacleMarkers[0].Split(firstDelimiter)[0]) >= nextDialogueStartTime))) { break; }
+                if (!levelDialogue.isPlaying || (levelDialogue.time >= currentDialogueEndTime && nextDialogueTrigger == null && (timedObstacleMarkers.Count == 0 || (float.Parse(timedObstacleMarkers[0].Split(firstDelimiter)[0]) >= nextDialogueStartTime)))) { break; }
             }
+
+            if (!levelDialogue.isPlaying) break;
 
             debugMessage = "finished section of dialogue";
             levelDialogue.Pause();
@@ -481,15 +491,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         }
 
         //This is where the level ends
-        //secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_end");
-        //secondSource.Play();
-        //yield return new WaitForSeconds(secondSource.clip.length);
-        levelDialogue.Play();
-        while (levelDialogue.isPlaying)
-        {
-            yield return new WaitForSeconds(0);
-        }
-
         ScoreStorage.Instance.setScoreAll();
         MasterkeyEndScreen.currentLevel = SceneManager.GetActiveScene().name;
         ScoreStorage.Instance.setScoreProgress(100);
@@ -511,17 +512,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     }
     IEnumerator parkCar()
     {
-        while (Mathf.Abs(controls.movementSpeed) > 0.01f)
-        {
-            controls.movementSpeed *= 0.97f;
-            yield return new WaitForSeconds(0);
-        }
-        controls.movementSpeed = 0;
         controls.enabled = false;
         timeTracker.enabled = false;
         secondSource.PlayOneShot(carPark);
         yield return new WaitForSeconds(1);
-        blackScreen.GetComponent<Image>().CrossFadeAlpha(0, 3.0f, false);
+        //blackScreen.CrossFadeAlpha(0, 3.0f, false);
         adjustInstrumentVolume(false, new string[] { });
     }
 

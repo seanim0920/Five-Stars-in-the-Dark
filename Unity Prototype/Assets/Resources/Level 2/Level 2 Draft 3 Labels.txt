@@ -42,7 +42,7 @@
 162.264313	169.074074	FastCar behind Lane1
 167.154142	170.604021	SlowCar aheadOf Lane2
 167.274138	171.923975	SlowCar aheadOf Lane3
-174.053900	181.673633	PoliceCar behind Lane 1
+174.053900	181.673633	PoliceCar behind Lane1
 175.973833	184.433536	PoliceCar behind Lane3
 187.013446	187.013446	QuickTurn right
 191.303295	191.303295	QuickTurn left
