@@ -11,7 +11,7 @@ public class DisplayScore : MonoBehaviour
     float shakeAmount = 10;
     float shakeOffset = 0;
     float duration = 1f;
-    public static float score = Mathf.Exp(-CheckErrors.errors/3);
+    public static float score = Mathf.Exp(-TrackErrors.errors/3);
     float lerpTime = 0;
     RectTransform rect;
 

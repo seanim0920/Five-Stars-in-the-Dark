@@ -105,7 +105,7 @@ public class QuickTurn : MonoBehaviour
         {
             // return with score decremented
             // Debug.Log("Decrement Score"); // We potentially want to play an error audio clip
-            CheckErrors.IncrementErrorsAndUpdateDisplay();
+            TrackErrors.IncrementErrorsAndUpdateDisplay();
             gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
             gp.Gameplay.Enable();
             keyboardCtrl.enabled = true;

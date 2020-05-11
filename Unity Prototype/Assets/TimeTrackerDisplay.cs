@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ErrorCountDisplay : MonoBehaviour
+public class TimeTrackerDisplay : MonoBehaviour
 {
-	private static Text errorText;
+    private static Text timeText;
     // Start is called before the first frame update
     void Start()
     {
-        errorText = GetComponent<Text>();
+        timeText = GetComponent<Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        errorText.text = "Errors: " + TrackErrors.getErrors().ToString();
+        timeText.text = "Time remaining: " + CountdownTimer.getCurrentTime().ToString("00.0");
     }
 }

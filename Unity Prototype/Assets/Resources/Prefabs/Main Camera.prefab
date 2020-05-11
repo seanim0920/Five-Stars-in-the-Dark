@@ -1830,8 +1830,8 @@ GameObject:
   - component: {fileID: 4314826276328736259}
   - component: {fileID: 4314826276328736257}
   - component: {fileID: 4314826276328736258}
-  - component: {fileID: 4314826276328736256}
   - component: {fileID: 1671280583731931684}
+  - component: {fileID: 7848544475251780100}
   m_Layer: 5
   m_Name: ErrorText
   m_TagString: Untagged
@@ -1898,19 +1898,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: iluhliuh
---- !u!114 &4314826276328736256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4314826276328736268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98e147442a905f64abecce11efdd9c37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  errorInit: {fileID: 0}
 --- !u!82 &1671280583731931684
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2007,6 +1994,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7848544475251780100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4314826276328736268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80d2fa27e66610641bf76f4c340aecfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4314826276381511972
 GameObject:
   m_ObjectHideFlags: 0
@@ -2018,7 +2017,7 @@ GameObject:
   - component: {fileID: 4314826276381511995}
   - component: {fileID: 4314826276381511992}
   - component: {fileID: 4314826276381511993}
-  - component: {fileID: 4314826276381511994}
+  - component: {fileID: 2747660413992297618}
   m_Layer: 5
   m_Name: TimerText
   m_TagString: Untagged
@@ -2085,7 +2084,7 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: ulihauli
---- !u!114 &4314826276381511994
+--- !u!114 &2747660413992297618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2094,7 +2093,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4314826276381511972}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fa71ceec7bae7d449d78f57181254eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ce93f04415c0a94cb1718ef203b8fb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4314826276809460386

@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5454052389539462721}
   - component: {fileID: 5454052389539462720}
+  - component: {fileID: 2919546184528740201}
+  - component: {fileID: 7264961622185747069}
   m_Layer: 0
   m_Name: Score Singleton
   m_TagString: Untagged
@@ -41,5 +43,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 983bb08590dfa5146a198cf87fdefe83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2919546184528740201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454052389539462723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98e147442a905f64abecce11efdd9c37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  errorInit: {fileID: 0}
+--- !u!114 &7264961622185747069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454052389539462723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa71ceec7bae7d449d78f57181254eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -22,7 +22,7 @@ public class ErrorTrigger : MonoBehaviour
         if (other.gameObject.tag == "Stop")
         {
             errorSource.Play();
-            CheckErrors.IncrementErrorsAndUpdateDisplay();
+            TrackErrors.IncrementErrorsAndUpdateDisplay();
         }
     }
 }

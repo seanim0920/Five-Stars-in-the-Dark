@@ -40,7 +40,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     public float maxVol = 0.8f;
 
     //for the start cutscene
-    public CountdownTimer timeTracker;
     public AudioSource ambience;
     public Image blackScreen;
     public TextAsset markersFile;
@@ -511,13 +510,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         yield return new WaitForSeconds(1);
         controls.enabled = true;
         Debug.Log(controlType);
-        timeTracker.enabled = true;
+        CountdownTimer.setTracking(true);
         adjustInstrumentVolume(false, new string[] { });
     }
     IEnumerator parkCar()
     {
         controls.enabled = false;
-        timeTracker.enabled = false;
+        CountdownTimer.setTracking(false);
         secondSource.PlayOneShot(carPark);
         yield return new WaitForSeconds(1);
         //blackScreen.CrossFadeAlpha(0, 3.0f, false);
