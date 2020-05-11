@@ -440,12 +440,15 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         GameObject obj = pair.Key;
                         debugMessage += "despawning obstacle: " + obj.name;
 
-                        obj.GetComponent<CapsuleCollider2D>().isTrigger = true;
                         if (obj.transform.position.x > player.transform.position.x)
                             obj.transform.Rotate(0, 0, -90);
                         else
                             obj.transform.Rotate(0, 0, 90);
-                        Destroy(pair.Key, 5);
+                        if (pair.Key.GetComponent<NPCMovement>().neutralSpeed != 0)
+                        {
+                            obj.GetComponent<CapsuleCollider2D>().isTrigger = true;
+                            Destroy(pair.Key, 5);
+                        }
 
                         spawnedObstacles.Remove(obj);
                         break;

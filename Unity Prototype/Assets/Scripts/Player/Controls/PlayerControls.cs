@@ -240,7 +240,6 @@ public class PlayerControls : MonoBehaviour
             transform.position += amount * (movementSpeed) * transform.right;
         }
 
-        print("updating strafe");
         lastRecordedStrafe = amount;
     }
 
@@ -275,6 +274,24 @@ public class PlayerControls : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         isTurning = false;
+    }
+
+    public IEnumerator impact(Vector2 force)
+    {
+        this.enabled = false;
+        isTurning = false;
+        for (int i = 0; i < speed * 40; i++)
+        {
+            lastRecordedStrafe += 0;
+            movementSpeed += 0;
+            yield return new WaitForFixedUpdate();
+        }
+        for (int i = 0; i < speed * 10; i++)
+        {
+            lastRecordedStrafe += 0;
+            movementSpeed += 0;
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     public float getStrafeAmount()

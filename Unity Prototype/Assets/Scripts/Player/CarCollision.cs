@@ -29,21 +29,57 @@ public class CarCollision : MonoBehaviour
 
     }
 
-    IEnumerator disablePlayerControlMomentarily(float disabledTime)
+    IEnumerator disablePlayerControlMomentarily(Vector3 otherCarPosition, float speed)
     {
         controlFunctions.movementSpeed = 0;
         controlFunctions.enabled = false;
-        yield return new WaitForSeconds(disabledTime);
+        body.bodyType = RigidbodyType2D.Dynamic;
+        body.AddForce((transform.position - otherCarPosition).normalized * speed * 50, ForceMode2D.Impulse);
+        while (body.velocity.magnitude > 0.1f)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        body.velocity *= 0;
+        body.bodyType = RigidbodyType2D.Kinematic;
         controlFunctions.enabled = true;
     }
 
-    IEnumerator disableNPCMovementMomentarily(GameObject NPC, float disabledTime)
+    IEnumerator disableNPCMomentarily(GameObject NPC, float speed)
     {
         NPCMovement movement = NPC.GetComponent<NPCMovement>();
+        Rigidbody2D NPCbody = NPC.GetComponent<Rigidbody2D>();
         movement.movementSpeed = 0;
         movement.enabled = false;
-        yield return new WaitForSeconds(disabledTime);
-        movement.enabled = true;
+        NPCbody.AddForce((NPC.transform.position - transform.position).normalized * speed * 50, ForceMode2D.Impulse);
+        if (speed > 0.4f)
+        {
+            if (speed > 0.7f)
+            {
+                NPC.transform.Find("SkidSfx").GetComponent<AudioSource>().Play();
+            }
+            movement.neutralSpeed = 0;
+        }
+        while (NPCbody.velocity.magnitude > 0.1f)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        NPCbody.velocity *= 0;
+        if (speed > 0.4f)
+        {
+            NPC.transform.Find("AlarmSfx").GetComponent<AudioSource>().Play();
+            yield return new WaitForSeconds(1);
+            if (speed > 0.7f)
+            {
+                NPC.transform.Find("SmokeSfx").GetComponent<AudioSource>().Play();
+                yield return new WaitForSeconds(1);
+            }
+            NPC.transform.Find("OpenDoorSfx").GetComponent<AudioSource>().Play();
+        } else
+        {
+            NPC.transform.Find("HonkSfx").GetComponent<AudioSource>().Play();
+            if (movement.neutralSpeed > 0)
+                movement.enabled = true;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -64,12 +100,12 @@ public class CarCollision : MonoBehaviour
             wheelFunctions.PlayFrontCollisionForce();
 
             NPCMovement movementScript = col.gameObject.GetComponent<NPCMovement>();
-            float speedDifference = movementScript.movementSpeed - controlFunctions.movementSpeed;
+            float speedDifference = Mathf.Abs(movementScript.movementSpeed - controlFunctions.movementSpeed);
 
-            col.gameObject.GetComponent<NPCMovement>().enabled = false;
-            col.gameObject.GetComponent<Rigidbody2D>().AddForce((col.gameObject.transform.position - transform.position).normalized, ForceMode2D.Impulse);
-            //should be adjusted to push them away from the car rather than just slowing them down
-            controlFunctions.movementSpeed *= 0.1f;
+            print("smashed car");
+
+            StartCoroutine(disablePlayerControlMomentarily(col.gameObject.transform.position, speedDifference));
+            StartCoroutine(disableNPCMomentarily(col.gameObject, speedDifference));
         }
         if (col.gameObject.tag == "Pedestrian" || col.gameObject.tag == "Stop")
         {
