@@ -60,15 +60,16 @@ public class CarCollision : MonoBehaviour
         {
             hitSoundObject.transform.position = col.gameObject.transform.position;
             hitSoundObject.GetComponent<AudioSource>().Play();
+
             wheelFunctions.PlayFrontCollisionForce();
-            if (col.gameObject.GetComponent<NPCMovement>() != null)
-            {
-                col.gameObject.GetComponent<NPCMovement>().enabled = false;
-            }
+
+            NPCMovement movementScript = col.gameObject.GetComponent<NPCMovement>();
+            float speedDifference = movementScript.movementSpeed - controlFunctions.movementSpeed;
+
+            col.gameObject.GetComponent<NPCMovement>().enabled = false;
             col.gameObject.GetComponent<Rigidbody2D>().AddForce((col.gameObject.transform.position - transform.position).normalized, ForceMode2D.Impulse);
             //should be adjusted to push them away from the car rather than just slowing them down
             controlFunctions.movementSpeed *= 0.1f;
-            //setRadioTempo(getRadioTempo() * 0.1f);
         }
         if (col.gameObject.tag == "Pedestrian" || col.gameObject.tag == "Stop")
         {
