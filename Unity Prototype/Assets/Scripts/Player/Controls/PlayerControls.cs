@@ -29,6 +29,7 @@ public class PlayerControls : MonoBehaviour
     private float lastRecordedStrafe = 0;
     private int strafingDirection = -1;
 
+    private bool impacted = false;
     private bool coasting = false;
     private bool acceling = false;
     private bool braking = false;
@@ -278,19 +279,69 @@ public class PlayerControls : MonoBehaviour
 
     public IEnumerator impact(Vector2 force)
     {
+        this.impacted = true;
         this.enabled = false;
-        isTurning = false;
-        for (int i = 0; i < speed * 40; i++)
+        for (int i = 0; i < force.magnitude * 80; i++)
         {
-            lastRecordedStrafe += 0;
-            movementSpeed += 0;
+            lastRecordedStrafe += force.x;
+            movementSpeed += force.y;
             yield return new WaitForFixedUpdate();
         }
-        for (int i = 0; i < speed * 10; i++)
+        for (int i = 0; i < force.magnitude * 20; i++)
         {
-            lastRecordedStrafe += 0;
-            movementSpeed += 0;
+            lastRecordedStrafe *= 0.98f;
+            movementSpeed *= 0.98f;
             yield return new WaitForFixedUpdate();
+        }
+        lastRecordedStrafe = 0;
+        movementSpeed = 0;
+    }
+
+    private void OnDisable()
+    {
+        isTurning = false;
+        if (!impacted)
+            StartCoroutine(stopCar());
+    }
+
+    public IEnumerator shutOff()
+    {
+        this.impacted = false;
+        for (int i = 0; i < 200; i++)
+        {
+            engineSound.pitch *= 0.99f;
+            foreach (Transform child in engineSound.gameObject.transform)
+            {
+                child.gameObject.GetComponent<AudioSource>().pitch *= 0.99f;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    IEnumerator stopCar()
+    {
+        while (movementSpeed > 0.01f)
+        {
+            lastRecordedStrafe *= 0.97f;
+            movementSpeed *= 0.97f;
+
+            tireSound.volume *= 0.97f;
+            strafeSound.volume *= 0.97f;
+            engineSound.volume *= 0.97f;
+            foreach (Transform child in engineSound.gameObject.transform)
+            {
+                child.gameObject.GetComponent<AudioSource>().volume *= 0.97f;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+        tireSound.volume = 0;
+        strafeSound.volume = 0;
+        lastRecordedStrafe = 0;
+        movementSpeed = 0;
+        engineSound.volume = 0;
+        foreach (Transform child in engineSound.gameObject.transform)
+        {
+            child.gameObject.GetComponent<AudioSource>().volume = 0;
         }
     }
 
