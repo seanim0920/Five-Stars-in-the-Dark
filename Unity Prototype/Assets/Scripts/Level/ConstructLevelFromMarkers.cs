@@ -259,12 +259,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 currentDialogueEndTime = float.Parse(dialogueMarkers[0].Split(firstDelimiter)[1]);
                 nextDialogueStartTime = float.Parse(dialogueMarkers[1].Split(firstDelimiter)[0]);
                 if (string.Equals(dialogueMarkers[0].Split(firstDelimiter)[2].Trim(), "Start")) start = true;
+            }
+            if (dialogueMarkers.Count > 0)
+            {
                 dialogueMarkers.RemoveAt(0);
             }
-            else
-            {
-                nextDialogueStartTime = levelDialogue.clip.length;
-            }
+            else break;
 
             //figure out when the next obstacle will spawn
             float nextObstacleSpawnTime = levelDialogue.clip.length;
@@ -475,10 +475,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     break;
                 }
 
-                if (!levelDialogue.isPlaying || (levelDialogue.time >= currentDialogueEndTime && nextDialogueTrigger == null && (timedObstacleMarkers.Count == 0 || (float.Parse(timedObstacleMarkers[0].Split(firstDelimiter)[0]) >= nextDialogueStartTime)))) { break; }
+                if ((!levelDialogue.isPlaying && dialogueMarkers.Count == 0) || (levelDialogue.time >= currentDialogueEndTime && nextDialogueTrigger == null && (timedObstacleMarkers.Count == 0 || (float.Parse(timedObstacleMarkers[0].Split(firstDelimiter)[0]) >= nextDialogueStartTime)))) { break; }
             }
 
-            if (!levelDialogue.isPlaying) break;
+            print("finished section of dialogue, " + levelDialogue.isPlaying + dialogueMarkers.Count);
+            if (!levelDialogue.isPlaying && dialogueMarkers.Count == 0) break;
 
             debugMessage = "finished section of dialogue";
             levelDialogue.Pause();
