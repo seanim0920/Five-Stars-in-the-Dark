@@ -35,6 +35,7 @@ public class ScoreStorage : Singleton<ScoreStorage>
         time = (int)(600.0f - GameObject.Find("/Main Camera/MainCanvas/TimerText").GetComponent<CountdownTimer>().getCurrentTime()) * 100;
         //Par is not set here, becuase its data is not saved.
         //Every error subtracts 8 points, and every 30 seconds over the fastest possible time subtracts 5 points (up to 120 seconds).
+        //this line was removed before the merge for some reason
         points = 100 - (errors * 8) - ((time-par)/600);   //We divide be 600: 6 to split the time into 5 parts of 30 seconds and 100 to round out the miliseconds    
     }
 

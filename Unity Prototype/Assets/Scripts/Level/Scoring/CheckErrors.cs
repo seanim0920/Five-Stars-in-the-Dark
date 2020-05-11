@@ -21,12 +21,14 @@ public class CheckErrors : MonoBehaviour
     {
         errors++;
         ScoreStorage.Instance.setScoreErrors(errors);
-        if(errors >= 10)
+        /*if(errors >= 10)
         {
+            //IEnumerator failScreen = failScreenSwitch;
             ScoreStorage.Instance.setScoreAll();
-            MasterkeyFailScreen.currentLevel = SceneManager.GetActiveScene().name;
-            LoadScene.Loader("FailScreen");
-        }
+            MasterkeyFailScreen.sceneName = SceneManager.GetActiveScene().name;
+            //I moved the error scene loading to this coroutine for various reasons
+            StartCoroutine(failScreenSwitch());
+        }*/
         errorText.text = "Error(s): " + errors.ToString();
         //AudioSource.PlayClipAtPoint(errorSound, player.position);
     }
@@ -42,11 +44,44 @@ public class CheckErrors : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (errors >= 10)
+        {
+            ScoreStorage.Instance.setScoreAll();
+            errors = -1;    //This prevents this method from starting every frame, while not changing the actual error count
+            MasterkeyFailScreen.sceneName = SceneManager.GetActiveScene().name;
+            //I moved the error scene loading to this class for various reasons
+            //hey thomas this is really fucking cursed. yeah well this all i've got so
+            failSoundPlay fsp = this.gameObject.AddComponent<failSoundPlay>() as failSoundPlay;
+            fsp.playFail();
+            
+        }
     }
 
     //because errors is static, it needs a method to access
     public int getErrors()
     {
         return errors;
+    }
+}
+
+//This entire implementation is a sin in several religions (I think), but it lets me
+//  run a coroutine through a static function so we take those
+class failSoundPlay : MonoBehaviour
+{
+
+    AudioSource soundSource;
+
+    public void playFail()
+    {
+        soundSource = this.gameObject.GetComponent<AudioSource>();
+        StartCoroutine(failScreenSwitch());
+    }
+
+    IEnumerator failScreenSwitch()
+    {
+        //The full implementation for this is way out of the scope of this task, so I'm just gonna set 1 faildialogue per scene and be done with it
+        soundSource.Play();
+        yield return new WaitWhile(() => soundSource.isPlaying);
+        LoadScene.Loader("FailScreen");
     }
 }
