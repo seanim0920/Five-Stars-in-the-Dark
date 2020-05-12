@@ -62,59 +62,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     bool skipIntro = false;
 
     Object[] loadedObjects;
-    //void parseMarkersFromTextFile()
-    //{
-    //    timedObstacleMarkers = new List<string>();
-    //    dialogueMarkers = new List<string>();
-    //    spawnedObstacles = new Dictionary<GameObject, float>();
-    //    levelDialogue = GetComponent<AudioSource>();
-
-    //    StreamReader inp_stm = new StreamReader(Application.dataPath + "/" + "Level.txt");
-
-    //    int lineNumber = 1;
-    //    while (!inp_stm.EndOfStream)
-    //    {
-    //        string line = inp_stm.ReadLine();
-
-    //        string[] tokens = line.Split(new char[] { ' ', '\t' });
-    //        if (tokens.Length < 3 || !char.IsDigit(tokens[0][0])) continue;
-    //        float previousStartTime = 0;
-    //        bool newTrack = false;
-    //        float startTime = float.Parse(tokens[0]);
-    //        int lineLength;
-    //        //markers will either be obstacles/dialogue, or news/realtime events
-    //        if (tokens.Length == 3)
-    //        {
-    //            if (tokens[2][0] == '[')
-    //            {
-    //                print("parsed command marker" + tokens.Length);
-    //                if (string.Equals(tokens[2].Trim(), "[StartCar]"))
-    //                {
-    //                    startOfLevel = float.Parse(tokens[0]);
-    //                }
-    //                commandMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
-    //            }
-    //            else
-    //            {
-    //                dialogueMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (tokens[2][0] == '"')
-    //            {
-    //                subtitleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
-    //            }
-    //            timedObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
-    //            previousStartTime = startTime;
-    //        }
-    //        //print("amount of tokens are " + tokens.Length);
-    //        lineNumber++;
-    //        // Do Something with the input. 
-    //    }
-
-    //    inp_stm.Close();
-    //}
 
     void parseLevelMarkers()
     {
@@ -171,13 +118,34 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void Start()
     {
+        //hook all the variables up
+        carStart = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
+        carPark = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
         loadedObjects = Resources.LoadAll("Prefabs/Obstacles", typeof(GameObject));
         player = GameObject.Find("Player");
-        wheelFunctions = player.GetComponent<SteeringWheelControl>();
         controls = player.GetComponent<PlayerControls>();
+        wheelFunctions = player.GetComponent<SteeringWheelControl>();
         wheelControl = player.GetComponent<SteeringWheelControl>();
         keyboard = player.GetComponent<KeyboardControl>();
         gamepad = player.GetComponent<GamepadControl>();
+
+        if (blackScreen.enabled)
+        {
+            disableControllers();
+        } else
+        {
+            enableControllers();
+        }
+
+        parseLevelMarkers();
+
+        StartCoroutine(lockWheel());
+        StartCoroutine(shiftLoopSectionOfMusic(16f, 70.5f));
+        StartCoroutine(playLevel());
+    }
+
+    void enableControllers()
+    {
         if (controlType == 0 && (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
         {
             wheelControl.enabled = true;
@@ -190,25 +158,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         {
             keyboard.enabled = true;
         }
-        parseLevelMarkers();
+    }
 
-        carStart = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
-        carPark = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
-
-        /*
-        if (GameObject.Find("Map"))
-        {
-            Destroy(GameObject.Find("Map"));
-
-            constructLevelMap();
-
-            GameObject.Find("Map").name = "NewerMap";
-        }
-        */
-
-        StartCoroutine(lockWheel());
-        StartCoroutine(shiftLoopSectionOfMusic(16f, 70.5f));
-        StartCoroutine(playLevel());
+    void disableControllers()
+    {
+        wheelControl.enabled = false;
+        gamepad.enabled = false;
+        keyboard.enabled = false;
     }
 
     void constructLevelMap()
@@ -234,8 +190,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     IEnumerator playLevel()
     {
-        bool midpoint = false;
-        bool endpoint = false;
         debugMessage = "starting level now, level ends at " + endOfLevel;
         subtitleMessage = "";
         int updateRate = 50;
@@ -244,50 +198,24 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         ScoreStorage.Instance.setScorePar((int)endOfLevel * 100);
 
         //perform these checks every frame for as long as the dialogue plays
-        while (levelDialogue.time < levelDialogue.clip.length)
+        while (dialogueMarkers.Count > 0)
         {
             //figure out when the current dialogue section ends and the next starts
             float currentDialogueEndTime = levelDialogue.clip.length;
             float nextDialogueStartTime = levelDialogue.clip.length;
-            bool start = false;
-            currentDialogueStartTime = 0.0f;
 
             if (dialogueMarkers.Count > 1)
             {
                 currentDialogueStartTime = levelDialogue.time;
                 currentDialogueEndTime = float.Parse(dialogueMarkers[0].Split(firstDelimiter)[1]);
                 nextDialogueStartTime = float.Parse(dialogueMarkers[1].Split(firstDelimiter)[0]);
-                if (string.Equals(dialogueMarkers[0].Split(firstDelimiter)[2].Trim(), "Start")) start = true;
-            }
-            if (dialogueMarkers.Count > 0)
-            {
-                dialogueMarkers.RemoveAt(0);
-            }
-            else break;
-
-            //figure out when the next obstacle will spawn
-            float nextObstacleSpawnTime = levelDialogue.clip.length;
-            if (timedObstacleMarkers.Count > 0)
-            {
-                nextObstacleSpawnTime = levelDialogue.clip.length;
-            }
-
-            //places GPS markers at the middle and end of the dialogue
-            if (levelDialogue.time + startOfLevel >= (endOfLevel - startOfLevel) / 2 && !midpoint)
-            {
-                print(levelDialogue.time + "level ends at " + endOfLevel);
-                //secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_middle");
-                //secondSource.Play();
-                //yield return new WaitForSeconds(secondSource.clip.length);
-                midpoint = true;
             }
 
             //create a physical marker that must be hit before the next piece of dialogue can play
-            GameObject nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
-            if (start)
-            {
-                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - currentDialogueEndTime) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
-            }
+            GameObject nextDialogueTrigger = 
+                Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), 
+                player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), 
+                Quaternion.identity);
 
             //start playing the dialogue from wherever it left off
             levelDialogue.Play();
@@ -320,14 +248,23 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         else if (string.Equals(command, "[RevealScreen]"))
                         {
                             blackScreen.enabled = false;
+                            enableControllers();
                         }
                         else if (string.Equals(command, "[HideScreen]"))
                         {
                             blackScreen.enabled = true;
+                            disableControllers();
                         }
                         else if (string.Equals(command, "[StartCar]") || string.Equals(command, "[StartControl]"))
                         {
                             print("started car at time " + levelDialogue.time);
+
+                            if (nextDialogueTrigger != null) Destroy(nextDialogueTrigger);
+                            nextDialogueTrigger =
+                                Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"),
+                                player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1),
+                                Quaternion.identity);
+
                             StartCoroutine(startCar());
                             yield return new WaitForSeconds(2);
                             levelDialogue.Pause();
@@ -399,8 +336,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                                 GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/" + prefab),
                                     new Vector3(player.transform.position.x, player.transform.position.y + spawnDistance, 0),
                                     Quaternion.identity);
-                                if (nextDialogueTrigger == null) //checks whether trigger was already hit, if so spawn another one and spawn it further ahead. not the best programming practice but itll do for now.
-                                    nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+                                levelDialogue.Stop();
                                 if ((string.Equals(prefab, "quickturn", System.StringComparison.OrdinalIgnoreCase)))
                                 {
                                     if ((string.Equals(tokens[1].Trim(), "right", System.StringComparison.OrdinalIgnoreCase)))
@@ -411,13 +347,23 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                                     {
                                         obj.GetComponent<QuickTurn>().mustTurnLeft = true;
                                     }
-                                    nextDialogueTrigger.transform.position += new Vector3(0,50,0);
-                                } else if ((string.Equals(prefab, "stoplight", System.StringComparison.OrdinalIgnoreCase)))
+                                }
+                                else if ((string.Equals(prefab, "stoplight", System.StringComparison.OrdinalIgnoreCase)))
                                 {
                                     string pattern = tokens[1].ToLower().Trim();
                                     obj.GetComponent<Stoplight>().pattern = pattern;
-                                    nextDialogueTrigger.transform.position += new Vector3(0, 350, 0); //I think this is the length of the stoplight object?
                                 }
+                                else if ((string.Equals(prefab, "target", System.StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    string pattern = tokens[1].ToLower().Trim();
+                                    obj.GetComponent<TargetMovement>().sequence = pattern;
+                                }
+
+                                //wait until the next dialogue trigger is touched
+                                while (obj != null) { yield return new WaitForSeconds(0); }
+
+                                if (nextDialogueTrigger == null) //checks whether trigger was already hit, if so spawn another one and spawn it further ahead. not the best programming practice but itll do for now.
+                                    nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
                             }
                             else {
                                 float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
@@ -481,7 +427,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             }
 
             print("finished section of dialogue, " + levelDialogue.isPlaying + dialogueMarkers.Count);
-            if (!levelDialogue.isPlaying && dialogueMarkers.Count == 0) break;
 
             debugMessage = "finished section of dialogue";
             levelDialogue.Pause();
@@ -502,7 +447,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     IEnumerator startCar()
     {
-        blackScreen.enabled = false;
+        enableControllers();
         ambience.Play();
         yield return new WaitForSeconds(1);
         secondSource.PlayOneShot(carStart);
