@@ -50,7 +50,7 @@ public class CarCollision : MonoBehaviour
         Rigidbody2D NPCbody = NPC.GetComponent<Rigidbody2D>();
         movement.movementSpeed = 0;
         movement.enabled = false;
-        NPCbody.AddForce((NPC.transform.position - transform.position).normalized * speed * 50, ForceMode2D.Impulse);
+        NPCbody.AddForce((NPC.transform.position - transform.position).normalized * speed * 60, ForceMode2D.Impulse);
         if (speed > 0.4f)
         {
             if (speed > 0.7f)
