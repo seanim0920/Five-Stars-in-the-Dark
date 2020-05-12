@@ -418,8 +418,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
                     if (nextDialogueStartTime < levelDialogue.clip.length)
                         levelDialogue.time = nextDialogueStartTime;
-                    else
-                        levelDialogue.time = levelDialogue.clip.length;
                     break;
                 }
 
