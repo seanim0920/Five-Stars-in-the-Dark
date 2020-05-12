@@ -39,6 +39,7 @@ public class PlayerControls : MonoBehaviour
 
     public AudioMixer engineMixer;
     public AudioMixerSnapshot[] engineSounds;
+    public AudioMixerSnapshot shutOffSound;
 
     [Header("Private Attributes (visible for debugging)")]
     [SerializeField] private float[] snapshotWeights;
@@ -311,9 +312,13 @@ public class PlayerControls : MonoBehaviour
         StartCoroutine(stopCar());
         for (int i = 0; i < 200; i++)
         {
+            shutOffSound.TransitionTo(0.5f);
+
+            engineSound.volume += 0.02f;
             engineSound.pitch *= 0.99f;
             foreach (Transform child in engineSound.gameObject.transform)
             {
+                child.gameObject.GetComponent<AudioSource>().volume += 0.02f;
                 child.gameObject.GetComponent<AudioSource>().pitch *= 0.99f;
             }
             yield return new WaitForFixedUpdate();
@@ -328,11 +333,11 @@ public class PlayerControls : MonoBehaviour
             movementSpeed *= 0.97f;
 
             tireSound.volume *= 0.97f;
-            strafeSound.volume *= 0.97f;
-            engineSound.volume *= 0.97f;
+            strafeSound.volume *= 0.98f;
+            engineSound.volume *= 0.98f;
             foreach (Transform child in engineSound.gameObject.transform)
             {
-                child.gameObject.GetComponent<AudioSource>().volume *= 0.97f;
+                child.gameObject.GetComponent<AudioSource>().volume *= 0.98f;
             }
             yield return new WaitForFixedUpdate();
         }

@@ -460,6 +460,8 @@ MonoBehaviour:
   - {fileID: 2133684793175362343, guid: d266e19fb9e87fe4cacf93d1ffc191e8, type: 2}
   - {fileID: -8807714207632945724, guid: d266e19fb9e87fe4cacf93d1ffc191e8, type: 2}
   - {fileID: -214203039708733533, guid: d266e19fb9e87fe4cacf93d1ffc191e8, type: 2}
+  shutOffSound: {fileID: -1268211204583706612, guid: d266e19fb9e87fe4cacf93d1ffc191e8,
+    type: 2}
   snapshotWeights:
   - 0
   - 0

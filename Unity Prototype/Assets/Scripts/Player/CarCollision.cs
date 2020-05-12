@@ -40,8 +40,11 @@ public class CarCollision : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         body.velocity *= 0;
-        body.bodyType = RigidbodyType2D.Kinematic;
-        controlFunctions.enabled = true;
+        if (tag == "Player")
+        {
+            body.bodyType = RigidbodyType2D.Kinematic;
+            controlFunctions.enabled = true;
+        }
     }
 
     IEnumerator disableNPCMomentarily(GameObject NPC, float speed)
