@@ -53,10 +53,10 @@ public class CarCollision : MonoBehaviour
         Rigidbody2D NPCbody = NPC.GetComponent<Rigidbody2D>();
         movement.movementSpeed = 0;
         movement.enabled = false;
-        NPCbody.AddForce((NPC.transform.position - transform.position).normalized * speed * 60, ForceMode2D.Impulse);
-        if (speed > 0.4f)
+        NPCbody.AddForce((NPC.transform.position - transform.position).normalized * speed * 70, ForceMode2D.Impulse);
+        if (speed > 0.5f)
         {
-            if (speed > 0.7f)
+            if (speed > 0.8f)
             {
                 NPC.transform.Find("SkidSfx").GetComponent<AudioSource>().Play();
             }
@@ -67,11 +67,11 @@ public class CarCollision : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         NPCbody.velocity *= 0;
-        if (speed > 0.4f)
+        if (speed > 0.5f)
         {
             NPC.transform.Find("AlarmSfx").GetComponent<AudioSource>().Play();
             yield return new WaitForSeconds(1);
-            if (speed > 0.7f)
+            if (speed > 0.8f)
             {
                 NPC.transform.Find("SmokeSfx").GetComponent<AudioSource>().Play();
                 yield return new WaitForSeconds(1);
