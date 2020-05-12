@@ -314,11 +314,11 @@ public class PlayerControls : MonoBehaviour
         {
             shutOffSound.TransitionTo(0.5f);
 
-            engineSound.volume += 0.02f;
+            engineSound.volume += 0.01f;
             engineSound.pitch *= 0.99f;
             foreach (Transform child in engineSound.gameObject.transform)
             {
-                child.gameObject.GetComponent<AudioSource>().volume += 0.02f;
+                child.gameObject.GetComponent<AudioSource>().volume += 0.01f;
                 child.gameObject.GetComponent<AudioSource>().pitch *= 0.99f;
             }
             yield return new WaitForFixedUpdate();

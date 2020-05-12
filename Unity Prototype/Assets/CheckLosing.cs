@@ -30,7 +30,7 @@ public class CheckLosing : MonoBehaviour
 
     IEnumerator failScreenSwitch()
     {
-        controls.gameObject.tag = "Totalled";
+        controls.gameObject.tag = "Pedestrian";
         StartCoroutine(controls.shutOff());
         //if we stop it, carcollisions can restart the clip again after the collision is finished
         ConstructLevelFromMarkers.levelDialogue.volume = 0;
