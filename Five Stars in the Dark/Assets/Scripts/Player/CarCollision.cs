@@ -33,18 +33,9 @@ public class CarCollision : MonoBehaviour
     {
         print("smashed car");
         body.bodyType = RigidbodyType2D.Dynamic;
-        body.AddForce((transform.position - otherCarPosition).normalized * speed * 50, ForceMode2D.Impulse);
+        body.AddForce((transform.position - otherCarPosition).normalized * speed * 40, ForceMode2D.Impulse);
         StartCoroutine(controlFunctions.impact(body.velocity));
-        while (body.velocity.magnitude > 0.1f)
-        {
-            yield return new WaitForFixedUpdate();
-        }
-        body.velocity *= 0;
-        if (tag == "Player")
-        {
-            body.bodyType = RigidbodyType2D.Kinematic;
-            controlFunctions.enabled = true;
-        }
+        yield return new WaitForFixedUpdate();
     }
 
     IEnumerator disableNPCMomentarily(GameObject NPC, float speed)

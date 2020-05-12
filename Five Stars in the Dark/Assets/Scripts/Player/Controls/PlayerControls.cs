@@ -283,20 +283,34 @@ public class PlayerControls : MonoBehaviour
         this.impacted = true;
         this.enabled = false;
         print("diabled controls cause of collision");
-        for (int i = 0; i < force.magnitude * 2; i++)
+        int maxForce = 40;
+        int totalIterations = (int)(10 + 10 * (force.magnitude/maxForce));
+        float maxHDisplacement = (force.x / 20);
+        float maxVDisplacement = (Mathf.Pow(Mathf.Abs(force.y), 0.1f) * (force.y > 0 ? 1 : -1) / 2f);
+        float origMovementSpeed = movementSpeed;
+        float origStrafe = lastRecordedStrafe;
+        for (int i = 0; i < totalIterations; i++)
         {
-            lastRecordedStrafe += force.x/500;
-            movementSpeed += force.y/1000;
+            Blur.amount = -Mathf.Pow((i - totalIterations), 2) / (totalIterations * (totalIterations / 1)) + 1;
+            lastRecordedStrafe = -Mathf.Pow((i - totalIterations), 2)/(totalIterations * (totalIterations/maxHDisplacement)) + maxHDisplacement + origStrafe;
+            movementSpeed = -Mathf.Pow((i - totalIterations), 2) / (totalIterations * (totalIterations / maxVDisplacement)) + maxVDisplacement + origMovementSpeed;
             yield return new WaitForFixedUpdate();
         }
-        for (int i = 0; i < force.magnitude * 5; i++)
+        while (body.velocity.magnitude > 0.1f)
         {
+            Blur.amount *= 0.98f;
             lastRecordedStrafe *= 0.98f;
-            movementSpeed *= 0.98f;
+            movementSpeed *= 0.95f;
             yield return new WaitForFixedUpdate();
         }
-        lastRecordedStrafe = 0;
-        movementSpeed = 0;
+        body.velocity *= 0;
+        if (tag == "Player")
+        {
+            lastRecordedStrafe = 0;
+            movementSpeed = 0;
+            body.bodyType = RigidbodyType2D.Kinematic;
+            this.enabled = true;
+        }
     }
 
     private void OnDisable()
