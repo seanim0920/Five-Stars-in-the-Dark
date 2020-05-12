@@ -31,10 +31,10 @@ public class CarCollision : MonoBehaviour
 
     IEnumerator disablePlayerControlMomentarily(Vector3 otherCarPosition, float speed)
     {
-        controlFunctions.movementSpeed = 0;
-        controlFunctions.enabled = false;
+        print("smashed car");
         body.bodyType = RigidbodyType2D.Dynamic;
         body.AddForce((transform.position - otherCarPosition).normalized * speed * 50, ForceMode2D.Impulse);
+        StartCoroutine(controlFunctions.impact(body.velocity));
         while (body.velocity.magnitude > 0.1f)
         {
             yield return new WaitForFixedUpdate();
@@ -104,8 +104,6 @@ public class CarCollision : MonoBehaviour
 
             NPCMovement movementScript = col.gameObject.GetComponent<NPCMovement>();
             float speedDifference = Mathf.Abs(movementScript.movementSpeed - controlFunctions.movementSpeed);
-
-            print("smashed car");
 
             StartCoroutine(disablePlayerControlMomentarily(col.gameObject.transform.position, speedDifference));
             StartCoroutine(disableNPCMomentarily(col.gameObject, speedDifference));

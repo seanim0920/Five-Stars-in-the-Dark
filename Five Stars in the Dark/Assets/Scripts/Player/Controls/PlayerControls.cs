@@ -282,13 +282,14 @@ public class PlayerControls : MonoBehaviour
     {
         this.impacted = true;
         this.enabled = false;
-        for (int i = 0; i < force.magnitude * 80; i++)
+        print("diabled controls cause of collision");
+        for (int i = 0; i < force.magnitude * 2; i++)
         {
-            lastRecordedStrafe += force.x;
-            movementSpeed += force.y;
+            lastRecordedStrafe += force.x/500;
+            movementSpeed += force.y/1000;
             yield return new WaitForFixedUpdate();
         }
-        for (int i = 0; i < force.magnitude * 20; i++)
+        for (int i = 0; i < force.magnitude * 5; i++)
         {
             lastRecordedStrafe *= 0.98f;
             movementSpeed *= 0.98f;
