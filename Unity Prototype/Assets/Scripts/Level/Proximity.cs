@@ -5,42 +5,39 @@ using UnityEngine.Audio;
 
 public class Proximity : MonoBehaviour
 {
-    AudioSource noise;
-    private bool isBeep = true;
+    List<AudioSource> NPCAudios = new List<AudioSource>();
     // Start is called before the first frame update
     void Start()
     {
-        noise = GetComponent<AudioSource>();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown("p"))
+        foreach (AudioSource NPCAudio in NPCAudios)
         {
-            if (isBeep)
+            if (NPCAudio.gameObject == null) NPCAudios.Remove(NPCAudio);
+
+            print("detecting any obstacles between player and npc... " + Physics2D.Linecast(NPCAudio.gameObject.transform.position, transform.parent.transform.position).transform.tag);
+            //check if there's a clear line of sight between NPC and player
+            if (Physics2D.Linecast(NPCAudio.gameObject.transform.position, transform.parent.transform.position).transform.tag != "Player") NPCAudio.volume = 0;
+            else
             {
-                noise.clip = Resources.Load<AudioClip>("Audio/noise");
-            } else
-            {
-                noise.clip = Resources.Load<AudioClip>("Audio/proximitybeep");
+                Vector3 difference = (NPCAudio.gameObject.transform.position - transform.parent.transform.position);
+                float distance = difference.magnitude;
+                float eyesight = transform.localScale.y * transform.parent.transform.localScale.y;
+                NPCAudio.volume = Mathf.Pow(((-distance / (eyesight)) + 1), 2) * 1.1f;
+                Vector3 posRelativeToPlayer = transform.parent.transform.InverseTransformPoint(NPCAudio.gameObject.transform.position);
+                NPCAudio.panStereo = posRelativeToPlayer.x / (transform.localScale.x / 2);
+                NPCAudio.pitch = NPCAudio.volume * 3;
             }
         }
     }
 
-    void OnTriggerStay2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         //should be adjusted to detect the closest car to the player, if there are multiple cars in the zone
         if (col.gameObject.tag == "Car")
         {
-            Vector3 difference = (col.gameObject.transform.position - transform.parent.transform.position);
-            float distance = difference.magnitude;
-            float eyesight = transform.localScale.y * transform.parent.transform.localScale.y;
-            noise.volume = Mathf.Pow(((-distance / (eyesight)) + 1), 2) * 1.1f;
-            //print("proximity volume is " + distance + " " + noise.volume);
-            Vector3 posRelativeToPlayer = transform.parent.transform.InverseTransformPoint(col.gameObject.transform.position);
-            noise.panStereo = posRelativeToPlayer.x / (transform.localScale.x / 2);
-            noise.pitch = noise.volume * 3;
+            NPCAudios.Add(col.gameObject.transform.Find("ProximitySfx").GetComponent<AudioSource>());
         }
     }
 
@@ -48,7 +45,8 @@ public class Proximity : MonoBehaviour
     {
         if (col.gameObject.tag == "Car")
         {
-            noise.volume = 0;
+            col.gameObject.transform.Find("ProximitySfx").GetComponent<AudioSource>().volume = 0;
+            NPCAudios.Remove(col.gameObject.transform.Find("ProximitySfx").GetComponent<AudioSource>());
         }
     }
 }
