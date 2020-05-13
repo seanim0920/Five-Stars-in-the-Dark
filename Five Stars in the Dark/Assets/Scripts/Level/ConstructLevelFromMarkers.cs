@@ -178,18 +178,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         wheelControl = player.GetComponent<SteeringWheelControl>();
         keyboard = player.GetComponent<KeyboardControl>();
         gamepad = player.GetComponent<GamepadControl>();
-        if (controlType == 0 && (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
-        {
-            wheelControl.enabled = true;
-        }
-        else if (controlType == 2 && Gamepad.current != null)
-        {
-            gamepad.enabled = true;
-        }
-        else
-        {
-            keyboard.enabled = true;
-        }
         parseLevelMarkers();
 
         carStart = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
@@ -209,6 +197,29 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         StartCoroutine(lockWheel());
         StartCoroutine(shiftLoopSectionOfMusic(16f, 70.5f));
         StartCoroutine(playLevel());
+    }
+
+    void enableControllers()
+    {
+        if (controlType == 0 && (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
+        {
+            wheelControl.enabled = true;
+        }
+        else if (controlType == 2 && Gamepad.current != null)
+        {
+            gamepad.enabled = true;
+        }
+        else
+        {
+            keyboard.enabled = true;
+        }
+    }
+
+    void disableControllers()
+    {
+        wheelControl.enabled = false;
+        gamepad.enabled = false;
+        keyboard.enabled = false;
     }
 
     void constructLevelMap()
@@ -319,10 +330,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         } 
                         else if (string.Equals(command, "[RevealScreen]"))
                         {
+                            enableControllers();
                             blackScreen.enabled = false;
                         }
                         else if (string.Equals(command, "[HideScreen]"))
                         {
+                            disableControllers();
                             blackScreen.enabled = true;
                         }
                         else if (string.Equals(command, "[StartCar]") || string.Equals(command, "[StartControl]"))
