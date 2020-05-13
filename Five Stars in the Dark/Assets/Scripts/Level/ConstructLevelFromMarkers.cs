@@ -262,8 +262,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         //initial parsing of the theoretical fastest level time, for the sake of score calculation
         ScoreStorage.Instance.setScorePar((int)endOfLevel * 100);
 
-        //perform these checks every frame for as long as the dialogue plays
-        while (levelDialogue.time < levelDialogue.clip.length)
+        //perform these checks every frame for as long as dialogue and obstacle markers are in queue
+        while (dialogueMarkers.Count > 0 && timedObstacleMarkers.Count > 0)
         {
             //figure out when the current dialogue section ends and the next starts
             float currentDialogueEndTime = levelDialogue.clip.length;
@@ -298,7 +298,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
             debugMessage = "starting new dialogue section: " + "ends at " + currentDialogueEndTime + " next dialogue starts at " + nextDialogueStartTime;
             //while waiting for the next piece of dialogue, check if any obstacles need to be spawned or despawned, then remove from the queue. checks every frame
-            while (levelDialogue.time < nextDialogueStartTime)
+            while (levelDialogue.time < currentDialogueEndTime)
             {
                 //print("time in the dialogue is " + levelDialogue.time);
                 yield return new WaitForSeconds(0);
@@ -332,6 +332,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         }
                         else if (string.Equals(command, "[StartCar]") || string.Equals(command, "[StartControl]"))
                         {
+                            //move the next dialogue trigger to prevent a long wait at the beginning of the level
                             if (nextDialogueTrigger != null) Destroy(nextDialogueTrigger);
                             nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
                             print("started car at time " + levelDialogue.time);
@@ -377,71 +378,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     //if the next obstacle is due or if the obstacle trigger was touched, spawn it
                     if (spawnTime < nextDialogueStartTime && levelDialogue.time > spawnTime)
                     {
-                        debugMessage += "spawning obstacles: " + obstacleData[2];
-                        print(debugMessage);
-                        string[] obstacleSeq = obstacleData[2].Split(',');
-                        foreach (string obstacle in obstacleSeq)
-                        {
-                            //instantiate the obstacles plotted at this time
-
-                            string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
-                            float spawnDistance = 200;
-
-                            string prefab = "";
-                            foreach (var obj in loadedObjects)
-                            {
-                                if (string.Equals(obj.name, tokens[0].Trim(), System.StringComparison.OrdinalIgnoreCase))
-                                {
-                                    Debug.Log("found obstacle");
-                                    prefab = obj.name;
-                                }
-                            }
-                            if (prefab == "") { Debug.Log("could not load obstacle"); break; }
-
-                            if (tokens.Length == 2)
-                            {
-                                GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/" + prefab),
-                                    new Vector3(player.transform.position.x, player.transform.position.y + spawnDistance, 0),
-                                    Quaternion.identity);
-                                if (nextDialogueTrigger != null) //checks whether trigger was already hit, if so spawn another one and spawn it further ahead. not the best programming practice but itll do for now.
-                                    Destroy(nextDialogueTrigger);
-                                levelDialogue.Pause();
-                                if ((string.Equals(prefab, "quickturn", System.StringComparison.OrdinalIgnoreCase)))
-                                {
-                                    if ((string.Equals(tokens[1].Trim(), "right", System.StringComparison.OrdinalIgnoreCase)))
-                                    {
-                                        obj.GetComponent<QuickTurn>().mustTurnLeft = false;
-                                    }
-                                    else
-                                    {
-                                        obj.GetComponent<QuickTurn>().mustTurnLeft = true;
-                                    }
-                                } else if ((string.Equals(prefab, "stoplight", System.StringComparison.OrdinalIgnoreCase)))
-                                {
-                                    string pattern = tokens[1].ToLower().Trim();
-                                    obj.GetComponent<Stoplight>().pattern = pattern;
-                                }
-                                while (obj != null)
-                                {
-                                    yield return new WaitForSeconds(0);
-                                }
-                                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
-                                levelDialogue.Play();
-                            }
-                            else {
-                                float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
-                                    tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
-                                    tokens[2].ToLower().Trim() == "playersleft" && player.transform.position.x > (-roadWidth + laneWidth) / 2 ? player.transform.position.x - laneWidth :
-                                    tokens[2].ToLower().Trim() == "playersright" && player.transform.position.x < (roadWidth + laneWidth) / 2 ? player.transform.position.x + laneWidth :
-                                    player.transform.position.x;
-                                float ypos = player.transform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? spawnDistance : -spawnDistance);
-                                //print(tokens[0].Trim());
-                                spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/"+prefab),
-                                    new Vector3(xpos, ypos, 0),
-                                    Quaternion.identity), despawnTime);
-                            }
-                        }
-                        timedObstacleMarkers.RemoveAt(0);
+                        spawnObstacle();
                     }
                 }
 
@@ -486,18 +423,16 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     break;
                 }
 
-                if ((!levelDialogue.isPlaying && dialogueMarkers.Count == 0) || (levelDialogue.time >= currentDialogueEndTime && nextDialogueTrigger == null && (timedObstacleMarkers.Count == 0 || (float.Parse(timedObstacleMarkers[0].Split(firstDelimiter)[0]) >= nextDialogueStartTime)))) { break; }
             }
 
+            while ((timedObstacleMarkers.Count > 0 && (float.Parse(timedObstacleMarkers[0].Split(firstDelimiter)[0]) < nextDialogueStartTime)) &&
+               nextDialogueTrigger != null) yield return null;
+
             print("finished section of dialogue, " + levelDialogue.isPlaying + dialogueMarkers.Count);
-            if (!levelDialogue.isPlaying && dialogueMarkers.Count == 0) break;
 
             debugMessage = "finished section of dialogue";
             levelDialogue.Pause();
             isSpeaking = false;
-
-            //wait until the next dialogue trigger is touched
-            while (nextDialogueTrigger != null) { yield return new WaitForSeconds(0); }
 
             skipSection = false;
         }
@@ -507,6 +442,78 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         MasterkeyEndScreen.currentLevel = SceneManager.GetActiveScene().name;
         ScoreStorage.Instance.setScoreProgress(100);
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+    }
+
+    void spawnObstacle()
+    {
+        debugMessage += "spawning obstacles: " + obstacleData[2];
+        print(debugMessage);
+        string[] obstacleSeq = obstacleData[2].Split(',');
+        foreach (string obstacle in obstacleSeq)
+        {
+            //instantiate the obstacles plotted at this time
+
+            string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
+            float spawnDistance = 200;
+
+            string prefab = "";
+            foreach (var obj in loadedObjects)
+            {
+                if (string.Equals(obj.name, tokens[0].Trim(), System.StringComparison.OrdinalIgnoreCase))
+                {
+                    Debug.Log("found obstacle");
+                    prefab = obj.name;
+                }
+            }
+            if (prefab == "") { Debug.Log("could not load obstacle"); break; }
+
+            if (tokens.Length == 2)
+            {
+                GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/" + prefab),
+                    new Vector3(player.transform.position.x, player.transform.position.y + spawnDistance, 0),
+                    Quaternion.identity);
+                if (nextDialogueTrigger != null) //checks whether trigger was already hit, if so spawn another one and spawn it further ahead. not the best programming practice but itll do for now.
+                    Destroy(nextDialogueTrigger);
+                levelDialogue.Pause();
+                if ((string.Equals(prefab, "quickturn", System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    if ((string.Equals(tokens[1].Trim(), "right", System.StringComparison.OrdinalIgnoreCase)))
+                    {
+                        obj.GetComponent<QuickTurn>().mustTurnLeft = false;
+                    }
+                    else
+                    {
+                        obj.GetComponent<QuickTurn>().mustTurnLeft = true;
+                    }
+                }
+                else if ((string.Equals(prefab, "stoplight", System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    string pattern = tokens[1].ToLower().Trim();
+                    obj.GetComponent<Stoplight>().pattern = pattern;
+                }
+                while (obj != null)
+                {
+                    print("waiting for obstacle to disappear");
+                    yield return new WaitForSeconds(0);
+                }
+                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+                levelDialogue.Play();
+            }
+            else
+            {
+                float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
+                    tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
+                    tokens[2].ToLower().Trim() == "playersleft" && player.transform.position.x > (-roadWidth + laneWidth) / 2 ? player.transform.position.x - laneWidth :
+                    tokens[2].ToLower().Trim() == "playersright" && player.transform.position.x < (roadWidth + laneWidth) / 2 ? player.transform.position.x + laneWidth :
+                    player.transform.position.x;
+                float ypos = player.transform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? spawnDistance : -spawnDistance);
+                //print(tokens[0].Trim());
+                spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/" + prefab),
+                    new Vector3(xpos, ypos, 0),
+                    Quaternion.identity), despawnTime);
+            }
+        }
+        timedObstacleMarkers.RemoveAt(0);
     }
 
     IEnumerator startCar()

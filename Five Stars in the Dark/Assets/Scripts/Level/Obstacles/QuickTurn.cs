@@ -89,6 +89,7 @@ public class QuickTurn : MonoBehaviour
             // return with no errors
             keyboardCtrl.enabled = true;
             playerCtrl.enabled = true;
+            Destroy(this.gameObject);
             yield break;
         }
         else if(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() > 0)
@@ -98,6 +99,7 @@ public class QuickTurn : MonoBehaviour
             gp.Gameplay.Enable();
             playerCtrl.enabled = true;
             // return with no errors
+            Destroy(this.gameObject);
             yield break;
         }
         // else (turned in wrong direction)
@@ -110,6 +112,7 @@ public class QuickTurn : MonoBehaviour
             gp.Gameplay.Enable();
             keyboardCtrl.enabled = true;
             playerCtrl.enabled = true;
+            Destroy(this.gameObject);
             yield break;
         }
     }
