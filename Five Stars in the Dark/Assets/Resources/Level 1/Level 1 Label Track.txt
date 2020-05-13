@@ -83,7 +83,7 @@
 208.664539	209.019221	<W> "[car door slams]"
 0.000000	66.666387	Dialogue
 0.000000	0.000000	[HideScreen]
-21.614764	21.614764	[RevealScreen]
+48.5	48.5	[RevealScreen]
 63.981928	63.981928	[StartControl]
 67.041933	67.041933	[GPSStart]
 67.459206	75.470856	Dialogue

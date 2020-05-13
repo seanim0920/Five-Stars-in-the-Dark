@@ -27,6 +27,6 @@ public class subtitleText : MonoBehaviour
         {
             subText.color = Color.yellow;
         }
-        return message.Substring(4).Trim('"');
+        return message.Substring(5, message.Length-7);
     }
 }

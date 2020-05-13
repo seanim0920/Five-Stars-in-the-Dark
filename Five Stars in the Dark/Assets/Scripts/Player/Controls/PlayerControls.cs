@@ -75,7 +75,7 @@ public class PlayerControls : MonoBehaviour
     {
         if (acceling || braking)
         {
-            releasePedalSound.volume = 1-movementSpeed / maxSpeed;
+            releasePedalSound.volume = 0.5f-movementSpeed / maxSpeed;
             releasePedalSound.Play();
         }
         acceling = false;
@@ -123,7 +123,7 @@ public class PlayerControls : MonoBehaviour
         {
             if (!braking)
             {
-                brakePedalSound.volume = 1-movementSpeed / maxSpeed;
+                brakePedalSound.volume = 0.5f-movementSpeed / maxSpeed;
                 brakePedalSound.Play();
             }
             braking = true;
@@ -153,7 +153,7 @@ public class PlayerControls : MonoBehaviour
         {
             if (!acceling)
             {
-                accelPedalSound.volume = 1-movementSpeed / maxSpeed;
+                accelPedalSound.volume = 0.5f-movementSpeed / maxSpeed;
                 accelPedalSound.Play();
             }
             acceling = true;
