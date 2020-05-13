@@ -86,7 +86,7 @@ public class CarCollision : MonoBehaviour
 
         hitSoundObject = col.gameObject;
 
-        if (col.gameObject.tag == "Car")
+        if (col.gameObject.CompareTag("Car"))
         {
             hitSoundObject.transform.position = col.gameObject.transform.position;
             hitSoundObject.GetComponent<AudioSource>().Play();
@@ -99,11 +99,11 @@ public class CarCollision : MonoBehaviour
             StartCoroutine(disablePlayerControlMomentarily(col.gameObject.transform.position, speedDifference));
             StartCoroutine(disableNPCMomentarily(col.gameObject, speedDifference));
         }
-        if (col.gameObject.tag == "Pedestrian" || col.gameObject.tag == "Stop")
+        if (col.gameObject.CompareTag("Pedestrian") || col.gameObject.CompareTag("Stop"))
         {
             hitSoundObject.GetComponent<AudioSource>().Play();
         }
-        if (col.gameObject.tag == "Guardrail")
+        if (col.gameObject.CompareTag("Guardrail"))
         {
            if (col.gameObject.transform.position.x > transform.position.x)
            {
@@ -125,8 +125,8 @@ public class CarCollision : MonoBehaviour
         int x = 4; // Random.Range(-2, 1) + (GetNumericValue(SceneManagment.Scene.name[6]) * 3);
         AudioClip passengerHurt = Resources.Load<AudioClip>("Audio/dialogue/hurt" + x);
 
-        print("hitting a zone?" + (col.gameObject.tag != "Zone"));
-        if (col.gameObject.tag != "Zone")
+        print("hitting a zone?" + (!col.gameObject.CompareTag("Zone")));
+        if ((!col.gameObject.CompareTag("Zone")))
         {
             //if the passenger is speaking...
             if (ConstructLevelFromMarkers.isSpeaking && ConstructLevelFromMarkers.levelDialogue.isPlaying)
@@ -145,16 +145,16 @@ public class CarCollision : MonoBehaviour
     }
     void OnCollisionExit2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Car")
+        if (col.gameObject.CompareTag("Car"))
         {
             //charOnCar.Play();
         }
-        if (col.gameObject.tag == "Guardrail")
+        if (col.gameObject.CompareTag("Guardrail"))
         {
             controlFunctions.blockDirection(0);
             col.gameObject.GetComponent<AudioSource>().Stop();
         }
-        if (col.gameObject.tag == "Stop")
+        if (col.gameObject.CompareTag("Stop"))
         {
             TrackErrors.IncrementErrors();
         }
@@ -176,8 +176,7 @@ public class CarCollision : MonoBehaviour
         int currentTimePosition = dialogue.timeSamples - maxRewindTimeInSamples; //by default
         dialogue.clip.GetData(samples, currentTimePosition);
 
-        //Stop the level dialogue (we aren't using pause, that's reserved for the pause menu)
-        dialogue.Stop();
+        dialogue.Pause();
 
         int foundSilences = 0;
         for (int i = samples.Length; i-- > 0;)

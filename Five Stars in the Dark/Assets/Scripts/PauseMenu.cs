@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
     public static bool isPaused = false;
     public GameObject pauseMenuUI;
     private float shakeStore;
+    private bool dialoguePaused = false;
     AudioSource[] sources;
 
     private void Start()
@@ -39,6 +40,13 @@ public class PauseMenu : MonoBehaviour
         {
             if (!source.isPlaying && source.time != 0)
             {
+                if (source.gameObject.CompareTag("Constructor"))
+                {
+                    if (dialoguePaused)
+                        dialoguePaused = false;
+                    else
+                        continue;
+                }
                 source.UnPause();
             }
         }
@@ -55,6 +63,8 @@ public class PauseMenu : MonoBehaviour
         {
             if (source.isPlaying)
             {
+                if (source.gameObject.CompareTag("Constructor"))
+                    dialoguePaused = true;
                 source.Pause();
             }
         }

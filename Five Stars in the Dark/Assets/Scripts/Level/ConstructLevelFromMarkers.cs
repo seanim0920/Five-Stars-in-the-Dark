@@ -403,8 +403,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                                 GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/" + prefab),
                                     new Vector3(player.transform.position.x, player.transform.position.y + spawnDistance, 0),
                                     Quaternion.identity);
-                                if (nextDialogueTrigger == null) //checks whether trigger was already hit, if so spawn another one and spawn it further ahead. not the best programming practice but itll do for now.
-                                    nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+                                if (nextDialogueTrigger != null) //checks whether trigger was already hit, if so spawn another one and spawn it further ahead. not the best programming practice but itll do for now.
+                                    Destroy(nextDialogueTrigger);
+                                levelDialogue.Pause();
                                 if ((string.Equals(prefab, "quickturn", System.StringComparison.OrdinalIgnoreCase)))
                                 {
                                     if ((string.Equals(tokens[1].Trim(), "right", System.StringComparison.OrdinalIgnoreCase)))
@@ -415,13 +416,17 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                                     {
                                         obj.GetComponent<QuickTurn>().mustTurnLeft = true;
                                     }
-                                    nextDialogueTrigger.transform.position += new Vector3(0,50,0);
                                 } else if ((string.Equals(prefab, "stoplight", System.StringComparison.OrdinalIgnoreCase)))
                                 {
                                     string pattern = tokens[1].ToLower().Trim();
                                     obj.GetComponent<Stoplight>().pattern = pattern;
-                                    nextDialogueTrigger.transform.position += new Vector3(0, 350, 0); //I think this is the length of the stoplight object?
                                 }
+                                while (obj != null)
+                                {
+                                    yield return new WaitForSeconds(0);
+                                }
+                                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+                                levelDialogue.Play();
                             }
                             else {
                                 float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
