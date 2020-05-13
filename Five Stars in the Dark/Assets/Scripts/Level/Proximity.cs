@@ -14,7 +14,7 @@ public class Proximity : MonoBehaviour
     {
         foreach (AudioSource NPCAudio in NPCAudios)
         {
-            if (NPCAudio.gameObject == null) NPCAudios.Remove(NPCAudio);
+            if (NPCAudio == null) NPCAudios.Remove(NPCAudio);
 
             print("detecting any obstacles between player and npc... " + Physics2D.Linecast(NPCAudio.gameObject.transform.position, transform.parent.transform.position).transform.tag);
             //check if there's a clear line of sight between NPC and player
