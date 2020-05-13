@@ -23,9 +23,12 @@ public class subtitleText : MonoBehaviour
 
     string matchColorandTrimQuotes(string message)
     {
-        if (message[0] == '<' && char.ToLower(message[1]) == 'Y')
+        if (message[0] == '<' && char.ToLower(message[1]) == 'y')
         {
             subText.color = Color.yellow;
+        } else
+        {
+            subText.color = Color.white;
         }
         return message.Substring(5, message.Length-7);
     }

@@ -180,6 +180,14 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         gamepad = player.GetComponent<GamepadControl>();
         parseLevelMarkers();
 
+        if (!blackScreen.enabled)
+        {
+            enableControllers();
+        } else
+        {
+            disableControllers();
+        }
+
         carStart = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
         carPark = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
 
@@ -260,7 +268,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             //figure out when the current dialogue section ends and the next starts
             float currentDialogueEndTime = levelDialogue.clip.length;
             float nextDialogueStartTime = levelDialogue.clip.length;
-            bool start = false;
             currentDialogueStartTime = 0.0f;
 
             if (dialogueMarkers.Count > 1)
@@ -268,7 +275,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 currentDialogueStartTime = levelDialogue.time;
                 currentDialogueEndTime = float.Parse(dialogueMarkers[0].Split(firstDelimiter)[1]);
                 nextDialogueStartTime = float.Parse(dialogueMarkers[1].Split(firstDelimiter)[0]);
-                if (string.Equals(dialogueMarkers[0].Split(firstDelimiter)[2].Trim(), "Start")) start = true;
             }
             if (dialogueMarkers.Count > 0)
             {
@@ -276,29 +282,15 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             }
             else break;
 
-            //figure out when the next obstacle will spawn
-            float nextObstacleSpawnTime = levelDialogue.clip.length;
-            if (timedObstacleMarkers.Count > 0)
-            {
-                nextObstacleSpawnTime = levelDialogue.clip.length;
-            }
-
             //places GPS markers at the middle and end of the dialogue
             if (levelDialogue.time + startOfLevel >= (endOfLevel - startOfLevel) / 2 && !midpoint)
             {
                 print(levelDialogue.time + "level ends at " + endOfLevel);
-                //secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_middle");
-                //secondSource.Play();
-                //yield return new WaitForSeconds(secondSource.clip.length);
                 midpoint = true;
             }
 
             //create a physical marker that must be hit before the next piece of dialogue can play
             GameObject nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
-            if (start)
-            {
-                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - currentDialogueEndTime) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
-            }
 
             //start playing the dialogue from wherever it left off
             levelDialogue.Play();
@@ -340,13 +332,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         }
                         else if (string.Equals(command, "[StartCar]") || string.Equals(command, "[StartControl]"))
                         {
+                            if (nextDialogueTrigger != null) Destroy(nextDialogueTrigger);
+                            nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
                             print("started car at time " + levelDialogue.time);
                             StartCoroutine(startCar());
                             yield return new WaitForSeconds(2);
                             levelDialogue.Pause();
-                            //secondSource.clip = Resources.Load<AudioClip>("Audio/Car-SFX/GPS Library/gps_start");
-                            //secondSource.Play();
-                            //yield return new WaitForSeconds(secondSource.clip.length);
                             levelDialogue.Play();
                         }
                         else if (string.Equals(command, "[EndControl]"))
