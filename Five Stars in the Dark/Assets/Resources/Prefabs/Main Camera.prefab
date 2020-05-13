@@ -2445,6 +2445,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28dd168a0ba598409f89288ca4b1935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Wheel: {fileID: 4314826276809460384}
+  Dashboard: {fileID: 2075517833220920043}
   BlurredWheel: {fileID: 6374073347030390738}
   BlurredDashboard: {fileID: 7551670503239174910}
   LeftNeedle: {fileID: 851124098349189674}
