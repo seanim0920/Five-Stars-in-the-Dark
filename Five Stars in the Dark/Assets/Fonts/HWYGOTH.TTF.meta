@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 7f887ad700e1fd14a9f0714b85fa21b9
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Highway Gothic
+  fontNames:
+  - Highway Gothic
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: eeae21996f8ff9e42a4bb994abb8ed80, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
