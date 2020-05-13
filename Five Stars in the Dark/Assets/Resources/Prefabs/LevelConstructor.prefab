@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 412440413062414629}
   m_Layer: 0
   m_Name: LevelConstructor
-  m_TagString: Untagged
+  m_TagString: Constructor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ AudioSource:
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
-  Pan2D: -0
+  Pan2D: -0.00000007824905
   rolloffMode: 0
   BypassEffects: 0
   BypassListenerEffects: 0

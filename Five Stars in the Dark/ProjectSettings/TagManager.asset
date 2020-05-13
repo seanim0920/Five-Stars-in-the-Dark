@@ -16,6 +16,7 @@ TagManager:
   - Guardrail
   - Pedestrian
   - Zone
+  - Constructor
   layers:
   - Default
   - TransparentFX
