@@ -29,15 +29,6 @@ public class CarCollision : MonoBehaviour
 
     }
 
-    IEnumerator disablePlayerControlMomentarily(Vector3 otherCarPosition, float speed)
-    {
-        print("smashed car");
-        body.bodyType = RigidbodyType2D.Dynamic;
-        body.AddForce((transform.position - otherCarPosition).normalized * speed * 40, ForceMode2D.Impulse);
-        StartCoroutine(controlFunctions.impact(body.velocity));
-        yield return new WaitForFixedUpdate();
-    }
-
     IEnumerator disableNPCMomentarily(GameObject NPC, float speed)
     {
         NPCMovement movement = NPC.GetComponent<NPCMovement>();
@@ -96,7 +87,9 @@ public class CarCollision : MonoBehaviour
             NPCMovement movementScript = col.gameObject.GetComponent<NPCMovement>();
             float speedDifference = Mathf.Abs(movementScript.movementSpeed - controlFunctions.movementSpeed);
 
-            StartCoroutine(disablePlayerControlMomentarily(col.gameObject.transform.position, speedDifference));
+            body.bodyType = RigidbodyType2D.Dynamic;
+            body.AddForce((transform.position - col.gameObject.transform.position).normalized * speedDifference * 40, ForceMode2D.Impulse);
+            StartCoroutine(controlFunctions.impact(body.velocity));
             StartCoroutine(disableNPCMomentarily(col.gameObject, speedDifference));
         }
         if (col.gameObject.CompareTag("Pedestrian") || col.gameObject.CompareTag("Stop"))

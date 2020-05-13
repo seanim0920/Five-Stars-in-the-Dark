@@ -198,7 +198,6 @@ public class PlayerControls : MonoBehaviour
         {
             if (!isTurning && Mathf.Abs(amount) > 0)
             {
-                print("trying to turn right");
                 StartCoroutine(turnFail(amount > 0));
             }
             return;
@@ -284,7 +283,7 @@ public class PlayerControls : MonoBehaviour
         this.enabled = false;
         print("diabled controls cause of collision");
         int maxForce = 40;
-        int totalIterations = (int)(10 + 10 * (force.magnitude/maxForce));
+        int totalIterations = 15;
         float maxHDisplacement = (force.x / 20);
         float maxVDisplacement = (Mathf.Pow(Mathf.Abs(force.y), 0.1f) * (force.y > 0 ? 1 : -1) / 2f);
         float origMovementSpeed = movementSpeed;

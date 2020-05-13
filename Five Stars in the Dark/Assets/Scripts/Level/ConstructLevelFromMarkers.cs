@@ -141,7 +141,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     print("parsed command marker" + tokens.Length);
                     commandMarkers.Add(tokens[0] + firstDelimiter + tokens[1] + firstDelimiter + tokens[2]);
                 }
-                else
+                else if (tokens[2].ToLower()[0] == 'd')
                 {
                     dialogueMarkers.Add(tokens[0] + firstDelimiter + tokens[1] + firstDelimiter + tokens[2]);
                 }
@@ -421,10 +421,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                                     string pattern = tokens[1].ToLower().Trim();
                                     obj.GetComponent<Stoplight>().pattern = pattern;
                                 }
-                                while (obj != null)
+                                while (obj != null && !skipSection)
                                 {
                                     yield return new WaitForSeconds(0);
                                 }
+                                if (obj != null) Destroy(obj);
+                                controls.enabled = true;
+                                enableControllers();
                                 nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
                                 levelDialogue.Play();
                             }
@@ -485,8 +488,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         levelDialogue.time = levelDialogue.clip.length;
                     break;
                 }
-
-                if ((!levelDialogue.isPlaying && dialogueMarkers.Count == 0) || (levelDialogue.time >= currentDialogueEndTime && nextDialogueTrigger == null && (timedObstacleMarkers.Count == 0 || (float.Parse(timedObstacleMarkers[0].Split(firstDelimiter)[0]) >= nextDialogueStartTime)))) { break; }
             }
 
             print("finished section of dialogue, " + levelDialogue.isPlaying + dialogueMarkers.Count);
