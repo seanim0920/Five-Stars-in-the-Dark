@@ -752,7 +752,7 @@ MonoBehaviour:
     m_Mode: 4
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 1442712099}
+    m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 1442712099}
   m_Transition: 1
   m_Colors:
@@ -1473,8 +1473,8 @@ MonoBehaviour:
     m_Mode: 4
     m_SelectOnUp: {fileID: 1575511606}
     m_SelectOnDown: {fileID: 2059739540}
-    m_SelectOnLeft: {fileID: 532022996}
-    m_SelectOnRight: {fileID: 532022996}
+    m_SelectOnLeft: {fileID: 2341906146168493065}
+    m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
@@ -2723,10 +2723,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 1575511606}
+    m_SelectOnUp: {fileID: 2341906146168493065}
     m_SelectOnDown: {fileID: 1186000963}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 280801818}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
@@ -3803,7 +3803,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.3882353, g: 0.3529412, b: 0.3529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -3946,9 +3946,9 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
     m_HighlightedColor: {r: 1, g: 0.87058824, b: 0.34901962, a: 1}
-    m_PressedColor: {r: 1, g: 0.87058824, b: 0.34901962, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_SelectedColor: {r: 0.3882353, g: 0.3529412, b: 0.3529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -4239,7 +4239,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 827139987}
+  m_TargetGraphic: {fileID: 1595181800}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -6010,7 +6010,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 827139986}
+    m_SelectOnUp: {fileID: 2341906144509033098}
     m_SelectOnDown: {fileID: 968326904}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
@@ -6334,7 +6334,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.3882353, g: 0.3529412, b: 0.3529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -6522,9 +6522,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 532022996}
     m_SelectOnDown: {fileID: 1575511606}
-    m_SelectOnLeft: {fileID: 2059739540}
+    m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 2059739540}
   m_Transition: 1
   m_Colors:
@@ -7057,7 +7057,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.3882353, g: 0.3529412, b: 0.3529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -7497,7 +7497,7 @@ MonoBehaviour:
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 234589278}
-    m_SelectOnRight: {fileID: 234589278}
+    m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
@@ -7692,7 +7692,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.3882353, g: 0.3529412, b: 0.3529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -8182,7 +8182,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_NormalColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
     m_HighlightedColor: {r: 1, g: 0.87058824, b: 0.34901962, a: 1}
     m_PressedColor: {r: 1, g: 0.87058824, b: 0.34901962, a: 1}
     m_SelectedColor: {r: 0.3882353, g: 0.3529412, b: 0.3529412, a: 1}
@@ -8335,7 +8335,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.3882353, g: 0.3529412, b: 0.3529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -9992,9 +9992,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 1575511606}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnUp: {fileID: 280801818}
+    m_SelectOnDown: {fileID: 2341906144952364491}
+    m_SelectOnLeft: {fileID: 532022996}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -10350,14 +10350,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d43f23dd889ac4a4db2fda2e075c168d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  start: {fileID: 234589278}
+  start: {fileID: 1119972357}
   play: {fileID: 234589278}
+  instructionsBack: {fileID: 1442712099}
   level: {fileID: 968326904}
   levelBack: {fileID: 1575511606}
+  settings: {fileID: 827139986}
+  settingsBack: {fileID: 812855718}
   level1: {fileID: 532022996}
   level2: {fileID: 280801818}
   level3: {fileID: 1186000963}
   level4: {fileID: 2059739540}
+  bgmSlider: {fileID: 1514402021}
 --- !u!114 &2341906144509033096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10403,9 +10407,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 827139986}
+    m_SelectOnDown: {fileID: 1119972357}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -10889,17 +10893,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 2059739540}
+    m_SelectOnDown: {fileID: 1575511606}
+    m_SelectOnLeft: {fileID: 1186000963}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
     m_HighlightedColor: {r: 1, g: 0.87058824, b: 0.34901962, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 0.3882353, g: 0.3529412, b: 0.3529412, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -12032,11 +12036,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1575511606}
+    m_SelectOnDown: {fileID: 532022996}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 280801818}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
