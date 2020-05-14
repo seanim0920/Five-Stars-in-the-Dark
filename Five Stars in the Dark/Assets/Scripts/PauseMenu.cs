@@ -58,7 +58,6 @@ public class PauseMenu : MonoBehaviour
         MovementShake.shakeOffset = shakeStore;
 
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(resumeButton.gameObject);
     }
 
     public void pauseGame()
