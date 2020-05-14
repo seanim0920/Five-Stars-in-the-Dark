@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -10,11 +12,13 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     private float shakeStore;
     private bool dialoguePaused = false;
+    private Button resumeButton;
     AudioSource[] sources;
 
     private void Start()
     {
         sources = GameObject.FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+        resumeButton = GetComponentInChildren<Button>();
     }
 
     // Update is called once per frame
@@ -52,6 +56,9 @@ public class PauseMenu : MonoBehaviour
             }
         }
         MovementShake.shakeOffset = shakeStore;
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(resumeButton.gameObject);
     }
 
     public void pauseGame()
@@ -71,6 +78,10 @@ public class PauseMenu : MonoBehaviour
         }
         shakeStore = MovementShake.shakeOffset;
         MovementShake.shakeOffset = 0;
+
+        EventSystem.current.SetSelectedGameObject(null);
+        resumeButton = GetComponentInChildren<Button>();
+        EventSystem.current.SetSelectedGameObject(resumeButton.gameObject);
     }
 
     public void toMenu()
