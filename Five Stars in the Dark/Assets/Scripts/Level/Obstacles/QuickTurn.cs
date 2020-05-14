@@ -62,7 +62,7 @@ public class QuickTurn : MonoBehaviour
         float startTime = Time.time;
         // If player was strafing in wrong direction/holding wrong button in the first place
         // turnValue = gp.QuickTurns.Get().FindAction("Turn" + turnDirection).ReadValue<float>();
-        // Debug.Log(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>());
+        Debug.Log(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>());
 
         keyboardCtrl.enabled = false;
         playerCtrl.enabled = false;
@@ -86,6 +86,7 @@ public class QuickTurn : MonoBehaviour
             }
             // Play turnsound
             turnSound.Play();
+            Debug.Log("Played tire squealing sound?");
             // return with no errors
             keyboardCtrl.enabled = true;
         }
@@ -93,6 +94,7 @@ public class QuickTurn : MonoBehaviour
         {
             // Play turnsound
             turnSound.Play();
+            gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
             gp.Gameplay.Enable();
             // return with no errors
         }
@@ -100,7 +102,7 @@ public class QuickTurn : MonoBehaviour
         else
         {
             // return with score decremented
-            // Debug.Log("Decrement Score"); // We potentially want to play an error audio clip
+            Debug.Log("Decrement Score"); // We potentially want to play an error audio clip
             TrackErrors.IncrementErrors();
             gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
 
