@@ -315,7 +315,7 @@ public class PlayerControls : MonoBehaviour
     private void OnDisable()
     {
         isTurning = false;
-        if (!impacted && Application.isPlaying) //because apparently onDisable can be called in edit mode as well
+        if (!impacted && Application.isPlaying && gameObject.activeSelf) //because apparently onDisable can be called in edit mode as well
             StartCoroutine(stopCar());
     }
 
