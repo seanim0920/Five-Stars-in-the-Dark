@@ -93,7 +93,7 @@ public class QuickTurn : MonoBehaviour
         {
             // Play turnsound
             turnSound.Play();
-            gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
+            // gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
             gp.Gameplay.Enable();
             // return with no errors
         }
