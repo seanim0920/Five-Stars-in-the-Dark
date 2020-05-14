@@ -88,17 +88,13 @@ public class QuickTurn : MonoBehaviour
             turnSound.Play();
             // return with no errors
             keyboardCtrl.enabled = true;
-            playerCtrl.enabled = true;
-            yield break;
         }
         else if(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() > 0)
         {
             // Play turnsound
             turnSound.Play();
             gp.Gameplay.Enable();
-            playerCtrl.enabled = true;
             // return with no errors
-            yield break;
         }
         // else (turned in wrong direction)
         else
@@ -107,10 +103,22 @@ public class QuickTurn : MonoBehaviour
             // Debug.Log("Decrement Score"); // We potentially want to play an error audio clip
             TrackErrors.IncrementErrors();
             gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
+
+            /////////////////////////////////////////////////////////////////////////////////////
+            //                                                                                 //
+            //                                                                                 //
+            //  5/13/20                                                                        //
+            //  - Just realized that enabling both of these when failing a quick turn can      //
+            //    cause problems                                                               //
+            //                                                                  - Charles      //
+            //                                                                                 //
+            /////////////////////////////////////////////////////////////////////////////////////
             gp.Gameplay.Enable();
             keyboardCtrl.enabled = true;
-            playerCtrl.enabled = true;
-            yield break;
         }
+
+        playerCtrl.enabled = true;
+        Destroy(gameObject);
+        yield break;
     }
 }
