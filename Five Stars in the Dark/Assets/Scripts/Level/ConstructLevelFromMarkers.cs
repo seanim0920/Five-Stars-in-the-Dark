@@ -44,7 +44,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     public Image blackScreen;
     public TextAsset markersFile;
     public static string debugMessage { get; set; }
-    public static string subtitleMessage { get; set; }
+    public static string subtitleMessage { get; set; } = "";
 
     float numberOfLanes = 3;
     float laneWidth = 1.8f * 20;
@@ -350,21 +350,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 }
 
                 //check list of markers to see if the next subtitle is due
-                if (subtitleMarkers.Count > 0)
-                {
-                    string[] subtitleData = subtitleMarkers[0].Split(firstDelimiter);
-                    float spawnTime = float.Parse(subtitleData[0]);
-                    float despawnTime = float.Parse(subtitleData[1]);
-
-                    //if the next obstacle is due or if the obstacle trigger was touched, spawn it
-                    if (levelDialogue.time >= spawnTime)
-                    {
-                        debugMessage += "printing subtitles: " + subtitleData[2];
-
-                        subtitleMessage = subtitleData[2];
-                        subtitleMarkers.RemoveAt(0);
-                    }
-                }
+                updateSubtitle();
 
                 //check list of markers to see if the next obstacle is due
                 if (timedObstacleMarkers.Count > 0)
@@ -508,6 +494,34 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         MasterkeyEndScreen.currentLevel = SceneManager.GetActiveScene().name;
         ScoreStorage.Instance.setScoreProgress(100);
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+    }
+
+    private void updateSubtitle()
+    {
+        if (subtitleMarkers.Count > 0)
+        {
+            string[] subtitleData = subtitleMarkers[0].Split(firstDelimiter);
+            float spawnTime = float.Parse(subtitleData[0]);
+            float despawnTime = float.Parse(subtitleData[1]);
+
+            //if the next obstacle is due or if the obstacle trigger was touched, spawn it
+            if (levelDialogue.time >= spawnTime)
+            {
+                subtitleMessage = subtitleData[2];
+                if (levelDialogue.time >= despawnTime)
+                {
+                    subtitleMarkers.RemoveAt(0);
+                    if (subtitleMarkers.Count > 1)
+                    {
+                        float nextSpawnTime = float.Parse(subtitleMarkers[0].Split(firstDelimiter)[0]);
+                        if (nextSpawnTime - despawnTime > 1)
+                        {
+                            subtitleMessage = "";
+                        }
+                    }
+                }
+            }
+        }
     }
 
     IEnumerator startCar()

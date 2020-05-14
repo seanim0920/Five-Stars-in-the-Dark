@@ -15,7 +15,7 @@ public class subtitleText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ConstructLevelFromMarkers.subtitleMessage.Length > 0 && !string.Equals(subText.text, ConstructLevelFromMarkers.subtitleMessage))
+        if (!string.Equals(subText.text, ConstructLevelFromMarkers.subtitleMessage))
         {
             subText.text = matchColorandTrimQuotes(ConstructLevelFromMarkers.subtitleMessage);
         }
@@ -23,13 +23,18 @@ public class subtitleText : MonoBehaviour
 
     string matchColorandTrimQuotes(string message)
     {
-        if (message[0] == '<' && char.ToLower(message[1]) == 'y')
+        if (message.Length >= 5)
         {
-            subText.color = Color.yellow;
-        } else
-        {
-            subText.color = Color.white;
+            if (message[0] == '<' && char.ToLower(message[1]) == 'y')
+            {
+                subText.color = Color.yellow;
+            }
+            else
+            {
+                subText.color = Color.white;
+            }
+            return message.Substring(5, message.Length - 7);
         }
-        return message.Substring(5, message.Length-7);
+        return "";
     }
 }
