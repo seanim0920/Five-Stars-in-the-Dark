@@ -95,4 +95,16 @@ public class PauseMenu : MonoBehaviour
         resumeGame();
         LoadScene.Loader(SceneManager.GetActiveScene().name);
     }
+
+    public void goToSettings()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(GameObject.Find("BGM"));
+    }
+
+    public void goBackToPause()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(GameObject.Find("SettingsButton"));
+    }
 }
