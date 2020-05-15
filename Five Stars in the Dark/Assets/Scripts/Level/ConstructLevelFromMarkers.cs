@@ -62,59 +62,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     bool skipIntro = false;
 
     Object[] loadedObjects;
-    //void parseMarkersFromTextFile()
-    //{
-    //    timedObstacleMarkers = new List<string>();
-    //    dialogueMarkers = new List<string>();
-    //    spawnedObstacles = new Dictionary<GameObject, float>();
-    //    levelDialogue = GetComponent<AudioSource>();
-
-    //    StreamReader inp_stm = new StreamReader(Application.dataPath + "/" + "Level.txt");
-
-    //    int lineNumber = 1;
-    //    while (!inp_stm.EndOfStream)
-    //    {
-    //        string line = inp_stm.ReadLine();
-
-    //        string[] tokens = line.Split(new char[] { ' ', '\t' });
-    //        if (tokens.Length < 3 || !char.IsDigit(tokens[0][0])) continue;
-    //        float previousStartTime = 0;
-    //        bool newTrack = false;
-    //        float startTime = float.Parse(tokens[0]);
-    //        int lineLength;
-    //        //markers will either be obstacles/dialogue, or news/realtime events
-    //        if (tokens.Length == 3)
-    //        {
-    //            if (tokens[2][0] == '[')
-    //            {
-    //                print("parsed command marker" + tokens.Length);
-    //                if (string.Equals(tokens[2].Trim(), "[StartCar]"))
-    //                {
-    //                    startOfLevel = float.Parse(tokens[0]);
-    //                }
-    //                commandMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
-    //            }
-    //            else
-    //            {
-    //                dialogueMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (tokens[2][0] == '"')
-    //            {
-    //                subtitleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
-    //            }
-    //            timedObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
-    //            previousStartTime = startTime;
-    //        }
-    //        //print("amount of tokens are " + tokens.Length);
-    //        lineNumber++;
-    //        // Do Something with the input. 
-    //    }
-
-    //    inp_stm.Close();
-    //}
 
     void parseLevelMarkers()
     {
@@ -258,6 +205,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         debugMessage = "starting level now, level ends at " + endOfLevel;
         subtitleMessage = "";
         int updateRate = 50;
+        //end of level should be until the [endcontrol] marker
         endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split(firstDelimiter)[0]);
         //initial parsing of the theoretical fastest level time, for the sake of score calculation
         ScoreStorage.Instance.setScorePar((int)endOfLevel * 100);
@@ -265,6 +213,16 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         //perform these checks every frame for as long as the dialogue plays
         while (levelDialogue.time < levelDialogue.clip.length)
         {
+            if (skipIntro)
+            {
+                skipIntro = false;
+                levelDialogue.pitch = 3;
+                while (!controls.enabled && !CountdownTimer.isTracking)
+                {
+                    yield return new WaitForSeconds(0);
+                }
+            }
+
             //figure out when the current dialogue section ends and the next starts
             float currentDialogueEndTime = levelDialogue.clip.length;
             float nextDialogueStartTime = levelDialogue.clip.length;
@@ -601,7 +559,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         {
             skipSection = true;
         }
-        if (Input.GetKeyDown("l"))
+        if (Input.GetKeyDown("l") || (Gamepad.current != null && Gamepad.current.buttonNorth.isPressed))
         {
             skipIntro = true;
         }
