@@ -91,6 +91,8 @@ public class CarCollision : MonoBehaviour
             body.AddForce((transform.position - col.gameObject.transform.position).normalized * speedDifference * 40, ForceMode2D.Impulse);
             StartCoroutine(controlFunctions.impact(body.velocity));
             StartCoroutine(disableNPCMomentarily(col.gameObject, speedDifference));
+
+            hitSoundObject.GetComponent<ObstacleFailure>().playFailure(Camera.main.transform.position);
         }
         if (col.gameObject.CompareTag("Pedestrian") || col.gameObject.CompareTag("Stop"))
         {

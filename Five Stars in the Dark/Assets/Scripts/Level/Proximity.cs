@@ -12,8 +12,9 @@ public class Proximity : MonoBehaviour
     }
     private void Update()
     {
-        foreach (AudioSource NPCAudio in NPCAudios)
+        foreach (AudioSource NPCAudio in NPCAudios.ToArray())
         {
+            
             if (NPCAudio == null)
                 NPCAudios.Remove(NPCAudio);
             else
@@ -33,6 +34,8 @@ public class Proximity : MonoBehaviour
                     NPCAudio.pitch = NPCAudio.volume * 3;
                 }
             }
+                
+            
         }
     }
 

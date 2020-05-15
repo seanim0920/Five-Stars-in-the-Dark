@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2070063965514051327}
   - component: {fileID: 2070063965514051326}
   - component: {fileID: 2751223610612741506}
+  - component: {fileID: 1753531777595780395}
   m_Layer: 0
   m_Name: Curb
   m_TagString: Guardrail
@@ -139,7 +140,8 @@ AudioSource:
   m_GameObject: {fileID: 2070063965514051317}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2675066774269485028, guid: 52622cb0ca335e540b9533ee3c0e8469,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: d674f155cfb064443869e2f3fbf015b8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -226,3 +228,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1753531777595780395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070063965514051317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b868cf54e0f84b747b945cdc458712df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueSource: {fileID: 2751223610612741506}

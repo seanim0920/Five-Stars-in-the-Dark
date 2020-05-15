@@ -41,6 +41,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = false;
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
+        sources = GameObject.FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
         foreach (AudioSource source in sources)
         {
             if (!source.isPlaying && source.time != 0)

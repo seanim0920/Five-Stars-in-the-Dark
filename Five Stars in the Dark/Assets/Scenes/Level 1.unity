@@ -259,7 +259,8 @@ AudioSource:
   m_GameObject: {fileID: 161635414}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2675066774269485028, guid: 52622cb0ca335e540b9533ee3c0e8469,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: d674f155cfb064443869e2f3fbf015b8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -754,7 +755,8 @@ AudioSource:
   m_GameObject: {fileID: 511826924}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 2675066774269485028, guid: 52622cb0ca335e540b9533ee3c0e8469,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: d674f155cfb064443869e2f3fbf015b8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1209,16 +1211,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4148996918431534965, guid: f69b4fae26683fe428909848d1fe1e89,
-        type: 3}
-      propertyPath: cutsceneScript
-      value: 
-      objectReference: {fileID: 1635305341}
     - target: {fileID: 6775186467697617656, guid: f69b4fae26683fe428909848d1fe1e89,
         type: 3}
       propertyPath: strafeSound
       value: 
       objectReference: {fileID: 661825272}
+    - target: {fileID: 4148996918431534965, guid: f69b4fae26683fe428909848d1fe1e89,
+        type: 3}
+      propertyPath: cutsceneScript
+      value: 
+      objectReference: {fileID: 1635305341}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f69b4fae26683fe428909848d1fe1e89, type: 3}
 --- !u!82 &1478482134 stripped
