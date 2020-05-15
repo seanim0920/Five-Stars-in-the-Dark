@@ -14,20 +14,24 @@ public class Proximity : MonoBehaviour
     {
         foreach (AudioSource NPCAudio in NPCAudios)
         {
-            if (NPCAudio == null) NPCAudios.Remove(NPCAudio);
-
-            print("detecting any obstacles between player and npc... " + Physics2D.Linecast(NPCAudio.gameObject.transform.position, transform.parent.transform.position).transform.tag);
-            //check if there's a clear line of sight between NPC and player
-            if (Physics2D.Linecast(NPCAudio.gameObject.transform.position, transform.parent.transform.position).transform.tag != "Player") NPCAudio.volume = 0;
+            if (NPCAudio == null)
+                NPCAudios.Remove(NPCAudio);
             else
             {
-                Vector3 difference = (NPCAudio.gameObject.transform.position - transform.parent.transform.position);
-                float distance = difference.magnitude;
-                float eyesight = transform.localScale.y * transform.parent.transform.localScale.y;
-                NPCAudio.volume = Mathf.Pow(((-distance / (eyesight)) + 1), 2) * 1.1f;
-                Vector3 posRelativeToPlayer = transform.parent.transform.InverseTransformPoint(NPCAudio.gameObject.transform.position);
-                NPCAudio.panStereo = posRelativeToPlayer.x / (transform.localScale.x / 2);
-                NPCAudio.pitch = NPCAudio.volume * 3;
+                print("detecting any obstacles between player and npc... " + Physics2D.Linecast(NPCAudio.gameObject.transform.position, transform.parent.transform.position).transform.tag);
+                //check if there's a clear line of sight between NPC and player
+                if (Physics2D.Linecast(NPCAudio.gameObject.transform.position, transform.parent.transform.position).transform.tag != "Player")
+                    NPCAudio.volume = 0;
+                else
+                {
+                    Vector3 difference = (NPCAudio.gameObject.transform.position - transform.parent.transform.position);
+                    float distance = difference.magnitude;
+                    float eyesight = transform.localScale.y * transform.parent.transform.localScale.y;
+                    NPCAudio.volume = Mathf.Pow(((-distance / (eyesight)) + 1), 2) * 1.1f;
+                    Vector3 posRelativeToPlayer = transform.parent.transform.InverseTransformPoint(NPCAudio.gameObject.transform.position);
+                    NPCAudio.panStereo = posRelativeToPlayer.x / (transform.localScale.x / 2);
+                    NPCAudio.pitch = NPCAudio.volume * 3;
+                }
             }
         }
     }
