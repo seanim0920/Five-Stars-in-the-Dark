@@ -13,14 +13,7 @@ public class InitializeControllers : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LogitechGSDK.LogiSteeringInitialize(false);
-        if (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0))
-        {
-            // Toggle Steering Wheel Controls
-            steeringWheel.isOn = true;
-
-        }
-        else if(Gamepad.current == null)
+        if(Gamepad.current == null)
         {
             // Toggle Keyboard Controls
             keyboard.isOn = true;
@@ -36,11 +29,6 @@ public class InitializeControllers : MonoBehaviour
 
     public void checkWheel()
     {
-        if(!(LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
-        {
-            Debug.Log(warning);
-            keyboard.isOn = true;
-        }
     }
 
     public void checkGamepad()

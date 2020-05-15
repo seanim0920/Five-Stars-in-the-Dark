@@ -209,7 +209,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void enableControllers()
     {
-        if (controlType == 0 && (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
+        if (controlType == 0)
         {
             wheelControl.enabled = true;
         }
