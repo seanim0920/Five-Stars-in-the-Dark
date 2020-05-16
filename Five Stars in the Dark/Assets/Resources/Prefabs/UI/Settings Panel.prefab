@@ -399,6 +399,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5108010601317576364}
+        m_MethodName: SetSliderValue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5108010601317576364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,6 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac7359c3c1ddbef49993e238b6a8c904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeIndex: 2
   mixers:
   - {fileID: 24100000, guid: 52622cb0ca335e540b9533ee3c0e8469, type: 2}
   exposedParameters:
@@ -880,15 +892,15 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
           type: 3}
-        m_MethodName: setController
-        m_Mode: 3
+        m_MethodName: toggleWheel
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 0}
         m_MethodName: checkWheel
@@ -1017,6 +1029,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5108010601683501000}
+        m_MethodName: SetSliderValue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5108010601683501000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1029,6 +1052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac7359c3c1ddbef49993e238b6a8c904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeIndex: 1
   mixers:
   - {fileID: 24100000, guid: 52622cb0ca335e540b9533ee3c0e8469, type: 2}
   - {fileID: 24100000, guid: 9be2010ab7953e346984cac08c55fbc3, type: 2}
@@ -1140,6 +1164,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5108010601735851790}
+        m_MethodName: SetSliderValue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5108010601735851790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1152,6 +1187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac7359c3c1ddbef49993e238b6a8c904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeIndex: 0
   mixers:
   - {fileID: 24100000, guid: 9be2010ab7953e346984cac08c55fbc3, type: 2}
   exposedParameters:
@@ -1317,15 +1353,15 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
           type: 3}
-        m_MethodName: setController
-        m_Mode: 3
+        m_MethodName: toggleKeyboard
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   m_IsOn: 0
 --- !u!1 &5108010601859646041
@@ -1677,15 +1713,15 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
           type: 3}
-        m_MethodName: setController
-        m_Mode: 3
+        m_MethodName: toggleGamepad
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 0}
         m_MethodName: checkGamepad
@@ -3043,6 +3079,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5108010602839534186}
+        m_MethodName: SetSliderValue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5108010602839534186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3055,6 +3102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac7359c3c1ddbef49993e238b6a8c904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  volumeIndex: 3
   mixers:
   - {fileID: 24100000, guid: 52622cb0ca335e540b9533ee3c0e8469, type: 2}
   exposedParameters:

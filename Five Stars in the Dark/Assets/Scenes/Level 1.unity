@@ -519,6 +519,36 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3161044690511559848, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1635305341}
+    - target: {fileID: 3161044690511559848, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: toggleWheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161044690826887573, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1635305341}
+    - target: {fileID: 3161044690826887573, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: toggleKeyboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161044688938466565, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1635305341}
+    - target: {fileID: 3161044688938466565, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: toggleGamepad
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
 --- !u!1 &170769230 stripped
@@ -1444,6 +1474,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelConstructor
       objectReference: {fileID: 0}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: ambience
+      value: 
+      objectReference: {fileID: 1478482134}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: blackScreen
+      value: 
+      objectReference: {fileID: 170769231}
     - target: {fileID: 412440413062414635, guid: cec60119a7a8c704ea21138b08c6c077,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1499,15 +1539,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: ambience
-      value: 
-      objectReference: {fileID: 1478482134}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: blackScreen
-      value: 
-      objectReference: {fileID: 170769231}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cec60119a7a8c704ea21138b08c6c077, type: 3}
