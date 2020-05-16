@@ -38,7 +38,7 @@ public class InitializeControllers : MonoBehaviour
     {
         if(!(LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
         {
-            Debug.Log(warning);
+            // Debug.Log(warning);
             keyboard.isOn = true;
             SettingsManager.toggles[1] = keyboard.isOn;
         }
@@ -48,7 +48,7 @@ public class InitializeControllers : MonoBehaviour
     {
         if(Gamepad.current == null)
         {
-            Debug.Log(warning);
+            // Debug.Log(warning);
             keyboard.isOn = true;
             SettingsManager.toggles[1] = keyboard.isOn;
         }
