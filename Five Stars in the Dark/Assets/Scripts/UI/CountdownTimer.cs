@@ -30,8 +30,16 @@ public class CountdownTimer : MonoBehaviour
     {
         return currentTime;
     }
+    public static float decrementTime(float seconds)
+    {
+        return currentTime + seconds;
+    }
     public static void setTracking(bool enabled)
     {
         isTracking = enabled;
+    }
+    public static bool getTracking()
+    {
+        return isTracking;
     }
 }

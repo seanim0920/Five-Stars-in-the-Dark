@@ -59,7 +59,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     private char firstDelimiter = ';';
 
     bool skipSection = false;
-    bool skipIntro = false;
 
     Object[] loadedObjects;
 
@@ -213,16 +212,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         //perform these checks every frame for as long as the dialogue plays
         while (levelDialogue.time < levelDialogue.clip.length)
         {
-            if (skipIntro)
-            {
-                skipIntro = false;
-                levelDialogue.pitch = 3;
-                while (!controls.enabled && !CountdownTimer.isTracking)
-                {
-                    yield return new WaitForSeconds(0);
-                }
-            }
-
             //figure out when the current dialogue section ends and the next starts
             float currentDialogueEndTime = levelDialogue.clip.length;
             float nextDialogueStartTime = levelDialogue.clip.length;
@@ -486,13 +475,14 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         blackScreen.enabled = false;
         ambience.Play();
+        CountdownTimer.setTracking(true);
         yield return new WaitForSeconds(1);
         secondSource.PlayOneShot(carStart);
         StartCoroutine(wheelRumble());
         yield return new WaitForSeconds(1);
+        CountdownTimer.decrementTime(2);
         controls.enabled = true;
         Debug.Log(controlType);
-        CountdownTimer.setTracking(true);
         adjustInstrumentVolume(false, new string[] { });
     }
     IEnumerator parkCar()
@@ -561,7 +551,20 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         }
         if (Input.GetKeyDown("l") || (Gamepad.current != null && Gamepad.current.buttonNorth.isPressed))
         {
-            skipIntro = true;
+            StartCoroutine(skipIntro());
+        }
+    }
+
+    private IEnumerator skipIntro()
+    {
+        if (!controls.enabled && !CountdownTimer.getTracking())
+        {
+            levelDialogue.pitch = 4;
+            while (!controls.enabled && !CountdownTimer.getTracking())
+            {
+                yield return new WaitForSeconds(0);
+            }
+            levelDialogue.pitch = 1;
         }
     }
 
