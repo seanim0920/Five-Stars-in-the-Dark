@@ -13,7 +13,7 @@ public class CarCollision : MonoBehaviour
     public GameObject situationalDialogues;
     //collision sound
     public AudioSource charOnCar;
-    string[] obstacleTags = { "Car", "Curb", "Guardrail", "Pedestrian", "Stop" };
+    string[] obstacleTags = { "Car", "Curb", "Guardrail", "Pedestrian", "Stop", "Target" };
 
     // Start is called before the first frame update
     void Start()
@@ -77,7 +77,7 @@ public class CarCollision : MonoBehaviour
 
         hitSoundObject = col.gameObject;
 
-        if (col.gameObject.CompareTag("Car"))
+        if (col.gameObject.CompareTag("Car") || col.gameObject.CompareTag("Target"))
         {
             hitSoundObject.transform.position = col.gameObject.transform.position;
             hitSoundObject.GetComponent<AudioSource>().Play();
@@ -90,9 +90,11 @@ public class CarCollision : MonoBehaviour
             body.bodyType = RigidbodyType2D.Dynamic;
             body.AddForce((transform.position - col.gameObject.transform.position).normalized * speedDifference * 40, ForceMode2D.Impulse);
             StartCoroutine(controlFunctions.impact(body.velocity));
-            StartCoroutine(disableNPCMomentarily(col.gameObject, speedDifference));
+            if (!col.gameObject.CompareTag("Target"))
+                StartCoroutine(disableNPCMomentarily(col.gameObject, speedDifference));
 
-            hitSoundObject.GetComponent<ObstacleFailure>().playFailure(Camera.main.transform.position);
+            if (hitSoundObject.GetComponent<GenericObstacleFailure>())
+                hitSoundObject.GetComponent<GenericObstacleFailure>().playFailure(Camera.main.transform.position);
         }
         if (col.gameObject.CompareTag("Pedestrian") || col.gameObject.CompareTag("Stop"))
         {

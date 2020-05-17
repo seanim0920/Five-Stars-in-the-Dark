@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class TargetMovement : MonoBehaviour
 {
+    private GameObject player;
+    private PlayerControls controls;
+    private bool ramming;
+    private Rigidbody2D body;
     private NPCMovement movementFunctions;
     public string sequence = "a.....p....c....r....l....";
     // Start is called before the first frame update
@@ -20,6 +24,40 @@ public class TargetMovement : MonoBehaviour
     {
         makeCoroutines();
         StartCoroutine(movementPattern());
+        player = GameObject.Find("Player");
+        controls = player.GetComponent<PlayerControls>();
+        body = GetComponent<Rigidbody2D>();
+    }
+
+    private void Update()
+    {
+        //if player gets in front of this car, ram into it
+        Vector3 playerPosRelativeToThis = transform.InverseTransformPoint(player.transform.position);
+        print(playerPosRelativeToThis.y);
+        if (playerPosRelativeToThis.y > 2 && controls.enabled && !ramming)
+        {
+            ramming = true;
+            StopAllCoroutines();
+            StartCoroutine(ramPlayer());
+        }
+    }
+
+    IEnumerator ramPlayer()
+    {
+        while (controls.enabled)
+        {
+            yield return new WaitForFixedUpdate();
+            body.AddForce((player.transform.position - transform.position).normalized * 3, ForceMode2D.Impulse);
+        }
+        makeCoroutines();
+        StartCoroutine(movementPattern());
+        for (int i = 0; i < 100; i++)
+        {
+            movementFunctions.movementSpeed += 0.01f;
+            body.velocity *= 0.97f;
+        }
+        body.velocity *= 0;
+        ramming = false;
     }
 
     void makeCoroutines()

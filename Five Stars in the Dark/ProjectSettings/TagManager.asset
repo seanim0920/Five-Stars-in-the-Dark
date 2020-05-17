@@ -17,6 +17,7 @@ TagManager:
   - Pedestrian
   - Zone
   - Constructor
+  - Target
   layers:
   - Default
   - TransparentFX
