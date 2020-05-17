@@ -44,7 +44,7 @@ public class PlayerControls : MonoBehaviour
     [Header("Private Attributes (visible for debugging)")]
     [SerializeField] private float[] snapshotWeights;
 
-    private SteeringWheelControl wheelFunctions;
+    private SteeringWheelInput wheelFunctions;
 
     private string[] instruments = { "Lead", "Bass", "Keyboard", "Wind", "Support", "Drums" };
 
@@ -57,7 +57,7 @@ public class PlayerControls : MonoBehaviour
 
         // AudioMixerSnapshot[] engineSounds = {restToCoast, coastToAccel};
 
-        wheelFunctions = GetComponent<SteeringWheelControl>();
+        wheelFunctions = GetComponent<SteeringWheelInput>();
     }
     
     void FixedUpdate()

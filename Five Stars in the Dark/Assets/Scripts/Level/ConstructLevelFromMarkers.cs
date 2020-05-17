@@ -22,9 +22,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     Dictionary<GameObject, float> spawnedObstacles = new Dictionary<GameObject, float>();
     
     //variables set from the player object
-    private SteeringWheelControl wheelFunctions;
+    private SteeringWheelInput wheelFunctions;
     private PlayerControls controls;
-    private SteeringWheelControl wheelControl;
     private KeyboardControl keyboard;
     private GamepadControl gamepad;
     private static int controlType; // 0 = Steering Wheel
@@ -150,9 +149,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         loadedObjects = Resources.LoadAll("Prefabs/Obstacles", typeof(GameObject));
         player = GameObject.Find("Player");
-        wheelFunctions = player.GetComponent<SteeringWheelControl>();
+        wheelFunctions = player.GetComponent<SteeringWheelInput>();
         controls = player.GetComponent<PlayerControls>();
-        wheelControl = player.GetComponent<SteeringWheelControl>();
         keyboard = player.GetComponent<KeyboardControl>();
         gamepad = player.GetComponent<GamepadControl>();
         parseLevelMarkers();
@@ -190,17 +188,17 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         {
             gamepad.enabled = false;
             keyboard.enabled = false;
-            wheelControl.enabled = true;
+            wheelFunctions.enabled = true;
         }
         else if (SettingsManager.toggles[2])
         {
-            wheelControl.enabled = false;
+            wheelFunctions.enabled = false;
             keyboard.enabled = false;
             gamepad.enabled = true;
         }
         else
         {
-            wheelControl.enabled = false;
+            wheelFunctions.enabled = false;
             gamepad.enabled = false;
             keyboard.enabled = true;
         }
@@ -208,7 +206,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void disableControllers()
     {
-        wheelControl.enabled = false;
+        wheelFunctions.enabled = false;
         gamepad.enabled = false;
         keyboard.enabled = false;
     }

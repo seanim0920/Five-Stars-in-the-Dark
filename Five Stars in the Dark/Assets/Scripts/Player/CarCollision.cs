@@ -7,7 +7,7 @@ public class CarCollision : MonoBehaviour
 {
     private Rigidbody2D body;
     private PlayerControls controlFunctions;
-    private SteeringWheelControl wheelFunctions;
+    private SteeringWheelInput wheelFunctions;
 
     public GameObject hitSoundObject;
     public GameObject situationalDialogues;
@@ -19,7 +19,7 @@ public class CarCollision : MonoBehaviour
     void Start()
     {
         controlFunctions = GetComponent<PlayerControls>();
-        wheelFunctions = GetComponent<SteeringWheelControl>();
+        wheelFunctions = GetComponent<SteeringWheelInput>();
         body = GetComponent<Rigidbody2D>();
     }
 

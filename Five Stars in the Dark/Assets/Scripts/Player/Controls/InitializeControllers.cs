@@ -14,7 +14,6 @@ public class InitializeControllers : MonoBehaviour
     void Start()
     {
         SettingsManager.setToggles();
-        LogitechGSDK.LogiSteeringInitialize(false);
         if (SettingsManager.toggles[0])
         {
             // Toggle Steering Wheel Controls
@@ -36,7 +35,7 @@ public class InitializeControllers : MonoBehaviour
 
     public void checkWheel()
     {
-        if(!(LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
+        if(!(SteeringWheelInput.checkConnected()))
         {
             // Debug.Log(warning);
             keyboard.isOn = true;
