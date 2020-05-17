@@ -62,6 +62,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     Object[] loadedObjects;
 
+    public AudioSource skipStartSound;
+    public AudioSource skipLoopSound;
+    public AudioSource skipEndSound;
     void parseLevelMarkers()
     {
         timedObstacleMarkers = new List<string>();
