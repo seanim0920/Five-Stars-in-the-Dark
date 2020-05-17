@@ -61,10 +61,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     bool skipSection = false;
 
     Object[] loadedObjects;
-
-    public AudioSource skipStartSound;
-    public AudioSource skipLoopSound;
-    public AudioSource skipEndSound;
     void parseLevelMarkers()
     {
         timedObstacleMarkers = new List<string>();
@@ -552,28 +548,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         {
             skipSection = true;
         }
-        if (Input.GetKeyDown("l") || (Gamepad.current != null && Gamepad.current.buttonNorth.isPressed))
-        {
-            StartCoroutine(skipIntro());
-        }
     }
 
-    private IEnumerator skipIntro()
-    {
-        skipStartSound.Play();
-        skipLoopSound.Play();
-        if (!controls.enabled && !CountdownTimer.getTracking())
-        {
-            levelDialogue.pitch = 4;
-            while (!controls.enabled && !CountdownTimer.getTracking())
-            {
-                yield return new WaitForSeconds(0);
-            }
-            levelDialogue.pitch = 1;
-        }
-        skipEndSound.Play();
-        skipLoopSound.Stop();
-    }
 
     // Changes the volume of individual instruments (currently unused)
     void adjustInstrumentVolume(bool dialogueStart, string[] instruments)
