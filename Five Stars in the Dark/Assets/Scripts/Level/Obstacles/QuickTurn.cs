@@ -103,6 +103,7 @@ public class QuickTurn : MonoBehaviour
             // return with score decremented
             Debug.Log("Decrement Score"); // We potentially want to play an error audio clip
             TrackErrors.IncrementErrors();
+            GetComponent<ObstacleFailure>().playFailure(Camera.main.transform.position);
             gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
 
             /////////////////////////////////////////////////////////////////////////////////////
