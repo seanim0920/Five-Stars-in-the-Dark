@@ -37,7 +37,7 @@
 277.484726	283.464303	PoliceCar behind Lane1
 285.565236	288.393415	FastCar behind player
 286.858118	291.383203	SlowCar behind player
-293.160916	293.160916	QuickTurn left
+293.390000	293.390000	QuickTurn left
 296.635535	305.039266	SlowCar aheadOf Lane2
 306.978588	315.220709	PoliceCar behind player
 323.947660	333.644273	SlowCar behind player
