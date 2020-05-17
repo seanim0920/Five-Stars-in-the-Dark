@@ -9,6 +9,7 @@ public class ScoreStorage : Singleton<ScoreStorage>
     //how far in the level the player progressed. If level passed, should always be 100
     int progress = 0;
     //number of errors
+    [SerializeField]
     float errors = 0;
     //time taken to finish the level
     int time = 0;
@@ -19,7 +20,23 @@ public class ScoreStorage : Singleton<ScoreStorage>
 
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(gameObject);
+        if (GameObject.Find(gameObject.name))
+        {
+            if (Instance != this)
+            {
+                gameObject.SetActive(false);
+            } else
+            {
+                CountdownTimer.currentTime = 600;
+                TrackErrors.errors = 0;
+                progress = 0;
+                errors = 0;
+                time = 0;
+                points = 0;
+                par = 0;
+            }
+        }
     }
 
     //This method attempts to set all the scores at once, based on where I (Thomas) think they are.

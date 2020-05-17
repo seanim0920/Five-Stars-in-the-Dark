@@ -20,6 +20,7 @@ public class Blur : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        amount = 0;
         BlurColor = new Color(1,1,1,0);
         SmallColor = new Color(1, 1, 1, 1);
         VisColor = new Color(1, 1, 1, 1);
