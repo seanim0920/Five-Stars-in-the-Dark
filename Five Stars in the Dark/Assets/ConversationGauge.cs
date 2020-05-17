@@ -8,6 +8,9 @@ public class ConversationGauge : MonoBehaviour
     private float gauge = 100; //when it hits 0 the rest of the conversation plays and the car speeds off
     public AudioSource noise;
     public AudioSource convo;
+    public AudioSource ding;
+    public AudioSource rev;
+    private bool destroyed = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +19,11 @@ public class ConversationGauge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        gauge += 0.01f;
+        if (destroyed)
+        {
+            transform.parent.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0,200));
+        }
     }
 
     void OnTriggerStay2D(Collider2D col)
@@ -30,12 +37,16 @@ public class ConversationGauge : MonoBehaviour
             noise.pitch = Mathf.Pow(((-distance / (eyesight)) + 1), 2) * 4f;
             Vector3 posRelativeToPlayer = transform.parent.transform.InverseTransformPoint(col.gameObject.transform.position);
             noise.panStereo = - posRelativeToPlayer.x / (transform.localScale.x / 2);
-            gauge -= noise.pitch * 25 * Time.deltaTime;
+            gauge -= noise.pitch * 10 * Time.deltaTime;
             noise.volume = gauge/100;
-            convo.volume = 1 - gauge / 100;
-            if (gauge <= 0)
+            convo.panStereo = noise.panStereo;
+            convo.volume = Mathf.Pow(((-distance / (eyesight)) + (1 - gauge / 100)), 2);
+            if (gauge <= 0 && !destroyed)
             {
-                Destroy(transform.gameObject);
+                ding.Play();
+                rev.Play();
+                destroyed = true;
+                Destroy(transform.parent.gameObject, rev.clip.length);
             }
         }
     }
@@ -45,6 +56,7 @@ public class ConversationGauge : MonoBehaviour
         //should be adjusted to detect the closest car to the player, if there are multiple cars in the zone
         if (col.gameObject.tag == "Player")
         {
+            convo.volume = 0;
             noise.volume = 0;
         }
     }

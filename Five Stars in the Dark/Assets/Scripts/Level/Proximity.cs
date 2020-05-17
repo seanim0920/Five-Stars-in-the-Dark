@@ -19,7 +19,7 @@ public class Proximity : MonoBehaviour
                 NPCAudios.Remove(NPCAudio);
             else
             {
-                print("detecting any obstacles between player and npc... " + Physics2D.Linecast(NPCAudio.gameObject.transform.position, transform.parent.transform.position).transform.tag);
+                //print("detecting any obstacles between player and npc... " + Physics2D.Linecast(NPCAudio.gameObject.transform.position, transform.parent.transform.position).transform.tag);
                 //check if there's a clear line of sight between NPC and player
                 if (Physics2D.Linecast(NPCAudio.gameObject.transform.position, transform.parent.transform.position).transform.tag != "Player")
                     NPCAudio.volume = 0;
@@ -42,7 +42,7 @@ public class Proximity : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D col)
     {
         //should be adjusted to detect the closest car to the player, if there are multiple cars in the zone
-        if (col.gameObject.tag == "Car")
+        if (col.gameObject.CompareTag("Car") || col.gameObject.CompareTag("Target"))
         {
             NPCAudios.Add(col.gameObject.transform.Find("ProximitySfx").GetComponent<AudioSource>());
         }
@@ -50,7 +50,7 @@ public class Proximity : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Car")
+        if (col.gameObject.CompareTag("Car") || col.gameObject.CompareTag("Target"))
         {
             col.gameObject.transform.Find("ProximitySfx").GetComponent<AudioSource>().volume = 0;
             NPCAudios.Remove(col.gameObject.transform.Find("ProximitySfx").GetComponent<AudioSource>());

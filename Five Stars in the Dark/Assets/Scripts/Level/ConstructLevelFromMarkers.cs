@@ -448,21 +448,36 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 if (nextDialogueTrigger != null) //checks whether trigger was already hit, if so spawn another one and spawn it further ahead. not the best programming practice but itll do for now.
                     Destroy(nextDialogueTrigger);
                 levelDialogue.Pause();
+                print("paused dialogue here");
                 if ((string.Equals(prefab, "quickturn", System.StringComparison.OrdinalIgnoreCase)))
                 {
-                    if ((string.Equals(tokens[1].Trim(), "right", System.StringComparison.OrdinalIgnoreCase)))
+                    if (tokens.Length > 1)
                     {
-                        obj.GetComponent<QuickTurn>().mustTurnLeft = false;
-                    }
-                    else
-                    {
-                        obj.GetComponent<QuickTurn>().mustTurnLeft = true;
+                        if ((string.Equals(tokens[1].Trim(), "right", System.StringComparison.OrdinalIgnoreCase)))
+                        {
+                            obj.GetComponent<QuickTurn>().mustTurnLeft = false;
+                        }
+                        else
+                        {
+                            obj.GetComponent<QuickTurn>().mustTurnLeft = true;
+                        }
                     }
                 }
                 else if ((string.Equals(prefab, "stoplight", System.StringComparison.OrdinalIgnoreCase)))
                 {
-                    string pattern = tokens[1].ToLower().Trim();
-                    obj.GetComponent<Stoplight>().pattern = pattern;
+                    if (tokens.Length > 1)
+                    {
+                        string pattern = tokens[1].ToLower().Trim();
+                        obj.GetComponent<Stoplight>().pattern = pattern;
+                    }
+                }
+                else if ((string.Equals(prefab, "target", System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    if (tokens.Length > 1)
+                    {
+                        string pattern = tokens[1].ToLower().Trim();
+                        obj.GetComponent<TargetMovement>().sequence = pattern;
+                    }
                 }
                 dialogueStopper = obj;
             }
