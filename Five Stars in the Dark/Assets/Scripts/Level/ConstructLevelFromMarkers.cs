@@ -557,6 +557,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     private IEnumerator skipIntro()
     {
+        skipStartSound.Play();
+        skipLoopSound.Play();
         if (!controls.enabled && !CountdownTimer.getTracking())
         {
             levelDialogue.pitch = 4;
@@ -566,6 +568,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             }
             levelDialogue.pitch = 1;
         }
+        skipEndSound.Play();
+        skipLoopSound.Stop();
     }
 
     // Changes the volume of individual instruments (currently unused)
