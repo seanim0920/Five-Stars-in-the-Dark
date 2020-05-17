@@ -28,20 +28,21 @@ public class SkipCutscenes : MonoBehaviour
 
     private IEnumerator skipIntro()
     {
-        isSkipping = true;
-        skipStartSound.Play();
-        skipLoopSound.Play();
         if (!CountdownTimer.getTracking())
         {
+            isSkipping = true;
+            skipStartSound.Play();
+            skipLoopSound.Play();
             levelDialogue.pitch = 50;
             while (!CountdownTimer.getTracking())
             {
                 yield return new WaitForSeconds(0);
             }
             levelDialogue.pitch = 1;
+            skipEndSound.Play();
+            skipLoopSound.Stop();
+            isSkipping = false;
+            print(levelDialogue.time);
         }
-        skipEndSound.Play();
-        skipLoopSound.Stop();
-        isSkipping = false;
     }
 }

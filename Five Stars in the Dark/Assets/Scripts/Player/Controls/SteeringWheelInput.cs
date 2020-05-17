@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 
-public class SteeringWheelControl : MonoBehaviour
+public class SteeringWheelInput : MonoBehaviour
 {
     LogitechGSDK.LogiControllerPropertiesData properties;
     private string actualState;
@@ -12,23 +12,24 @@ public class SteeringWheelControl : MonoBehaviour
     private string buttonStatus;
     private string forcesLabel;
     private PlayerControls controlFunctions;
-    private KeyboardControl keyboardScript;
     string[] activeForceAndEffect;
     // Start is called before the first frame update
     void Start()
     {
         LogitechGSDK.LogiSteeringInitialize(false);
         controlFunctions = GetComponent<PlayerControls>();
-        keyboardScript = GetComponent<KeyboardControl>();
+    }
+
+    public static bool checkConnected()
+    {
+        return (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0));
     }
 
     // Update is called once per frame
     void Update()
     {
-        keyboardScript.enabled = true;
-        if (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0))
+        if (checkConnected())
         {
-            keyboardScript.enabled = false;
             LogitechGSDK.LogiPlaySpringForce(0, 0, 20, 85);
             //coefficientPercentage : specify the slope of the effect strength increase relative to the amount of deflection from the center of the condition. Higher values mean that the saturation level is reached sooner. Valid ranges are -100 to 100. Any value outside the valid range is silently clamped. -100 simulates a very slippery effect, +100 makes the wheel/joystick very hard to move, simulating the car at a stop or in mud.
             //LogitechGSDK.LogiPlayDamperForce(0, 100);
@@ -60,7 +61,8 @@ public class SteeringWheelControl : MonoBehaviour
 
     public void PlaySideCollisionForce(int magnitude)
     {
-        LogitechGSDK.LogiPlaySideCollisionForce(0, magnitude);
+        if (checkConnected())
+            LogitechGSDK.LogiPlaySideCollisionForce(0, magnitude);
     }
     public void StopSideCollisionForce()
     {
@@ -68,26 +70,31 @@ public class SteeringWheelControl : MonoBehaviour
     }
     public void PlayDirtRoadForce(int useableRange)
     {
-        LogitechGSDK.LogiPlayDirtRoadEffect(0, useableRange);
+        if (checkConnected())
+            LogitechGSDK.LogiPlayDirtRoadEffect(0, useableRange);
     }
     public void StopDirtRoadForce()
     {
-        LogitechGSDK.LogiStopDirtRoadEffect(0);
+        if (checkConnected())
+            LogitechGSDK.LogiStopDirtRoadEffect(0);
     }
 
     public void PlaySoftstopForce(int useableRange)
     {
-        LogitechGSDK.LogiPlaySoftstopForce(0, useableRange);
+        if (checkConnected())
+            LogitechGSDK.LogiPlaySoftstopForce(0, useableRange);
     }
 
     public void StopSoftstopForce()
     {
-        LogitechGSDK.LogiStopSoftstopForce(0);
+        if (checkConnected())
+            LogitechGSDK.LogiStopSoftstopForce(0);
     }
 
     public void PlayFrontCollisionForce()
     {
-        LogitechGSDK.LogiPlayFrontalCollisionForce(0, 100);
+        if (checkConnected())
+            LogitechGSDK.LogiPlayFrontalCollisionForce(0, 100);
     }
 
     void OnApplicationQuit()

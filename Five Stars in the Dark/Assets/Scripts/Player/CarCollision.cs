@@ -7,7 +7,7 @@ public class CarCollision : MonoBehaviour
 {
     private Rigidbody2D body;
     private PlayerControls controlFunctions;
-    private SteeringWheelControl wheelFunctions;
+    private SteeringWheelInput wheelFunctions;
 
     public GameObject hitSoundObject;
     public GameObject situationalDialogues;
@@ -19,7 +19,7 @@ public class CarCollision : MonoBehaviour
     void Start()
     {
         controlFunctions = GetComponent<PlayerControls>();
-        wheelFunctions = GetComponent<SteeringWheelControl>();
+        wheelFunctions = GetComponent<SteeringWheelInput>();
         body = GetComponent<Rigidbody2D>();
     }
 
@@ -91,6 +91,8 @@ public class CarCollision : MonoBehaviour
             body.AddForce((transform.position - col.gameObject.transform.position).normalized * speedDifference * 40, ForceMode2D.Impulse);
             StartCoroutine(controlFunctions.impact(body.velocity));
             StartCoroutine(disableNPCMomentarily(col.gameObject, speedDifference));
+
+            hitSoundObject.GetComponent<ObstacleFailure>().playFailure(Camera.main.transform.position);
         }
         if (col.gameObject.CompareTag("Pedestrian") || col.gameObject.CompareTag("Stop"))
         {
