@@ -1,0 +1,44 @@
+0.000000	112.572129	Start
+10.647653	10.647653	[RevealScreen]
+113.672695	124.678350	Dialogue
+124.940389	184.475743	Dialogue
+185.157045	199.202357	Dialogue
+199.464397	206.749092	Dialogue
+206.958724	240.919031	Dialogue
+241.128662	256.117317	Dialogue
+257.951592	261.777368	Dialogue
+279.805679	287.352414	Dialogue
+289.081874	293.484136	Dialogue
+294.689517	298.724924	Dialogue
+299.144187	315.705078	Dialogue
+315.940913	330.824752	Dialogue
+336.694434	344.136353	Dialogue
+350.137056	365.492565	End
+113.301725	113.301725	[StartCar]
+115.226007	134.154676	SlowCar aheadOf Lane1
+123.154049	137.387470	FastCar behind Lane3
+130.543292	148.086478	FastCar behind Lane2
+141.088358	160.170969	FastCar behind player
+155.088358	180.170969	FastCar behind Lane1, FastCar behind player, SlowCar aheadOf player, SlowCar aheadOf Lane3
+185.038959	185.038959	stoplight wwwwwpp
+189.195408	194.352484	FastCar behind Lane1
+196.892536	205.128463	SlowCar aheadOf Lane2
+207.668515	213.056505	FastCar aheadOf Lane3
+215.442615	225.987680	SlowCar aheadOf Lane2
+228.065905	231.529612	FastCar behind player
+233.761780	243.768046	SlowCar aheadOf player
+253.774313	253.774313	stoplight wpwpwwpw
+261.646925	265.848791	PoliceCar behind Lane3
+261.970146	265.848791	PoliceCar behind Lane1
+267.141672	275.787818	SlowCar aheadOf Lane2
+269.404215	274.979767	SlowCar aheadOf Lane1
+277.161505	283.141083	PoliceCar behind Lane2
+277.403920	283.787524	PoliceCar behind Lane3
+277.484726	283.464303	PoliceCar behind Lane1
+285.565236	288.393415	FastCar behind player
+286.858118	291.383203	SlowCar behind player
+293.160916	293.160916	QuickTurn left
+296.635535	305.039266	SlowCar aheadOf Lane2
+306.978588	315.220709	PoliceCar behind player
+323.947660	333.644273	SlowCar behind player
+347.219530	347.219530	stoplight wwwppwpw
