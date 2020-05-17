@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuitGame : MonoBehaviour
+public class QuitGame2 : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Button>().onClick.AddListener(TaskEnd);
+        GetComponent<Button>().onClick.AddListener(TaskEnder);
     }
      
-	void TaskEnd() {
+	void TaskEnder() {
 		Application.Quit();	
 	}	
 }
