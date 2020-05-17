@@ -315,14 +315,12 @@ public class PlayerControls : MonoBehaviour
     private void OnDisable()
     {
         isTurning = false;
-        if (!impacted && Application.isPlaying && gameObject.activeSelf) //because apparently onDisable can be called in edit mode as well
-            StartCoroutine(stopCar());
     }
 
     public IEnumerator shutOff()
     {
-        this.impacted = false;
-        this.enabled = false;
+        impacted = false;
+        enabled = false;
         StartCoroutine(stopCar());
         for (int i = 0; i < 200; i++)
         {
@@ -339,8 +337,15 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
-    IEnumerator stopCar()
+    public void parkCar()
     {
+        StartCoroutine(stopCar());
+    }
+
+    private IEnumerator stopCar()
+    {
+        impacted = false;
+        enabled = false;
         while (movementSpeed > 0.01f)
         {
             lastRecordedStrafe *= 0.97f;

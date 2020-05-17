@@ -15,11 +15,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     private AudioClip carStart;
     private AudioClip carPark;
 
-    List<string> timedObstacleMarkers = new List<string>();
-    List<string> commandMarkers = new List<string>();
-    List<string> distanceObstacleMarkers = new List<string>();
-    List<string> dialogueMarkers = new List<string>();
-    List<string> subtitleMarkers = new List<string>();
+    List<Marker> timedObstacleMarkers = new List<Marker>();
+    List<Marker> commandMarkers = new List<Marker>();
+    List<Marker> dialogueMarkers = new List<Marker>();
+    List<Marker> subtitleMarkers = new List<Marker>();
     Dictionary<GameObject, float> spawnedObstacles = new Dictionary<GameObject, float>();
     
     //variables set from the player object
@@ -54,72 +53,48 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     public float currentDialogueStartTime = 0.0f;
     //this is public so error checking knows how far the player got
     public float startOfLevel = 0f;
-    public float endOfLevel = 1.0f;
+    public float endOfLevel = 0f;
 
     private char firstDelimiter = ';';
 
     bool skipSection = false;
     bool skipIntro = false;
 
+    GameObject nextDialogueTrigger;
+    GameObject dialogueStopper;
+
     Object[] loadedObjects;
-    //void parseMarkersFromTextFile()
-    //{
-    //    timedObstacleMarkers = new List<string>();
-    //    dialogueMarkers = new List<string>();
-    //    spawnedObstacles = new Dictionary<GameObject, float>();
-    //    levelDialogue = GetComponent<AudioSource>();
 
-    //    StreamReader inp_stm = new StreamReader(Application.dataPath + "/" + "Level.txt");
+    struct Marker
+    {
+        public float spawnTime;
+        public float despawnTime;
+        public string data;
+        public Marker(float spawnTime, float despawnTime, string data)
+        {
+            this.spawnTime = spawnTime;
+            this.despawnTime = despawnTime;
+            this.data = data;
+        }
+    }
 
-    //    int lineNumber = 1;
-    //    while (!inp_stm.EndOfStream)
-    //    {
-    //        string line = inp_stm.ReadLine();
-
-    //        string[] tokens = line.Split(new char[] { ' ', '\t' });
-    //        if (tokens.Length < 3 || !char.IsDigit(tokens[0][0])) continue;
-    //        float previousStartTime = 0;
-    //        bool newTrack = false;
-    //        float startTime = float.Parse(tokens[0]);
-    //        int lineLength;
-    //        //markers will either be obstacles/dialogue, or news/realtime events
-    //        if (tokens.Length == 3)
-    //        {
-    //            if (tokens[2][0] == '[')
-    //            {
-    //                print("parsed command marker" + tokens.Length);
-    //                if (string.Equals(tokens[2].Trim(), "[StartCar]"))
-    //                {
-    //                    startOfLevel = float.Parse(tokens[0]);
-    //                }
-    //                commandMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
-    //            }
-    //            else
-    //            {
-    //                dialogueMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + tokens[2]);
-    //            }
-    //        }
-    //        else
-    //        {
-    //            if (tokens[2][0] == '"')
-    //            {
-    //                subtitleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
-    //            }
-    //            timedObstacleMarkers.Add(tokens[0] + "-" + tokens[1] + "-" + string.Join(" ", tokens, 2, tokens.Length - 2));
-    //            previousStartTime = startTime;
-    //        }
-    //        //print("amount of tokens are " + tokens.Length);
-    //        lineNumber++;
-    //        // Do Something with the input. 
-    //    }
-
-    //    inp_stm.Close();
-    //}
+    void sortedMarkerInsert(List<Marker> list, Marker newmarker)
+    {
+        int i = 0;
+        for (i = 0; i < list.Count; i++)
+        {
+            if (newmarker.spawnTime < list[i].spawnTime)
+            {
+                break;
+            }
+        }
+        list.Insert(i, newmarker);
+    }
 
     void parseLevelMarkers()
     {
-        timedObstacleMarkers = new List<string>();
-        dialogueMarkers = new List<string>();
+        timedObstacleMarkers = new List<Marker>();
+        dialogueMarkers = new List<Marker>();
         spawnedObstacles = new Dictionary<GameObject, float>();
         levelDialogue = GetComponent<AudioSource>();
 
@@ -130,30 +105,32 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         {
             string[] tokens = line.Split(new char[] { ' ', '\t' });
             if (tokens.Length < 3 || !char.IsDigit(tokens[0][0])) continue;
-            bool newTrack = false;
             float startTime = float.Parse(tokens[0]);
-            int lineLength;
             //markers will either be obstacles/dialogue, or news/realtime events
             if (tokens.Length == 3)
             {
+                Marker newMarker = new Marker(float.Parse(tokens[0].Trim()), float.Parse(tokens[1].Trim()), tokens[2].Trim());
                 if (tokens[2][0] == '[')
                 {
-                    print("parsed command marker" + tokens.Length);
-                    commandMarkers.Add(tokens[0] + firstDelimiter + tokens[1] + firstDelimiter + tokens[2]);
+                    sortedMarkerInsert(commandMarkers, newMarker);
+                    if (string.Equals(newMarker.data, "[EndControl]"))
+                    {
+                        endOfLevel = newMarker.spawnTime;
+                    }
                 }
                 else if (tokens[2].ToLower()[0] == 'd')
                 {
-                    dialogueMarkers.Add(tokens[0] + firstDelimiter + tokens[1] + firstDelimiter + tokens[2]);
+                    sortedMarkerInsert(dialogueMarkers, newMarker);
                 }
             } else
             {
+                Marker newMarker = new Marker(float.Parse(tokens[0].Trim()), float.Parse(tokens[1].Trim()), string.Join(" ", tokens, 2, tokens.Length - 2));
                 if (tokens[2][0] == '"' || tokens[2][0] == '<')
                 {
-                    print("parsed subtitle marker" + tokens.Length);
-                    subtitleMarkers.Add(tokens[0] + firstDelimiter + tokens[1] + firstDelimiter + string.Join(" ", tokens, 2, tokens.Length - 2));
+                    sortedMarkerInsert(subtitleMarkers, newMarker);
                 } else
                 {
-                    timedObstacleMarkers.Add(tokens[0] + firstDelimiter + tokens[1] + firstDelimiter + string.Join(" ", tokens, 2, tokens.Length - 2));
+                    sortedMarkerInsert(timedObstacleMarkers, newMarker);
                 }
             }
             //print("amount of tokens are " + tokens.Length);
@@ -253,18 +230,23 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     IEnumerator playLevel()
     {
-        bool midpoint = false;
-        bool endpoint = false;
         debugMessage = "starting level now, level ends at " + endOfLevel;
         subtitleMessage = "";
         int updateRate = 50;
-        endOfLevel = float.Parse(dialogueMarkers[dialogueMarkers.Count - 1].Split(firstDelimiter)[0]);
+        if (endOfLevel == 0)
+        {
+            endOfLevel = levelDialogue.clip.length;
+        }
         //initial parsing of the theoretical fastest level time, for the sake of score calculation
+        //should subtract startleveltime from endleveltime
         ScoreStorage.Instance.setScorePar((int)endOfLevel * 100);
 
+        print("dialoguemarkers.count " + dialogueMarkers.Count + timedObstacleMarkers.Count);
+
         //perform these checks every frame for as long as the dialogue plays
-        while (levelDialogue.time < levelDialogue.clip.length)
+        while (dialogueMarkers.Count > 0 || timedObstacleMarkers.Count > 0)
         {
+            print("checking markers?");
             //figure out when the current dialogue section ends and the next starts
             float currentDialogueEndTime = levelDialogue.clip.length;
             float nextDialogueStartTime = levelDialogue.clip.length;
@@ -273,24 +255,16 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             if (dialogueMarkers.Count > 1)
             {
                 currentDialogueStartTime = levelDialogue.time;
-                currentDialogueEndTime = float.Parse(dialogueMarkers[0].Split(firstDelimiter)[1]);
-                nextDialogueStartTime = float.Parse(dialogueMarkers[1].Split(firstDelimiter)[0]);
+                currentDialogueEndTime = dialogueMarkers[0].despawnTime;
+                nextDialogueStartTime = dialogueMarkers[1].spawnTime;
             }
             if (dialogueMarkers.Count > 0)
             {
                 dialogueMarkers.RemoveAt(0);
             }
-            else break;
-
-            //places GPS markers at the middle and end of the dialogue
-            if (levelDialogue.time + startOfLevel >= (endOfLevel - startOfLevel) / 2 && !midpoint)
-            {
-                print(levelDialogue.time + "level ends at " + endOfLevel);
-                midpoint = true;
-            }
 
             //create a physical marker that must be hit before the next piece of dialogue can play
-            GameObject nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+            nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
 
             //start playing the dialogue from wherever it left off
             levelDialogue.Play();
@@ -304,13 +278,25 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 yield return new WaitForSeconds(0);
                 debugMessage = "current time in dialogue: " + levelDialogue.time + "... ";
 
+                if (dialogueStopper != null)
+                {
+                    while (dialogueStopper != null && !skipSection)
+                    {
+                        yield return new WaitForSeconds(0);
+                    }
+                    if (dialogueStopper != null) Destroy(dialogueStopper);
+                    controls.enabled = true;
+                    enableControllers();
+                    nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
+                    levelDialogue.Play();
+                }
+
                 //check list of markers to see if the next obstacle is due
                 if (commandMarkers.Count > 0)
                 {
-                    string[] commandData = commandMarkers[0].Split(firstDelimiter);
-                    string command = commandData[2].Trim();
-                    float spawnTime = float.Parse(commandData[0]);
-                    if (levelDialogue.time >= spawnTime)
+                    Marker commandMarker = commandMarkers[0];
+                    string command = commandMarker.data;
+                    if (levelDialogue.time >= commandMarker.spawnTime)
                     {
                         debugMessage += "parsing command: " + command;
                         AudioClip radioClip = Resources.Load<AudioClip>(SceneManager.GetActiveScene().name + "/" + command.Trim('[', ']'));
@@ -355,81 +341,14 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 //check list of markers to see if the next obstacle is due
                 if (timedObstacleMarkers.Count > 0)
                 {
-                    string[] obstacleData = timedObstacleMarkers[0].Split(firstDelimiter);
-                    float spawnTime = float.Parse(obstacleData[0]);
-                    float despawnTime = float.Parse(obstacleData[1]);
+                    Marker obstacleMarker = timedObstacleMarkers[0];
                     //print("trying to spawn obstacle at time " + spawnTime);
 
                     //if the next obstacle is due or if the obstacle trigger was touched, spawn it
-                    if (spawnTime < nextDialogueStartTime && levelDialogue.time > spawnTime)
+                    if (obstacleMarker.spawnTime < nextDialogueStartTime && obstacleMarker.spawnTime < levelDialogue.time)
                     {
-                        debugMessage += "spawning obstacles: " + obstacleData[2];
-                        print(debugMessage);
-                        string[] obstacleSeq = obstacleData[2].Split(',');
-                        foreach (string obstacle in obstacleSeq)
-                        {
-                            //instantiate the obstacles plotted at this time
-
-                            string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
-                            float spawnDistance = 200;
-
-                            string prefab = "";
-                            foreach (var obj in loadedObjects)
-                            {
-                                if (string.Equals(obj.name, tokens[0].Trim(), System.StringComparison.OrdinalIgnoreCase))
-                                {
-                                    Debug.Log("found obstacle");
-                                    prefab = obj.name;
-                                }
-                            }
-                            if (prefab == "") { Debug.Log("could not load obstacle"); break; }
-
-                            if (tokens.Length == 2)
-                            {
-                                GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/" + prefab),
-                                    new Vector3(player.transform.position.x, player.transform.position.y + spawnDistance, 0),
-                                    Quaternion.identity);
-                                if (nextDialogueTrigger != null) //checks whether trigger was already hit, if so spawn another one and spawn it further ahead. not the best programming practice but itll do for now.
-                                    Destroy(nextDialogueTrigger);
-                                levelDialogue.Pause();
-                                if ((string.Equals(prefab, "quickturn", System.StringComparison.OrdinalIgnoreCase)))
-                                {
-                                    if ((string.Equals(tokens[1].Trim(), "right", System.StringComparison.OrdinalIgnoreCase)))
-                                    {
-                                        obj.GetComponent<QuickTurn>().mustTurnLeft = false;
-                                    }
-                                    else
-                                    {
-                                        obj.GetComponent<QuickTurn>().mustTurnLeft = true;
-                                    }
-                                } else if ((string.Equals(prefab, "stoplight", System.StringComparison.OrdinalIgnoreCase)))
-                                {
-                                    string pattern = tokens[1].ToLower().Trim();
-                                    obj.GetComponent<Stoplight>().pattern = pattern;
-                                }
-                                while (obj != null && !skipSection)
-                                {
-                                    yield return new WaitForSeconds(0);
-                                }
-                                if (obj != null) Destroy(obj);
-                                controls.enabled = true;
-                                enableControllers();
-                                nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
-                                levelDialogue.Play();
-                            }
-                            else {
-                                float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
-                                    tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
-                                    tokens[2].ToLower().Trim() == "playersleft" && player.transform.position.x > (-roadWidth + laneWidth) / 2 ? player.transform.position.x - laneWidth :
-                                    tokens[2].ToLower().Trim() == "playersright" && player.transform.position.x < (roadWidth + laneWidth) / 2 ? player.transform.position.x + laneWidth :
-                                    player.transform.position.x;
-                                float ypos = player.transform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? spawnDistance : -spawnDistance);
-                                //print(tokens[0].Trim());
-                                spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/"+prefab),
-                                    new Vector3(xpos, ypos, 0),
-                                    Quaternion.identity), despawnTime);
-                            }
-                        }
+                        debugMessage += "spawning obstacles: " + obstacleMarker.data;
+                        spawnObstacles(obstacleMarker.despawnTime, obstacleMarker.data);
                         timedObstacleMarkers.RemoveAt(0);
                     }
                 }
@@ -443,9 +362,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         debugMessage += "despawning obstacle: " + obj.name;
 
                         if (obj.transform.position.x > player.transform.position.x)
-                            obj.transform.Rotate(0, 0, -90);
+                            obj.transform.Rotate(0, 0, -45);
                         else
-                            obj.transform.Rotate(0, 0, 90);
+                            obj.transform.Rotate(0, 0, 45);
                         if (pair.Key.GetComponent<NPCMovement>().neutralSpeed != 0)
                         {
                             obj.GetComponent<CapsuleCollider2D>().isTrigger = true;
@@ -496,29 +415,89 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
     }
 
+    void spawnObstacles(float despawnTime, string obstacleData)
+    {
+        string[] obstacleSeq = obstacleData.Split(',');
+        foreach (string obstacle in obstacleSeq)
+        {
+            //instantiate the obstacles plotted at this time
+
+            string[] tokens = obstacle.Trim().Split(new char[] { ' ', '\t' });
+            float spawnDistance = 200;
+
+            string prefab = "";
+            foreach (var obj in loadedObjects)
+            {
+                if (string.Equals(obj.name, tokens[0].Trim(), System.StringComparison.OrdinalIgnoreCase))
+                {
+                    Debug.Log("found obstacle");
+                    prefab = obj.name;
+                }
+            }
+            if (prefab == "") { Debug.Log("could not load obstacle"); break; }
+
+            if (tokens.Length == 2)
+            {
+                GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/" + prefab),
+                    new Vector3(player.transform.position.x, player.transform.position.y + spawnDistance, 0),
+                    Quaternion.identity);
+                if (nextDialogueTrigger != null) //checks whether trigger was already hit, if so spawn another one and spawn it further ahead. not the best programming practice but itll do for now.
+                    Destroy(nextDialogueTrigger);
+                levelDialogue.Pause();
+                if ((string.Equals(prefab, "quickturn", System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    if ((string.Equals(tokens[1].Trim(), "right", System.StringComparison.OrdinalIgnoreCase)))
+                    {
+                        obj.GetComponent<QuickTurn>().mustTurnLeft = false;
+                    }
+                    else
+                    {
+                        obj.GetComponent<QuickTurn>().mustTurnLeft = true;
+                    }
+                }
+                else if ((string.Equals(prefab, "stoplight", System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    string pattern = tokens[1].ToLower().Trim();
+                    obj.GetComponent<Stoplight>().pattern = pattern;
+                }
+                dialogueStopper = obj;
+            }
+            else
+            {
+                float xpos = tokens[2].ToLower()[0] == 'l' ? (-roadWidth + laneWidth) / 2 + (laneWidth * (float.Parse(tokens[2].Substring(4)) - 1)) :
+                    tokens[2].ToLower()[0] == 'r' ? (-roadWidth + laneWidth) / 2 + (laneWidth * Random.Range(0, numberOfLanes)) :
+                    tokens[2].ToLower().Trim() == "playersleft" && player.transform.position.x > (-roadWidth + laneWidth) / 2 ? player.transform.position.x - laneWidth :
+                    tokens[2].ToLower().Trim() == "playersright" && player.transform.position.x < (roadWidth + laneWidth) / 2 ? player.transform.position.x + laneWidth :
+                    player.transform.position.x;
+                float ypos = player.transform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? spawnDistance : -spawnDistance);
+                //print(tokens[0].Trim());
+                spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/" + prefab),
+                    new Vector3(xpos, ypos, 0),
+                    Quaternion.identity), despawnTime);
+            }
+        }
+    }
+
     private void updateSubtitle()
     {
         if (subtitleMarkers.Count > 0)
         {
-            string[] subtitleData = subtitleMarkers[0].Split(firstDelimiter);
-            float spawnTime = float.Parse(subtitleData[0]);
-            float despawnTime = float.Parse(subtitleData[1]);
+            Marker subtitleMarker = subtitleMarkers[0];
 
             //if the next obstacle is due or if the obstacle trigger was touched, spawn it
-            if (levelDialogue.time >= spawnTime)
+            if (levelDialogue.time >= subtitleMarker.spawnTime)
             {
-                subtitleMessage = subtitleData[2];
-                if (levelDialogue.time >= despawnTime)
+                subtitleMessage = subtitleMarker.data;
+                if (levelDialogue.time >= subtitleMarker.despawnTime)
                 {
-                    subtitleMarkers.RemoveAt(0);
                     if (subtitleMarkers.Count > 1)
                     {
-                        float nextSpawnTime = float.Parse(subtitleMarkers[0].Split(firstDelimiter)[0]);
-                        if (nextSpawnTime - despawnTime > 1)
+                        if (subtitleMarkers[1].spawnTime - subtitleMarker.despawnTime > 1)
                         {
                             subtitleMessage = "";
                         }
                     }
+                    subtitleMarkers.RemoveAt(0);
                 }
             }
         }
@@ -539,7 +518,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     }
     IEnumerator parkCar()
     {
-        controls.enabled = false;
+        controls.parkCar();
         CountdownTimer.setTracking(false);
         secondSource.PlayOneShot(carPark);
         yield return new WaitForSeconds(1);
