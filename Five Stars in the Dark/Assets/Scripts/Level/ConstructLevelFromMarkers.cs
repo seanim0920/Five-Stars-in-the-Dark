@@ -184,18 +184,24 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         StartCoroutine(playLevel());
     }
 
-    void enableControllers()
+    public void enableControllers()
     {
-        if (controlType == 0 && (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0)))
+        if (SettingsManager.toggles[0])
         {
+            gamepad.enabled = false;
+            keyboard.enabled = false;
             wheelControl.enabled = true;
         }
-        else if (controlType == 2 && Gamepad.current != null)
+        else if (SettingsManager.toggles[2])
         {
+            wheelControl.enabled = false;
+            keyboard.enabled = false;
             gamepad.enabled = true;
         }
         else
         {
+            wheelControl.enabled = false;
+            gamepad.enabled = false;
             keyboard.enabled = true;
         }
     }
@@ -613,7 +619,47 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     public void setController(int type)
     {
-        Debug.Log("controller type: " + type);
-        controlType = type;
+        // Debug.Log("controller type: " + type);
+        // // controlType = type;
+        // Debug.Log(" dialogue? " + (levelDialogue == null));
+        if(levelDialogue != null)
+        {
+            enableControllers();
+        }
+    }
+
+    public void toggleWheel(bool isActive)
+    {
+        SettingsManager.toggles[0] = isActive;
+        SettingsManager.setToggles();
+        if(isActive)
+        {
+            controlType = 0;
+        }
+        setController(controlType);
+    }
+
+    public void toggleKeyboard(bool isActive)
+    {
+        SettingsManager.toggles[1] = isActive;
+        SettingsManager.setToggles();
+
+        if(isActive)
+        {
+            controlType = 1;
+        }
+        setController(controlType);
+    }
+
+    public void toggleGamepad(bool isActive)
+    {
+        SettingsManager.toggles[2] = isActive;
+        SettingsManager.setToggles();
+
+        if(isActive)
+        {
+            controlType = 2;
+        }
+        setController(controlType);
     }
 }

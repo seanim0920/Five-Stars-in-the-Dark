@@ -1007,6 +1007,18 @@ AudioSource:
     type: 3}
   m_PrefabInstance: {fileID: 1331929705}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1331929707 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+    type: 3}
+  m_PrefabInstance: {fileID: 1331929705}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503f84fdf5c9d174899cb93f03f70006, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1378729823
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1079,10 +1091,56 @@ PrefabInstance:
       propertyPath: focus
       value: 
       objectReference: {fileID: 1199343825}
+    - target: {fileID: 1798619073, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1798619071, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1798619072, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -31.348145
+      objectReference: {fileID: 0}
+    - target: {fileID: 1798619072, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -37.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4314826276229188209, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -37.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161044690511559848, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1331929707}
+    - target: {fileID: 3161044690511559848, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: toggleWheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161044690826887573, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1331929707}
+    - target: {fileID: 3161044690826887573, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: toggleKeyboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 3161044688938466565, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1331929707}
+    - target: {fileID: 3161044688938466565, guid: 0737ab1198c13c74695686fd9e987b22,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: toggleGamepad
       objectReference: {fileID: 0}
     - target: {fileID: 4332332946149501532, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
@@ -1094,30 +1152,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -37.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1798619072, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -31.348145
-      objectReference: {fileID: 0}
-    - target: {fileID: 1798619072, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -37.5
-      objectReference: {fileID: 0}
     - target: {fileID: 5074218850899765269, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
       propertyPath: controls
       value: 
       objectReference: {fileID: 1199343824}
-    - target: {fileID: 1798619071, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4078468103803472900, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1798619073, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -57,7 +57,6 @@ public class PauseMenu : MonoBehaviour
             }
         }
         MovementShake.shakeOffset = shakeStore;
-
         EventSystem.current.SetSelectedGameObject(null);
     }
 
@@ -82,6 +81,11 @@ public class PauseMenu : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         resumeButton = GetComponentInChildren<Button>();
         EventSystem.current.SetSelectedGameObject(resumeButton.gameObject);
+        GameObject settings = GameObject.Find("Settings Panel");
+        if(settings != null)
+        {
+            settings.SetActive(false);
+        }
     }
 
     public void toMenu()
@@ -94,5 +98,17 @@ public class PauseMenu : MonoBehaviour
     {
         resumeGame();
         LoadScene.Loader(SceneManager.GetActiveScene().name);
+    }
+
+    public void goToSettings()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(GameObject.Find("BGM"));
+    }
+
+    public void goBackToPause()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(GameObject.Find("SettingsButton"));
     }
 }
