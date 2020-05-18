@@ -18,6 +18,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
+        isPaused = false;
         resumeButton = GetComponentInChildren<Button>();
         pauseStartSound.ignoreListenerPause = true;
         pauseMenuSound.ignoreListenerPause = true;

@@ -51,8 +51,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //this is public so dialogue rewinding scripts know where to rewind too.
     public float currentDialogueStartTime = 0.0f;
     //this is public so error checking knows how far the player got
-    public float startOfLevel = 0f;
-    public float endOfLevel = 0f;
+    private static float startOfLevel = 0f;
+    private static float endOfLevel = 0f;
 
     private char firstDelimiter = ';';
 
@@ -90,6 +90,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         list.Insert(i, newmarker);
     }
 
+    public static float getProgress()
+    {
+        return (levelDialogue.time - startOfLevel) / (endOfLevel - startOfLevel) * 100;
+    }
+
     void parseLevelMarkers()
     {
         timedObstacleMarkers = new List<Marker>();
@@ -112,6 +117,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 if (tokens[2][0] == '[')
                 {
                     sortedMarkerInsert(commandMarkers, newMarker);
+                    if (string.Equals(newMarker.data, "[StartControl]") || string.Equals(newMarker.data, "[StartCar]"))
+                    {
+                        startOfLevel = newMarker.spawnTime;
+                    }
                     if (string.Equals(newMarker.data, "[EndControl]"))
                     {
                         endOfLevel = newMarker.spawnTime;
@@ -147,6 +156,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     void Start()
     {
+        ScoreStorage.Instance.resetScore();
         loadedObjects = Resources.LoadAll("Prefabs/Obstacles", typeof(GameObject));
         player = GameObject.Find("Player");
         wheelFunctions = player.GetComponent<SteeringWheelInput>();
@@ -276,8 +286,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
             debugMessage = "starting new dialogue section: " + "ends at " + currentDialogueEndTime + " next dialogue starts at " + nextDialogueStartTime;
             //while waiting for the next piece of dialogue, check if any obstacles need to be spawned or despawned, then remove from the queue. checks every frame
-            while ((levelDialogue.time < nextDialogueStartTime && levelDialogue.isPlaying) || commandMarkers.Count > 0)
+            while ((nextDialogueTrigger != null && (levelDialogue.time < nextDialogueStartTime && levelDialogue.isPlaying)) || commandMarkers.Count > 0)
             {
+                //if nextdialoguetrigger disappears before the current section is finished, the current section will repeat. bug.
                 //print("time in the dialogue is " + levelDialogue.time);
                 yield return new WaitForSeconds(0);
                 debugMessage = "current time in dialogue: " + levelDialogue.time + "... ";

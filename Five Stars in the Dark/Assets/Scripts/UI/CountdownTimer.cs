@@ -12,6 +12,7 @@ public class CountdownTimer : MonoBehaviour
     void Start()
     {
         // waitTime = 100.0f;
+        isTracking = false;
         levelCompleteTime = 600.0f;
         currentTime = levelCompleteTime;
     }
