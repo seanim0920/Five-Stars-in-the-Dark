@@ -282,15 +282,19 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 yield return new WaitForSeconds(0);
                 debugMessage = "current time in dialogue: " + levelDialogue.time + "... ";
 
-                if (dialogueStopper != null)
+                if (dialogueStopper != null && !dialogueStopper.CompareTag("Car"))
                 {
-                    while (dialogueStopper != null && !skipSection)
+                    while (dialogueStopper != null && !dialogueStopper.CompareTag("Car") && !skipSection)
                     {
                         yield return new WaitForSeconds(0);
                     }
-                    if (dialogueStopper != null) Destroy(dialogueStopper);
+                    if (dialogueStopper != null && !dialogueStopper.CompareTag("Car")) Destroy(dialogueStopper);
                     controls.enabled = true;
                     enableControllers();
+                    if (nextDialogueTrigger != null)
+                    {
+                        Destroy(nextDialogueTrigger);
+                    }
                     nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
                     levelDialogue.Play();
                 }

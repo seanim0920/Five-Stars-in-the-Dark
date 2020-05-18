@@ -20,10 +20,6 @@ public class ConversationGauge : MonoBehaviour
     void Update()
     {
         gauge += 0.01f;
-        if (destroyed)
-        {
-            transform.parent.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0,200));
-        }
     }
 
     void OnTriggerStay2D(Collider2D col)
@@ -40,14 +36,25 @@ public class ConversationGauge : MonoBehaviour
             gauge -= noise.pitch * 10 * Time.deltaTime;
             noise.volume = gauge/100;
             convo.panStereo = noise.panStereo;
-            convo.volume = Mathf.Pow(((-distance / (eyesight)) + (1 - gauge / 100)), 2);
+            convo.volume = 1 - gauge/100;
             if (gauge <= 0 && !destroyed)
             {
-                ding.Play();
-                rev.Play();
                 destroyed = true;
-                Destroy(transform.parent.gameObject, rev.clip.length);
+                transform.parent.tag = "Car";
+                StartCoroutine(driveAway());
             }
+        }
+    }
+
+    IEnumerator driveAway()
+    {
+        ding.Play();
+        yield return new WaitForSeconds(5);
+        rev.Play();
+        for (int i = 0; i < 100; i++)
+        {
+            transform.parent.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 200));
+            yield return new WaitForFixedUpdate();
         }
     }
 
