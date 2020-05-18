@@ -37,6 +37,7 @@ public class ConversationGauge : MonoBehaviour
             noise.volume = gauge/100;
             convo.panStereo = noise.panStereo;
             convo.volume = 1 - gauge/100;
+            convo.pitch = noise.pitch;
             if (gauge <= 0 && !destroyed)
             {
                 destroyed = true;
@@ -49,13 +50,14 @@ public class ConversationGauge : MonoBehaviour
     IEnumerator driveAway()
     {
         ding.Play();
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         rev.Play();
         for (int i = 0; i < 100; i++)
         {
-            transform.parent.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 200));
+            transform.parent.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 300));
             yield return new WaitForFixedUpdate();
         }
+        Destroy(this);
     }
 
     void OnTriggerExit2D(Collider2D col)
