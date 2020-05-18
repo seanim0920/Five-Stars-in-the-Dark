@@ -17,7 +17,7 @@ public class PlayError : MonoBehaviour
         
     }
 
-    public static IEnumerator PauseDialogue(AudioClip passengerHurt, float x)
+    public static IEnumerator PauseDialogue(AudioClip passengerHurt)
     {
         Debug.Log("Pausing Dialogue");
         AudioSource dialogue = ConstructLevelFromMarkers.levelDialogue;
