@@ -3305,8 +3305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfee0c3d697821a42b59036eb508ad13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bass: {fileID: 0}
-  drums: {fileID: 0}
   fade: {fileID: 1899861670}
   panel: {fileID: 527060065}
   scoreScript: {fileID: 1512238595}
@@ -3922,7 +3920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 3647293974230214909}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
 --- !u!4 &1394848924
@@ -5078,10 +5076,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 4
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnUp: {fileID: 3647293975114225626}
+    m_SelectOnDown: {fileID: 3647293974230214899}
+    m_SelectOnLeft: {fileID: 3647293975114225626}
+    m_SelectOnRight: {fileID: 3647293974230214899}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
@@ -5667,11 +5665,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 1832315644}
+    m_SelectOnDown: {fileID: 3647293975114225626}
+    m_SelectOnLeft: {fileID: 1832315644}
+    m_SelectOnRight: {fileID: 3647293975114225626}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
@@ -5961,11 +5959,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_Mode: 4
+    m_SelectOnUp: {fileID: 3647293974230214899}
+    m_SelectOnDown: {fileID: 1832315644}
+    m_SelectOnLeft: {fileID: 3647293974230214899}
+    m_SelectOnRight: {fileID: 1832315644}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
