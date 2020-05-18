@@ -12,7 +12,10 @@ public class checkSkipping : MonoBehaviour
     }
     void Update()
     {
+        if (SkipCutscenes.isSkipping != icon.enabled)
+        {
+            OverlayStatic.overlaid = SkipCutscenes.isSkipping;
+        }
         icon.enabled = SkipCutscenes.isSkipping;
-        OverlayStatic.overlaid = SkipCutscenes.isSkipping;
     }
 }

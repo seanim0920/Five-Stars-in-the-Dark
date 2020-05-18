@@ -40,6 +40,7 @@ public class PauseMenu : MonoBehaviour
 
     public void resumeGame()
     {
+        OverlayStatic.overlaid = false;
         pauseMenuSound.Stop();
         pauseEndSound.Play();
         AudioListener.pause = false;
@@ -52,6 +53,8 @@ public class PauseMenu : MonoBehaviour
 
     public void pauseGame()
     {
+        if (SkipCutscenes.isSkipping) return;
+        OverlayStatic.overlaid = true;
         pauseMenuSound.Play();
         pauseStartSound.Play();
         AudioListener.pause = true;

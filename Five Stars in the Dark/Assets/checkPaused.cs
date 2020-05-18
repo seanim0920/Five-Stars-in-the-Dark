@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class checkPaused : MonoBehaviour
 {
     private Text[] icons;
+    private bool isPaused;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,10 @@ public class checkPaused : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        OverlayStatic.overlaid = PauseMenu.isPaused;
+        if (PauseMenu.isPaused != isPaused)
+        {
+            OverlayStatic.overlaid = PauseMenu.isPaused;
+        }
+        isPaused = PauseMenu.isPaused;
     }
 }
