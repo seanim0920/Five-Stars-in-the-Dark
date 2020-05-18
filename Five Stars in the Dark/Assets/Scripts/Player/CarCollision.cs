@@ -93,8 +93,8 @@ public class CarCollision : MonoBehaviour
             if (!col.gameObject.CompareTag("Target"))
                 StartCoroutine(disableNPCMomentarily(col.gameObject, speedDifference));
 
-            if (hitSoundObject.GetComponent<GenericObstacleFailure>())
-                hitSoundObject.GetComponent<GenericObstacleFailure>().playFailure(Camera.main.transform.position);
+            if (hitSoundObject.GetComponent<ObstacleFailure>())
+                hitSoundObject.GetComponent<ObstacleFailure>().playFailure(Camera.main.transform.position);
         }
         if (col.gameObject.CompareTag("Pedestrian") || col.gameObject.CompareTag("Stop"))
         {
