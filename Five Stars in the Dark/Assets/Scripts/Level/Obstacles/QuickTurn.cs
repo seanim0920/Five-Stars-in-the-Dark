@@ -66,11 +66,13 @@ public class QuickTurn : MonoBehaviour
 
         keyboardCtrl.enabled = false;
         playerCtrl.enabled = false;
-        while((!Input.GetKey(turnDirection.ToLower()) ||
-               gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() <= 0) &&
-               Time.time - startTime < 2f)
+        while((!Input.GetKey(turnDirection.ToLower()) &&
+              Time.time - startTime < 1f) ||
+              (gp.QuickTurns.Get().FindAction("Turn " + turnDirection).phase != InputActionPhase.Performed &&
+              Time.time - startTime < 2f)) 
         {
             // Debug.Log(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>());
+            Debug.Log(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).phase);
             // Wait for player to turn in correct direction (Make sure player is not cheating by somehow performing both inputs)
             yield return null;
         }
@@ -89,7 +91,7 @@ public class QuickTurn : MonoBehaviour
             // return with no errors
             keyboardCtrl.enabled = true;
         }
-        else if(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).ReadValue<float>() > 0)
+        else if(gp.QuickTurns.Get().FindAction("Turn " + turnDirection).phase == InputActionPhase.Performed)
         {
             // Play turnsound
             turnSound.Play();
@@ -104,7 +106,7 @@ public class QuickTurn : MonoBehaviour
             Debug.Log("Decrement Score"); // We potentially want to play an error audio clip
             TrackErrors.IncrementErrors();
             GetComponent<ObstacleFailure>().playFailure(Camera.main.transform.position);
-            gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
+            // gp.QuickTurns.Get().FindAction("Turn " + turnDirection).Disable();
 
             /////////////////////////////////////////////////////////////////////////////////////
             //                                                                                 //
