@@ -8,17 +8,19 @@ using UnityEngine.EventSystems;
 
 public class PauseMenu : MonoBehaviour
 {
+    public AudioSource pauseStartSound;
+    public AudioSource pauseMenuSound;
+    public AudioSource pauseEndSound;
     public static bool isPaused = false;
     public GameObject pauseMenuUI;
     private float shakeStore;
-    private bool dialoguePaused = false;
     private Button resumeButton;
-    AudioSource[] sources;
 
     private void Start()
     {
-        sources = GameObject.FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
         resumeButton = GetComponentInChildren<Button>();
+        pauseStartSound.ignoreListenerPause = true;
+        pauseMenuSound.ignoreListenerPause = true;
     }
 
     // Update is called once per frame
@@ -38,43 +40,24 @@ public class PauseMenu : MonoBehaviour
 
     public void resumeGame()
     {
+        pauseMenuSound.Stop();
+        pauseEndSound.Play();
+        AudioListener.pause = false;
         isPaused = false;
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
-        sources = GameObject.FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
-        foreach (AudioSource source in sources)
-        {
-            if (!source.isPlaying && source.time != 0)
-            {
-                if (source.gameObject.CompareTag("Constructor"))
-                {
-                    if (dialoguePaused)
-                        dialoguePaused = false;
-                    else
-                        continue;
-                }
-                source.UnPause();
-            }
-        }
         MovementShake.shakeOffset = shakeStore;
         EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void pauseGame()
     {
-        sources = GameObject.FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
+        pauseMenuSound.Play();
+        pauseStartSound.Play();
+        AudioListener.pause = true;
         isPaused = true;
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        foreach (AudioSource source in sources)
-        {
-            if (source.isPlaying)
-            {
-                if (source.gameObject.CompareTag("Constructor"))
-                    dialoguePaused = true;
-                source.Pause();
-            }
-        }
         shakeStore = MovementShake.shakeOffset;
         MovementShake.shakeOffset = 0;
 
