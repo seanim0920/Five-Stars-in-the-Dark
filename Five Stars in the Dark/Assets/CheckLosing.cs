@@ -5,22 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class CheckLosing : MonoBehaviour
 {
-    private PlayerControls controls;
     private bool lost = false;
     AudioSource soundSource;
     public AudioSource secondSoundSource;
 
     private void Start()
     {
-        controls = GameObject.Find("Player").GetComponent<PlayerControls>();
+        lost = false;
         soundSource = GetComponent<AudioSource>();
     }
 
     private void Update()
     {
-        if (!lost && (CountdownTimer.getCurrentTime() <= 0 || TrackErrors.getErrors() >= 10))
+        if (!lost && CountdownTimer.isTracking && (CountdownTimer.getCurrentTime() <= 0 || TrackErrors.getErrors() >= 10))
         {
             lost = true;
+            CountdownTimer.isTracking = false;
             print("lose!");
             ScoreStorage.Instance.setScoreAll();
             MasterkeyFailScreen.currentLevel = SceneManager.GetActiveScene().name;
@@ -30,6 +30,8 @@ public class CheckLosing : MonoBehaviour
 
     IEnumerator failScreenSwitch()
     {
+        PlayerControls controls;
+        controls = GameObject.Find("Player").GetComponent<PlayerControls>();
         controls.gameObject.tag = "Pedestrian";
         StartCoroutine(controls.shutOff());
         //if we stop it, carcollisions can restart the clip again after the collision is finished
@@ -48,5 +50,6 @@ public class CheckLosing : MonoBehaviour
         secondSoundSource.Play();
 
         LoadScene.Loader("FailScreen");
+        lost = false;
     }
 }

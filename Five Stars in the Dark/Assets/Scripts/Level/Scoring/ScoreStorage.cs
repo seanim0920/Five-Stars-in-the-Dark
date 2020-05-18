@@ -26,17 +26,20 @@ public class ScoreStorage : Singleton<ScoreStorage>
             if (Instance != this)
             {
                 gameObject.SetActive(false);
-            } else
-            {
-                CountdownTimer.currentTime = 600;
-                TrackErrors.errors = 0;
-                progress = 0;
-                errors = 0;
-                time = 0;
-                points = 0;
-                par = 0;
             }
         }
+    }
+
+    public void resetScore()
+    {
+        print("resetting score");
+        CountdownTimer.currentTime = 600;
+        TrackErrors.errors = 0;
+        progress = 0;
+        errors = 0;
+        time = 0;
+        points = 0;
+        par = 0;
     }
 
     //This method attempts to set all the scores at once, based on where I (Thomas) think they are.
@@ -46,8 +49,8 @@ public class ScoreStorage : Singleton<ScoreStorage>
         //ConstructLEvelFromMarkers (attached to LevelConstructor)
         //CheckErrors (attached to ErrorText, which is on the prefab Camera)
         //CountdownTimer (attached to TimerText, which is on the prefab Camera)
-        ConstructLevelFromMarkers CLFM = GameObject.Find("/LevelConstructor").GetComponent<ConstructLevelFromMarkers>();
-        progress = (int)(CLFM.currentDialogueStartTime * 100 / CLFM.endOfLevel);
+        progress = (int)ConstructLevelFromMarkers.getProgress();
+        print("progress is " + progress);
         errors = TrackErrors.getErrors();
         time = (int)(600.0f - CountdownTimer.getCurrentTime()) * 100;
         //Par is not set here, becuase its data is not saved.
