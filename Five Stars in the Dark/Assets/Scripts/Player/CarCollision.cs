@@ -9,7 +9,7 @@ public class CarCollision : MonoBehaviour
     private PlayerControls controlFunctions;
     private SteeringWheelInput wheelFunctions;
 
-    public GameObject hitSoundObject;
+    private GameObject hitSoundObject;
     public GameObject situationalDialogues;
     //collision sound
     public AudioSource charOnCar;
@@ -76,12 +76,10 @@ public class CarCollision : MonoBehaviour
         }
 
         hitSoundObject = col.gameObject;
+        hitSoundObject.GetComponent<AudioSource>().Play();
 
         if (col.gameObject.CompareTag("Car") || col.gameObject.CompareTag("Target"))
         {
-            hitSoundObject.transform.position = col.gameObject.transform.position;
-            hitSoundObject.GetComponent<AudioSource>().Play();
-
             wheelFunctions.PlayFrontCollisionForce();
 
             NPCMovement movementScript = col.gameObject.GetComponent<NPCMovement>();
@@ -130,7 +128,7 @@ public class CarCollision : MonoBehaviour
             {
                 //play the hurtsound and wait 3 seconds
                 ConstructLevelFromMarkers.isSpeaking = false;
-                StartCoroutine(HitsoundWait(passengerHurt, 2));
+                StartCoroutine(PlayError.PauseDialogue(passengerHurt, passengerHurt.length + 1));
             }
             //if not...
             else
@@ -157,51 +155,4 @@ public class CarCollision : MonoBehaviour
         }
 
     }
-
-    IEnumerator HitsoundWait(AudioClip passengerHurt, int x)
-    {
-        Debug.Log("Pausing Dialogue");
-        AudioSource dialogue = ConstructLevelFromMarkers.levelDialogue;
-        //play a random hurtsound
-        AudioSource.PlayClipAtPoint(passengerHurt, /*new Vector3(0, 0, 0)*/this.gameObject.transform.position);
-
-        //find the last silent section of audio and rewind to it, or if not just rewind back a set amount of time
-        float maxRewindTime = 2; //in seconds
-        int maxRewindTimeInSamples = (int)((int)(dialogue.clip.samples / dialogue.clip.length) * maxRewindTime);
-        float[] samples = new float[maxRewindTimeInSamples * dialogue.clip.channels]; //array to be filled with samples from the audioclip
-
-        int currentTimePosition = dialogue.timeSamples - maxRewindTimeInSamples; //by default
-        dialogue.clip.GetData(samples, currentTimePosition);
-
-        dialogue.Pause();
-
-        int foundSilences = 0;
-        for (int i = samples.Length; i-- > 0;)
-        {
-            if (Mathf.Abs(samples[i]) == 0f)
-            {
-                foundSilences++;
-                if (foundSilences >= 2)
-                {
-                    print("found silences.");
-                    currentTimePosition += (i / dialogue.clip.channels);
-                    break;
-                }
-            }
-            else
-            {
-                foundSilences = 0;
-            }
-        }
-
-        //cutsceneScript.levelDialogue.time = cutsceneScript.currentDialogueStartTime;
-        //wait for... idk 3 seconds?
-        yield return new WaitForSeconds(passengerHurt.length + 1f);
-        //resume dialogue
-        dialogue.timeSamples = currentTimePosition;
-        dialogue.Play();
-        ConstructLevelFromMarkers.isSpeaking = true;
-        Debug.Log("Resuming Dialogue");
-    }
-
 }

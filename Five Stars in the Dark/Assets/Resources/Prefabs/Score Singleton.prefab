@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4535526223777956798}
   - component: {fileID: 3790237442771208574}
   - component: {fileID: 821832628}
+  - component: {fileID: 605581355130889147}
   m_Layer: 0
   m_Name: Score Singleton
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983bb08590dfa5146a198cf87fdefe83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  errors: 0
 --- !u!114 &2919546184528740201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,3 +279,15 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &605581355130889147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454052389539462723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a87ce624076f754eb8527079858cd01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
