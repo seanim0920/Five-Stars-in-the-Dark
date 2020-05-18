@@ -24,7 +24,7 @@ public class GenericObstacleFailure : ObstacleFailure
         System.Random rand = new System.Random();
         numDialogue = rand.Next(0, failureDialogues.Length);
         Debug.Log("numDialogue: " + numDialogue);
-        dialogueSource.clip = failureDialogues[numDialogue];
-        base.playFailure(point);
+        PlayError.PauseDialogue(failureDialogues[numDialogue]);
+        //base.playFailure(point);
     }
 }

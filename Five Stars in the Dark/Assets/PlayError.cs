@@ -56,7 +56,7 @@ public class PlayError : MonoBehaviour
 
         //cutsceneScript.levelDialogue.time = cutsceneScript.currentDialogueStartTime;
         //wait for... idk 3 seconds?
-        yield return new WaitForSeconds(passengerHurt.length + 1f);
+        yield return new WaitForSeconds(passengerHurt.length + 1f);  //note: should play an "oof" first before the angry passenger dialogue
         //resume dialogue
         dialogue.timeSamples = currentTimePosition;
         dialogue.Play();

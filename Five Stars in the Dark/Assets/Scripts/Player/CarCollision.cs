@@ -121,22 +121,6 @@ public class CarCollision : MonoBehaviour
         AudioClip passengerHurt = Resources.Load<AudioClip>("Audio/dialogue/hurt" + x);
 
         print("hitting a zone?" + (!col.gameObject.CompareTag("Zone")));
-        if ((!col.gameObject.CompareTag("Zone")))
-        {
-            //if the passenger is speaking...
-            if (ConstructLevelFromMarkers.isSpeaking && ConstructLevelFromMarkers.levelDialogue.isPlaying)
-            {
-                //play the hurtsound and wait 3 seconds
-                ConstructLevelFromMarkers.isSpeaking = false;
-                StartCoroutine(PlayError.PauseDialogue(passengerHurt, passengerHurt.length + 1));
-            }
-            //if not...
-            else
-            {
-                //just play the hurtsound
-                AudioSource.PlayClipAtPoint(passengerHurt, new Vector3(0, 0, 0));
-            }
-        }
     }
     void OnCollisionExit2D(Collision2D col)
     {
