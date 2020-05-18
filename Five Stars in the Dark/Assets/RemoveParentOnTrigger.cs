@@ -20,7 +20,7 @@ public class RemoveParentOnTrigger : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            Destroy(transform.parent.gameObject);
+            transform.parent.gameObject.tag = "Car";
         }
     }
 }
