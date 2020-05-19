@@ -294,6 +294,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
             if (dialogueStopper != null && !dialogueStopper.CompareTag("Car"))
             {
+                levelDialogue.Pause();
                 while (dialogueStopper != null && !dialogueStopper.CompareTag("Car") && !skipSection)
                 {
                     yield return new WaitForSeconds(0);
@@ -446,7 +447,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     Quaternion.identity);
                 if (nextDialogueTrigger != null) //checks whether trigger was already hit, if so spawn another one and spawn it further ahead. not the best programming practice but itll do for now.
                     Destroy(nextDialogueTrigger);
-                levelDialogue.Pause();
                 print("paused dialogue here");
                 if ((string.Equals(prefab, "quickturn", System.StringComparison.OrdinalIgnoreCase)))
                 {

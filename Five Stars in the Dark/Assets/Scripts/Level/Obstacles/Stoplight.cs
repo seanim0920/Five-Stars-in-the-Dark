@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Stoplight : MonoBehaviour
 {
-    public int loopAmount = 3;
+    public int loopAmount = 10;
     public string pattern = "w";
     private string objectDirectory = "Prefabs/Obstacles/";
     // Start is called before the first frame update
@@ -33,11 +33,15 @@ public class Stoplight : MonoBehaviour
                         npc.transform.localPosition = transform.GetChild(0).localPosition;
                         npc.transform.Rotate(0, 0, -90);
                         Destroy(npc, 8);
+                        yield return new WaitForSeconds(1f);
+                    } else
+                    {
+                        print("stoplgith detected pass");
+                        yield return new WaitForSeconds(2.5f);
                     }
-                    yield return new WaitForSeconds(1f);
                 }
             }
-            yield return new WaitForSeconds(8f);
+            yield return new WaitForSeconds(10f);
         }
         tag = "Go";
         transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;

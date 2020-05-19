@@ -21,6 +21,7 @@ public class PlayError : MonoBehaviour
     {
         Debug.Log("Pausing Dialogue");
         AudioSource dialogue = ConstructLevelFromMarkers.levelDialogue;
+        bool wasPlaying = dialogue.isPlaying;
         //play a random hurtsound
         source.clip = passengerHurt;
         source.Play();
@@ -59,7 +60,8 @@ public class PlayError : MonoBehaviour
         yield return new WaitForSeconds(passengerHurt.length + 1f);  //note: should play an "oof" first before the angry passenger dialogue
         //resume dialogue
         dialogue.timeSamples = currentTimePosition;
-        dialogue.Play();
+        if (wasPlaying)
+            dialogue.Play();
         Debug.Log("Resuming Dialogue");
     }
 }
