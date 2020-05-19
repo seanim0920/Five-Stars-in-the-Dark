@@ -278,14 +278,15 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     replaceMarker(nextDialogueStartTime);
                 }
                 dialogueMarkers.RemoveAt(0);
-                //print("playing current dialogue at " + dialogueMarkers.Count);
+                print("playing current dialogue at " + dialogueMarkers.Count);
             }
             else
             {
-                if (levelDialogue.time > currentDialogueEndTime)
+                if (levelDialogue.time >= currentDialogueEndTime)
                 {
                     isSpeaking = false;
-                    if (nextDialogueStartTime > currentDialogueEndTime && levelDialogue.time >= nextDialogueStartTime)
+                    //the next dialogue could start at the same moment the current dialogue ends, so a <= is needed.
+                    if (nextDialogueStartTime >= currentDialogueEndTime && levelDialogue.time >= nextDialogueStartTime) //fixes the level ending bug since nextdialoguestarttime isn't changed on the last item of dialogueMarkers
                     {
                         levelDialogue.Pause();
                     }
@@ -310,6 +311,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     {
                         yield return new WaitForSeconds(0);
                     }
+                    print("target car finished, playing current dialogue at " + dialogueMarkers.Count);
                     levelDialogue.Play();
                 }
             }

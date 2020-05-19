@@ -33,7 +33,7 @@ public class TargetMovement : MonoBehaviour
     {
         //if player gets in front of this car, ram into it
         Vector3 playerPosRelativeToThis = transform.InverseTransformPoint(player.transform.position);
-        print(playerPosRelativeToThis.y);
+        //print(playerPosRelativeToThis.y);
         if (playerPosRelativeToThis.y > 2 && controls.enabled && !ramming)
         {
             ramming = true;
