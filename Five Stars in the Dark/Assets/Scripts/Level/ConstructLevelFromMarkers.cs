@@ -286,7 +286,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
             debugMessage = "starting new dialogue section: " + "ends at " + currentDialogueEndTime + " next dialogue starts at " + nextDialogueStartTime;
             //while waiting for the next piece of dialogue, check if any obstacles need to be spawned or despawned, then remove from the queue. checks every frame
-            while ((nextDialogueTrigger != null && (levelDialogue.time < nextDialogueStartTime && levelDialogue.isPlaying)) || commandMarkers.Count > 0)
+            while ((levelDialogue.time < nextDialogueStartTime && levelDialogue.isPlaying) || commandMarkers.Count > 0)
             {
                 //if nextdialoguetrigger disappears before the current section is finished, the current section will repeat. bug.
                 //print("time in the dialogue is " + levelDialogue.time);

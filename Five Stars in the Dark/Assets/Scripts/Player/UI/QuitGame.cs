@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class QuitGame : MonoBehaviour
 {
+   Button r;
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Button>().onClick.AddListener(TaskEnd);
+        r = GetComponent<Button>();
+		r.onClick.AddListener(TaskEnd);
     }
      
 	void TaskEnd() {
