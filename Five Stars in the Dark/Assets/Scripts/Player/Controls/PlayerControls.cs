@@ -305,6 +305,7 @@ public class PlayerControls : MonoBehaviour
         body.velocity *= 0;
         if (tag == "Player")
         {
+            Blur.amount = 0;
             lastRecordedStrafe = 0;
             movementSpeed = 0;
             body.bodyType = RigidbodyType2D.Kinematic;
