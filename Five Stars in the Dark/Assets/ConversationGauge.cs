@@ -57,7 +57,8 @@ public class ConversationGauge : MonoBehaviour
             transform.parent.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 300));
             yield return new WaitForFixedUpdate();
         }
-        Destroy(this);
+        //remember to destroy the gameobject's PARENT, not this
+        Destroy(transform.parent.gameObject);
     }
 
     void OnTriggerExit2D(Collider2D col)

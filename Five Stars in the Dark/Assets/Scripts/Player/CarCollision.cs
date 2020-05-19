@@ -44,7 +44,7 @@ public class CarCollision : MonoBehaviour
             }
             movement.neutralSpeed = 0;
         }
-        while (NPCbody.velocity.magnitude > 0.1f)
+        while (NPCbody != null && NPCbody.velocity.magnitude > 0.1f)
         {
             yield return new WaitForFixedUpdate();
         }
