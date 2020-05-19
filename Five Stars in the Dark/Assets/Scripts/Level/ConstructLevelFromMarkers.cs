@@ -333,12 +333,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     }
                     else if (string.Equals(command, "[StartCar]") || string.Equals(command, "[StartControl]"))
                     {
+                        print("next dialogue start time is " + nextDialogueStartTime);
                         replaceMarker(nextDialogueStartTime);
                         print("started car at time " + levelDialogue.time);
                         StartCoroutine(startCar());
-                        yield return new WaitForSeconds(2);
-                        levelDialogue.Pause();
-                        levelDialogue.Play();
                     }
                     else if (string.Equals(command, "[EndControl]"))
                     {
