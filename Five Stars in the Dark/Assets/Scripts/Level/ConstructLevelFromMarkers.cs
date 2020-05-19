@@ -294,6 +294,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
             if (dialogueStopper != null && !dialogueStopper.CompareTag("Car"))
             {
+                bool wasPlaying = levelDialogue.isPlaying;
                 levelDialogue.Pause();
                 while (dialogueStopper != null && !dialogueStopper.CompareTag("Car") && !skipSection)
                 {
@@ -303,7 +304,14 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 controls.enabled = true;
                 enableControllers();
                 replaceMarker(nextDialogueStartTime);
-                levelDialogue.Play();
+                if (wasPlaying)
+                {
+                    while (PlayError.playingHurtSound == true)
+                    {
+                        yield return new WaitForSeconds(0);
+                    }
+                    levelDialogue.Play();
+                }
             }
 
             //check list of markers to see if the next command is due

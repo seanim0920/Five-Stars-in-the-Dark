@@ -5,9 +5,11 @@ using UnityEngine;
 public class PlayError : MonoBehaviour
 {
     public static AudioSource source;
+    public static bool playingHurtSound = false;
     // Start is called before the first frame update
     void Start()
     {
+        playingHurtSound = false;
         source = GetComponent<AudioSource>();
     }
 
@@ -24,6 +26,7 @@ public class PlayError : MonoBehaviour
         //play a random hurtsound
         source.clip = passengerHurt;
         source.Play();
+        playingHurtSound = true;
 
         //find the last silent section of audio and rewind to it, or if not just rewind back a set amount of time
         float maxRewindTime = 2; //in seconds
@@ -59,6 +62,7 @@ public class PlayError : MonoBehaviour
         //wait for... idk 3 seconds?
         yield return new WaitForSeconds(passengerHurt.length + 1f);  //note: should play an "oof" first before the angry passenger dialogue
         //resume dialogue
+        playingHurtSound = false;
         dialogue.timeSamples = currentTimePosition;
         if (wasPlaying)
             dialogue.Play();

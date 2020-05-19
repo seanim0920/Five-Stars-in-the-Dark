@@ -49,14 +49,14 @@ public class TargetMovement : MonoBehaviour
             yield return new WaitForFixedUpdate();
             body.AddForce((player.transform.position - transform.position).normalized * 3, ForceMode2D.Impulse);
         }
-        makeCoroutines();
-        StartCoroutine(movementPattern());
         for (int i = 0; i < 100; i++)
         {
             movementFunctions.movementSpeed += 0.01f;
             body.velocity *= 0.97f;
         }
         body.velocity *= 0;
+        makeCoroutines();
+        StartCoroutine(movementPattern());
         ramming = false;
     }
 
