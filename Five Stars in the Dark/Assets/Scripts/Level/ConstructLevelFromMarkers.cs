@@ -116,7 +116,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             if (tokens.Length == 3)
             {
                 Marker newMarker = new Marker(float.Parse(tokens[0].Trim()), float.Parse(tokens[1].Trim()), tokens[2].Trim());
-                if (tokens[2][0] == '[')
+                if (newMarker.data[0] == '[')
                 {
                     sortedMarkerInsert(commandMarkers, newMarker);
                     if (string.Equals(newMarker.data, "[StartControl]") || string.Equals(newMarker.data, "[StartCar]"))
@@ -128,14 +128,14 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         endOfLevel = newMarker.spawnTime;
                     }
                 }
-                else if (tokens[2].ToLower()[0] == 'd')
+                else if (newMarker.despawnTime - newMarker.spawnTime > 0.1f) //must have this check because it breaks for dialogue markers of length 0
                 {
                     sortedMarkerInsert(dialogueMarkers, newMarker);
                 }
             } else
             {
                 Marker newMarker = new Marker(float.Parse(tokens[0].Trim()), float.Parse(tokens[1].Trim()), string.Join(" ", tokens, 2, tokens.Length - 2));
-                if (tokens[2][0] == '"' || tokens[2][0] == '<')
+                if (newMarker.data[0] == '"' || newMarker.data[0] == '<')
                 {
                     sortedMarkerInsert(subtitleMarkers, newMarker);
                 } else
@@ -255,7 +255,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     IEnumerator playLevel()
     {
-        print("current dialogue sections are " + dialogueMarkers.Count);
+        print("current level time is " + levelDialogue.time);
         //perform these checks every frame for as long as the dialogue plays
         while (dialogueMarkers.Count > 0 || timedObstacleMarkers.Count > 0 || commandMarkers.Count > 0 || levelDialogue.isPlaying)
         {
