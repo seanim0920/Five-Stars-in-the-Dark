@@ -60,7 +60,6 @@ public class PlayError : MonoBehaviour
         //resume dialogue
         dialogue.timeSamples = currentTimePosition;
         dialogue.Play();
-        ConstructLevelFromMarkers.isSpeaking = true;
         Debug.Log("Resuming Dialogue");
     }
 }
