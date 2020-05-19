@@ -40,7 +40,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //for the start cutscene
     public AudioSource ambience;
     public Image blackScreen;
-    public TextAsset markersFile;
     public static string debugMessage { get; set; }
     public static string subtitleMessage { get; set; } = "";
 
@@ -104,13 +103,34 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         spawnedObstacles = new Dictionary<GameObject, float>();
         levelDialogue = GetComponent<AudioSource>();
 
-        string[] lines = markersFile.text.Split('\n');
+        DirectoryInfo directoryInfo = new DirectoryInfo(Application.streamingAssetsPath);
+        print("Streaming Assets Path: " + Application.streamingAssetsPath);
+        FileInfo[] allFiles = directoryInfo.GetFiles("*.*");
+
+        foreach (FileInfo file in allFiles)
+        {
+            if (file.Name.Contains(SceneManager.GetActiveScene().name) && !file.Name.Contains("meta"))
+            {
+                StartCoroutine(parseFromExt(file));
+            }
+        }
+    }
+
+    IEnumerator parseFromExt(FileInfo file)
+    {
+        string wwwPlayerFilePath = "file://" + file.FullName.ToString();
+        WWW www = new WWW(wwwPlayerFilePath);
+        yield return www;
+        string markersText = www.text;
+
+        string[] lines = markersText.Split('\n');
 
         int lineNumber = 1;
         foreach (string line in lines)
         {
             string[] tokens = line.Split(new char[] { ' ', '\t' });
-            if (tokens.Length < 3 || !char.IsDigit(tokens[0][0])) continue;
+            print(tokens[0].Length);
+            if (tokens.Length < 3 || tokens.Length == 0 || tokens[0].Length == 0 || !char.IsDigit(tokens[0].Trim()[0])) continue;
             float startTime = float.Parse(tokens[0]);
             //markers will either be obstacles/dialogue, or news/realtime events
             if (tokens.Length == 3)
@@ -132,13 +152,15 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 {
                     sortedMarkerInsert(dialogueMarkers, newMarker);
                 }
-            } else
+            }
+            else
             {
                 Marker newMarker = new Marker(float.Parse(tokens[0].Trim()), float.Parse(tokens[1].Trim()), string.Join(" ", tokens, 2, tokens.Length - 2));
                 if (newMarker.data[0] == '"' || newMarker.data[0] == '<')
                 {
                     sortedMarkerInsert(subtitleMarkers, newMarker);
-                } else
+                }
+                else
                 {
                     sortedMarkerInsert(timedObstacleMarkers, newMarker);
                 }
@@ -146,31 +168,12 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             //print("amount of tokens are " + tokens.Length);
             lineNumber++;
         }
-    }
-
-    [ContextMenu("Construct Level")]
-    void constructLevel()
-    {
-        parseLevelMarkers();
-
-        constructLevelMap();
-    }
-
-    void Start()
-    {
-        ScoreStorage.Instance.resetScore();
-        loadedObjects = Resources.LoadAll("Prefabs/Obstacles", typeof(GameObject));
-        player = GameObject.Find("Player");
-        wheelFunctions = player.GetComponent<SteeringWheelInput>();
-        controls = player.GetComponent<PlayerControls>();
-        keyboard = player.GetComponent<KeyboardControl>();
-        gamepad = player.GetComponent<GamepadControl>();
-        parseLevelMarkers();
 
         if (!blackScreen.enabled)
         {
             enableControllers();
-        } else
+        }
+        else
         {
             disableControllers();
         }
@@ -193,6 +196,26 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
         StartCoroutine(lockWheel());
         StartCoroutine(playLevel());
+    }
+
+    [ContextMenu("Construct Level")]
+    void constructLevel()
+    {
+        parseLevelMarkers();
+
+        constructLevelMap();
+    }
+
+    void Start()
+    {
+        ScoreStorage.Instance.resetScore();
+        loadedObjects = Resources.LoadAll("Prefabs/Obstacles", typeof(GameObject));
+        player = GameObject.Find("Player");
+        wheelFunctions = player.GetComponent<SteeringWheelInput>();
+        controls = player.GetComponent<PlayerControls>();
+        keyboard = player.GetComponent<KeyboardControl>();
+        gamepad = player.GetComponent<GamepadControl>();
+        parseLevelMarkers();
     }
 
     public void enableControllers()
