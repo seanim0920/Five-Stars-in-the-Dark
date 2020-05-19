@@ -12,7 +12,7 @@ public class OverlayStatic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        overlaid = false;
     }
 
     // Update is called once per frame

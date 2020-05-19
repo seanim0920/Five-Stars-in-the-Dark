@@ -52,7 +52,7 @@ public class NPCMovement : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         movementSpeed = neutralSpeed;
-        print(movementSpeed);
+        //print(movementSpeed);
     }
 
     public IEnumerator SwitchLaneRight(bool isRight, float strafeSpeed)

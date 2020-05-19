@@ -9,13 +9,10 @@ public class checkSkipping : MonoBehaviour
     // Update is called once per frame
     private void Start()
     {
+        icon.enabled = false;
     }
     void Update()
     {
-        if (SkipCutscenes.isSkipping != icon.enabled)
-        {
-            OverlayStatic.overlaid = SkipCutscenes.isSkipping;
-        }
         icon.enabled = SkipCutscenes.isSkipping;
     }
 }

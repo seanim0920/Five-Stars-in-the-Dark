@@ -33,7 +33,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     //for lowering the volume when dialogue is playing
     //public Transform leftSpeaker;
     //public Transform rightSpeaker;
-    public static bool isSpeaking;
+    private bool isSpeaking;
     private string[] dialogueInstruments = { "Drums", "Support", "Wind" };
     public float maxVol = 0.8f;
 
@@ -49,7 +49,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     float roadWidth = 1.8f * 3 * 20;
 
     //this is public so dialogue rewinding scripts know where to rewind too.
-    public float currentDialogueStartTime = 0.0f;
+    private float currentDialogueStartTime = 0.0f;
+    private float currentDialogueEndTime = 0.0f;
+    private float nextDialogueStartTime = 0.0f;
     //this is public so error checking knows how far the player got
     private static float startOfLevel = 0f;
     private static float endOfLevel = 0f;
@@ -176,19 +178,20 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         carStart = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
         carPark = Resources.Load<AudioClip>("Audio/Car-SFX/Car Ambience/Car-EngineStart");
 
-        /*
-        if (GameObject.Find("Map"))
+
+        debugMessage = "starting level now, level ends at " + endOfLevel;
+        subtitleMessage = "";
+        int updateRate = 50;
+        if (endOfLevel == 0)
         {
-            Destroy(GameObject.Find("Map"));
-
-            constructLevelMap();
-
-            GameObject.Find("Map").name = "NewerMap";
+            endOfLevel = levelDialogue.clip.length;
         }
-        */
+        //initial parsing of the theoretical fastest level time, for the sake of score calculation
+        //should subtract startleveltime from endleveltime
+        ScoreStorage.Instance.setScorePar((int)endOfLevel * 100);
+
 
         StartCoroutine(lockWheel());
-        StartCoroutine(shiftLoopSectionOfMusic(16f, 70.5f));
         StartCoroutine(playLevel());
     }
 
@@ -242,196 +245,177 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         player.transform.position = new Vector3(0, -length / 2, 0);
     }
 
+    void replaceMarker(float resumeTime)
+    {
+        int updateRate = 50;
+        if (nextDialogueTrigger != null) Destroy(nextDialogueTrigger);
+        //create a physical marker that must be hit before the next piece of dialogue can play
+        nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (resumeTime - levelDialogue.time) * controls.maxSpeed * updateRate - 10, 1), Quaternion.identity);
+    }
+
     IEnumerator playLevel()
     {
-        debugMessage = "starting level now, level ends at " + endOfLevel;
-        subtitleMessage = "";
-        int updateRate = 50;
-        if (endOfLevel == 0)
-        {
-            endOfLevel = levelDialogue.clip.length;
-        }
-        //initial parsing of the theoretical fastest level time, for the sake of score calculation
-        //should subtract startleveltime from endleveltime
-        ScoreStorage.Instance.setScorePar((int)endOfLevel * 100);
-
-        print("dialoguemarkers.count " + dialogueMarkers.Count + timedObstacleMarkers.Count);
-
+        print("current dialogue sections are " + dialogueMarkers.Count);
         //perform these checks every frame for as long as the dialogue plays
-        while (dialogueMarkers.Count > 0 || timedObstacleMarkers.Count > 0)
+        while (dialogueMarkers.Count > 0 || timedObstacleMarkers.Count > 0 || commandMarkers.Count > 0 || levelDialogue.isPlaying)
         {
-            print("checking markers?");
-            //figure out when the current dialogue section ends and the next starts
-            float currentDialogueEndTime = levelDialogue.clip.length;
-            float nextDialogueStartTime = levelDialogue.clip.length;
-            currentDialogueStartTime = 0.0f;
+            yield return new WaitForSeconds(0);
 
-            if (dialogueMarkers.Count > 1)
+            if (dialogueMarkers.Count > 0 && !isSpeaking && nextDialogueTrigger == null)
             {
-                currentDialogueStartTime = levelDialogue.time;
+                //figure out when the current dialogue section ends and the next starts
+                currentDialogueStartTime = dialogueMarkers[0].spawnTime;
                 currentDialogueEndTime = dialogueMarkers[0].despawnTime;
-                nextDialogueStartTime = dialogueMarkers[1].spawnTime;
-            }
-            if (dialogueMarkers.Count > 0)
-            {
+
+                //start playing the dialogue from wherever it left off
+                levelDialogue.time = currentDialogueStartTime;
+                levelDialogue.Play();
+                isSpeaking = true;
+
+                if (dialogueMarkers.Count > 1)
+                {
+                    nextDialogueStartTime = dialogueMarkers[1].spawnTime;
+                    replaceMarker(nextDialogueStartTime);
+                }
                 dialogueMarkers.RemoveAt(0);
+                //print("playing current dialogue at " + dialogueMarkers.Count);
+            }
+            else
+            {
+                if (levelDialogue.time > currentDialogueEndTime)
+                {
+                    isSpeaking = false;
+                    if (nextDialogueStartTime > currentDialogueEndTime && levelDialogue.time >= nextDialogueStartTime)
+                    {
+                        levelDialogue.Pause();
+                    }
+                }
             }
 
-            //create a physical marker that must be hit before the next piece of dialogue can play
-            nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
-
-            //start playing the dialogue from wherever it left off
-            levelDialogue.Play();
-            isSpeaking = true;
-
-            debugMessage = "starting new dialogue section: " + "ends at " + currentDialogueEndTime + " next dialogue starts at " + nextDialogueStartTime;
-            //while waiting for the next piece of dialogue, check if any obstacles need to be spawned or despawned, then remove from the queue. checks every frame
-            while ((levelDialogue.time < nextDialogueStartTime && levelDialogue.isPlaying) || commandMarkers.Count > 0)
+            if (dialogueStopper != null && !dialogueStopper.CompareTag("Car"))
             {
-                //if nextdialoguetrigger disappears before the current section is finished, the current section will repeat. bug.
-                //print("time in the dialogue is " + levelDialogue.time);
-                yield return new WaitForSeconds(0);
-                debugMessage = "current time in dialogue: " + levelDialogue.time + "... ";
-
-                if (dialogueStopper != null && !dialogueStopper.CompareTag("Car"))
+                while (dialogueStopper != null && !dialogueStopper.CompareTag("Car") && !skipSection)
                 {
-                    while (dialogueStopper != null && !dialogueStopper.CompareTag("Car") && !skipSection)
-                    {
-                        yield return new WaitForSeconds(0);
-                    }
-                    if (dialogueStopper != null && !dialogueStopper.CompareTag("Car")) Destroy(dialogueStopper);
-                    controls.enabled = true;
-                    enableControllers();
-                    if (nextDialogueTrigger != null)
-                    {
-                        Destroy(nextDialogueTrigger);
-                    }
-                    nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
-                    levelDialogue.Play();
+                    yield return new WaitForSeconds(0);
                 }
+                if (dialogueStopper != null && !dialogueStopper.CompareTag("Car")) Destroy(dialogueStopper);
+                controls.enabled = true;
+                enableControllers();
+                replaceMarker(nextDialogueStartTime);
+                levelDialogue.Play();
+            }
 
-                //check list of markers to see if the next obstacle is due
-                if (commandMarkers.Count > 0)
+            //check list of markers to see if the next command is due
+            if (commandMarkers.Count > 0)
+            {
+                Marker commandMarker = commandMarkers[0];
+                string command = commandMarker.data;
+                if (levelDialogue.time >= commandMarker.spawnTime)
                 {
-                    Marker commandMarker = commandMarkers[0];
-                    string command = commandMarker.data;
-                    if (levelDialogue.time >= commandMarker.spawnTime)
+                    debugMessage += "parsing command: " + command;
+                    AudioClip radioClip = Resources.Load<AudioClip>(SceneManager.GetActiveScene().name + "/" + command.Trim('[', ']'));
+                    print("Looking for audiofile" + SceneManager.GetActiveScene().name + "/" + command.Trim('[', ']'));
+                    if (radioClip != null)
                     {
-                        debugMessage += "parsing command: " + command;
-                        AudioClip radioClip = Resources.Load<AudioClip>(SceneManager.GetActiveScene().name + "/" + command.Trim('[', ']'));
-                        print("Looking for audiofile" + SceneManager.GetActiveScene().name + "/" + command.Trim('[', ']'));
-                        if (radioClip != null)
-                        {
-                            secondSource.clip = radioClip;
-                            secondSource.Play();
-                        } 
-                        else if (string.Equals(command, "[RevealScreen]"))
-                        {
-                            enableControllers();
-                            blackScreen.enabled = false;
-                        }
-                        else if (string.Equals(command, "[HideScreen]"))
-                        {
-                            disableControllers();
-                            blackScreen.enabled = true;
-                        }
-                        else if (string.Equals(command, "[StartCar]") || string.Equals(command, "[StartControl]"))
-                        {
-                            if (nextDialogueTrigger != null) Destroy(nextDialogueTrigger);
-                            nextDialogueTrigger = Instantiate(Resources.Load<GameObject>("Prefabs/DisposableTrigger"), player.transform.position + new Vector3(0, (nextDialogueStartTime - levelDialogue.time) * controls.neutralSpeed * updateRate, 1), Quaternion.identity);
-                            print("started car at time " + levelDialogue.time);
-                            StartCoroutine(startCar());
-                            yield return new WaitForSeconds(2);
-                            levelDialogue.Pause();
-                            levelDialogue.Play();
-                        }
-                        else if (string.Equals(command, "[EndControl]"))
-                        {
-                            print("ending player control");
-                            StartCoroutine(parkCar());
-                        }
-                        commandMarkers.RemoveAt(0);
+                        secondSource.clip = radioClip;
+                        secondSource.Play();
                     }
+                    else if (string.Equals(command, "[RevealScreen]"))
+                    {
+                        enableControllers();
+                        blackScreen.enabled = false;
+                    }
+                    else if (string.Equals(command, "[HideScreen]"))
+                    {
+                        disableControllers();
+                        blackScreen.enabled = true;
+                    }
+                    else if (string.Equals(command, "[StartCar]") || string.Equals(command, "[StartControl]"))
+                    {
+                        replaceMarker(nextDialogueStartTime);
+                        print("started car at time " + levelDialogue.time);
+                        StartCoroutine(startCar());
+                        yield return new WaitForSeconds(2);
+                        levelDialogue.Pause();
+                        levelDialogue.Play();
+                    }
+                    else if (string.Equals(command, "[EndControl]"))
+                    {
+                        print("ending player control");
+                        StartCoroutine(parkCar());
+                    }
+                    commandMarkers.RemoveAt(0);
                 }
+            }
 
-                //check list of markers to see if the next subtitle is due
-                updateSubtitle();
+            //check list of markers to see if the next subtitle is due
+            updateSubtitle();
 
-                //check list of markers to see if the next obstacle is due
-                if (timedObstacleMarkers.Count > 0)
+            //check list of markers to see if the next obstacle is due
+            if (timedObstacleMarkers.Count > 0)
+            {
+                Marker obstacleMarker = timedObstacleMarkers[0];
+                //print("trying to spawn obstacle at time " + spawnTime);
+
+                //if the next obstacle is due or if the obstacle trigger was touched, spawn it
+                if (obstacleMarker.spawnTime < nextDialogueStartTime)
                 {
-                    Marker obstacleMarker = timedObstacleMarkers[0];
-                    //print("trying to spawn obstacle at time " + spawnTime);
-
-                    //if the next obstacle is due or if the obstacle trigger was touched, spawn it
-                    if (obstacleMarker.spawnTime < nextDialogueStartTime && obstacleMarker.spawnTime < levelDialogue.time)
+                    if (obstacleMarker.spawnTime < levelDialogue.time)
                     {
                         debugMessage += "spawning obstacles: " + obstacleMarker.data;
                         spawnObstacles(obstacleMarker.despawnTime, obstacleMarker.data);
                         timedObstacleMarkers.RemoveAt(0);
-                    }
-                }
-
-                //check all active obstacles to see if any should be despawned
-                foreach (KeyValuePair<GameObject, float> pair in spawnedObstacles)
-                {
-                    if (levelDialogue.time >= pair.Value)
+                    } else if (!isSpeaking)
                     {
-                        GameObject obj = pair.Key;
-                        debugMessage += "despawning obstacle: " + obj.name;
-
-                        if (obj.transform.position.x > player.transform.position.x)
-                            obj.transform.Rotate(0, 0, -45);
-                        else
-                            obj.transform.Rotate(0, 0, 45);
-                        if (pair.Key.GetComponent<NPCMovement>().neutralSpeed != 0)
-                        {
-                            obj.GetComponent<CapsuleCollider2D>().isTrigger = true;
-                            Destroy(pair.Key, 5);
-                        }
-
-                        spawnedObstacles.Remove(obj);
-                        break;
+                        obstacleMarker.spawnTime -= Time.deltaTime;
                     }
-                    //obstacles can spawn prematurely, but not despawn prematurely
-                }
-
-                //for debugging
-                if (skipSection)
-                {
-                    Destroy(nextDialogueTrigger);
-                    foreach (KeyValuePair<GameObject, float> pair in spawnedObstacles)
-                    {
-                        Destroy(pair.Key);
-                    }
-                    spawnedObstacles.Clear();
-
-                    if (nextDialogueStartTime < levelDialogue.clip.length)
-                        levelDialogue.time = nextDialogueStartTime;
-                    else
-                        levelDialogue.time = levelDialogue.clip.length;
-                    break;
                 }
             }
 
-            print("finished section of dialogue, " + levelDialogue.isPlaying + dialogueMarkers.Count);
-            if (!levelDialogue.isPlaying && dialogueMarkers.Count == 0) break;
+            //check all active obstacles to see if any should be despawned
+            foreach (KeyValuePair<GameObject, float> pair in spawnedObstacles)
+            {
+                if (levelDialogue.time >= pair.Value)
+                {
+                    GameObject obj = pair.Key;
+                    debugMessage += "despawning obstacle: " + obj.name;
 
-            debugMessage = "finished section of dialogue";
-            levelDialogue.Pause();
-            isSpeaking = false;
+                    if (obj.transform.position.x > player.transform.position.x)
+                        obj.transform.Rotate(0, 0, -45);
+                    else
+                        obj.transform.Rotate(0, 0, 45);
+                    if (pair.Key.GetComponent<NPCMovement>().neutralSpeed != 0)
+                    {
+                        obj.GetComponent<CapsuleCollider2D>().isTrigger = true;
+                        Destroy(pair.Key, 5);
+                    }
 
-            //wait until the next dialogue trigger is touched
-            while (nextDialogueTrigger != null) { yield return new WaitForSeconds(0); }
+                    spawnedObstacles.Remove(obj);
+                    break;
+                }
+                //obstacles can spawn prematurely, but not despawn prematurely
+            }
 
-            skipSection = false;
+            //for debugging
+            if (skipSection)
+            {
+                skipSection = false;
+                Destroy(nextDialogueTrigger);
+                foreach (KeyValuePair<GameObject, float> pair in spawnedObstacles)
+                {
+                    Destroy(pair.Key);
+                }
+                spawnedObstacles.Clear();
+
+                isSpeaking = false;
+            }
         }
 
         //This is where the level ends
         ScoreStorage.Instance.setScoreAll();
         MasterkeyEndScreen.currentLevel = SceneManager.GetActiveScene().name;
         ScoreStorage.Instance.setScoreProgress(100);
-        SceneManager.LoadScene("EndScreen", LoadSceneMode.Single);
+        LoadScene.Loader("EndScreen");
     }
 
     void spawnObstacles(float despawnTime, string obstacleData)
@@ -449,7 +433,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             {
                 if (string.Equals(obj.name, tokens[0].Trim(), System.StringComparison.OrdinalIgnoreCase))
                 {
-                    Debug.Log("found obstacle");
+                    //Debug.Log("found obstacle");
                     prefab = obj.name;
                 }
             }
@@ -549,7 +533,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         controls.enabled = true;
         Debug.Log(controlType);
         CountdownTimer.decrementTime(2); //to make up for the two seconds took to start the engine
-        adjustInstrumentVolume(false, new string[] { });
     }
     IEnumerator parkCar()
     {
@@ -558,7 +541,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         secondSource.PlayOneShot(carPark);
         yield return new WaitForSeconds(1);
         //blackScreen.CrossFadeAlpha(0, 3.0f, false);
-        adjustInstrumentVolume(false, new string[] { });
     }
 
     IEnumerator lockWheel()
@@ -585,28 +567,6 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         }
         wheelFunctions.StopDirtRoadForce();
     }
-    
-    IEnumerator shiftLoopSectionOfMusic(float startTime, float endTime)
-    {
-        //while (true)
-        //{
-        //    for (int loop = 0; loop < 2; loop++)
-        //    {
-        //        Transform speaker = leftSpeaker;
-        //        if (loop > 0) speaker = rightSpeaker;
-        //        foreach (Transform child in speaker)
-        //        {
-        //            AudioSource instrument = child.gameObject.GetComponent<AudioSource>();
-        //            if (instrument.time >= endTime)
-        //            {
-        //                child.gameObject.GetComponent<AudioSource>().time = startTime;
-        //            }
-        //        }
-        //    }
-        //    yield return null;
-        //}
-        yield return null;
-    }
 
     // Update is called once per frame
     void Update()
@@ -620,32 +580,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             skipIntro = true;
         }
     }
-
-    // Changes the volume of individual instruments (currently unused)
-    void adjustInstrumentVolume(bool dialogueStart, string[] instruments)
-    {
-        //isSpeaking = dialogueStart;
-        //for (int loop = 0; loop < 2; loop++)
-        //{
-        //    Transform speaker = leftSpeaker;
-        //    if (loop > 0) speaker = rightSpeaker;
-        //    foreach (Transform child in speaker)
-        //    {
-        //        if (instruments.Length == 0 || System.Array.IndexOf(instruments, child.gameObject.name) > -1)
-        //        {
-        //            if (dialogueStart)
-        //            {
-        //                child.gameObject.GetComponent<AudioSource>().volume = 0.5f;
-        //            }
-        //            else
-        //            {
-        //                child.gameObject.GetComponent<AudioSource>().volume = 1f;
-        //            }
-        //        }
-        //    }
-        //}
-    }
-
+    
     public void setController(int type)
     {
         // Debug.Log("controller type: " + type);

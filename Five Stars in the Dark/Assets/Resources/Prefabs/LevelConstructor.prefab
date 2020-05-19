@@ -181,9 +181,6 @@ MonoBehaviour:
   ambience: {fileID: 0}
   blackScreen: {fileID: 0}
   markersFile: {fileID: 4900000, guid: db4587d33f9728d4f979745299050cb9, type: 3}
-  currentDialogueStartTime: 0
-  startOfLevel: 0
-  endOfLevel: 1
 --- !u!82 &412440413062414628
 AudioSource:
   m_ObjectHideFlags: 0
