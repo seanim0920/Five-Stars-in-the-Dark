@@ -78,6 +78,9 @@ public class PauseMenu : MonoBehaviour
     public void toMenu()
     {
         resumeGame();
+        Masterkey.egg = false;
+        Masterkey.lvl = false;
+        Masterkey.sceneName = "Level 1";
         LoadScene.Loader("Menu");
     }
     
