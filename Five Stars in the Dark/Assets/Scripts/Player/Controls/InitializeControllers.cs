@@ -23,6 +23,7 @@ public class InitializeControllers : MonoBehaviour
         {
             // Toggle Gamepad Controls
             gamepad.isOn = true;
+            Debug.Log(Gamepad.current.name);
         }
         else
         {
@@ -31,6 +32,24 @@ public class InitializeControllers : MonoBehaviour
         }
 
         warning = "Controller not connected!";
+
+        InputSystem.onDeviceChange +=
+            (device, change) =>
+            {
+                switch (change)
+                {
+                    // case InputDeviceChange.Added:
+                    //     Debug.Log("Device added: " + device);
+                    //     break;
+                    case InputDeviceChange.Removed:
+                        // Debug.Log("Device removed: " + device);
+                        checkGamepad();
+                        break;
+                    // case InputDeviceChange.ConfigurationChanged:
+                    //     Debug.Log("Device configuration changed: " + device);
+                    //     break;
+                }
+            };
     }
 
     public void checkWheel()
@@ -39,6 +58,7 @@ public class InitializeControllers : MonoBehaviour
         {
             // Debug.Log(warning);
             keyboard.isOn = true;
+            steeringWheel.isOn = !keyboard.isOn;
             SettingsManager.toggles[1] = keyboard.isOn;
         }
     }
@@ -49,6 +69,7 @@ public class InitializeControllers : MonoBehaviour
         {
             // Debug.Log(warning);
             keyboard.isOn = true;
+            gamepad.isOn = !keyboard.isOn;
             SettingsManager.toggles[1] = keyboard.isOn;
         }
     }
