@@ -21,7 +21,6 @@ public class PlayError : MonoBehaviour
     {
         Debug.Log("Pausing Dialogue");
         AudioSource dialogue = ConstructLevelFromMarkers.levelDialogue;
-        bool wasPlaying = dialogue.isPlaying;
         //play a random hurtsound
         source.clip = passengerHurt;
         source.Play();
@@ -34,6 +33,7 @@ public class PlayError : MonoBehaviour
         int currentTimePosition = dialogue.timeSamples - maxRewindTimeInSamples; //by default
         dialogue.clip.GetData(samples, currentTimePosition);
 
+        bool wasPlaying = dialogue.isPlaying;
         dialogue.Pause();
 
         int foundSilences = 0;
