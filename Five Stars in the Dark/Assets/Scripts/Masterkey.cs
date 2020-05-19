@@ -70,11 +70,4 @@ public class Masterkey : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(bgmSlider.gameObject);
     }
-
-    public void toggleFullscreen()
-    {
-        Debug.Log("fullscreen is " + Screen.fullScreen);
-        Screen.fullScreen = !(Screen.fullScreen);
-        Debug.Log("fullscreen is now " + Screen.fullScreen);
-    }
 }
