@@ -20,7 +20,7 @@
 130.543292	148.086478	FastCar behind Lane2
 141.088358	160.170969	FastCar behind player
 155.088358	180.170969	FastCar behind Lane1, FastCar behind player, SlowCar aheadOf player, SlowCar aheadOf Lane3
-185.038959	185.038959	stoplight wwwwwpp
+185.038959	185.038959	stoplight wwwwwp
 189.195408	194.352484	FastCar behind Lane1
 196.892536	205.128463	SlowCar aheadOf Lane2
 207.668515	213.056505	FastCar aheadOf Lane3

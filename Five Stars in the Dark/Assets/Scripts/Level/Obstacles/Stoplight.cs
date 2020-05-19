@@ -37,7 +37,7 @@ public class Stoplight : MonoBehaviour
                     } else
                     {
                         print("stoplgith detected pass");
-                        yield return new WaitForSeconds(2.5f);
+                        yield return new WaitForSeconds(5f);
                     }
                 }
             }
