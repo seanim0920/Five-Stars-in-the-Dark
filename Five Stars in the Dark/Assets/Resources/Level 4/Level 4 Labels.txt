@@ -1,0 +1,28 @@
+0.000000	54.686846	Dialogue
+54.332781	54.332781	[StartControl]
+55.716851	58.259677	FastCar behind Lane2
+61.961258	64.825961	FastCar behind Lane1
+61.993446	67.980352	SlowCar aheadOf Lane3
+64.053457	114.974345	Dialogue
+71.360057	74.192572	FastCar behind Lane2
+71.392245	77.540089	SlowCar aheadOf Lane2
+81.209483	86.681386	SlowCar aheadOf player
+98.494260	102.002716	FastCar aheadOf Lane1
+115.231847	146.228570	Dialogue
+118.611552	118.611552	QuickTurn right
+146.067631	147.225467	Target c....r....l....r....l....s....c....r....l....a....
+147.000154	156.238014	Dialogue
+156.238014	179.638448	Dialogue
+160.969601	160.969601	QuickTurn left
+163.448051	165.572437	FastCar behind Lane1
+165.958689	171.816845	SlowCar aheadOf Lane2
+179.992512	179.992512	Stoplight wpwwpppwppwpw
+180.250014	193.838543	Dialogue
+184.498786	185.534125	Target a.....p...l.....a...l....r....s....a.....r...r.....l.....
+194.256983	194.256983	Stoplight wpwwpwpwpwwp
+194.578859	208.773620	Dialogue
+196.735433	197.475749	Target a....p....s....a.....s....l....r....r....l....l....p....a.......p...r.....c....r....l...a....l...
+209.256435	238.128772	Dialogue
+238.675963	252.613222	Dialogue
+252.613222	284.768701	Dialogue
+253.804166	253.804166	[EndControl]
