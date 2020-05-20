@@ -9,8 +9,7 @@ public class QuitGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        r = GetComponent<Button>();
-		r.onClick.AddListener(TaskEnd);
+        GetComponent<Button>().onClick.AddListener(TaskEnd);
     }
      
 	void TaskEnd() {

@@ -7345,6 +7345,7 @@ GameObject:
   - component: {fileID: 2341906144509033205}
   - component: {fileID: 2341906144509033098}
   - component: {fileID: 2341906144509033099}
+  - component: {fileID: 2341906144509033103}
   m_Layer: 5
   m_Name: Button_Quit
   m_TagString: Untagged
@@ -7352,6 +7353,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2341906144509033103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2341906144509033102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 651407dc8da82f04dbf79bf33293b666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &2341906144509033204
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12758,30 +12771,30 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 5108010602839534189, guid: 53fd49319308936468815c9239841cbb,
+    - target: {fileID: 5108010601784771932, guid: 53fd49319308936468815c9239841cbb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5108010601553328227, guid: 53fd49319308936468815c9239841cbb,
         type: 3}
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 5108010602062641612, guid: 53fd49319308936468815c9239841cbb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5108010601784771932, guid: 53fd49319308936468815c9239841cbb,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 5108010602439495242, guid: 53fd49319308936468815c9239841cbb,
         type: 3}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5108010602839534189, guid: 53fd49319308936468815c9239841cbb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5108010602062641612, guid: 53fd49319308936468815c9239841cbb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 53fd49319308936468815c9239841cbb, type: 3}
