@@ -422,7 +422,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
         //This is where the level ends
         ScoreStorage.Instance.setScoreAll();
-        MasterkeyEndScreen.currentLevel = SceneManager.GetActiveScene().name;
+        MasterkeyEndScreen.currentLevelBuildIndex = SceneManager.GetActiveScene().buildIndex;
         ScoreStorage.Instance.setScoreProgress(100);
         LoadScene.Loader("EndScreen");
     }
