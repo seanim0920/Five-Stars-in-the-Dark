@@ -16,13 +16,27 @@ public class SteeringWheelInput : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LogitechGSDK.LogiSteeringInitialize(false);
+        try
+        {
+            LogitechGSDK.LogiSteeringInitialize(false);
+        }
+        catch
+        {
+            print("steering wheel aint working");
+        }
         controlFunctions = GetComponent<PlayerControls>();
     }
 
     public static bool checkConnected()
     {
-        return (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0));
+        try
+        {
+            return (LogitechGSDK.LogiUpdate() && LogitechGSDK.LogiIsConnected(0));
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     // Update is called once per frame
