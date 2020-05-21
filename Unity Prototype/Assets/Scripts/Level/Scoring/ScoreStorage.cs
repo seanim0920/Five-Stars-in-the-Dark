@@ -9,7 +9,7 @@ public class ScoreStorage : Singleton<ScoreStorage>
     //how far in the level the player progressed. If level passed, should always be 100
     int progress = 0;
     //number of errors
-    int errors = 0;
+    float errors = 0;
     //time taken to finish the level
     int time = 0;
     //literal score, from 0 to 100
@@ -35,7 +35,7 @@ public class ScoreStorage : Singleton<ScoreStorage>
         time = (int)(600.0f - GameObject.Find("/Main Camera/MainCanvas/TimerText").GetComponent<CountdownTimer>().getCurrentTime()) * 100;
         //Par is not set here, becuase its data is not saved.
         //Every error subtracts 8 points, and every 30 seconds over the fastest possible time subtracts 5 points (up to 120 seconds).
-        points = 100 - (errors * 8) - ((time-par)/600);   //We divide be 600: 6 to split the time into 5 parts of 30 seconds and 100 to round out the miliseconds    
+        points = (int)(100 - (errors * 8) - ((time-par)/600));   //We divide be 600: 6 to split the time into 5 parts of 30 seconds and 100 to round out the miliseconds    
     }
 
     //These allow scripts to access the scores
@@ -44,7 +44,7 @@ public class ScoreStorage : Singleton<ScoreStorage>
         return progress;
     }
 
-    public int getScoreErrors()
+    public float getScoreErrors()
     {
         return errors;
     }
@@ -76,7 +76,7 @@ public class ScoreStorage : Singleton<ScoreStorage>
         progress = x;
     }
 
-    public void setScoreErrors(int x)
+    public void setScoreErrors(float x)
     {
         errors = x;
     }

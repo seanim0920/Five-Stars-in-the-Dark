@@ -15,7 +15,7 @@ public class CheckErrors : MonoBehaviour
     private Vector3 newPos;
 
     //set to public so it can be accessed from the end screen
-    public static int errors { get; set; }
+    public static float errors { get; set; }
 
     public static void IncrementErrorsAndUpdateDisplay()
     {
@@ -30,6 +30,22 @@ public class CheckErrors : MonoBehaviour
         errorText.text = "Error(s): " + errors.ToString();
         //AudioSource.PlayClipAtPoint(errorSound, player.position);
     }
+
+    public static void IncrementErrorsAndUpdateDisplay(float fractionalError)
+    {
+        Debug.Log("Float ver");
+        errors += fractionalError;
+        ScoreStorage.Instance.setScoreErrors(errors);
+        if (errors >= 10)
+        {
+            ScoreStorage.Instance.setScoreAll();
+            MasterkeyFailScreen.currentLevel = SceneManager.GetActiveScene().name;
+            LoadScene.Loader("FailScreen");
+        }
+        errorText.text = "Error(s): " + errors.ToString();
+        //AudioSource.PlayClipAtPoint(errorSound, player.position);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +61,7 @@ public class CheckErrors : MonoBehaviour
     }
 
     //because errors is static, it needs a method to access
-    public int getErrors()
+    public float getErrors()
     {
         return errors;
     }

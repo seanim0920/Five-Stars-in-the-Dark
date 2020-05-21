@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class ErrorCountDisplay : MonoBehaviour
 {
 	private static Text err;
-	public static int errors;
+	public static float errors;
     // Start is called before the first frame update
     void Start()
     {
