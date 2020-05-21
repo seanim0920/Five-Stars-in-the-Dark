@@ -15,6 +15,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     private float shakeStore;
     private Button resumeButton;
+    private UnityEngine.Video.VideoPlayer videoPlayer;
 
     private void Start()
     {
@@ -22,6 +23,9 @@ public class PauseMenu : MonoBehaviour
         resumeButton = GetComponentInChildren<Button>();
         pauseStartSound.ignoreListenerPause = true;
         pauseMenuSound.ignoreListenerPause = true;
+        if (GetComponent<UnityEngine.Video.VideoPlayer>()) {
+            videoPlayer = GetComponent<UnityEngine.Video.VideoPlayer>();
+        }
     }
 
     // Update is called once per frame
@@ -41,6 +45,12 @@ public class PauseMenu : MonoBehaviour
 
     public void resumeGame()
     {
+        if (videoPlayer != null)
+        {
+            videoPlayer.playbackSpeed = 1;
+        }
+        SkipCutscenes.isSkipping = false;
+        SkipMovies.isSkipping = false;
         OverlayStatic.overlaid = false;
         pauseMenuSound.Stop();
         pauseEndSound.Play();
@@ -54,7 +64,10 @@ public class PauseMenu : MonoBehaviour
 
     public void pauseGame()
     {
-        if (SkipCutscenes.isSkipping) return;
+        if (videoPlayer != null)
+        {
+            videoPlayer.playbackSpeed = 0;
+        }
         OverlayStatic.overlaid = true;
         pauseMenuSound.Play();
         pauseStartSound.Play();

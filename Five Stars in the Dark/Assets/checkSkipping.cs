@@ -9,10 +9,13 @@ public class checkSkipping : MonoBehaviour
     // Update is called once per frame
     private void Start()
     {
+        //these values probs shouldnt be changed here but it works so whatevs we'll keep it for now
+        SkipCutscenes.isSkipping = false;
+        SkipMovies.isSkipping = false;
         icon.enabled = false;
     }
     void Update()
     {
-        icon.enabled = SkipCutscenes.isSkipping;
+        icon.enabled = ((SkipCutscenes.isSkipping || SkipMovies.isSkipping) && !PauseMenu.isPaused);
     }
 }
