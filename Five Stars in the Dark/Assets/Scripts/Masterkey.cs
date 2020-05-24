@@ -22,6 +22,8 @@ public class Masterkey : MonoBehaviour
     public Button level4;
     public Slider bgmSlider;
 
+    public static bool played = false;
+
     // Start is called before the first frame update
     void Start()
     {
