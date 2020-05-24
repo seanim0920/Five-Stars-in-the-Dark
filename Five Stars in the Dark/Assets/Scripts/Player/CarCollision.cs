@@ -72,7 +72,7 @@ public class CarCollision : MonoBehaviour
         if (System.Array.IndexOf(obstacleTags, col.gameObject.tag) != -1)
         {
             //factor speed in, faster speed means bigger error
-            TrackErrors.IncrementErrors();
+            TrackErrors.IncrementErrors(controlFunctions.movementSpeed/controlFunctions.maxSpeed);
         }
 
         hitSoundObject = col.gameObject;
@@ -109,11 +109,6 @@ public class CarCollision : MonoBehaviour
                 print("blocked left");
                 controlFunctions.blockDirection(-1);
            }
-
-            //this statement pans the audio depending on which side the guardrail is on
-            hitSoundObject.GetComponent<AudioSource>().panStereo = this.gameObject.transform.position.x > hitSoundObject.transform.position.x ? -1 : 1;
-            //this statement plays the audio
-            hitSoundObject.GetComponent<AudioSource>().Play();
         }
 
         //these pull a random hurtsound to play
@@ -121,6 +116,15 @@ public class CarCollision : MonoBehaviour
         AudioClip passengerHurt = Resources.Load<AudioClip>("Audio/dialogue/hurt" + x);
 
         print("hitting a zone?" + (!col.gameObject.CompareTag("Zone")));
+    }
+    void OnCollisionStay2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Guardrail"))
+        {
+            hitSoundObject.GetComponent<AudioSource>().pitch = 1.5f * controlFunctions.movementSpeed / controlFunctions.maxSpeed;
+            TrackErrors.IncrementErrors(controlFunctions.movementSpeed / controlFunctions.maxSpeed);
+            controlFunctions.movementSpeed *= 0.995f;
+        }
     }
     void OnCollisionExit2D(Collision2D col)
     {
@@ -135,7 +139,7 @@ public class CarCollision : MonoBehaviour
         }
         if (col.gameObject.CompareTag("Stop"))
         {
-            TrackErrors.IncrementErrors();
+            TrackErrors.IncrementErrors(1);
         }
 
     }

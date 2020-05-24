@@ -33,8 +33,6 @@ public class ScoreStorage : Singleton<ScoreStorage>
     public void resetScore()
     {
         print("resetting score");
-        CountdownTimer.currentTime = 600;
-        TrackErrors.errors = 0;
         progress = 0;
         errors = 0;
         time = 0;
@@ -97,7 +95,7 @@ public class ScoreStorage : Singleton<ScoreStorage>
         progress = x;
     }
 
-    public void setScoreErrors(int x)
+    public void setScoreErrors(float x)
     {
         errors = x;
     }
