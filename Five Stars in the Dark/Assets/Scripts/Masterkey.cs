@@ -8,11 +8,8 @@ public class Masterkey : MonoBehaviour
 {
     public Button start;
     public Button play;
-    public Button instructionsBack;
     public Button level;
     public Button levelBack;
-    public Button settings;
-    public Button settingsBack;
     public static bool egg = false;
     public static bool lvl = false;
     public static string sceneName = "Level 1";
@@ -20,7 +17,8 @@ public class Masterkey : MonoBehaviour
     public Button level2;
     public Button level3;
     public Button level4;
-    public Slider bgmSlider;
+
+	public static bool played = false;
 
     public static bool played = false;
 
@@ -30,9 +28,6 @@ public class Masterkey : MonoBehaviour
         start.onClick.AddListener(TaskStart);
         level.onClick.AddListener(TaskLvl);
         levelBack.onClick.AddListener(TaskTitle);
-        instructionsBack.onClick.AddListener(TaskTitle);
-        settings.onClick.AddListener(TaskSettings);
-        settingsBack.onClick.AddListener(TaskTitle);
 
         level1.onClick.AddListener(() => sceneName = "Level 1");
         level2.onClick.AddListener(() => sceneName = "Level 2");
@@ -61,15 +56,8 @@ public class Masterkey : MonoBehaviour
 
     public void TaskTitle()
     {
-        egg = false;
         lvl = false;
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(start.gameObject);
-    }
-
-    public void TaskSettings()
-    {
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(bgmSlider.gameObject);
     }
 }
