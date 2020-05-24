@@ -1,0 +1,15 @@
+26.873107	38.263024	SlowCar aheadOf Lane1
+19.226122	62.073761	SlowCar aheadOf Lane2
+26.842268	50.188136	FastCar behind player
+44.675193	73.446053	FastCar behind Lane3
+54.706213	78.697841	FastCar behind Lane1
+57.864127	90.228081	SlowCar aheadOf player
+85.529113	97.612174	FastCar behind Lane3
+95.203459	107.404981	FastCar behind player
+104.211156	125.480635	SlowCar aheadOf player
+0.000000	7.344605	Dialogue
+7.766142	7.766142	[StartControl]
+16.561242	72.985732	Dialogue
+81.455601	94.644535	Dialogue
+97.616689	139.691247	Dialogue
+127.895510	127.895510	[EndControl]

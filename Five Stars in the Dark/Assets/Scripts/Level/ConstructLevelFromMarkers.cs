@@ -255,10 +255,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     IEnumerator playLevel()
     {
-        print("current level time is " + levelDialogue.time);
         //perform these checks every frame for as long as the dialogue plays
         while (dialogueMarkers.Count > 0 || timedObstacleMarkers.Count > 0 || commandMarkers.Count > 0 || levelDialogue.isPlaying)
         {
+            print("current level time is " + levelDialogue.time);
+            print(timedObstacleMarkers.Count + " many dialogues left");
             yield return new WaitForSeconds(0);
 
             if (dialogueMarkers.Count > 0 && !isSpeaking && nextDialogueTrigger == null)
@@ -367,17 +368,15 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 //print("trying to spawn obstacle at time " + spawnTime);
 
                 //if the next obstacle is due or if the obstacle trigger was touched, spawn it
-                if (obstacleMarker.spawnTime < nextDialogueStartTime)
+                if (obstacleMarker.spawnTime < levelDialogue.time)
                 {
-                    if (obstacleMarker.spawnTime < levelDialogue.time)
-                    {
-                        debugMessage += "spawning obstacles: " + obstacleMarker.data;
-                        spawnObstacles(obstacleMarker.despawnTime, obstacleMarker.data);
-                        timedObstacleMarkers.RemoveAt(0);
-                    } else if (!isSpeaking)
-                    {
-                        obstacleMarker.spawnTime -= Time.deltaTime;
-                    }
+                    debugMessage += "spawning obstacles: " + obstacleMarker.data;
+                    spawnObstacles(obstacleMarker.despawnTime, obstacleMarker.data);
+                    timedObstacleMarkers.RemoveAt(0);
+                } else if (!isSpeaking)
+                {
+                    //this will only pull the next obstacle earlier in time
+                    obstacleMarker.spawnTime -= Time.deltaTime;
                 }
             }
 
@@ -420,11 +419,18 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             }
         }
 
+        print("level ended");
         //This is where the level ends
         ScoreStorage.Instance.setScoreAll();
         MasterkeyEndScreen.currentLevelBuildIndex = SceneManager.GetActiveScene().buildIndex;
         ScoreStorage.Instance.setScoreProgress(100);
-        LoadScene.Loader("EndScreen");
+        if (levelDialogue.clip.length > 180) //mini-levels will be less than 3 minutes
+        {
+            LoadScene.Loader("EndScreen");
+        } else
+        {
+            LoadScene.LoadNextScene();
+        }
     }
 
     void spawnObstacles(float despawnTime, string obstacleData)

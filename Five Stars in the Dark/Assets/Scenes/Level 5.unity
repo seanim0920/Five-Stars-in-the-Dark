@@ -1494,7 +1494,12 @@ PrefabInstance:
         type: 3}
       propertyPath: markersFile
       value: 
-      objectReference: {fileID: 4900000, guid: 93085fc5fd7d62e4e819f0a30312b3fb, type: 3}
+      objectReference: {fileID: 4900000, guid: 76ebe79e22526b54f8ce2fdc1150b016, type: 3}
+    - target: {fileID: 412440413062414628, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8e1da17459b2c034cbe538b50c3709a3, type: 3}
     - target: {fileID: 412440413062414635, guid: cec60119a7a8c704ea21138b08c6c077,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1550,11 +1555,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 412440413062414628, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 3dfa2266667485844a571c9640ab39d2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cec60119a7a8c704ea21138b08c6c077, type: 3}
 --- !u!114 &2082718667 stripped
