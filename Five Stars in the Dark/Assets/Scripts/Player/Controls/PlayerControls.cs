@@ -290,14 +290,14 @@ public class PlayerControls : MonoBehaviour
         float origStrafe = lastRecordedStrafe;
         for (int i = 0; i < totalIterations; i++)
         {
-            Blur.amount = -Mathf.Pow((i - totalIterations), 2) / (totalIterations * (totalIterations / 1)) + 1;
+            Blur.setAmount(-Mathf.Pow((i - totalIterations), 2) / (totalIterations * (totalIterations / 1)) + 1);
             lastRecordedStrafe = -Mathf.Pow((i - totalIterations), 2)/(totalIterations * (totalIterations/maxHDisplacement)) + maxHDisplacement + origStrafe;
             movementSpeed = -Mathf.Pow((i - totalIterations), 2) / (totalIterations * (totalIterations / maxVDisplacement)) + maxVDisplacement + origMovementSpeed;
             yield return new WaitForFixedUpdate();
         }
         while (body.velocity.magnitude > 0.1f)
         {
-            Blur.amount *= 0.98f;
+            Blur.setAmount(Blur.getAmount() * 0.98f);
             lastRecordedStrafe *= 0.98f;
             movementSpeed *= 0.95f;
             yield return new WaitForFixedUpdate();
@@ -305,7 +305,7 @@ public class PlayerControls : MonoBehaviour
         body.velocity *= 0;
         if (tag == "Player")
         {
-            Blur.amount = 0;
+            Blur.setAmount(0);
             lastRecordedStrafe = 0;
             movementSpeed = 0;
             body.bodyType = RigidbodyType2D.Kinematic;

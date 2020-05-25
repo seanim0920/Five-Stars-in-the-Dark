@@ -13,7 +13,7 @@ public class Blur : MonoBehaviour
     public Image RightNeedle;
     public Image BrakePedal;
     public Image AccelPedal;
-    public static float amount = 0;
+    private static float amount = 0;
     private Color BlurColor;
     private Color SmallColor;
     private Color VisColor;
@@ -40,5 +40,15 @@ public class Blur : MonoBehaviour
         RightNeedle.color = SmallColor;
         BrakePedal.color = SmallColor;
         AccelPedal.color = SmallColor;
+    }
+
+    public static float getAmount()
+    {
+        return amount;
+    }
+
+    public static void setAmount(float newAmount)
+    {
+        amount = newAmount;
     }
 }
