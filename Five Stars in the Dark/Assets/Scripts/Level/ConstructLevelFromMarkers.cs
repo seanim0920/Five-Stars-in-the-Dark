@@ -109,7 +109,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         int lineNumber = 1;
         foreach (string line in lines)
         {
-            string[] tokens = line.Split(new char[] { ' ', '\t' });
+            string[] tokens = line.Split(new char[0], System.StringSplitOptions.RemoveEmptyEntries);
             if (tokens.Length < 3 || !char.IsDigit(tokens[0][0])) continue;
             float startTime = float.Parse(tokens[0]);
             //markers will either be obstacles/dialogue, or news/realtime events
@@ -132,6 +132,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 {
                     sortedMarkerInsert(dialogueMarkers, newMarker);
                 }
+                
+                Debug.Log(newMarker.data);
             } else
             {
                 Marker newMarker = new Marker(float.Parse(tokens[0].Trim()), float.Parse(tokens[1].Trim()), string.Join(" ", tokens, 2, tokens.Length - 2));
@@ -142,6 +144,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 {
                     sortedMarkerInsert(timedObstacleMarkers, newMarker);
                 }
+                Debug.Log(newMarker.data);
             }
             //print("amount of tokens are " + tokens.Length);
             lineNumber++;
@@ -255,6 +258,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     IEnumerator playLevel()
     {
+        levelDialogue.Play();
+        nextDialogueStartTime = levelDialogue.clip.length;
         print("current level time is " + levelDialogue.time);
         //perform these checks every frame for as long as the dialogue plays
         while (dialogueMarkers.Count > 0 || timedObstacleMarkers.Count > 0 || commandMarkers.Count > 0 || levelDialogue.isPlaying)
@@ -352,6 +357,10 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     {
                         print("ending player control");
                         StartCoroutine(parkCar());
+                    }
+                    else if (string.Equals(command, "[ConstructMap]"))
+                    {
+                        StartCoroutine(ConstructMap());
                     }
                     commandMarkers.RemoveAt(0);
                 }
@@ -486,6 +495,15 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         obj.GetComponent<TargetMovement>().sequence = pattern;
                     }
                 }
+                else if ((string.Equals(prefab, "revealtableaux", System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    if (tokens.Length > 1)
+                    {
+                        string tableauxName = tokens[1].ToLower().Trim();
+
+                        obj.GetComponent<DisplayStrafeTableaux>().tableauxNum = int.Parse(tableauxName);
+                    }
+                }
                 dialogueStopper = obj;
             }
             else
@@ -574,6 +592,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             yield return new WaitForSeconds(0);
         }
         wheelFunctions.StopDirtRoadForce();
+    }
+    IEnumerator ConstructMap()
+    {
+        constructLevelMap();
+        yield return new WaitForSeconds(1);
     }
 
     // Update is called once per frame
