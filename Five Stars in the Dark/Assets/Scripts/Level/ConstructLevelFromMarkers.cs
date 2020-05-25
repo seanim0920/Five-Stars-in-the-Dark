@@ -357,6 +357,15 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         print("ending player control");
                         StartCoroutine(parkCar());
                     }
+                    else if (string.Equals(command, "[EndLevel]"))
+                    {
+                        print("level ended");
+                        //This is where the level ends
+                        ScoreStorage.Instance.setScoreAll();
+                        MasterkeyEndScreen.currentLevelBuildIndex = SceneManager.GetActiveScene().buildIndex;
+                        ScoreStorage.Instance.setScoreProgress(100);
+                        LoadScene.Loader("EndScreen");
+                    }
                     commandMarkers.RemoveAt(0);
                 }
             }
@@ -523,20 +532,18 @@ public class ConstructLevelFromMarkers : MonoBehaviour
 
     private IEnumerator skipToMarkerAfterDelayCoroutine(GameObject obj, string destination, float delay)
     {
+        print("decision was spawned");
         yield return new WaitForSeconds(delay);
         if (obj != null)
         {
-            foreach (Marker marker in commandMarkers)
+            foreach (Marker marker in dialogueMarkers)
             {
                 if (marker.data == destination)
                 {
                     levelDialogue.time = marker.spawnTime;
+                    Destroy(obj);
                 }
             }
-        }
-        else
-        {
-            print("Error with decision marker");
         }
     }
 
