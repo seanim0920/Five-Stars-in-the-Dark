@@ -110,12 +110,15 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         foreach (string line in lines)
         {
             string[] tokens = line.Split(new char[] { ' ', '\t' });
-            if (tokens.Length < 3 || !char.IsDigit(tokens[0][0])) continue;
-            float startTime = float.Parse(tokens[0]);
+            if (tokens.Length < 3 || (!char.IsDigit(tokens[0][0]) && tokens[0][0] != '-')) continue;
+            float spawnTime = float.Parse(tokens[0].Trim());
+            if (spawnTime < 0) spawnTime = 0;
+            float despawnTime = float.Parse(tokens[1].Trim());
+            if (despawnTime < spawnTime) despawnTime = spawnTime;
             //markers will either be obstacles/dialogue, or news/realtime events
             if (tokens.Length == 3)
             {
-                Marker newMarker = new Marker(float.Parse(tokens[0].Trim()), float.Parse(tokens[1].Trim()), tokens[2].Trim());
+                Marker newMarker = new Marker(spawnTime, despawnTime, tokens[2].Trim());
                 if (newMarker.data[0] == '[')
                 {
                     sortedMarkerInsert(commandMarkers, newMarker);
@@ -128,13 +131,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         endOfLevel = newMarker.spawnTime;
                     }
                 }
-                else if (newMarker.despawnTime - newMarker.spawnTime > 0.1f) //must have this check because it breaks for dialogue markers of length 0
+                else
                 {
                     sortedMarkerInsert(dialogueMarkers, newMarker);
                 }
             } else
             {
-                Marker newMarker = new Marker(float.Parse(tokens[0].Trim()), float.Parse(tokens[1].Trim()), string.Join(" ", tokens, 2, tokens.Length - 2));
+                Marker newMarker = new Marker(spawnTime, despawnTime, string.Join(" ", tokens, 2, tokens.Length - 2));
                 if (newMarker.data[0] == '"' || newMarker.data[0] == '<')
                 {
                     sortedMarkerInsert(subtitleMarkers, newMarker);
@@ -258,8 +261,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         //perform these checks every frame for as long as the dialogue plays
         while (dialogueMarkers.Count > 0 || timedObstacleMarkers.Count > 0 || commandMarkers.Count > 0 || levelDialogue.isPlaying)
         {
-            print("current level time is " + levelDialogue.time);
-            print(timedObstacleMarkers.Count + " many dialogues left");
+            //print("current level time is " + levelDialogue.time);
+            //print(timedObstacleMarkers.Count + " many dialogues left");
             yield return new WaitForSeconds(0);
 
             if (dialogueMarkers.Count > 0 && !isSpeaking && nextDialogueTrigger == null)
@@ -492,6 +495,14 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         obj.GetComponent<TargetMovement>().sequence = pattern;
                     }
                 }
+                else if ((string.Equals(prefab, "decision", System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    if (tokens.Length > 1)
+                    {
+                        string jump = tokens[1].ToLower().Trim();
+                        StartCoroutine(skipToMarkerAfterDelayCoroutine(obj, jump, 10));
+                    }
+                }
                 dialogueStopper = obj;
             }
             else
@@ -507,6 +518,25 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     new Vector3(xpos, ypos, 0),
                     Quaternion.identity), despawnTime);
             }
+        }
+    }
+
+    private IEnumerator skipToMarkerAfterDelayCoroutine(GameObject obj, string destination, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (obj != null)
+        {
+            foreach (Marker marker in commandMarkers)
+            {
+                if (marker.data == destination)
+                {
+                    levelDialogue.time = marker.spawnTime;
+                }
+            }
+        }
+        else
+        {
+            print("Error with decision marker");
         }
     }
 
