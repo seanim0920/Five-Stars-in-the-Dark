@@ -6,7 +6,9 @@ public class DisplayInstructions : MonoBehaviour
 {
 	public GameObject Instructions;
 	public GameObject LevelSelect;
-    public bool lvlMode = false;
+	public GameObject Settings;
+	
+    public int flag = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,12 +17,14 @@ public class DisplayInstructions : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		lvlMode = Masterkey.lvl;
+		flag = Masterkey.flag;
 	    var pos = transform.position;
 		if(transform.position.x <= -100)
-			if(lvlMode)
+			if(flag == 2)
 				LevelSelect.SetActive(true);
-			else
+			else if (flag == 1)
 				Instructions.SetActive(true);
+			else
+				Settings.SetActive(true);
     }
 }
