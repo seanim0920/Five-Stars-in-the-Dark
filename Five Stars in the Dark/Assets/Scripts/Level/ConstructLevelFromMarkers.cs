@@ -156,7 +156,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         parseLevelMarkers();
 
-        constructLevelMap();
+        constructLevelMap(0);
     }
 
     void Start()
@@ -227,11 +227,19 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         keyboard.enabled = false;
     }
 
-    void constructLevelMap()
+    void constructLevelMap(int curbType)
     {
         float updateRate = 50; //how long fixedupdate runs per second
-
-        GameObject curb = Resources.Load<GameObject>("Prefabs/Curb");
+        
+        GameObject curb = null;
+        if(curbType == 0)
+        {
+            curb = Resources.Load<GameObject>("Prefabs/Curb");
+        }
+        else
+        {
+            curb = Resources.Load<GameObject>("Prefabs/TutorialCurb");
+        }
         GameObject road = Resources.Load<GameObject>("Prefabs/Road");
 
         GameObject map = new GameObject("Map");
@@ -360,7 +368,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     }
                     else if (string.Equals(command, "[ConstructMap]"))
                     {
-                        StartCoroutine(ConstructMap());
+                        StartCoroutine(ConstructMap(1));
                     }
                     commandMarkers.RemoveAt(0);
                 }
@@ -515,9 +523,14 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     player.transform.position.x;
                 float ypos = player.transform.position.y + (tokens[1].ToLower()[0] == 'a' || tokens[1].ToLower()[0] == 'f' ? spawnDistance : -spawnDistance);
                 //print(tokens[0].Trim());
+                Quaternion rotation = Quaternion.identity;
+                if((string.Equals(prefab, "incomingcar", System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    rotation = Quaternion.Euler(0f, 0f, 135f); // For some reason this turns cars 180 degrees instead
+                }
                 spawnedObstacles.Add(Instantiate(Resources.Load<GameObject>("Prefabs/Obstacles/" + prefab),
                     new Vector3(xpos, ypos, 0),
-                    Quaternion.identity), despawnTime);
+                    rotation), despawnTime);
             }
         }
     }
@@ -593,9 +606,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
         }
         wheelFunctions.StopDirtRoadForce();
     }
-    IEnumerator ConstructMap()
+    IEnumerator ConstructMap(int curbType)
     {
-        constructLevelMap();
+        constructLevelMap(curbType);
         yield return new WaitForSeconds(1);
     }
 
