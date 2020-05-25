@@ -16,6 +16,7 @@ public class Masterkey : MonoBehaviour
     public static bool egg = false;
     public static bool lvl = false;
     public static string sceneName = "Level 1";
+    public Button tutorial;
     public Button level1;
     public Button level2;
     public Button level3;
@@ -32,7 +33,8 @@ public class Masterkey : MonoBehaviour
         settings.onClick.AddListener(TaskSettings);
         settingsBack.onClick.AddListener(TaskTitle);
 
-        level1.onClick.AddListener(() => sceneName = "Level 1");
+        tutorial.onClick.AddListener(() => sceneName = "Tutorial");
+        level1.onClick.AddListener(() => sceneName = "Tutorial");
         level2.onClick.AddListener(() => sceneName = "Level 2");
         level3.onClick.AddListener(() => sceneName = "Level 3");
         level4.onClick.AddListener(() => sceneName = "Level 4");

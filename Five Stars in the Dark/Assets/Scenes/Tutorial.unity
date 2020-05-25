@@ -664,7 +664,7 @@ PrefabInstance:
     - target: {fileID: 4340783879957458818, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 367951496075980716, guid: 0737ab1198c13c74695686fd9e987b22,
         type: 3}
@@ -1335,7 +1335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
