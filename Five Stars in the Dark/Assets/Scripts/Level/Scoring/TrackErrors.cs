@@ -20,7 +20,7 @@ public class TrackErrors : MonoBehaviour
     }
 
     //because errors is static, it needs a method to access
-    public static float getErrors()
+    public static int getErrors()
     {
         return errors;
     }

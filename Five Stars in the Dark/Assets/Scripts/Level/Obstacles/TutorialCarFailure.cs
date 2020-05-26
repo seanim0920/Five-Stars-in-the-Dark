@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class TutorialCarFailure : ObstacleFailure
 {
-    private static int numCrashes = 0;
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -22,47 +21,48 @@ public class TutorialCarFailure : ObstacleFailure
     public override void playFailure(Vector3 point)
     {
         // Play scripted dialogue for crashes 1, 2, and last
-        if(numCrashes < 2 || numCrashes > 7)
+        if(TrackErrors.getErrors() <= 2 || TrackErrors.getErrors() > 7)
         {
-            selectScriptedClips();
+            failureDialogues = Resources.LoadAll<AudioClip>(SceneManager.GetActiveScene().name + "/Failure/CrashClips/Scripted");
+            if(TrackErrors.getErrors() < failureDialogues.Length)
+            {
+                StartCoroutine(PlayError.PauseDialogueCoroutine(failureDialogues[TrackErrors.getErrors()]));
+            }
+            else
+            {
+                StartCoroutine(PlayError.PauseDialogueCoroutine(failureDialogues[0]));
+            }
+            
         }
+        // Play generic crash dialogue for all other crashes
         else
         {
-            selectGenericClips();
+            failureDialogues = Resources.LoadAll<AudioClip>(SceneManager.GetActiveScene().name + "/Failure/CrashClips/Generic");
+
+            System.Random rand = new System.Random();
+            numDialogue = rand.Next(0, failureDialogues.Length);
+            Debug.Log("error made playing numDialogue: " + numDialogue);
+            StartCoroutine(PlayError.PauseDialogueCoroutine(failureDialogues[numDialogue]));
+            Debug.Log(failureDialogues[numDialogue]);
         }
-        base.playFailure(point);
-        // Play generic crash dialogue for all other crashes
+        
     }
 
     private void selectScriptedClips()
     {
-        failureDialogues = Resources.LoadAll<AudioClip>(SceneManager.GetActiveScene().name + "/Failure/CrashClips/Scripted");
-        if(numCrashes < failureDialogues.Length - 1)
-        {
-            dialogueSource.clip = failureDialogues[numCrashes];
-            numCrashes++;
-        }
-        else
-        {
-            dialogueSource.clip = failureDialogues[failureDialogues.Length - 1];
-        }
+        
     }
 
     private void selectGenericClips()
     {
-        failureDialogues = Resources.LoadAll<AudioClip>(SceneManager.GetActiveScene().name + "/Failure/CrashClips/Generic");
-
-        System.Random rand = new System.Random();
-        numCrashes = rand.Next(0, failureDialogues.Length);
-        Debug.Log("error made playing numCrashes: " + numCrashes);
-        StartCoroutine(PlayError.PauseDialogueCoroutine(failureDialogues[numCrashes]));
+        
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.transform.tag == "Player")
-        {
-            numCrashes++;
-        }
-    }
+    // void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if(other.transform.tag == "Player")
+    //     {
+    //         numCrashes++;
+    //     }
+    // }
 }

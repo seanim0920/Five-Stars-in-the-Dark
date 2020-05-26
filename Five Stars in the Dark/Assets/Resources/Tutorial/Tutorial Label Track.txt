@@ -2,5 +2,6 @@
 14.410123	14.410123	[RevealScreen]
 31.048037	31.048037	[StartCar]
 33.597051	33.597051	RevealTableaux 0
-77.977241	77.977241	IncomingCar aheadOf player
-77.977241	77.977241	RevealTableaux 1
+77.853689	77.853689	RevealTableaux 1
+77.977241	80.977241	IncomingCar aheadOf player
+88.849497	88.849497	[EndControl]

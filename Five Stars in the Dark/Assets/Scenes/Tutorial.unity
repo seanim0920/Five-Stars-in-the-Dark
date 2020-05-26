@@ -342,11 +342,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 412440413062414633, guid: cec60119a7a8c704ea21138b08c6c077,
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
         type: 3}
-      propertyPath: m_Name
-      value: LevelConstructor
-      objectReference: {fileID: 0}
+      propertyPath: ambience
+      value: 
+      objectReference: {fileID: 1167376686}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: blackScreen
+      value: 
+      objectReference: {fileID: 1124479059}
+    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: markersFile
+      value: 
+      objectReference: {fileID: 4900000, guid: 22919761fd0562d49b9c3d52fb595446, type: 3}
     - target: {fileID: 412440413062414628, guid: cec60119a7a8c704ea21138b08c6c077,
         type: 3}
       propertyPath: m_audioClip
@@ -356,6 +366,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PlayOnAwake
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 412440413062414633, guid: cec60119a7a8c704ea21138b08c6c077,
+        type: 3}
+      propertyPath: m_Name
+      value: LevelConstructor
       objectReference: {fileID: 0}
     - target: {fileID: 412440413062414635, guid: cec60119a7a8c704ea21138b08c6c077,
         type: 3}
@@ -412,21 +427,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: ambience
-      value: 
-      objectReference: {fileID: 1167376686}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: blackScreen
-      value: 
-      objectReference: {fileID: 1124479059}
-    - target: {fileID: 412440413062414634, guid: cec60119a7a8c704ea21138b08c6c077,
-        type: 3}
-      propertyPath: markersFile
-      value: 
-      objectReference: {fileID: 4900000, guid: 22919761fd0562d49b9c3d52fb595446, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cec60119a7a8c704ea21138b08c6c077, type: 3}
 --- !u!1 &638641201
@@ -1037,7 +1037,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1798619073, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0737ab1198c13c74695686fd9e987b22, type: 3}
@@ -1048,7 +1048,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 1118894303}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1877,7 +1877,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -34.439, y: 22.762}
+  m_AnchoredPosition: {x: -34.439026, y: 22.762024}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2011171868

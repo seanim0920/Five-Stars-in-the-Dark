@@ -76,6 +76,7 @@ public class CarCollision : MonoBehaviour
         }
 
         hitSoundObject = col.gameObject;
+        Debug.Log(hitSoundObject);
         hitSoundObject.GetComponent<AudioSource>().Play();
 
         if (col.gameObject.CompareTag("Car") || col.gameObject.CompareTag("Target"))
