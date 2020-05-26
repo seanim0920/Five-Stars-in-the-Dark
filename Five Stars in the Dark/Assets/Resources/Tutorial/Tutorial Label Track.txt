@@ -1,4 +1,6 @@
-11.894545	11.894545	[RevealScreen]
+0.000000	0.000000	[HideScreen]
+14.410123	14.410123	[RevealScreen]
 31.048037	31.048037	[StartCar]
-32.702411	32.702411	RevealTableaux 0
+33.597051	33.597051	RevealTableaux 0
 77.977241	77.977241	IncomingCar aheadOf player
+77.977241	77.977241	RevealTableaux 1

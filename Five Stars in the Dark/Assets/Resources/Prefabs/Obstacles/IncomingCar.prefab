@@ -196,6 +196,21 @@ PrefabInstance:
       propertyPath: m_Volume
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7798444560812318047, guid: 9734698dbdef23049810e4ddda98d195,
+        type: 3}
+      propertyPath: movementSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7798444560812318047, guid: 9734698dbdef23049810e4ddda98d195,
+        type: 3}
+      propertyPath: neutralSpeed
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 7798444560812318047, guid: 9734698dbdef23049810e4ddda98d195,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9734698dbdef23049810e4ddda98d195, type: 3}
 --- !u!1 &8223276286674050554 stripped
