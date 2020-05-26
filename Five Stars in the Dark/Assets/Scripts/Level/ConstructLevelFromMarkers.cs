@@ -231,18 +231,13 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         float updateRate = 50; //how long fixedupdate runs per second
         
-        float length = levelDialogue.clip.length * controls.neutralSpeed * updateRate;
         if(curbType == 0)
         {
+            float length = levelDialogue.clip.length * controls.neutralSpeed * updateRate;
             GameObject road = Resources.Load<GameObject>("Prefabs/Road");GameObject map = new GameObject("Map");
-            
             GameObject roadtile = Instantiate(road, new Vector3(0, 0, 1), Quaternion.identity);
             roadtile.transform.localScale = new Vector3(roadWidth, length, 1);
             roadtile.transform.parent = map.transform;
-        }
-        else
-        {
-            GameObject map = GameObject.Find("Map");
             GameObject curb = Resources.Load<GameObject>("Prefabs/Curb");
             GameObject leftcurb = Instantiate(curb, new Vector3((-roadWidth/2 - 0.5f), 0, 1), Quaternion.identity);
             leftcurb.transform.localScale = new Vector3(20,length,1);
@@ -250,8 +245,8 @@ public class ConstructLevelFromMarkers : MonoBehaviour
             GameObject rightcurb = Instantiate(curb, new Vector3((roadWidth/2 + 0.5f), 0, 1), Quaternion.identity);
             rightcurb.transform.localScale = new Vector3(20, length, 1);
             rightcurb.transform.parent = map.transform;
+            player.transform.position = new Vector3(0, -length / 2, 0);
         }
-        player.transform.position = new Vector3(0, -length / 2, 0);
     }
 
     void replaceMarker(float resumeTime)
@@ -364,13 +359,9 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         print("ending player control");
                         StartCoroutine(parkCar());
                     }
-                    else if (string.Equals(command, "[ConstructRoad]"))
+                    else if (string.Equals(command, "[ConstructMap]"))
                     {
                         StartCoroutine(ConstructMap(0));
-                    }
-                    else if (string.Equals(command, "[ConstructCurbs]"))
-                    {
-                        StartCoroutine(ConstructMap(1));
                     }
                     commandMarkers.RemoveAt(0);
                 }
