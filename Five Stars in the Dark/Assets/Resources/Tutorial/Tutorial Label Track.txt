@@ -1,7 +1,20 @@
 0.000000	0.000000	[HideScreen]
+0.585578	34.409182	Dialogue
 14.410123	14.410123	[RevealScreen]
 31.048037	31.048037	[StartCar]
-33.597051	33.597051	RevealTableaux 0
-77.853689	77.853689	RevealTableaux 1
-77.977241	80.977241	IncomingCar aheadOf player
-88.849497	88.849497	[EndControl]
+40.373571	77.977241	Dialogue
+80.923647	80.923647	[ConstructMap]
+158.015497	188.964776	Dialogue
+158.738986	158.738986	[EndControl]
+33.597000	33.597000	RevealTableaux 0
+77.794619	77.794619	RevealTableaux 1
+77.977241	78.326245	IncomingCar player
+81.138023	85.559349	SlowCar aheadOf player
+82.531411	86.952736	SlowCar aheadOf Lane2
+84.112370	88.426512	SlowCar aheadOf player
+88.721267	88.721267	IncomingCar player
+88.855246	88.855246	IncomingCar player
+88.989226	88.989226	IncomingCar Lane1
+89.230389	89.230389	IncomingCar Lane3
+89.873491	94.214429	SlowCar aheadOf Lane1, SlowCar aheadOf Lane3
+90.677368	95.152286	SlowCar aheadOf Lane2

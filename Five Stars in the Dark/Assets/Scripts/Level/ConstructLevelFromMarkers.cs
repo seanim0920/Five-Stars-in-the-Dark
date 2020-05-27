@@ -231,14 +231,25 @@ public class ConstructLevelFromMarkers : MonoBehaviour
     {
         float updateRate = 50; //how long fixedupdate runs per second
         
+        float length = levelDialogue.clip.length * controls.neutralSpeed * updateRate;
+        GameObject road = Resources.Load<GameObject>("Prefabs/Road");GameObject map = new GameObject("Map");
+        GameObject roadtile = Instantiate(road, new Vector3(0, 0, 1), Quaternion.identity);
+        roadtile.transform.localScale = new Vector3(roadWidth, length, 1);
+        roadtile.transform.parent = map.transform;
         if(curbType == 0)
         {
-            float length = levelDialogue.clip.length * controls.neutralSpeed * updateRate;
-            GameObject road = Resources.Load<GameObject>("Prefabs/Road");GameObject map = new GameObject("Map");
-            GameObject roadtile = Instantiate(road, new Vector3(0, 0, 1), Quaternion.identity);
-            roadtile.transform.localScale = new Vector3(roadWidth, length, 1);
-            roadtile.transform.parent = map.transform;
             GameObject curb = Resources.Load<GameObject>("Prefabs/Curb");
+            GameObject leftcurb = Instantiate(curb, new Vector3((-roadWidth/2 - 0.5f), 0, 1), Quaternion.identity);
+            leftcurb.transform.localScale = new Vector3(20,length,1);
+            leftcurb.transform.parent = map.transform;
+            GameObject rightcurb = Instantiate(curb, new Vector3((roadWidth/2 + 0.5f), 0, 1), Quaternion.identity);
+            rightcurb.transform.localScale = new Vector3(20, length, 1);
+            rightcurb.transform.parent = map.transform;
+            player.transform.position = new Vector3(0, -length / 2, 0);
+        }
+        else
+        {
+            GameObject curb = Resources.Load<GameObject>("Prefabs/Obstacles/TutorialCurb");
             GameObject leftcurb = Instantiate(curb, new Vector3((-roadWidth/2 - 0.5f), 0, 1), Quaternion.identity);
             leftcurb.transform.localScale = new Vector3(20,length,1);
             leftcurb.transform.parent = map.transform;
@@ -305,6 +316,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                 levelDialogue.Pause();
                 while (dialogueStopper != null && !dialogueStopper.CompareTag("Car") && !skipSection)
                 {
+                    Debug.Log(dialogueStopper.name);
                     yield return new WaitForSeconds(0);
                 }
                 if (dialogueStopper != null && !dialogueStopper.CompareTag("Car")) Destroy(dialogueStopper);
@@ -361,7 +373,7 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                     }
                     else if (string.Equals(command, "[ConstructMap]"))
                     {
-                        StartCoroutine(ConstructMap(0));
+                        StartCoroutine(ConstructMap(1));
                     }
                     commandMarkers.RemoveAt(0);
                 }
@@ -516,6 +528,11 @@ public class ConstructLevelFromMarkers : MonoBehaviour
                         player.transform.position.x;
 
                         obj.transform.position = new Vector3(xpos, player.transform.position.y + spawnDistance, 0);
+
+                        Vector3 startRotation = new Vector3(0, 0, 180);
+                        // Quaternion startQuaternion;
+                        // startQuaternion.eulerAngles = startRotation;
+                        obj.transform.eulerAngles = startRotation;
                     }
                 }
                 dialogueStopper = obj;
